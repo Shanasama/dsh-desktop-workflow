@@ -1,8 +1,8 @@
 {
   "name": "dsh-desktop-workflow",
-  "version": "0.3.0",
+  "version": "0.3.0-forms.5",
   "private": true,
-  "description": "Jev-supervised bounded six-role team for DeepSeek Harness Desktop 0.2.0-rc.2",
+  "description": "Fork of dsh-desktop-workflow 0.3.0: declares a Config schema and resolves the Jev credential through the DSH credentials service",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
@@ -47,12 +47,15 @@
     }
   },
   "devDependencies": {
-    "esbuild": "0.28.2",
-    "typescript": "5.9.3",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
     "@types/react": "18.3.28",
     "@types/react-dom": "18.3.7",
-    "jsdom": "26.1.0"
+    "esbuild": "0.28.2",
+    "jsdom": "26.1.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "3.18.4"
   }
 }

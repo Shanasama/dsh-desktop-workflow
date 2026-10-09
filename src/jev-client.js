@@ -49,12 +49,13 @@ export function stepDecision(a,e,{lane,attempts,sameFailureRepeated}){
  return {action,lane,confidence:a.next.confidence,reason,needsPerson:a.next.choice==='needs_person'&&a.next.confidence>=.6};
 }
 export function createJevClient(config={}, {fetchImpl=fetch,resolveCredential=name=>process.env[name]}={}){
- // Only an environment-variable NAME is accepted in trusted server configuration.
+ // Fork: the reference is still an environment-variable NAME, but it resolves through the
+ // host credentials service (DSH 凭据界面可写) before falling back to the process environment.
  const ref=typeof config.credentialEnv==='string'&&/^[A-Z][A-Z0-9_]{1,79}$/.test(config.credentialEnv)?config.credentialEnv:null;
  const model=typeof config.model==='string'&&/^jev-[A-Za-z0-9._-]{1,60}$/.test(config.model)?config.model:'jev-latest';
  const configured=()=>!!ref&&typeof resolveCredential(ref)==='string'&&!!resolveCredential(ref).trim();
- return {mode:'live',status:()=>({configured:configured(),available:configured(),endpoint:JEV_ENDPOINT,disclosure:JEV_DISCLOSURE,reason:configured()?undefined:'服务端尚未配置 Jev 凭据引用，真实运行已阻止；不会自动进入演示。'}),
- preflight(){if(!configured())fail('JEV_NOT_CONFIGURED','请先由用户在服务端配置 Jev 凭据引用；不要把密钥贴到聊天或浏览器。');},
+ return {mode:'live',status:()=>({configured:configured(),available:configured(),endpoint:JEV_ENDPOINT,disclosure:JEV_DISCLOSURE,reason:configured()?undefined:'未解析到 Jev 凭据：请在 DSH 凭据界面保存该环境变量名对应的密钥，或把它导出到宿主环境。浏览器不接收密钥。'}),
+ preflight(){if(!configured())fail('JEV_NOT_CONFIGURED','未解析到 Jev 凭据：请在 DSH 凭据界面保存该环境变量名对应的密钥，或导出到宿主环境；不要把密钥贴到聊天或浏览器。');},
  async decide({phase,goal,evidence,notes,signal}){
   this.preflight();if(signal.aborted)fail('CANCELLED','运行已取消。');
   const policy=policies[phase==='classify'?'lane':'loop-step'];
