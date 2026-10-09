@@ -1,64 +1,82 @@
-# Verification
+# v0.2 verification and remaining boundaries
 
-Target API: official published DeepSeek Harness 0.2.0-rc.2. No user desktop, credentials, production model, project, or live profile was changed during development.
+All development and tests were credential-free. No paid model call, real project edit, user profile change, global permission change or full live AgentLoop task was performed.
 
-## Automated checks
-
-`npm run check` builds both the host lazy client factory and the same-component preview, typechecks the React source, and runs Node tests.
-
-Coverage includes:
-
-- Input whitelist, truncation, control/bidi filtering, unknown statuses and malformed JSON.
-- Absolute-path-only regular file reads, symlink rejection and 1 MiB bound.
-- Inspect/edit distinction, failed routing and latest chronological update.
-- Empty payload requirement, error redaction, stale running state only.
-- Correct request/response correlation and exact `/api` route registration/disposal.
-- Native tab registration, view rendering, node selection, arrow/Home/End keyboard selection, timeline disclosure.
-- Demo-to-live failure without retaining synthetic results, late-response rejection, per-request timeout recovery, cancellation on unmount and style/tab cleanup.
-- Adversarial HTML/script-like producer text remains escaped inert text.
-- Install/remove command scoping and invalid-profile handling using a mock `dsh` binary; **not a live installation**.
-- Package inventory excluding dependencies, previews, credentials and runtime state.
-
-## What these checks do not prove
-
-Mocked services test our integration calls, not a complete installed Electron app. Browser component screenshots are visual QA only. The user's specific Windows Desktop distribution, profile resolution and plugin discovery have not been validated on their computer. No real Jev/model request, tool execution, approval, independent test verification or live workflow producer is exercised by synthetic fixtures.
-
-See any accompanying delivery report for actual browser/host smoke results and their exact scope. Do not infer a successful Desktop installation from a component preview.
-
-## Real CLI package lifecycle (passed)
-
-The built tarball was installed and removed with the official DSH 0.2.0-rc.2 CLI and pnpm 11.25.0 in a temporary, explicitly isolated `DSH_HOME` profile. Installation registered the dependency and `dsh.profile.bundles` layer; removal cleared both and removed the installed dependency. Install scripts were disabled. This validates the real package-manager lifecycle, not Electron rendering.
-
-Reproduce optionally with `DSH_CLI=/absolute/path/to/official/dsh/lib/bin.js node scripts/verify-profile.mjs /absolute/path/to/plugin.tgz`. The script creates and cleans up only its own temporary profile.
-
-## Browser component QA (passed)
-
-The same built component was inspected in the cloud browser: wide map, node/routing inspector interaction, compact 420px sidebar, and dark theme. Visible UI and synthetic-demo explanations are Chinese; technical model names and user-provided evidence retain their original text. This remains component QA rather than proof of the user's Desktop installation.
-
-## Real rc.2 HTTP host smoke (passed)
-
-A credential-free isolated harness activated the plugin using the actual published rc.2 Cordis Context, WebServer, Connection and BrowserAuth implementations. An ephemeral in-memory credential-store fixture supplied only the test host's cookie-signing material; no user credentials or credential files were used.
-
-Observed results:
-
-- Unauthenticated snapshot POST: HTTP 401.
-- Host launch-token cookie exchange: HTTP 303.
-- Authenticated snapshot POST: HTTP 200, correlated RPC result with waiting state.
-- Authenticated request with foreign Origin: HTTP 403.
-- After plugin disposal: HTTP 404 for the removed exact route.
-
-This is real HTTP transport/authentication/registration evidence. It does not replace verification of the user's specific Electron distribution, profile path or live producer.
-
-Final aggregate source check: build + strict typecheck + **22 automated tests passed** after the full Chinese UI rebuild.
-
-The real rc.2 Loader and ClientModuleRegistry also discovered the package's Web client and both declared native dependency edges, served its revisioned bundle over HTTP 200, and removed the graph entry when the Loader entry was removed. This checks real discovery/resource delivery; the native sidebar body still needs visual acceptance in the target Desktop distribution.
-
-Reproduce the seven native host checks with an existing official rc.2 package tree:
+## Reproducible source checks
 
 ```sh
-DSH_NODE_MODULES=/absolute/path/to/node_modules npm run test:host
+npm ci --ignore-scripts
+npm run check
 ```
 
-`--expose-internals` is used only by the opt-in upstream integration harness, not by the plugin at runtime. It does not launch an agent, call a model, or read/write a user profile. Source development was additionally verified from a fresh temporary copy using `npm ci --ignore-scripts` followed by the full 22-test check.
+The aggregate command builds the actual lazy host client and component preview, strictly typechecks, and runs tests covering:
 
-The screenshot in `docs/images/component-preview.png` shows our synthetic component preview, not the user's uploaded Desktop screenshot.
+- Strict plan/config/output validation; unknown roles, duplicate IDs, cycles, missing dependencies, unsafe data and oversized payloads.
+- Exact per-role model binding, structured-output failure, post-coordinator plan review, task-goal preservation, parallel reads and one writer.
+- Dispatch/step/task/retry/deadline limits, revision identity, dependency failure, diagnostic/final review, cancellation drain and output retention.
+- Session generation, permission changes, process-wide team lease including preflight, persistent cleanup quarantine and prohibition on the next worker after uncertain cleanup.
+- No inference on mount/catalog/settings, explicit-start idempotency, typed server rejection versus unknown-start recovery.
+- Actual built-client topology/DAG rendering, model catalogs, confirmation, current-session changes, demo execution block, escaped evidence and cancellation controls.
+- Legacy file reader, bounded regular-file access, redacted errors and scoped install commands.
+
+Most orchestration tests use deterministic service fixtures. Passing them proves scheduling and adapter contract behavior, not a paid model's quality or a complete real provider turn.
+
+## Published rc.2 HTTP/module integration
+
+```sh
+DSH_NODE_MODULES=/path/to/official/node_modules npm run test:host
+```
+
+Uses the real Cordis Context, WebServer, Connection, BrowserAuth, Loader and ClientModuleRegistry. Only cookie persistence is an ephemeral in-memory fixture. Passed:
+
+- Unauthenticated request: HTTP 401; launch-token cookie exchange: 303.
+- Authenticated legacy snapshot: HTTP 200 with matching RPC ID and no-store.
+- Foreign Origin: HTTP 403.
+- Team **start/cancel** endpoints also reject unauthenticated and foreign-origin requests.
+- Disposal removes the exact route (404).
+- Loader discovers the package, Web client and three declared dependency edges; revisioned client bundle is served over HTTP 200.
+- Removing the Loader entry withdraws its client graph row.
+
+## Published rc.2 execution-protection integration
+
+```sh
+DSH_NODE_MODULES=/path/to/official/node_modules npm run test:team-host
+```
+
+Uses the **actual src/host-adapter.js** with real rc.2 AgentRegistry, ToolRuntime, Context and scopes. Agent objects, policy, catalog and subagent transport are explicit deterministic fixtures. Passed:
+
+- PLAN/REVIEW/ROUTE schemas accepted by the actual narrow rc.2 schema validator.
+- Parent modification guard is active before child work.
+- Concurrent planner/worker role tags remain isolated across async creation; planner write is denied before the real tool body, worker fixture write executes once.
+- Real serial creation rejects unsafe scope before result publication.
+- Per-step cap produces enter/enter/reject.
+- Confirmed cleanup releases the parent guard.
+
+This does not run a full real AgentLoop, paid provider, shell command or filesystem mutation. `--expose-internals` belongs only to opt-in upstream integration tests, not plugin runtime requirements.
+
+## Real package-manager lifecycle
+
+The built archive is exercised with the official rc.2 CLI and pnpm, using a newly created temporary DSH_HOME/profile only. Install uses `--ignore-scripts`; dependency plus bundle registration are verified; removal clears both. Reproduce with:
+
+```sh
+DSH_CLI=/absolute/path/to/official/dsh/lib/bin.js node scripts/verify-profile.mjs dist/dsh-desktop-workflow-0.2.0.tgz
+```
+
+No live Desktop profile is modified by this smoke test.
+
+## Browser visual/interaction QA
+
+The cloud browser inspected the same component: team topology and task DAG switching, role/node inspector, model selection, reasoning/output controls, preflight summary and Back, explicitly refused offline start, compact sidebar, light/dark rendering. Preview catalogs and events are synthetic. The included screenshot is our v0.2 component preview, not the user's uploaded Desktop screenshot or an installed Electron session.
+
+## Unverified
+
+- The user's exact Windows/Electron distribution, initialized profile path and native window mounting.
+- Real configured provider authentication, billing, model behavior and a complete live AgentLoop task.
+- Real project edits/tests, external-editor conflict isolation, and platform-specific child-process cancellation.
+- A post-restart continuation: the plugin deliberately does not auto-resume previous runs.
+
+Do not turn component QA or deterministic fixtures into claims of successful real execution. Actual use requires the user's configured host/session and explicit task confirmation.
+
+## Final v0.2 result
+
+The final localized source passed build, strict typecheck and **76 automated tests**. Both optional native integration scripts passed all **8 + 8 reported checks**. This includes late definite-start rejection after navigating away and back; it no longer leaves the UI locked as an unknown request. The native start/cancel authentication fences are covered explicitly.

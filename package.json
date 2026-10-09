@@ -1,8 +1,8 @@
 {
   "name": "dsh-desktop-workflow",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Read-only Jev workflow visualization for DeepSeek Harness Desktop 0.2.0-rc.2",
+  "description": "Session-bound configurable multi-model agent team for DeepSeek Harness Desktop 0.2.0-rc.2",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
@@ -29,7 +29,8 @@
     "check": "npm run build && npm run typecheck && npm test",
     "preview": "node scripts/preview.mjs",
     "test:profile": "node scripts/verify-profile.mjs",
-    "test:host": "node --expose-internals scripts/verify-host.mjs"
+    "test:host": "node --expose-internals scripts/verify-host.mjs",
+    "test:team-host": "node --expose-internals scripts/verify-team-host.mjs"
   },
   "dsh": {
     "bundle": {
@@ -39,7 +40,8 @@
       "platform": "web",
       "inject": [
         "@deepseek-ai/dsh-client-connection",
-        "@deepseek-ai/dsh-client-ui-sidebar-right"
+        "@deepseek-ai/dsh-client-ui-sidebar-right",
+        "@deepseek-ai/dsh-client-ui-session"
       ]
     }
   },

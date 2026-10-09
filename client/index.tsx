@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { WorkflowView, type Snapshot } from './WorkflowView';
 import { demoSnapshot } from './demo';
+import { ConnectedTeam } from './ConnectedTeam';
+import teamCss from './team.css';
 import css from './workflow.css';
 import { requestWithDeadline } from './request';
 export { requestWithDeadline } from './request';
@@ -15,7 +17,7 @@ export interface HostContext {
   effect(fn:()=>Disposer,label:string):unknown;
   connection:{rpc:{call(channel:string,endpoint:string,payload:object,signal:AbortSignal):Promise<Result>}};
   sidebarRightTabs:{register(definition:{id:string;kind:string;title:()=>string;guide:{id:string;order:number;title:()=>string;description:()=>string}[]}):Disposer};
-  slots:{inject(name:string,fn:()=>Disposer):Disposer;register(definition:{name:string;key:string},component:React.ComponentType):Disposer};
+  slots:{inject(name:string,fn:()=>Disposer):Disposer;register(definition:{name:string;key:string},component:React.ComponentType<{sessionId?:string}>):Disposer};
 }
 export function ConnectedWorkflow({ctx}:{ctx:HostContext}) {
   const [snapshot,setSnapshot] = useState<Snapshot|null>(null);
@@ -44,9 +46,22 @@ export function ConnectedWorkflow({ctx}:{ctx:HostContext}) {
   },[ctx,demo,revision]);
   return <WorkflowView snapshot={snapshot} loading={loading} error={error} onRefresh={()=>{setDemo(false);setRevision(r=>r+1);}} onDemo={()=>setDemo(v=>!v)}/>;
 }
-export function apply(ctx:HostContext){
+export function applyLegacy(ctx:HostContext){
   ctx.effect(()=>{const style=document.createElement('style');style.dataset.dshDesktopWorkflow='';style.textContent=css;document.head.append(style);return()=>style.remove();},'desktop-workflow: scoped styles');
   ctx.effect(()=>ctx.sidebarRightTabs.register({id:PACKAGE,kind:'dsh-desktop-workflow',title:()=> '工作流',guide:[{id:'workflow',order:35,title:()=> '工作流',description:()=> '只读查看 Jev 路由、阶段与证据'}]}),'desktop-workflow: native tab');
   const Body=()=> <ConnectedWorkflow ctx={ctx}/>;
   ctx.effect(()=>ctx.slots.inject('sidebar.right.pane.tab',()=>ctx.slots.register({name:'sidebar.right.pane.tab',key:PACKAGE},Body)),'desktop-workflow: native tab body');
 }
+
+export function apply(ctx:HostContext){
+  ctx.effect(()=>{const style=document.createElement('style');style.dataset.dshDesktopWorkflow='';style.textContent=css+'\n'+teamCss;document.head.append(style);return()=>style.remove();},'desktop-workflow: scoped team styles');
+  ctx.effect(()=>ctx.sidebarRightTabs.register({id:PACKAGE,kind:'dsh-desktop-workflow',title:()=> '多模型团队',guide:[{id:'workflow',order:35,title:()=> '多模型团队',description:()=> '规划、并行研究、执行与按需复核'}]}),'desktop-workflow: native team tab');
+  function Body({sessionId}:{sessionId?:string}){const[legacy,setLegacy]=useState(false);return <><nav aria-label="工作流视图" className="dsh-team-tabs"><button onClick={()=>setLegacy(false)} aria-pressed={!legacy}>团队编排</button><button onClick={()=>setLegacy(true)} aria-pressed={legacy}>导入旧状态</button></nav>{legacy?<ConnectedWorkflow ctx={ctx}/>:<ConnectedTeam ctx={ctx} sessionId={sessionId}/>}</>;}
+  ctx.effect(()=>ctx.slots.inject('sidebar.right.pane.tab',()=>ctx.slots.register({name:'sidebar.right.pane.tab',key:PACKAGE},Body)),'desktop-workflow: native team body');
+}
+
+export {TeamView} from './TeamView';
+export {createDefaultTeamSettings} from './team-types';
+export {teamDemoSnapshot} from './team-demo';
+
+export {ConnectedTeam,readTeamSettings} from './ConnectedTeam';

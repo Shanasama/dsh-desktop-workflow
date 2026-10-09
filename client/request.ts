@@ -11,7 +11,7 @@ export function requestWithDeadline<T>(call:(signal:AbortSignal)=>Promise<T>, li
     const abort=()=>finish(new Error('Request cancelled.'));
     if(lifecycle.aborted){abort();return;}
     lifecycle.addEventListener('abort',abort,{once:true});
-    timer=setTimeout(()=>finish(new Error('工作流桥接服务在 15 秒内未响应，将自动重试。')),timeoutMs);
+    timer=setTimeout(()=>finish(new Error(`工作流桥接服务在 ${Math.round(timeoutMs/1000)} 秒内未响应，请检查连接。`)),timeoutMs);
     try{call(request.signal).then(value=>finish(undefined,value),error=>finish(error instanceof Error?error:new Error('Bridge request failed.')));}catch(error){finish(error instanceof Error?error:new Error('Bridge request failed.'));}
   });
 }

@@ -1,4 +1,5 @@
 import { readSnapshot, waiting } from './state.js';
+import { createTeamRuntime, registerTeamRoutes } from './team-runtime.js';
 
 export const name = 'dsh-desktop-workflow';
 export const inject = ['connection'];
@@ -40,5 +41,11 @@ export function createRoute(config = {}, read = readSnapshot, now) {
 }
 export function apply(ctx, config = {}) {
   // Exact /api routes compose before the gateway; never replace its single interceptor.
-  ctx.effect(() => ctx.connection.fetch.register(createRoute(config)), 'desktop-workflow: read-only snapshot');
+  ctx.effect(() => ctx.connection.fetch.register(createRoute(config)), 'desktop-workflow: legacy read-only snapshot');
+  let runtime;
+  ctx.effect(() => registerTeamRoutes(ctx,()=>runtime), 'desktop-workflow: explicit team actions');
+  ctx.inject(['agents','subagents','llm','tools','sandboxPolicy'], child=>{
+    const owned=createTeamRuntime(child);runtime=owned;
+    child.effect(()=>async()=>{if(runtime===owned)runtime=undefined;await owned.dispose();},'desktop-workflow: owned team runtime');
+  });
 }

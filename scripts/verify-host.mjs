@@ -66,6 +66,8 @@ async function waitFor(condition) {
     console.log('PASS real authenticated HTTP route returns waiting snapshot');
     assert.equal((await call({ cookie, origin: 'https://invalid-origin.example' })).status, 403);
     console.log('PASS real host rejects foreign-origin request');
+    for(const action of ['start','cancel']){const endpoint='dsh-desktop-workflow/team/'+action;const request=(headers)=>fetch(base+'/api/'+endpoint,{method:'POST',headers:{'content-type':'application/json',...headers},body:JSON.stringify({type:'client-request',rpcId:'mutating-endpoint',method:endpoint,payload:{}})});assert.equal((await request({})).status,401);assert.equal((await request({cookie,origin:'https://invalid-origin.example'})).status,403);}
+    console.log('PASS real host protects team start/cancel with authentication and Origin fences');
     await fork.dispose(); fork = undefined;
     assert.equal((await call({ cookie })).status, 404);
     console.log('PASS plugin unload removes API route');
@@ -93,7 +95,7 @@ async function waitFor(condition) {
     await waitFor(() => root.get('clientModules'));
     const row = root.clientModules.graph().entries.find(row => row.id === 'dsh-desktop-workflow');
     assert.ok(row, 'Official module graph must include this package');
-    assert.deepEqual(row.inject, ['@deepseek-ai/dsh-client-connection', '@deepseek-ai/dsh-client-ui-sidebar-right']);
+    assert.deepEqual(row.inject, ['@deepseek-ai/dsh-client-connection', '@deepseek-ai/dsh-client-ui-sidebar-right', '@deepseek-ai/dsh-client-ui-session']);
     console.log('PASS real Loader discovers Web client and native sidebar dependencies');
     const response = await fetch(new URL(row.url, `http://127.0.0.1:${root.webServer.port}/`));
     assert.equal(response.status, 200);

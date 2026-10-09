@@ -1,15 +1,9 @@
-import React, {useState} from 'react';
-import {createRoot} from 'react-dom/client';
-import {WorkflowView,type Snapshot} from '../client/WorkflowView';
-import {demoSnapshot} from '../client/demo';
-import css from '../client/workflow.css';
-const style=document.createElement('style');style.textContent=css;document.head.append(style);
-function Preview(){
- const [mode,setMode]=useState('demo');const [dark,setDark]=useState(false);const [narrow,setNarrow]=useState(false);
- let data:Snapshot|null=demoSnapshot();let error:string|undefined;
- if(mode==='empty')data={mode:'waiting',title:'等待工作流',status:'pending',stage:'waiting',jev:null,stages:[],sourceNotice:'尚未配置状态文件；不会调用模型或执行任务。'};
- if(mode==='error'){data=null;error='未找到配置的工作流状态文件，请检查 Desktop profile 的 stateFile。';}
- if(['stale','completed','approval','failed','review'].includes(mode))data=demoSnapshot(mode as 'stale'|'completed'|'approval'|'failed'|'review');
- return <><div style={{font:'12px system-ui',padding:'10px 18px',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap',background:dark?'#1b202b':'#fff',color:dark?'#eef1f8':'#475467',borderBottom:'1px solid #dbe1e9'}}><strong>组件预览</strong><span>同一插件组件 · 合成示例 · 非已安装 Desktop 会话</span><select aria-label="预览状态" value={mode} onChange={e=>setMode(e.target.value)}>{['demo','empty','error','stale','completed','approval','failed','review'].map(x=><option key={x}>{x}</option>)}</select><button onClick={()=>{document.body.toggleAttribute('data-ds-dark-theme',!dark);setDark(!dark);}}>主题： {dark?'深色':'浅色'}</button><button onClick={()=>setNarrow(!narrow)}>{narrow?'展开画布':'侧栏宽度'}</button></div><div style={{maxWidth:narrow?420:1440,margin:'24px auto',minHeight:700}}><WorkflowView snapshot={data} error={error} onDemo={()=>setMode(mode==='demo'?'empty':'demo')} onRefresh={()=>setMode('empty')}/></div></>;
-}
-createRoot(document.getElementById('root')!).render(<Preview/>);
+import React,{useState} from 'react';import{createRoot}from'react-dom/client';
+import{TeamView}from'../client/TeamView';import{teamDemoSnapshot}from'../client/team-demo';import{createDefaultTeamSettings,type TeamCatalog,type TeamSnapshot}from'../client/team-types';
+const roles=['planner','coordinator','researcher','explorer','worker','reviewer']as const;
+const names={planner:'模拟·规划模型',coordinator:'模拟·主力模型',researcher:'模拟·轻量模型',explorer:'模拟·轻量模型',worker:'模拟·主力模型',reviewer:'模拟·审查模型'};
+const catalog:TeamCatalog={available:true,providers:[{id:'preview-fixture',name:'仅供预览的模拟目录',models:[...new Set(Object.values(names))].map(id=>({id,name:id,efforts:[{id:'fixture-standard',name:'模拟标准'},{id:'fixture-deep',name:'模拟深入'}]}))}]};
+function Preview(){const[mode,setMode]=useState('演示拓扑');const[dark,setDark]=useState(false);const[narrow,setNarrow]=useState(false);const[error,setError]=useState<string>();const[settings,setSettings]=useState(()=>{const x=createDefaultTeamSettings();for(const r of roles)x.roles[r]={provider:'preview-fixture',model:names[r],maxTokens:4096};return x;});
+ let snapshot:TeamSnapshot|null=mode==='配置交互'?null:teamDemoSnapshot();if(snapshot)snapshot={...snapshot,roles:settings.roles};if(mode==='完成'&&snapshot)snapshot={...snapshot,status:'completed',nodes:snapshot.nodes.map(n=>({...n,status:'completed'}))};if(mode==='受阻'&&snapshot)snapshot={...snapshot,status:'blocked',message:'模拟：宿主拒绝额外权限请求。不会绕过权限或自动批准。'};
+ return <><div style={{font:'12px system-ui',padding:'10px 18px',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap',background:dark?'#1b202b':'#fff',color:dark?'#eef1f8':'#475467',borderBottom:'1px solid #dbe1e9'}}><strong>v0.2 组件预览</strong><span>合成目录和事件 · 不连接宿主 · 不调用模型</span><select aria-label="预览状态" value={mode} onChange={e=>{setMode(e.target.value);setError(undefined);}}>{['演示拓扑','配置交互','完成','受阻'].map(x=><option key={x}>{x}</option>)}</select><button onClick={()=>{document.body.toggleAttribute('data-ds-dark-theme',!dark);setDark(!dark);}}>主题：{dark?'深色':'浅色'}</button><button onClick={()=>setNarrow(!narrow)}>{narrow?'展开画布':'侧栏宽度'}</button></div><div style={{maxWidth:narrow?420:1500,margin:'24px auto',minHeight:700}}><TeamView catalog={catalog}sessionId="preview-session"sessionContext={{canStart:true,workspace:'/仅为示例/项目目录',permissionNotice:'离线预览，不产生模型调用。真实运行继承当前宿主权限；额外审批请求会被拒绝。'}}snapshot={snapshot}settings={settings}error={error}onSettingsChange={setSettings}onStart={()=>setError('这是离线组件预览，未启动任何任务或模型调用。真实执行需在 DSH 主会话中明确启动。')}onCancel={()=>setError('演示没有真实运行，无需取消。')}onRefresh={()=>{setMode('配置交互');setError(undefined);}}onDemo={()=>setMode(mode==='演示拓扑'?'配置交互':'演示拓扑')}/></div></>;
+}createRoot(document.getElementById('root')!).render(<Preview/>);
