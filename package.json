@@ -1,0 +1,55 @@
+{
+  "name": "dsh-desktop-workflow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Read-only Jev workflow visualization for DeepSeek Harness Desktop 0.2.0-rc.2",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./client": "./lib/client.js",
+    "./state": "./src/state.js"
+  },
+  "files": [
+    "src",
+    "lib",
+    "docs",
+    "scripts/profile-install.mjs",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": "^22.19 || >=24"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run build && npm run typecheck && npm test",
+    "preview": "node scripts/preview.mjs",
+    "test:profile": "node scripts/verify-profile.mjs",
+    "test:host": "node --expose-internals scripts/verify-host.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-ui-sidebar-right"
+      ]
+    }
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "typescript": "5.9.3",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "@types/react": "18.3.28",
+    "@types/react-dom": "18.3.7",
+    "jsdom": "26.1.0"
+  }
+}

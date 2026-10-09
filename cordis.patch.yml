@@ -1,0 +1,6 @@
+- insert:
+    - id: desktop-workflow
+      name: dsh-desktop-workflow
+      config:
+        stateFile: ''
+        staleAfterMs: 120000
