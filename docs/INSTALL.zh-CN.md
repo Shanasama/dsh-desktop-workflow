@@ -1,60 +1,42 @@
-# v0.2 安装和运行
+# v0.3 安装与使用
 
-## 1. 确认已有 Desktop profile
+目标为官方 DSH 0.2.0-rc.2 Web Client。插件不使用 TUI scene 或独立网页替换宿主。
 
-目标为官方 DSH 0.2.0-rc.2 Web Client。不要把旧 TUI profile 当作 Desktop profile；本插件不使用 tuiScenes/tuiShortcuts。先确认发行版实际使用的 profile，并退出 Desktop。
+## 安装
 
-构建源码：
+先确认实际 Desktop profile，退出宿主。不要直接把测试 profile 的配置覆盖到用户 profile。
 
-```sh
-npm ci --ignore-scripts
-npm run check
-npm pack --ignore-scripts
+```bash
+dsh plugin --profile YOUR_DESKTOP_PROFILE add /absolute/path/dsh-desktop-workflow-0.3.0.tgz --ignore-scripts
 ```
 
-在 PowerShell 中使用真实 profile 名和归档绝对路径：
+Windows 使用对应绝对路径。安装器不修改提供方凭据或权限。
 
-```powershell
-dsh plugin --profile YOUR_DESKTOP_PROFILE add "C:/path/dsh-desktop-workflow-0.2.0.tgz" --ignore-scripts
-```
+重启宿主后，在原生右侧栏打开「多模型团队」。卸载使用：
 
-插件没有安装脚本或生产依赖，不要把开发 node_modules 安装到 profile。macOS/Linux 也可用 `scripts/profile-install.mjs`，但必须明确指定已有 profile。
-
-## 2. 配置团队
-
-重启 Desktop，打开已有主会话，在原生右侧栏新增「多模型团队」。当前 Agent 必须已经存在且空闲；插件不会伪造会话或自行选择项目目录。
-
-展开「模型与限制」，分别选择六个岗位的提供方、模型、该模型支持的推理强度以及每次请求输出上限。模型列表来自宿主目录，不是演示里的模拟名称。可选路由岗位关闭时不会调用它。
-
-默认总派发上限 12、任务上限 8、并发 2、失败重试 1、10 分钟、每个子代理最多 8 步；每次输出默认 4096 tokens。派发上限包含规划、协调、复核和重试。所有上限都不是总费用保证。
-
-## 3. 明确启动
-
-填写任务目标，点击「运行前确认」。检查岗位模型、推理强度、上限、会话、工作目录及当前权限提示，再点击「确认并启动团队」。任务目标与读取的项目上下文会发送给所选提供方，执行岗位可能修改项目。
-
-预览和演示不会执行；无真实会话、模型未配置、宿主缺少 agents/subagents/llm/tools/sandboxPolicy、主会话正忙或已有团队时不能启动。
-
-权限由宿主继承，本插件不会改变安全设置。只读岗位的实际工具执行被白名单约束。rc.2 子代理的额外审批请求会被拒绝；遇到这种受阻，请在主会话处理，不要为了运行此插件把权限改为无限。
-
-停止只取消本次运行，不回滚文件修改。若清理未确认，后续运行会锁定；检查残留任务并重启宿主，不要把提示理解为已经停止。
-
-## 4. 旧状态导入（可选）
-
-v0.1 文件查看器保留在「导入旧状态」。在 profile 的 cordis.patch.yml 追加以下覆盖，保留其它条目：
-
-```yaml
-- id: desktop-workflow
-  config:
-    stateFile: 'C:/project/runtime/cli-workflows/RUN_ID.json'
-    staleAfterMs: 120000
-```
-
-它只读指定的普通 JSON 文件（非符号链接、最多 1 MiB），不选择最新文件。该配置是 profile 范围，不跟随当前聊天，也不是新团队运行的数据源。
-
-## 5. 卸载
-
-```powershell
+```bash
 dsh plugin --profile YOUR_DESKTOP_PROFILE remove dsh-desktop-workflow --config.ignore-scripts=true
 ```
 
-删除你自己追加的旧导入配置覆盖，重启 Desktop。原始任务状态文件不会删除。
+## 真实运行前
+
+1. 在宿主中配置实际可用模型；插件只从宿主目录选择，不创造模型 ID。
+2. 管理者在插件服务端配置 Jev 的凭据引用和固定验证 profile。详情与示例见 [JEV-V03](JEV-V03.md)。浏览器不提供密钥输入框。
+3. 验证 profile 必须包含检查 argv、timeout、受保护的验收测试/runner/config 路径。间接 npm 脚本也要保护相关配置及依赖输入。
+4. 打开一个空闲的真实主会话。验证要求仓库根 cwd=workspaceRoot、原有 read-only/workspace-write sandbox、干净 Git 基线；不会要求或自动开启 full-access。
+5. 分别配置六岗位模型及运行限制，选择可信验证 profile，并填写允许变更的相对路径。路径不支持绝对路径、..、反斜线、glob 或整个 `.`。
+6. 检查目标、模型、argv、超时、保护范围与数据传输说明，再勾选本次 TypeSafe 同意并确认启动。每次启动都重新确认。
+
+缺配置时面板保持阻塞。不要为了演示而加入假生产 key 或放宽权限。可以明确进入标注「fixture/合成示例」的演示。
+
+## 运行与停止
+
+查看 Jev lane、round、最新决策、历史记录、任务图、独立检查和硬门禁。
+
+lane 升级不会更换六岗位模型。完成需要独立 checks/diff/scope 与最终 seal；worker/reviewer 自报通过不够。
+
+停止请求会中止本次运行并等待活动任务。已有修改不会自动回滚。若出现未确认清理、后台提升或超时，新的运行会被锁定；请检查宿主残留任务后重启，不能把不明状态当停止成功。
+
+## 验证边界
+
+真实空配置 Web 的加载/阻塞验收，与 fixture、原生接口测试分别报告。本交付不宣称已运行真实付费 TypeSafe/角色模型，也不宣称本机 Electron 验收通过。

@@ -45,7 +45,7 @@ export function apply(ctx, config = {}) {
   let runtime;
   ctx.effect(() => registerTeamRoutes(ctx,()=>runtime), 'desktop-workflow: explicit team actions');
   ctx.inject(['agents','subagents','llm','tools','sandboxPolicy'], child=>{
-    const owned=createTeamRuntime(child);runtime=owned;
+    const owned=createTeamRuntime(child,config);runtime=owned;
     child.effect(()=>async()=>{if(runtime===owned)runtime=undefined;await owned.dispose();},'desktop-workflow: owned team runtime');
   });
 }

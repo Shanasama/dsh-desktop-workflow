@@ -1,0 +1,18 @@
+Jev lane policy attribution
+===========================
+
+The policy data in src/vendor/lane.json and src/vendor/loop-step.json is copied
+from kerpopule/hermes-jev-skills, pinned to commit:
+b22a21f365720cb7cf06f9b229c095176b39cdb9 (0.23.0)
+https://github.com/kerpopule/hermes-jev-skills/tree/b22a21f365720cb7cf06f9b229c095176b39cdb9
+
+Copyright (c) 2026 Steve Darlow. MIT License.
+The full upstream license is retained in src/vendor/HERMES-JEV-LICENSE.
+The JavaScript lane decision logic adapts that policy data and the documented
+classify/step/complete pattern. Jev and TypeSafe are TypeSafe AI products;
+this plugin and the upstream reference are independent projects.
+
+The upstream installer was inspected, NOT executed. No Hermes, Claude, Codex,
+credential store, approval policy, or host model configuration was modified.
+This is a DSH-specific conservative adaptation, not an official TypeSafe SDK
+or an exact drop-in execution of the upstream installer. See docs/JEV-V03.md.

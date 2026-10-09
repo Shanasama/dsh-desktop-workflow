@@ -1,9 +1,10 @@
+import {safeRelative} from './verification.js';
 /** Strict, data-only contracts for the bounded team runner. No model calls live here. */
 export const TEAM_ROLES = Object.freeze(['planner', 'coordinator', 'researcher', 'explorer', 'worker', 'reviewer']);
 export const TASK_ROLES = Object.freeze(['researcher', 'explorer', 'worker']);
-export const DEFAULT_LIMITS = Object.freeze({concurrency: 2, maxAgents: 12, maxTasks: 8, maxRetries: 1, maxDurationMs: 600000, maxStepsPerAgent: 8});
+export const DEFAULT_LIMITS = Object.freeze({concurrency: 2, maxAgents: 12, maxTasks: 8, maxRetries: 1, maxDurationMs: 600000, maxStepsPerAgent: 8, maxRounds: 4, maxJevCalls: 10});
 export const RETENTION_LIMITS = Object.freeze({runs: 16, nodes: 64, edges: 512, events: 256, outputPerNode: 8000, outputPerRun: 64000});
-const LIMIT_RANGES = {concurrency: [1, 4], maxAgents: [1, 32], maxTasks: [1, 12], maxRetries: [0, 2], maxDurationMs: [1000, 1800000], maxStepsPerAgent: [1, 16]};
+const LIMIT_RANGES = {concurrency: [1, 4], maxAgents: [1, 32], maxTasks: [1, 12], maxRetries: [0, 2], maxDurationMs: [1000, 1800000], maxStepsPerAgent: [1, 16], maxRounds: [1, 8], maxJevCalls: [1, 20]};
 const ID = /^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/;
 const UNSAFE_TEXT = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/g;
 
@@ -32,7 +33,7 @@ function identifier(value, label) {
   return value;
 }
 export function validateConfig(value) {
-  record(value, ['sessionId', 'goal', 'roles', 'limits', 'reviewPlan', 'routeEnabled'], 'config', ['sessionId', 'goal', 'roles']);
+  record(value, ['sessionId', 'goal', 'roles', 'limits', 'reviewPlan', 'routeEnabled', 'jev', 'verification'], 'config', ['sessionId', 'goal', 'roles']);
   const sessionId = string(value.sessionId, 1, 160, 'sessionId');
   const goal = string(value.goal, 1, 8000, 'goal');
   record(value.roles, [...TEAM_ROLES, 'router'], 'roles', TEAM_ROLES);
@@ -59,7 +60,10 @@ export function validateConfig(value) {
   for (const key of ['reviewPlan', 'routeEnabled']) if (value[key] !== undefined && typeof value[key] !== 'boolean') throw new TypeError(`${key} must be a boolean`);
   const routeEnabled = value.routeEnabled ?? false;
   if (routeEnabled && !roles.router) throw new TypeError('roles.router is required when routing is enabled');
-  return {sessionId, goal, roles, limits, reviewPlan: value.reviewPlan ?? true, routeEnabled};
+  let jev, verification;
+  if(value.jev!==undefined){record(value.jev,['enabled','disclosureAccepted'],'jev');if(value.jev.enabled!==true||typeof value.jev.disclosureAccepted!=='boolean')throw new TypeError('Jev must be explicitly enabled');jev={enabled:true,disclosureAccepted:value.jev.disclosureAccepted};}
+  if(value.verification!==undefined){record(value.verification,['profileId','scope'],'verification');const scope=array(value.verification.scope,16,'scope');if(!scope.length||!scope.every(safeRelative)||new Set(scope).size!==scope.length)throw new TypeError('Scope must contain unique safe relative paths');verification={profileId:identifier(value.verification.profileId,'verification.profileId'),scope:[...scope]};}
+  return {sessionId, goal, roles, limits, reviewPlan: value.reviewPlan ?? true, routeEnabled, ...(jev?{jev}:{}), ...(verification?{verification}:{})};
 }
 
 export function validatePlan(value, maxTasks = 12) {

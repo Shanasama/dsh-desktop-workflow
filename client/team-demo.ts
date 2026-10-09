@@ -3,7 +3,7 @@ import { createDefaultTeamSettings, type TeamRole, type TeamSnapshot } from './t
 /** Static synthetic records matching the implemented controller; never starts an agent. */
 export function createTeamDemo(): TeamSnapshot {
   const settings = createDefaultTeamSettings();
-  const demoModels: Record<Exclude<TeamRole, 'router'>, string> = {
+  const demoModels: Record<TeamRole, string> = {
     planner: '演示 · 强规划模型', coordinator: '演示 · 主力协调模型', researcher: '演示 · 轻量研究模型',
     explorer: '演示 · 代码探索模型', worker: '演示 · 主力执行模型', reviewer: '演示 · 强审查模型',
   };
@@ -15,9 +15,19 @@ export function createTeamDemo(): TeamSnapshot {
     id: 'demo-cart-branching', sessionId: 'demo-session', demo: true,
     goal: '修复购物车数量更新，并补齐回归测试', status: 'running',
     roles: settings.roles, limits: settings.limits, startedAt: at(41),
-    message: '合成示例：方案复核后，研究与代码探索并行；执行遇到临时错误后进行有界重试。',
+    jev: {
+      mode: 'fixture', lane: 'medium', round: 1,
+      decisions: [
+        { phase: 'classify', action: 'classify', lane: 'medium', confidence: .93, reason: '【Fixture】涉及代码修改与回归检查，采用标准团队流程；岗位模型不变。', round: 0 },
+        { phase: 'step', action: 'continue', lane: 'medium', confidence: .89, reason: '【Fixture】方案已复核，继续执行。尚无可交付的验证证据。', round: 1 },
+      ],
+      evidence: { checksPassed: false, scopeOk: true, diffAvailable: false, verified: false, reason: '【Fixture】演示仍在执行：范围检查通过，测试与差异证据尚不齐全，不能判定完成。' },
+    },
+    message: 'Fixture 合成示例：Jev 完成分类并选择继续执行；研究与探索并行，执行有界重试。未调用模型或 TypeSafe。',
     nodes: [
-      { id: 'plan-1', role: 'planner', kind: 'plan', title: '拆解问题与验证目标', status: 'completed', attempt: 1, dependsOn: [], startedAt: at(41), finishedAt: at(41, 18), output: '【合成示例】\n1. 并行确认数量变更规则与状态更新路径。\n2. 执行角色等待两项调查完成后，统一修改代码并补齐测试。\n3. 最终产出交给审查角色。\n未读取或修改真实项目。' },
+      { id: 'jev-classify-1', role: 'jev', kind: 'jev_classify', title: 'Jev 判定标准任务流程', status: 'completed', attempt: 1, dependsOn: [], startedAt: at(41), finishedAt: at(41, 1), output: '【Fixture】lane: medium；action: classify；confidence: 0.93。独立 TypeSafe 决策的合成记录，未发送网络请求。' },
+      { id: 'jev-step-1', role: 'jev', kind: 'jev_step', title: 'Jev 选择继续执行', status: 'completed', attempt: 1, dependsOn: ['plan-review-1'], startedAt: at(41, 40), finishedAt: at(41, 41), output: '【Fixture】action: continue；lane: medium；round: 1。缺少最终测试与差异证据，不允许完成。' },
+      { id: 'plan-1', role: 'planner', kind: 'plan', title: '拆解问题与验证目标', status: 'completed', attempt: 1, dependsOn: ['jev-classify-1'], startedAt: at(41, 2), finishedAt: at(41, 18), output: '【合成示例】\n1. 并行确认数量变更规则与状态更新路径。\n2. 执行角色等待两项调查完成后，统一修改代码并补齐测试。\n3. 最终产出交给审查角色。\n未读取或修改真实项目。' },
       { id: 'coord-1', role: 'coordinator', kind: 'coordination', title: '细化任务图与依赖', status: 'completed', attempt: 1, dependsOn: ['plan-1'], startedAt: at(41, 19), finishedAt: at(41, 28), output: '【合成示例】确认三个任务：规则研究、代码探索、统一修复。前两项只读工作可并行；修复任务依赖两项调查完成。' },
       { id: 'plan-review-1', role: 'reviewer', kind: 'review', title: '复核可执行方案', status: 'completed', attempt: 1, dependsOn: ['coord-1'], startedAt: at(41, 29), finishedAt: at(41, 40), output: '【合成示例】方案通过：依赖完整，编辑集中在执行角色，验证目标包含数量、库存与金额一致性。' },
       { id: 'research-1', taskId: 'quantity-rules', role: 'researcher', kind: 'task', title: '确认数量与库存规则', status: 'completed', attempt: 1, dependsOn: [], startedAt: at(41, 41), finishedAt: at(42, 10), output: '【合成示例】数量不得小于 1；不能超出可用库存；变更后需同步更新商品小计和总额。' },
@@ -26,6 +36,9 @@ export function createTeamDemo(): TeamSnapshot {
       { id: 'work-2', taskId: 'fix-cart', role: 'worker', kind: 'task', title: '修复数量与金额同步', status: 'running', attempt: 2, dependsOn: ['research-1', 'explore-1'], startedAt: at(42, 26), output: '【合成示例】正在进行第 2 次执行；首次失败记录保留在独立节点。\n所有任务完成后才会建立最终审查节点。此示例未调用任何模型。' },
     ],
     edges: [
+      { id: 'e-jev-classify', from: 'jev-classify-1', to: 'plan-1', kind: 'dispatch' },
+      { id: 'e-jev-step', from: 'plan-review-1', to: 'jev-step-1', kind: 'dispatch' },
+      { id: 'e-jev-dispatch', from: 'jev-step-1', to: 'work-1', kind: 'dispatch' },
       { id: 'e1', from: 'plan-1', to: 'coord-1', kind: 'dispatch' },
       { id: 'e2', from: 'coord-1', to: 'plan-review-1', kind: 'join' },
       { id: 'e3', from: 'coord-1', to: 'research-1', kind: 'dispatch' },

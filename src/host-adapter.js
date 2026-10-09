@@ -6,11 +6,12 @@ const readTools = new Set(['read', 'read_image', 'glob', 'grep', 'structured_out
 const researchTools = new Set([...readTools, 'web_search', 'web_fetch']);
 const workerTools = new Set([...readTools, 'write', 'edit', 'bash', 'pwsh']);
 const clean = (value, length=500) => typeof value === 'string' ? value.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/g,'').slice(0,length) : '';
-export class TeamHostError extends Error { constructor(code,message){super(message);this.code=code;this.retryable=false;} }
+export class TeamHostError extends Error { constructor(code,message){super(message);this.code=code;this.retryable=false;this.blocked=true;} }
 function need(condition,code,message){if(!condition)throw new TeamHostError(code,message);}
 
 export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, onCleanupFailed = () => {} } = {}) {
   const creation = new AsyncLocalStorage();
+  const verifierCalls = new AsyncLocalStorage();
   const contexts = new WeakMap();
   const activeParents = new Set();
   const activeFingerprints = new Map();
@@ -127,8 +128,18 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
       throw new TeamHostError('CHILD_FAILED','子代理运行失败；请在宿主会话检查模型连接或权限。不会自动放宽权限。');
     }finally{if(run){try{await run.dispose();}catch{quarantined.add(spec.sessionId);onCleanupFailed(spec.sessionId);throw new TeamHostError('CLEANUP_FAILED','子代理未能确认清理完成，已停止继续派发；请检查宿主会话。');}}}
   }
-  return {context,verifyContext,catalog,validateModels,execute,
-    beginSession(sessionId,key){need(!quarantined.has(sessionId),'CLEANUP_UNCONFIRMED','子代理清理未确认，禁止新运行。');const parent=verifyContext(sessionId,key);const tools=parent.ctx?.get('tools');need(tools&&typeof tools.guard==='function','PARENT_GUARD_UNAVAILABLE','无法保护主会话与子代理的并发写入，已阻止执行。');const cleanup=tools.guard(exec=>exec.agent===parent&&!researchTools.has(exec.name)?'团队运行或清理期间，主会话的修改操作已暂停。请先取消团队并等待清理完成。':undefined);parentGuards.set(sessionId,cleanup);activeFingerprints.set(sessionId,fingerprint(parent));},
+  async function executeTool(sessionId,spec,signal){
+    const parent=parentFor(sessionId,{idle:true});
+    need(!signal.aborted&&!quarantined.has(sessionId),'CANCELLED','运行已取消或隔离。');
+    need(activeFingerprints.get(sessionId)===fingerprint(parent),'CONTEXT_CHANGED','验证上下文或权限已变化。');
+    const policy=permissionState(parent);need(['workspace-write','read-only'].includes(policy.sandboxMode)&&policy.workspaceRoot===policy.cwd,'VERIFIER_SCOPE_UNSAFE','独立验证要求仓库根目录与宿主工作区边界一致，且不能使用完全访问模式。');
+    const tools=parent.ctx.get('tools');need(typeof tools?.execute==='function','VERIFIER_UNAVAILABLE','宿主原生工具执行器不可用。');
+    const dispose=parent.ctx.on('tools/pre-execute',async(exec,next)=>{const decision=await next();if(verifierCalls.getStore()?.parent===parent&&(decision.kind==='ask'||decision.kind==='deny'))return {kind:'deny',reason:'验证需要额外权限；请由用户在主会话处理。'};return decision;});
+    try{return await verifierCalls.run({parent,name:spec.name,args:JSON.stringify(spec.arguments)},()=>tools.execute({callId:randomUUID(),...spec,agent:parent,signal}));}finally{dispose();}
+  }
+  function poison(sessionId){quarantined.add(sessionId);onCleanupFailed(sessionId);}
+  return {context,verifyContext,catalog,validateModels,execute,executeTool,poison,
+    beginSession(sessionId,key){need(!quarantined.has(sessionId),'CLEANUP_UNCONFIRMED','子代理清理未确认，禁止新运行。');const parent=verifyContext(sessionId,key);const tools=parent.ctx?.get('tools');need(tools&&typeof tools.guard==='function','PARENT_GUARD_UNAVAILABLE','无法保护主会话与子代理的并发写入，已阻止执行。');const cleanup=tools.guard(exec=>exec.agent===parent&&!researchTools.has(exec.name)&&!(verifierCalls.getStore()?.parent===parent&&verifierCalls.getStore()?.name===exec.name&&verifierCalls.getStore()?.args===JSON.stringify(exec.arguments))?'团队运行或清理期间，主会话的修改操作已暂停。请先取消团队并等待清理完成。':undefined);parentGuards.set(sessionId,cleanup);activeFingerprints.set(sessionId,fingerprint(parent));activeParents.add(sessionId);if(!monitor)monitor=setInterval(checkActive,500);},
     releaseSession(sessionId){if(quarantined.has(sessionId))return;parentGuards.get(sessionId)?.();parentGuards.delete(sessionId);activeParents.delete(sessionId);activeFingerprints.delete(sessionId);if(!activeParents.size){clearInterval(monitor);monitor=undefined;}},
     async dispose(){closed=true;clearInterval(monitor);for(const dispose of disposers.reverse())await dispose();owned.clear();for(const[id,cleanup]of parentGuards)if(!quarantined.has(id))cleanup();activeParents.clear();},
   };

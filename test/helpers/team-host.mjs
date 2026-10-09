@@ -1,3 +1,4 @@
+import {createTeamRuntime as actualRuntime} from '../../src/team-runtime.js';
 export function teamHost({sessionId='fixture-session',hold=false,cleanupFail=false,preflightHold=false,tasks}={}){
  const listeners=new Map();let mode='workspace-write';const calls=[];let releasePreflight;
  const on=(name,fn)=>{const list=listeners.get(name)||[];list.push(fn);listeners.set(name,list);return()=>list.splice(list.indexOf(fn),1);};
@@ -11,5 +12,8 @@ export function teamHost({sessionId='fixture-session',hold=false,cleanupFail=fal
  const emit=async(name,...args)=>{for(const fn of listeners.get(name)||[])await fn(...args);};
  return {ctx,parent,calls,parentGuards,releasePreflight:()=>{preflightHold=false;releasePreflight?.();},async setMode(next){mode=next;await emit('session/event',parent.session,{type:'sandbox/mode'});},emit};
 }
-export const settings=()=>({roles:Object.fromEntries(['planner','coordinator','researcher','explorer','worker','reviewer'].map(role=>[role,{provider:'fixture',model:'model',maxTokens:4096}])),limits:{concurrency:2,maxAgents:12,maxTasks:8,maxRetries:0,maxDurationMs:30000,maxStepsPerAgent:8},reviewPlan:true,routeEnabled:false});
+export const settings=()=>({roles:Object.fromEntries(['planner','coordinator','researcher','explorer','worker','reviewer'].map(role=>[role,{provider:'fixture',model:'model',maxTokens:4096}])),limits:{concurrency:2,maxAgents:12,maxTasks:8,maxRetries:0,maxDurationMs:30000,maxStepsPerAgent:8},reviewPlan:true,routeEnabled:false,jev:{enabled:true,disclosureAccepted:true},verification:{profileId:'fixture',scope:['src']}});
 export const waitFor=async(test)=>{for(let i=0;i<200;i++){const value=test();if(value)return value;await new Promise(r=>setTimeout(r,5));}throw Error('Fixture condition timed out');};
+
+export function fixtureDependencies(){return {jev:{mode:'fixture',status:()=>({configured:true,available:true,endpoint:'fixture://no-network',disclosure:'Explicit test fixture'}),preflight(){},async decide({phase}){return phase==='classify'?{lane:{choice:'small',confidence:.9},security_sensitive:{noul:0},underspecified:{noul:0}}:{implemented:{noul:1},in_scope:{noul:1},next:{choice:'complete',confidence:.9}};}},verifier:{profiles:[{id:'fixture',name:'Explicit fixture'}],preflight(){},async collect({phase}){return phase==='baseline'?{verified:true,reason:'Fixture baseline'}:phase==='seal'?{verified:true,sealed:true,reason:'Fixture seal'}:{checksPassed:true,checksFailed:0,checksRun:true,scopeOk:true,diffAvailable:true,protectedOk:true,verified:true,expectsChanges:true,diffEmpty:false,reason:'Explicit fixture facts',diffStat:'fixture +1',checkSummary:'fixture pass',checks:[]};},release(){}}};}
+export const fixtureRuntime=ctx=>actualRuntime(ctx,{},fixtureDependencies());

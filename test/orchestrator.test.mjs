@@ -8,7 +8,7 @@ const task = (id, role = 'worker', dependsOn = []) => ({id, title: `Task ${id}`,
 const plan = tasks => ({summary: 'A bounded execution plan', tasks});
 const approved = {verdict: 'approve', summary: 'Evidence checked', issues: []};
 const completed = structured => ({stopReason: 'completed', structured});
-function config(overrides = {}) { return {sessionId: 'session-1', goal: 'Implement and verify a small change', roles: structuredClone(roles), limits: {concurrency: 3, maxAgents: 24, maxTasks: 12, maxRetries: 1, maxDurationMs: 10000, maxStepsPerAgent: 8}, reviewPlan: true, routeEnabled: false, ...overrides}; }
+function config(overrides = {}) { return {sessionId: 'session-1', goal: 'Implement and verify a small change', roles: structuredClone(roles), limits: {concurrency: 3, maxAgents: 24, maxTasks: 12, maxRetries: 1, maxDurationMs: 10000, maxStepsPerAgent: 8, maxRounds: 4, maxJevCalls: 10}, reviewPlan: true, routeEnabled: false, ...overrides}; }
 function deferred() { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return {promise, resolve, reject}; }
 async function until(predicate) { for (let i = 0; i < 100; i++) { if (predicate()) return; await new Promise(resolve => setImmediate(resolve)); } assert.fail('Expected asynchronous state was not reached'); }
 function adapter(tasks = [task('write')], handle = () => ({stopReason: 'completed', output: 'Actual task evidence'})) {
@@ -288,7 +288,7 @@ test('retained runs, output, graph data and displayed strings are bounded', asyn
 test('missing role token ceilings normalize to 4096 and defaults remain conservative', () => {
   const noTokens = Object.fromEntries(Object.entries(roles).map(([role, model]) => [role, {provider: model.provider, model: model.model}]));
   const validated = validateTeamConfig({sessionId: 's', goal: 'Check', roles: noTokens});
-  assert.deepEqual(validated.limits, {concurrency: 2, maxAgents: 12, maxTasks: 8, maxRetries: 1, maxDurationMs: 600000, maxStepsPerAgent: 8});
+  assert.deepEqual(validated.limits, {concurrency: 2, maxAgents: 12, maxTasks: 8, maxRetries: 1, maxDurationMs: 600000, maxStepsPerAgent: 8, maxRounds: 4, maxJevCalls: 10});
   assert.ok(Object.values(validated.roles).every(model => model.maxTokens === 4096));
   assert.throws(() => validateTeamConfig(config({roles: {...roles, worker: {...roles.worker, maxTokens: 32769}}})));
 });

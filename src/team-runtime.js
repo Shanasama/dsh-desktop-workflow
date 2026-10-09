@@ -1,4 +1,6 @@
-import { TeamController } from './orchestrator.js';
+import { JevTeamController } from './jev-controller.js';
+import {createJevClient} from './jev-client.js';
+import {createVerifier} from './verification.js';
 import { validateConfig } from './team-contracts.js';
 import { createExecutionAdapter, TeamHostError } from './host-adapter.js';
 
@@ -8,20 +10,24 @@ const prefix='dsh-desktop-workflow/team/';
 const fields=(value,names)=>value && typeof value==='object' && !Array.isArray(value) && Object.keys(value).every(k=>names.includes(k));
 const validSession=id=>typeof id==='string' && id.length>0 && id.length<=128;
 const unavailable=()=>({available:false,providers:[],reason:'当前宿主未加载 agents、subagents、llm、tools 或 sandboxPolicy 服务，团队执行不可用。'});
-export function createTeamRuntime(ctx){
+export function createTeamRuntime(ctx,serverConfig={}, dependencies={}){
   let controller;const owner={};
   const decorateContext=context=>leases.current?{...context,canStart:false,reason:leases.current.poisoned?'上一次子代理清理未确认，已锁定新运行。请检查残留任务并重启宿主。':'已有团队运行或启动请求；为避免共享工作区冲突，本插件一次只运行一个团队。'}:context;
   const decorateSnapshot=snapshot=>snapshot&&leases.current?.poisoned&&leases.current.owner===owner?{...snapshot,status:'blocked',message:'子代理清理未确认，不能宣称已停止；新运行已锁定。请检查残留任务并重启宿主。'}:snapshot;
   const executor=createExecutionAdapter(ctx,{onCleanupFailed:sessionId=>{if(leases.current?.owner===owner)leases.current.poisoned=true;const snapshot=controller?.snapshot(sessionId);if(snapshot)controller.cancel(sessionId,snapshot.id);},onParentUnavailable:(sessionId)=>{const snapshot=controller?.snapshot(sessionId);if(snapshot)controller.cancel(sessionId,snapshot.id);}});
-  controller=new TeamController({execute:spec=>executor.execute(spec)});
+  const jev=dependencies.jev??createJevClient(serverConfig.jev);
+  const verifier=dependencies.verifier??createVerifier({profiles:serverConfig.verificationProfiles,executeTool:executor.executeTool,poison:executor.poison});
+  controller=new JevTeamController({execute:spec=>executor.execute(spec),jev,verifier});
   const requests=new Map();
   let closed=false;
   return {
-    catalog:selected=>executor.catalog(selected),
+    catalog:async selected=>({...await executor.catalog(selected),jev:jev.status(),verificationProfiles:verifier.profiles}),
     snapshot(sessionId){if(!validSession(sessionId))throw new TeamHostError('SESSION_REQUIRED','请先打开真实 DSH 会话。');return {snapshot:decorateSnapshot(controller.snapshot(sessionId)),context:decorateContext(executor.context(sessionId))};},
     async start(input){
-      if(!fields(input,['sessionId','contextKey','requestId','goal','settings']) || typeof input.requestId!=='string' || !/^[A-Za-z0-9_-]{8,128}$/.test(input.requestId) || !fields(input.settings,['roles','limits','reviewPlan','routeEnabled']))throw new TeamHostError('INVALID_INPUT','启动参数无效。');
+      if(!fields(input,['sessionId','contextKey','requestId','goal','settings']) || typeof input.requestId!=='string' || !/^[A-Za-z0-9_-]{8,128}$/.test(input.requestId) || !fields(input.settings,['roles','limits','reviewPlan','routeEnabled','jev','verification']))throw new TeamHostError('INVALID_INPUT','启动参数无效。');
       const config=validateConfig({sessionId:input.sessionId,goal:input.goal,...input.settings});
+      if(config.jev?.enabled!==true||config.jev.disclosureAccepted!==true)throw new TeamHostError('JEV_CONSENT_REQUIRED','请确认本次 TypeSafe 数据传输范围。');
+      jev.preflight();verifier.preflight(config);
       if(closed)throw new TeamHostError('UNAVAILABLE','团队服务已关闭。');
       executor.verifyContext(config.sessionId,input.contextKey);
       const key=`${config.sessionId}:${input.requestId}`;

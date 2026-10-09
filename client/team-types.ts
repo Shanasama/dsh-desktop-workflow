@@ -1,5 +1,7 @@
-export type TeamRole = 'planner' | 'coordinator' | 'researcher' | 'explorer' | 'worker' | 'reviewer' | 'router';
-export type RequiredTeamRole = Exclude<TeamRole, 'router'>;
+export type TeamRole = 'planner' | 'coordinator' | 'researcher' | 'explorer' | 'worker' | 'reviewer';
+export type RequiredTeamRole = TeamRole;
+export type TeamNodeRole = TeamRole | 'jev';
+export type JevLane = 'small' | 'medium' | 'high' | 'escalate';
 export interface TeamModelSelection {
   provider: string;
   model: string;
@@ -13,14 +15,27 @@ export interface TeamLimits {
   maxRetries: number;
   maxDurationMs: number;
   maxStepsPerAgent: number;
+  maxRounds: number;
+  maxJevCalls: number;
 }
 export interface TeamSettings {
-  roles: Record<RequiredTeamRole, TeamModelSelection> & { router?: TeamModelSelection };
+  roles: Record<TeamRole, TeamModelSelection>;
   limits: TeamLimits;
   reviewPlan: boolean;
-  routeEnabled: boolean;
+  routeEnabled: false;
+  jev: { enabled: true; disclosureAccepted: boolean };
+  verification: { profileId: string; scope: string[] };
+}
+export interface TeamVerificationProfile {
+  id: string;
+  name: string;
+  checks?: { id: string; argv: string[]; timeoutMs: number }[];
+  protectedPaths?: string[];
+  expectsChanges?: boolean;
 }
 export interface TeamCatalog {
+  jev?: { configured: boolean; available: boolean; mode?: 'live' | 'fixture'; reason?: string; endpoint: string; disclosure: string };
+  verificationProfiles?: TeamVerificationProfile[];
   providers: {
     id: string;
     name: string;
@@ -34,8 +49,8 @@ export type TeamRunStatus = 'planning' | 'running' | 'reviewing' | 'completed' |
 export interface TeamNode {
   id: string;
   taskId?: string;
-  role: TeamRole;
-  kind: 'plan' | 'coordination' | 'task' | 'review' | 'route';
+  role: TeamNodeRole;
+  kind: 'plan' | 'coordination' | 'task' | 'review' | 'jev_classify' | 'jev_step' | 'verification';
   title: string;
   status: TeamNodeStatus;
   attempt: number;
@@ -59,6 +74,13 @@ export interface TeamEvent {
   nodeId?: string;
   message: string;
 }
+export interface JevState {
+  lane: JevLane;
+  round: number;
+  decisions: { phase: string; action: string; lane: JevLane; confidence: number; reason: string; round: number }[];
+  evidence?: { checksPassed: boolean; scopeOk: boolean; diffAvailable: boolean; verified: boolean; reason: string };
+  mode: 'live' | 'fixture';
+}
 export interface TeamSnapshot {
   id: string;
   sessionId: string;
@@ -73,6 +95,7 @@ export interface TeamSnapshot {
   finishedAt?: string;
   message?: string;
   demo?: boolean;
+  jev?: JevState;
 }
 export interface TeamSessionContext {
   contextKey?: string;
@@ -102,8 +125,10 @@ export function createDefaultTeamSettings(): TeamSettings {
       researcher: { provider: '', model: '', maxTokens: 4096 }, explorer: { provider: '', model: '', maxTokens: 4096 },
       worker: { provider: '', model: '', maxTokens: 4096 }, reviewer: { provider: '', model: '', maxTokens: 4096 },
     },
-    limits: { concurrency: 2, maxAgents: 12, maxTasks: 8, maxRetries: 1, maxDurationMs: 600000, maxStepsPerAgent: 8 },
+    limits: { concurrency: 2, maxAgents: 12, maxTasks: 8, maxRetries: 1, maxDurationMs: 600000, maxStepsPerAgent: 8, maxRounds: 4, maxJevCalls: 10 },
     reviewPlan: true,
     routeEnabled: false,
+    jev: { enabled: true, disclosureAccepted: false },
+    verification: { profileId: '', scope: [] },
   };
 }

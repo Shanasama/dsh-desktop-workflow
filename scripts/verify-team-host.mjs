@@ -84,6 +84,15 @@ try{
  console.log('PASS actual scoped pre-step waterfall enforces adapter request cap');
  mode='unsafe';await assert.rejects(adapter.execute(spec('explorer')),error=>error.code==='UNSAFE_TOOLS');assert.equal(root.agents.list().length,1);
  console.log('PASS real serial announce propagates unsafe-scope rejection before transport result');
+ let bashCalls=0;
+ root.tools.register(define('bash',()=>bashCalls++));
+ const native=await adapter.executeTool(parent.id,{name:'bash',arguments:{}},new AbortController().signal);
+ assert.equal(native.isError,false);assert.equal(bashCalls,1);
+ assert.equal((await invoke(parent,'bash')).isError,true);assert.equal(bashCalls,1);
+ const ask=parent.ctx.on('tools/pre-execute',async(exec,next)=>exec.name==='bash'?{kind:'ask',reason:'Fixture permission prompt',request:{}}:next());
+ const denied=await adapter.executeTool(parent.id,{name:'bash',arguments:{}},new AbortController().signal);
+ assert.equal(denied.isError,true);assert.equal(bashCalls,1);ask();
+ console.log('PASS native verifier tool path keeps original parent scope; exact ALS guard permits only owned call; ask is denied without approval');
  adapter.releaseSession(parent.id);assert.equal((await invoke(parent,'write')).isError,false);assert.equal(writeCount,2);
  console.log('PASS releaseSession withdraws native parent guard');
  assert.equal(notices.length,0);

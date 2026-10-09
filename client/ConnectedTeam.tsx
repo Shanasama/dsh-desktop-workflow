@@ -7,7 +7,7 @@ import type {HostContext} from './index';
 
 class RpcRejected extends Error {}
 const KEY='dsh-desktop-workflow:team-settings:v2';
-const ROLES=['planner','coordinator','researcher','explorer','worker','reviewer','router'] as const;
+const ROLES=['planner','coordinator','researcher','explorer','worker','reviewer'] as const;
 type SessionContext={sessionId?:string;contextKey?:string;available?:boolean;canStart?:boolean;workspace?:string;reason?:string;permissionNotice?:string};
 type StateResponse={snapshot:TeamSnapshot|null;context:SessionContext};
 export function readTeamSettings():TeamSettings{
@@ -19,10 +19,12 @@ export function readTeamSettings():TeamSettings{
       const selection={provider:x.provider,model:x.model,...typeof x.reasoningEffort==='string'&&x.reasoningEffort.length<=32?{reasoningEffort:x.reasoningEffort}:{},...Number.isInteger(x.maxTokens)&&x.maxTokens>=1&&x.maxTokens<=32768?{maxTokens:x.maxTokens}:{maxTokens:4096}};
       fallback.roles[role]=selection;
     }
-    const ranges={concurrency:[1,4],maxAgents:[1,32],maxTasks:[1,12],maxRetries:[0,2],maxDurationMs:[1000,1800000],maxStepsPerAgent:[1,16]};
+    const ranges={concurrency:[1,4],maxAgents:[1,32],maxTasks:[1,12],maxRetries:[0,2],maxDurationMs:[1000,1800000],maxStepsPerAgent:[1,16],maxRounds:[1,8],maxJevCalls:[1,20]};
     for(const key of Object.keys(ranges)as(keyof typeof ranges)[]){const v=value.limits?.[key];const[min,max]=ranges[key];if(Number.isInteger(v)&&v>=min&&v<=max)fallback.limits[key]=v;}
-    if(typeof value.reviewPlan==='boolean')fallback.reviewPlan=value.reviewPlan;if(typeof value.routeEnabled==='boolean')fallback.routeEnabled=value.routeEnabled;
-    if(!fallback.routeEnabled)delete fallback.roles.router;
+    if(typeof value.reviewPlan==='boolean')fallback.reviewPlan=value.reviewPlan;
+    if(typeof value.verification?.profileId==='string'&&value.verification.profileId.length<=120)fallback.verification.profileId=value.verification.profileId;
+    if(Array.isArray(value.verification?.scope)&&value.verification.scope.length<=16&&value.verification.scope.every((path:unknown)=>typeof path==='string'&&path.length<=240))fallback.verification.scope=value.verification.scope;
+    // Legacy router settings, unknown properties, credentials, and prior consent are never restored.
     return fallback;
   }catch{return fallback;}
 }
@@ -56,7 +58,7 @@ export function ConnectedTeam({ctx,sessionId}:{ctx:HostContext;sessionId?:string
     void refresh();return()=>{abort.abort();clearTimeout(timer);};
   },[ctx,sessionId,demo,revision]);
   useEffect(()=>{setDemo(false);setUncertainStart(false);setActionError(undefined);},[sessionId]);
-  const save=(next:TeamSettings)=>{setSettings(next);try{localStorage.setItem(KEY,JSON.stringify({roles:next.roles,limits:next.limits,reviewPlan:next.reviewPlan,routeEnabled:next.routeEnabled}));}catch{setError('岗位设置可继续使用，但当前浏览器无法持久保存。');}};
+  const save=(next:TeamSettings)=>{setSettings(next);try{localStorage.setItem(KEY,JSON.stringify({roles:next.roles,limits:next.limits,reviewPlan:next.reviewPlan,routeEnabled:false,verification:next.verification}));}catch{setError('岗位设置可继续使用，但当前浏览器无法持久保存。');}};
   async function start(input:{goal:string;settings:TeamSettings}){
     if(startBusy.current||demo||!sessionId||sessionContext?.sessionId!==sessionId||!sessionContext.contextKey||!sessionContext.canStart){setError('当前会话不可启动，请刷新面板后重新确认。');return;}
     startBusy.current=true;setLoading(true);setActionError(undefined);const bound=sessionId;const abort=new AbortController();const requestId=crypto.randomUUID();pendingStart.current={sessionId:bound,requestId};
