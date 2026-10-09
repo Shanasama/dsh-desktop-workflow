@@ -6,7 +6,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 const cli = process.env.DSH_CLI;
 if(!cli || !path.isAbsolute(cli))throw new Error('Set DSH_CLI to the official DSH 0.2.0-rc.2 absolute lib/bin.js path.');
-const archive=path.resolve(process.argv[2]||'dsh-desktop-workflow-0.3.0.tgz');await access(archive);
+const archive=path.resolve(process.argv[2]||'dsh-desktop-workflow-0.4.0.tgz');await access(archive);
 const temp=await mkdtemp(path.join(tmpdir(),'dsh-workflow-profile-'));
 try{
  const home=path.join(temp,'home');const profile=path.join(home,'profiles','workflow-qa');await mkdir(profile,{recursive:true});

@@ -1,56 +1,78 @@
-# v0.3 verification record
+# v0.4 verification record
 
-## Passed without paid inference
+## Final code checks
 
-- `npm run check`: build + TypeScript + **111 tests**, including legacy bounded
-  scheduler regression, mandatory Jev/classify/step contracts, all five loop
-  actions, one-lane escalation, unchanged selected models, call/round caps,
-  cancellation, trusted-check hard gates, stale seal, process cleanup quarantine,
-  credential/disclosure handling, native verifier outcome parsing and UI flows.
-- Independent reviewer added `test/review-safety.test.mjs`: hostile native tool
-  outcomes, detached profiles, invalid paths/timeouts, stale completion seal and
-  cancellation while final evidence remains pending.
-- `test:host` against installed official rc.2 packages: HTTP authentication,
-  foreign-Origin rejection, team route protection, unload, Loader discovery and
-  revisioned native client bundle publication.
-- `test:team-host`: actual official registry, scoped tools/pre-step waterfalls,
-  exact model options, ALS role isolation, read-only mutation denial, parent guard,
-  native verifier dispatch, exact verifier exception and ask→deny without approval.
-  Agents, LLM catalog, sandbox policy and transport in this test are explicit inert
-  fixtures, not a live AgentLoop/provider execution.
-- The fixed verifier interpreter ran via the external host exec tool in its original
-  execution sandbox against an explicit `/tmp/dsh-jev-verifier-*` Git fixture.
-  Real Node check + in-scope source change passed. Outside files/chmod,
-  protected evidence and hidden-index manipulation were independently exercised
-  and refused. Preparation script only emits a command; it does not execute a
-  server-side substitute shell. This is a separate test of interpreter behavior.
-- Cloud-browser fixture UI: mandatory Jev/check blockers, per-run TypeSafe consent,
-  consent reset, role model preservation, lane/round/gates and clear fixture labeling.
-
-- Official rc.2 plugin manager installed the v0.3 archive into an isolated temporary profile with `--ignore-scripts`, registered its bundle, then removed it successfully. No user profile was used.
-
-## Separately pending at package freeze
-
-- Installation of the frozen v0.3 archive into an isolated empty-config real Web
-  host on port 3086, then authenticated loading and fail-closed UI verification.
-  The existing port-3085 v0.2 profile is preserved. Parent acceptance owns this stage.
-
-## Not run / not claimed
-
-- Real paid TypeSafe or six-role model requests, provider credentials or account setup.
-- Full production AgentLoop executing project edits through live model providers.
-- Native Windows/macOS Electron interaction.
-- A total billed-token or dollar spending cap. Dispatch/step/output/Jev-call limits
-  are separate and do not include all input/context/provider-internal costs.
-
-Commands:
+Run with official modules to avoid skipping the native-host suite:
 
 ```bash
-npm run check
+DSH_NODE_MODULES=/absolute/official/node_modules npm run check
 DSH_NODE_MODULES=/absolute/official/node_modules npm run test:host
 DSH_NODE_MODULES=/absolute/official/node_modules npm run test:team-host
-DSH_CLI=/absolute/official/dsh/lib/bin.js node scripts/verify-profile.mjs dist/dsh-desktop-workflow-0.3.0.tgz
 ```
 
-Any post-freeze source change requires a new build/test, new archive/hash, and
-reinstallation before attributing Web acceptance to that version.
+Latest aggregate: build + typecheck + **138/138 tests, zero skips**. Without
+DSH_NODE_MODULES the dedicated official-host test explicitly skips; it must not
+be described as a host pass.
+
+Coverage includes the five Jev actions, exact pinned role models, completion and
+freshness seal, limits/cancellation/quarantine, native configuration revision and
+credential secrecy, no-runner editable/unverified states, path/symlink/hardlink
+boundaries, native-only command handling, repeated command and session-switch
+protection, native key input clearing, partial saves, consent revoke and UI states.
+
+## Official rc.2 integration
+
+The isolated host suite uses actual official LocalAttachmentStore, PluginManager,
+LocalCredentialProvider, CredentialsController, Loader/ConfigEditor/SettingsForms,
+CommandRuntime, AgentRegistry, Gateway, Connection and WebServer components.
+
+- Attachment tgz → read-only attachment handle → plugin_manager install_bundle.
+  A denied approval performs zero installs; one explicit fixture approval performs
+  actual isolated install, bundle registration and uninstall. This tests plumbing,
+  not a real model's interpretation of a dragged attachment.
+- Random test-only credential set is write-only, persists across provider reload,
+  uses owner-only file permissions and can be removed. No real key is used.
+- Actual native settings persist six roles/consent, reject stale revisions and
+  unsupported secret fields, and reload correctly.
+- Real authenticated HTTP command/credential endpoints reject missing auth and
+  foreign Origin. `/team` binds exact sessions; repeats do not duplicate; correct
+  cancellation settles; cross-session cancellation fails; cancellation during
+  metadata validation creates no model run.
+- Native verifier dispatch preserves parent scope, exact ALS guard and original
+  tools pipeline. Native approval routes to the exact parent; a cancelled prompt
+  performs zero dispatch. No auto-approval is implemented.
+
+Agent outputs, catalog and transport used by these tests are explicit fixtures;
+no paid role model or TypeSafe API is contacted.
+
+## Actual interpreter and component checks
+
+The fixed project interpreter was executed by the external host exec tool in its
+original sandbox against explicit temporary Git fixtures. Independently checked:
+
+- Existing dirty state + 600 source files + ignored 300 MiB dependency file works
+- Explicit custom Node test arguments are retained; failing custom test is failed
+- Zero/all-skipped tests do not pass; changed acceptance cannot complete
+- Temporary run-bound evidence cleanup executes; source/path tampering is rejected
+
+Python/Go/Rust runner adapters are conservative detections of installed tooling;
+a broad multi-language real-project benchmark is not claimed.
+
+Cloud-browser component QA is explicit fixture data: full/narrow settings,
+key-save clear-input, consent revoke, settings/result navigation, corrected overflow
+and separate unverified state. After redesign: responsive graph/fit, selectable Jev hub, explicit narrow details/return navigation, selected-role draft preservation, and fake-key clearing were visually rechecked. Screenshot: `docs/images/v04-settings-preview.png`.
+See [CLOUD-HOST-QA.zh-CN.md](CLOUD-HOST-QA.zh-CN.md) for the parent's layered record.
+
+## Not claimed
+
+No live paid Jev/six-model development run, no real key setup, no user Windows
+installation, and no native Electron end-to-end visual acceptance. No total billed
+token or dollar budget cap. Old 3085/3086 user/browser environments are untouched.
+
+Frozen archive installation and remote publication are separate final release
+steps. Any later production-code change requires new tests, package hash and
+reinstallation before attributing acceptance to the new build.
+
+## Visual redesign regression
+
+Eleven dedicated regressions cover role editor preservation and hidden-role validation, keyboard graph tabs, disclosure state, honest Jev service labels, first-node width observation, fit, explicit details/return navigation, stale cancellation isolation, and text contrast. All 14 backend source files remain byte-identical to the previously verified functional v0.4 baseline. New visual references and asset/license boundaries are documented in [UI-DESIGN.md](UI-DESIGN.md).

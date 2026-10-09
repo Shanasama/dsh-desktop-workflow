@@ -1,70 +1,78 @@
-# DSH Desktop Workflow v0.3
+# DSH 多模型团队 · v0.4
 
-Jev 核心调度 + 六岗位真实 DSH 子代理。目标宿主是官方 **DeepSeek Harness 0.2.0-rc.2** 的 Web Client 接口，作为原生右侧栏插件加载。
+**装一次、设置一次，以后直接在聊天框输入 `/team 任务正文`。**
 
-![v0.3 组件预览：显式合成 fixture，不是真实模型运行](docs/images/component-preview.png)
+面向官方 DeepSeek Harness 0.2.0-rc.2 的原生插件，不需要修改宿主源码。
 
-## 工作方式
+## 开始使用
 
-1. 用户分别选择规划、协调、研究、探索、执行、审查六个岗位的实际宿主模型。
-2. 明确批准本次 TypeSafe 数据传输，选择服务端验证方案与允许修改的相对路径。
-3. 宿主采集干净基线，独立 TypeSafe Jev 判断初始 lane。
-4. 团队按任务 DAG 执行；只读任务可并行，编辑串行。不会自行扩大权限或创建更多代理。
-5. 每轮由原生宿主工具独立采集 tests / diff / scope，Jev 选择 continue、retry、verify、escalate 或 complete。
-6. lane 只逐级提升审查策略，**不偷偷替换用户选择的模型或厂商**。到最高 lane、限额或人工决策点就阻塞。
-7. 只有任务、独立检查、范围、保护证据及审查全通过，且 Jev 达到完成阈值，并在最后重新确认文件未变化，才能显示完成。
+1. 下载 `dist/dsh-desktop-workflow-0.4.0.tgz`，拖给 DSH，并明确说“请用官方插件管理器安装到当前配置”。详见 [安装说明](INSTALL-ME.md)。这使用 DSH 代理的官方安装工具，不是插件新增的自动拖拽导入器。
+2. 在 **设置 → 多模型团队** 选择六岗位模型，输入 Jev Key，阅读并自行启用 TypeSafe 数据许可，保存。
+3. 回到项目聊天，输入：
 
-缺 Jev 凭据、缺可信检查配置、权限拒绝、证据不足和服务故障都会明确阻塞。没有普通模型 router 降级，也没有自动转入演示。演示仅在用户明确选择后加载合成 fixture。
-
-## 开始前请确认
-
-- 当前升级的是 **lane / 复核策略**，不是自动切换模型；需要强模型复核时，请由用户明确给「审查者」岗位选择强模型。
-- 必须使用**干净 Git 仓库 + 明确验证命令/保护路径 + 明确修改范围**。不是任意已有工程开箱即用。
-- 独立检查扫描整个仓库（包括 ignored 文件），上限 **50,000 条目 / 256 MiB**。大型 node_modules 项目可能因此阻塞；应准备经过审阅、满足边界的隔离检出，不要关闭检查来放行。
-
-## 安装与配置
-
-```bash
-dsh plugin --profile YOUR_DESKTOP_PROFILE add /path/dsh-desktop-workflow-0.3.0.tgz --ignore-scripts
+```text
+/team 修复购物车数量计算，并补充回归测试
 ```
 
-请使用实际 Desktop profile，先退出宿主；保留旧版配置以便自行回退。
+右侧自动显示团队进度。配置不全时直接打开团队设置。正常使用不用填写每次的 key、检查 profile 或路径范围表单。
 
-- [安装与使用](docs/INSTALL.zh-CN.md)
-- [Jev 服务端配置、数据范围、上游适配差异](docs/JEV-V03.md)
-- [执行与安全架构](docs/ARCHITECTURE.md)
-- [验证记录与未测边界](docs/VERIFICATION.md)
+![工作流图谱局部预览：离线 fixture，非真实模型运行](docs/images/v04-workflow-preview.png)
 
-Jev 通过服务端环境变量名称引用凭据，浏览器不接收、输入或存储密钥。验证命令和受保护测试/配置来自服务端固定 profile；用户启动前可看到 argv、超时和保护路径。不要把密钥发到聊天或任务目标里。
+界面参考开发者工具、节点编辑器与设计社区的布局原则，采用原创 CSS/SVG 实现。见 [设计参考与交互说明](docs/UI-DESIGN.md)。
 
-本插件不会配置模型服务商、购买额度、自动批准工具权限或修改宿主安全设置。停止会等待活动任务清理，**不会回滚已经发生的修改**；清理无法确认时会锁定新运行。
+![一次设置界面：明确标注为离线 fixture](docs/images/v04-settings-preview.png)
 
-## 运行边界
+## 会做什么
 
-分别限制派发次数、每代理步骤、每次请求输出、总时长、重试、Jev 调用次数与轮数。这些不是实际总 token 或美元费用硬上限，付费前还应在提供方设置预算。
+- 原生 `/team` 命令在送入普通聊天模型之前被消费，不依赖模型猜测命令。
+- 六岗位独立选择真实 DSH 模型；Jev 是独立 TypeSafe 决策服务。
+- 自动探测项目，支持带既有未提交改动的 Git 基线；不扫描大体积 ignored node_modules。
+- Jev 负责 classify → 执行 → 独立检查 → continue / retry / verify / escalate / complete。
+- 没有已识别测试时，安全项目仍可产生改动，显示 **待验证**；不会用“无测试”冒充通过。
+- 原有测试/构建配置可按任务修改，但修改验收依据后不能自动宣称已完成。
+- 重复发送、取消和切会话有绑定保护；运行中重复指令打开已有进度，不重复派发。
+- 一次数据许可可撤销；后续 Jev 请求会重新检查许可与原生凭据状态。
 
-验证覆盖当前仓库的文件、ignored 文件、模式、目录和 Git 元数据；不是整个操作系统的事务隔离。宿主仍执行原有 sandbox 和权限规则。验证要求 cwd 与 workspaceRoot 一致；full-access、linked worktree、超出规模限制的工作区均明确阻塞。
+## 能力与边界
 
-## 开发与检查
+| 场景 | v0.4 行为 |
+|---|---|
+| 读取/搜索/开发 | 项目内读文件、列文件、逐文件搜索、精确编辑和新文件写入 |
+| 自动 Node 检查 | 已识别的 Node test、已安装 Jest/Vitest、TypeScript noEmit；保留安全测试参数，零测试或全跳过不算通过 |
+| Python / Go / Rust | 检测现有 pytest/unittest、Go test（禁止自动下载）、Cargo test --offline；不自动安装依赖 |
+| 未识别 runner / 缺依赖 | 保留可用产出，标为待验证；不让用户回填复杂 profile/scope 表单 |
+| 验收依据被修改 | 可以保留开发结果，必须待验证，不能借新测试自证完成 |
+| 无可靠项目基线/路径安全无法确认 | 只读分析或明确受阻，不假称完成 |
+| 需要额外权限的检查 | 交给 DSH 当前会话的原生审批，插件从不自动批准 |
+
+自动模式不把任意 shell、依赖安装或凭据/权限修改交给岗位模型；常规检查由受控宿主工具运行并反馈结果。验证仍要求 cwd 与 workspaceRoot 一致、原有 read-only/workspace-write sandbox；不自动改权限或支持 full-access 验收。源码证据上限为 10,000 个非敏感、非依赖文件 / 128 MiB，超限不声称完整验收。检查结果不是整个操作系统的事务隔离。
+
+lane 升级调整复核策略，**不偷偷换模型或厂商**；强审查模型由用户在审查岗位选择。各派发/步骤/输出/Jev 次数限制不是总 token 或美元费用上限。
+
+## 隐私
+
+Jev key 通过 DSH 原生 write-only 凭据接口保存，插件配置、聊天、模型上下文、快照和浏览器 localStorage 不携带它。rc.2 默认本机凭据文件有用户权限保护，**不是加密保险库，也不能隔离同一系统用户的所有程序**。不要把 key 发到聊天。
+
+TypeSafe 会收到限长脱敏任务、差异统计、检查尾部摘要和审查摘要。设置页明确说明一次启用的范围；撤销后阻止后续请求。详见 [v0.4 架构与数据范围](docs/V04-ARCHITECTURE.md)。
+
+## 验证与安装说明
+
+- [安装、一次设置与日常使用](docs/INSTALL.zh-CN.md)
+- [验证记录](docs/VERIFICATION.md)
+- [云端分层验收](docs/CLOUD-HOST-QA.zh-CN.md)
+- [历史 v0.3 与上游策略适配](docs/JEV-V03.md)
+
+开发检查：
 
 ```bash
 npm ci --ignore-scripts
-npm run check
+DSH_NODE_MODULES=/path/to/official/node_modules npm run check
 DSH_NODE_MODULES=/path/to/official/node_modules npm run test:host
 DSH_NODE_MODULES=/path/to/official/node_modules npm run test:team-host
 ```
 
-离线预览是明确的 fixture，不代表真实模型或 TypeSafe 已调用。原生 rc.2 接口检查与真实 Web 加载是独立验收阶段；本交付未运行付费模型或本机 Electron。
+未运行真实付费 Jev/岗位模型，也不声称本机 Electron 全链路通过。全部原生接口、fixture、浏览器组件和真实模型验收分别报告。
 
-## 参考与许可证
+## 归属
 
-参考 `kerpopule/hermes-jev-skills` 固定 commit
-`b22a21f365720cb7cf06f9b229c095176b39cdb9` 的 lane/loop-step 策略。未运行其安装器。保留 MIT 归属（Steve Darlow），见 [NOTICE](NOTICE) 与 [上游许可证](src/vendor/HERMES-JEV-LICENSE)。这是一份独立 DSH 适配，不是原仓库安装器的照搬。
-
-## 历史安装包
-
-dist 保留 v0.1、v0.2 历史归档；新安装或升级请选择 **dsh-desktop-workflow-0.3.0.tgz**。SHA256SUMS 列出三个归档的校验值。
-
-## 本次云端验收
-
-详见[云端验收记录](docs/CLOUD-HOST-QA.zh-CN.md)。111 项测试和隔离安装通过；新版真实宿主界面因云浏览器屏蔽尚未验收，真实 Jev/模型及 Windows/Electron 也未端到端验证。
+保留 `hermes-jev-skills` commit `b22a21f365720cb7cf06f9b229c095176b39cdb9` 的原始 lane/loop-step 策略及 MIT 归属。未运行其安装器；见 [NOTICE](NOTICE)。

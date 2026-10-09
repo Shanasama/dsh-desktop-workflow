@@ -93,6 +93,13 @@ try{
  const denied=await adapter.executeTool(parent.id,{name:'bash',arguments:{}},new AbortController().signal);
  assert.equal(denied.isError,true);assert.equal(bashCalls,1);ask();
  console.log('PASS native verifier tool path keeps original parent scope; exact ALS guard permits only owned call; ask is denied without approval');
+ let approvalCalls=0;const approvalAbort=new AbortController();
+ root.provide('approval',{overrideOf:()=>undefined,async request(request){approvalCalls++;assert.equal(request.agent,parent);assert.equal(request.toolName,'bash');approvalAbort.abort();return 'cancelled';}});
+ const nativeAsk=parent.ctx.on('tools/pre-execute',async(exec,next)=>exec.name==='bash'?{kind:'ask',reason:'Explicit native user approval fixture'}:next());
+ const cancelledApproval=await adapter.executeTool(parent.id,{name:'bash',arguments:{}},approvalAbort.signal,{allowUserApproval:true});
+ assert.equal(approvalCalls,1);assert.equal(cancelledApproval.isError,true);assert.equal(cancelledApproval.verificationNotDispatched,true);assert.equal(bashCalls,1);nativeAsk();
+ console.log('PASS auto verifier native approval routes to exact parent; cancelled prompt performs zero dispatch and does not fake approval');
+
  adapter.releaseSession(parent.id);assert.equal((await invoke(parent,'write')).isError,false);assert.equal(writeCount,2);
  console.log('PASS releaseSession withdraws native parent guard');
  assert.equal(notices.length,0);

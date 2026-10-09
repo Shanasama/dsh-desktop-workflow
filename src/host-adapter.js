@@ -1,6 +1,8 @@
 /** Actual DSH 0.2.0-rc.2 adapter. Never calls a model until execute() is explicitly used. */
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
+import path from 'node:path';
+import {realpathSync,lstatSync,existsSync} from 'node:fs';
 
 const readTools = new Set(['read', 'read_image', 'glob', 'grep', 'structured_output']);
 const researchTools = new Set([...readTools, 'web_search', 'web_fetch']);
@@ -11,6 +13,7 @@ function need(condition,code,message){if(!condition)throw new TeamHostError(code
 
 export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, onCleanupFailed = () => {} } = {}) {
   const creation = new AsyncLocalStorage();
+  const projectPolicies=new Map();
   const verifierCalls = new AsyncLocalStorage();
   const contexts = new WeakMap();
   const activeParents = new Set();
@@ -42,7 +45,7 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
     const tools=agent.ctx.get('tools');
     need(tools && typeof tools.guard==='function' && typeof tools.presentAs==='function','UNSAFE_TOOLS','无法安装子代理工具执行保护，已阻止执行。');
     const allowed=tag.role==='worker'?workerTools:tag.role==='researcher'?researchTools:readTools;
-    const guard=tools.guard(exec=>{if(allowed.has(exec.name))return;tag.blockedReason='岗位尝试了不允许的工具，已阻止执行；不会扩大权限或递归派发。';return tag.blockedReason;});
+    const guard=tools.guard(exec=>{if(tag.project){const issue=projectGuard(tag,exec);if(issue){tag.blockedReason=issue;return issue;}}if(allowed.has(exec.name))return;tag.blockedReason='岗位尝试了不允许的工具，已阻止执行；不会扩大权限或递归派发。';return tag.blockedReason;});
     agent.ctx.on('tools/pre-execute',async (_exec,next)=>{const decision=await next();if(decision.kind==='ask'||decision.kind==='deny')tag.blockedReason='宿主权限拒绝或要求额外批准。子代理不能代替用户批准，请在主会话处理。';return decision;});
     const presentation=tools.presentAs('native');
     let steps=0;
@@ -107,7 +110,7 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
     const parent=parentFor(spec.sessionId,{idle:true});
     need(!spec.signal.aborted,'CANCELLED','运行已取消。');
     const currentFingerprint=fingerprint(parent);need(activeFingerprints.get(parent.id)===currentFingerprint,'CONTEXT_CHANGED','执行上下文或权限已变化，请重新确认。');
-    const tag={parent,role:spec.role,limits:spec.limits,signal:spec.signal,created:new Set(),fingerprint:currentFingerprint};
+    const tag={parent,role:spec.role,project:projectPolicies.get(spec.runId),limits:spec.limits,signal:spec.signal,created:new Set(),fingerprint:currentFingerprint};
     const maxDepth=ctx.subagents.resolveMaxDepth();
     need(Number.isSafeInteger(maxDepth)&&maxDepth>=1,'DEPTH_UNAVAILABLE','宿主未允许当前会话派发子代理。');
     let run;
@@ -128,17 +131,42 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
       throw new TeamHostError('CHILD_FAILED','子代理运行失败；请在宿主会话检查模型连接或权限。不会自动放宽权限。');
     }finally{if(run){try{await run.dispose();}catch{quarantined.add(spec.sessionId);onCleanupFailed(spec.sessionId);throw new TeamHostError('CLEANUP_FAILED','子代理未能确认清理完成，已停止继续派发；请检查宿主会话。');}}}
   }
-  async function executeTool(sessionId,spec,signal){
+  function projectGuard(tag,exec){
+    const denied='自动团队仅能访问当前项目的安全文件；写入、凭据或验收边界已阻止此操作。';
+    if(tag.project.safeRoot===false)return '当前目录不是可安全隔离的项目，请切换到项目目录后再运行 /team。';
+    const mutating=['write','edit'].includes(exec.name);
+    if(['bash','pwsh'].includes(exec.name))return '自动团队不开放通用 shell；测试由独立宿主验证执行器运行。';
+    if(mutating&&(tag.role!=='worker'||!['verified','unverified-editable'].includes(tag.project.mode)))return '当前任务处于只读分析模式，不能修改文件；结果将标为待验证。';
+    if(!['read','read_image','write','edit','grep','glob'].includes(exec.name))return;
+    const arg=exec.arguments||{},raw=['glob','grep'].includes(exec.name)?(arg.path||tag.project.root):arg.file_path;
+    if(typeof raw!=='string'||raw.includes('\0'))return denied;
+    try{
+      const root=realpathSync(tag.project.root),candidate=path.resolve(root,raw);let relative=path.relative(root,candidate).replaceAll('\\','/');
+      if(path.isAbsolute(relative)||relative==='..'||relative.startsWith('../'))return denied;
+      if(/(^|\/)(?:\.git|\.dsh|\.ssh|\.aws|node_modules|vendor|\.venv|venv|dist|build|coverage|\.cache|\.credentials(?:\.yaml)?|\.env(?:\..*)?|.*\.(?:pem|key)|id_rsa|credentials)(?:\/|$)/i.test(relative))return denied;
+      let walk=root;for(const part of relative.split('/').filter(Boolean)){walk=path.join(walk,part);try{if(lstatSync(walk).isSymbolicLink())return denied;}catch(e){if(e.code!=='ENOENT')return denied;}}
+      if(existsSync(candidate)){const stat=lstatSync(candidate);if(!['glob'].includes(exec.name)&&!stat.isFile())return denied;if(mutating&&stat.nlink>1)return denied;const actual=realpathSync(candidate),r=path.relative(root,actual);if(path.isAbsolute(r)||r==='..'||r.startsWith('..'+path.sep))return denied;}
+      if(exec.name==='grep'&&(!existsSync(candidate)||!lstatSync(candidate).isFile()))return '请先列出文件，再只搜索项目内的具体普通文件。';
+      if(exec.name==='glob'){const pattern=String(arg.pattern||'');if(path.isAbsolute(pattern)||pattern.split(/[\\/]/).includes('..'))return denied;return;}
+      if(!relative)return denied;
+      if(exec.name==='write'&&existsSync(candidate))return '已有文件请使用精确 edit，保留用户原有改动。';
+    }catch{return denied;}
+  }
+  async function executeTool(sessionId,spec,signal,{allowUserApproval=false}={}){
     const parent=parentFor(sessionId,{idle:true});
     need(!signal.aborted&&!quarantined.has(sessionId),'CANCELLED','运行已取消或隔离。');
     need(activeFingerprints.get(sessionId)===fingerprint(parent),'CONTEXT_CHANGED','验证上下文或权限已变化。');
     const policy=permissionState(parent);need(['workspace-write','read-only'].includes(policy.sandboxMode)&&policy.workspaceRoot===policy.cwd,'VERIFIER_SCOPE_UNSAFE','独立验证要求仓库根目录与宿主工作区边界一致，且不能使用完全访问模式。');
     const tools=parent.ctx.get('tools');need(typeof tools?.execute==='function','VERIFIER_UNAVAILABLE','宿主原生工具执行器不可用。');
-    const dispose=parent.ctx.on('tools/pre-execute',async(exec,next)=>{const decision=await next();if(verifierCalls.getStore()?.parent===parent&&(decision.kind==='ask'||decision.kind==='deny'))return {kind:'deny',reason:'验证需要额外权限；请由用户在主会话处理。'};return decision;});
-    try{return await verifierCalls.run({parent,name:spec.name,args:JSON.stringify(spec.arguments)},()=>tools.execute({callId:randomUUID(),...spec,agent:parent,signal}));}finally{dispose();}
+    const dispose=parent.ctx.on('tools/pre-execute',async(exec,next)=>{const decision=await next();if(verifierCalls.getStore()?.parent===parent&&(decision.kind==='ask'&&!allowUserApproval||decision.kind==='deny'))return {kind:'deny',reason:'验证需要额外权限；请由用户在主会话处理。'};return decision;});
+    let dispatched=false;
+    const match=exec=>exec.agent===parent&&exec.name===spec.name&&JSON.stringify(exec.arguments)===JSON.stringify(spec.arguments);
+    const offDispatch=parent.ctx.on('tools/execute',async(exec,next)=>{if(match(exec))dispatched=true;return next();});
+    try{const result=await verifierCalls.run({parent,name:spec.name,args:JSON.stringify(spec.arguments)},()=>tools.execute({callId:randomUUID(),...spec,agent:parent,signal}));return !dispatched&&result?.isError?{...result,verificationNotDispatched:true}:result;}finally{offDispatch();dispose();}
+
   }
   function poison(sessionId){quarantined.add(sessionId);onCleanupFailed(sessionId);}
-  return {context,verifyContext,catalog,validateModels,execute,executeTool,poison,
+  return {context,verifyContext,catalog,validateModels,execute,executeTool,poison,setProjectPolicy:(runId,policy)=>policy?projectPolicies.set(runId,policy):projectPolicies.delete(runId),
     beginSession(sessionId,key){need(!quarantined.has(sessionId),'CLEANUP_UNCONFIRMED','子代理清理未确认，禁止新运行。');const parent=verifyContext(sessionId,key);const tools=parent.ctx?.get('tools');need(tools&&typeof tools.guard==='function','PARENT_GUARD_UNAVAILABLE','无法保护主会话与子代理的并发写入，已阻止执行。');const cleanup=tools.guard(exec=>exec.agent===parent&&!researchTools.has(exec.name)&&!(verifierCalls.getStore()?.parent===parent&&verifierCalls.getStore()?.name===exec.name&&verifierCalls.getStore()?.args===JSON.stringify(exec.arguments))?'团队运行或清理期间，主会话的修改操作已暂停。请先取消团队并等待清理完成。':undefined);parentGuards.set(sessionId,cleanup);activeFingerprints.set(sessionId,fingerprint(parent));activeParents.add(sessionId);if(!monitor)monitor=setInterval(checkActive,500);},
     releaseSession(sessionId){if(quarantined.has(sessionId))return;parentGuards.get(sessionId)?.();parentGuards.delete(sessionId);activeParents.delete(sessionId);activeFingerprints.delete(sessionId);if(!activeParents.size){clearInterval(monitor);monitor=undefined;}},
     async dispose(){closed=true;clearInterval(monitor);for(const dispose of disposers.reverse())await dispose();owned.clear();for(const[id,cleanup]of parentGuards)if(!quarantined.has(id))cleanup();activeParents.clear();},

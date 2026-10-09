@@ -1,8 +1,8 @@
 {
   "name": "dsh-desktop-workflow",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
-  "description": "Jev-supervised bounded six-role team for DeepSeek Harness Desktop 0.2.0-rc.2",
+  "description": "Native /team command, one-time role and Jev settings, and bounded multi-agent workflow for DSH 0.2.0-rc.2",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
@@ -18,7 +18,8 @@
     "cordis.patch.yml",
     "README.md",
     "LICENSE",
-    "NOTICE"
+    "NOTICE",
+    "INSTALL-ME.md"
   ],
   "engines": {
     "node": "^22.19 || >=24"
@@ -31,7 +32,8 @@
     "preview": "node scripts/preview.mjs",
     "test:profile": "node scripts/verify-profile.mjs",
     "test:host": "node --expose-internals scripts/verify-host.mjs",
-    "test:team-host": "node --expose-internals scripts/verify-team-host.mjs"
+    "test:team-host": "node --expose-internals scripts/verify-team-host.mjs",
+    "test:v04-host": "node --test test/v04-host-acceptance.test.mjs"
   },
   "dsh": {
     "bundle": {
@@ -42,17 +44,23 @@
       "inject": [
         "@deepseek-ai/dsh-client-connection",
         "@deepseek-ai/dsh-client-ui-sidebar-right",
-        "@deepseek-ai/dsh-client-ui-session"
+        "@deepseek-ai/dsh-client-ui-session",
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-client-ui-commands",
+        "@deepseek-ai/dsh-client-ui-settings-general"
       ]
     }
   },
   "devDependencies": {
-    "esbuild": "0.28.2",
-    "typescript": "5.9.3",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
     "@types/react": "18.3.28",
     "@types/react-dom": "18.3.7",
-    "jsdom": "26.1.0"
+    "esbuild": "0.28.2",
+    "jsdom": "26.1.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "3.18.4"
   }
 }

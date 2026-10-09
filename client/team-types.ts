@@ -22,9 +22,6 @@ export interface TeamSettings {
   roles: Record<TeamRole, TeamModelSelection>;
   limits: TeamLimits;
   reviewPlan: boolean;
-  routeEnabled: false;
-  jev: { enabled: true; disclosureAccepted: boolean };
-  verification: { profileId: string; scope: string[] };
 }
 export interface TeamVerificationProfile {
   id: string;
@@ -45,7 +42,7 @@ export interface TeamCatalog {
   reason?: string;
 }
 export type TeamNodeStatus = 'pending' | 'running' | 'completed' | 'failed' | 'blocked' | 'cancelled';
-export type TeamRunStatus = 'planning' | 'running' | 'reviewing' | 'completed' | 'blocked' | 'failed' | 'cancelled';
+export type TeamRunStatus = 'planning' | 'running' | 'reviewing' | 'completed' | 'unverified' | 'blocked' | 'failed' | 'cancelled';
 export interface TeamNode {
   id: string;
   taskId?: string;
@@ -103,6 +100,30 @@ export interface TeamSessionContext {
   permissionNotice?: string;
   canStart?: boolean;
   reason?: string;
+  setupRequired?: boolean;
+}
+export interface TeamSetup {
+  settings: TeamSettings;
+  configured: boolean;
+  keyConfigured: boolean;
+  disclosureAccepted: boolean;
+  revision: number;
+  writable?: boolean;
+}
+export interface CredentialStatus { configured: boolean; writable: boolean; source?: string }
+export interface TeamSettingsInput { settings: TeamSettings; disclosureAccepted: boolean; jevKey?: string }
+export interface TeamSettingsViewProps {
+  setup: TeamSetup;
+  catalog: TeamCatalog;
+  credential?: CredentialStatus;
+  loading?: boolean;
+  saving?: boolean;
+  error?: string;
+  notice?: string;
+  onSave: (input: TeamSettingsInput) => Promise<void>;
+  onModelSelectionChange?: (roles: TeamSettings['roles']) => void;
+  onClose: () => void;
+  onRefresh: () => void;
 }
 export interface TeamViewProps {
   catalog: TeamCatalog;
@@ -111,12 +132,12 @@ export interface TeamViewProps {
   snapshot: TeamSnapshot | null;
   loading?: boolean;
   error?: string;
-  onStart: (input: { goal: string; settings: TeamSettings }) => void | Promise<void>;
+  configured?: boolean;
+  onOpenSettings: () => void;
   onCancel: () => void | Promise<void>;
   onRefresh: () => void | Promise<void>;
   onDemo: () => void;
   settings: TeamSettings;
-  onSettingsChange: (settings: TeamSettings) => void;
 }
 export function createDefaultTeamSettings(): TeamSettings {
   return {
@@ -127,8 +148,5 @@ export function createDefaultTeamSettings(): TeamSettings {
     },
     limits: { concurrency: 2, maxAgents: 12, maxTasks: 8, maxRetries: 1, maxDurationMs: 600000, maxStepsPerAgent: 8, maxRounds: 4, maxJevCalls: 10 },
     reviewPlan: true,
-    routeEnabled: false,
-    jev: { enabled: true, disclosureAccepted: false },
-    verification: { profileId: '', scope: [] },
   };
 }

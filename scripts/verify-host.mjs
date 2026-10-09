@@ -95,7 +95,7 @@ async function waitFor(condition) {
     await waitFor(() => root.get('clientModules'));
     const row = root.clientModules.graph().entries.find(row => row.id === 'dsh-desktop-workflow');
     assert.ok(row, 'Official module graph must include this package');
-    assert.deepEqual(row.inject, ['@deepseek-ai/dsh-client-connection', '@deepseek-ai/dsh-client-ui-sidebar-right', '@deepseek-ai/dsh-client-ui-session']);
+    assert.deepEqual(row.inject, ['@deepseek-ai/dsh-client-connection', '@deepseek-ai/dsh-client-ui-sidebar-right', '@deepseek-ai/dsh-client-ui-session', '@deepseek-ai/dsh-api-remotes', '@deepseek-ai/dsh-client-ui-commands', '@deepseek-ai/dsh-client-ui-settings-general']);
     console.log('PASS real Loader discovers Web client and native sidebar dependencies');
     const response = await fetch(new URL(row.url, `http://127.0.0.1:${root.webServer.port}/`));
     assert.equal(response.status, 200);

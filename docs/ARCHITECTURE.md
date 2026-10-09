@@ -1,44 +1,19 @@
-# v0.3 architecture
+# Current architecture: v0.4
 
-Target: official DSH 0.2.0-rc.2 native Web Client sidebar and scoped host services.
+See [V04-ARCHITECTURE.md](V04-ARCHITECTURE.md) for the current native /team entry,
+one-time Config settings, native write-only credentials, automatic verification,
+and truthful completed/unverified/blocked states.
 
-- `src/index.js`: authenticated exact `/api` routes and lifecycle injection.
-- `src/team-runtime.js`: mandatory production Jev controller, global lease,
-  session/context generation, model metadata preflight, idempotent start/query,
-  cancellation and cleanup quarantine. No model calls while mounting/cataloging.
-- `src/jev-controller.js`: classify → bounded role DAG → independent verification
-  → lane step → continue/retry/verify/escalate/complete; final freshness seal.
-- `src/orchestrator.js`: reusable bounded DAG execution primitive, strict plan/review
-  schemas, serial edits and retained graph/events. Production never exposes its
-  legacy router mode as a Jev fallback.
-- `src/jev-client.js`: independent TypeSafe HTTPS call, fixed endpoint, server-only
-  credential reference, capped/redacted state, strict typed answer validation,
-  pinned policy semantics and conservative local completion pre-rules.
-- `src/verification.js`: trusted fixed profiles, native host-tool invocation,
-  baseline/protection/full-tree/Git metadata hashes, tests, scope and freshness seal.
-  The server does not run a replacement child_process/shell. Its fixed verifier
-  interpreter executes only inside the parent's native bash tool/sandbox.
-- `src/host-adapter.js`: exact six-role model binding through actual rc.2 spawn;
-  role-scoped monotonic tool guards, permission/context fingerprint monitoring,
-  steps/depth, parent mutation guard and cleanup acknowledgement. Private ALS
-  admits only the exact verifier agent/tool/args while preserving host pre-policy;
-  extra approval becomes denial, never automatic approval.
-- `client/*`: six model selectors, separate Jev control panel, actual task nodes,
-  credential/check-profile blockers, per-run data consent and explicit fixture.
-  Local storage is whitelisted model/limit configuration, never secrets or consent.
+Production files:
 
-Scope integrity is repository-local, including ignored files and modes/directories.
-The original sandbox remains authoritative; this is not whole-system transaction
-isolation. Verification requires the repository cwd to equal workspaceRoot and
-refuses full-access mode. Protected inputs and Git metadata must not change.
+- `team-setup.js`: native volatile Config, revision-safe setup, per-operation Jev credentials/consent
+- `team-runtime.js`: native command, authenticated APIs, session/idempotency/lease and cancellation
+- `auto-verification.js`: native project probe, bounded test runners, run-bound manifests and seal
+- `host-adapter.js`: actual rc.2 spawn/model binding, file/tool guards, native approval, cleanup
+- `jev-controller.js` / `jev-client.js`: mandatory independent Jev loop and pinned policy semantics
+- `orchestrator.js` / `team-contracts.js`: bounded DAG primitive and strict data contracts
+- `client/*`: native settings section, command acknowledgment, automatic sidebar, results/cancel
 
-No task can complete from a model's claimed checks. Evidence is tagged with run,
-round and an unpredictable invocation nonce. Jev has no capability to supply a
-command, endpoint, credential or permission. After a completion candidate, a
-second host observation checks the current tree against that round's fingerprint.
-
-Unconfirmed cleanup, unknown native tool outcomes, timeout or promoted/background
-work poison the process lease. New runs cannot bypass it by replacing the runtime.
-The prior v0.2 frozen release and existing host profiles are not edited by this code.
-
-See [JEV-V03.md](JEV-V03.md) for precise upstream differences, limits and disclosure.
+The old explicit v0.3 verifier and read-only snapshot contracts remain tested as
+legacy components; the normal v0.4 /team flow does not ask users to configure them.
+Historical upstream differences remain in [JEV-V03.md](JEV-V03.md).
