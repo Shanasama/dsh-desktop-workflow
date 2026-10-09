@@ -1,4 +1,4 @@
-# v0.4 verification record
+# v0.5 verification record
 
 ## Final code checks
 
@@ -10,7 +10,7 @@ DSH_NODE_MODULES=/absolute/official/node_modules npm run test:host
 DSH_NODE_MODULES=/absolute/official/node_modules npm run test:team-host
 ```
 
-Latest aggregate: build + typecheck + **138/138 tests, zero skips**. Without
+Latest aggregate: build + typecheck + **151/151 tests, zero skips**. Without
 DSH_NODE_MODULES the dedicated official-host test explicitly skips; it must not
 be described as a host pass.
 
@@ -76,3 +76,25 @@ reinstallation before attributing acceptance to the new build.
 ## Visual redesign regression
 
 Eleven dedicated regressions cover role editor preservation and hidden-role validation, keyboard graph tabs, disclosure state, honest Jev service labels, first-node width observation, fit, explicit details/return navigation, stale cancellation isolation, and text contrast. All 14 backend source files remain byte-identical to the previously verified functional v0.4 baseline. New visual references and asset/license boundaries are documented in [UI-DESIGN.md](UI-DESIGN.md).
+
+## v0.5 dual-theme regression
+
+The final aggregate was rerun after the task-zoom accessibility label fix: build,
+TypeScript and all 151 tests passed, zero skips. Eight independent integration
+tests cover synchronised workflow/settings mounts, unavailable/corrupt/quota
+storage, foreign storage events, pending save/cancel and preservation of drafts,
+selected tasks and zoom. Only the enumerated nonsecret theme preference is stored;
+switching adds no model, credential or settings RPC. All 14 backend source files
+remain byte-identical to v0.4.
+
+Cloud-browser component QA verified both styles at full width, 420px and 320px
+(no root horizontal overflow), keyboard selection, reload persistence, model
+draft preservation, and retained task selection/75% zoom. Initial pale status
+contrast and dark selected-tab focus issues were corrected and regression-tested.
+Screenshots are labelled offline fixtures, not live host/service execution.
+
+The original graphite stylesheet is unchanged; only the new selector and needed
+header wrapping are added to that mode. Arknights-inspired overrides are scoped
+to the plugin root, with no host/document theme changes or third-party assets.
+
+Windows/Electron GUI installation and real paid Jev/model calls remain unrun.

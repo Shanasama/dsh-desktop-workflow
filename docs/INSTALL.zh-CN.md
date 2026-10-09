@@ -1,10 +1,10 @@
-# v0.4 安装与使用
+# v0.5 安装与使用
 
 目标宿主为官方 DSH 0.2.0-rc.2 Web Client / Desktop 使用的对应客户端接口。具体已测范围见 [验证记录](VERIFICATION.md)。
 
 ## 推荐：把安装包拖给 DSH
 
-1. 在 GitHub 仓库 `dist/` 下载 **dsh-desktop-workflow-0.4.0.tgz**。
+1. 在 GitHub 仓库 `dist/` 下载 **dsh-desktop-workflow-0.5.0.tgz**。
 2. 拖到 DSH 聊天框，发送：
 
    > 请用官方插件管理器安装这个附件到当前 DSH 配置。不要修改我的提供方、凭据或安全权限。
@@ -36,6 +36,10 @@
 
 项目没有可用测试、依赖缺失或验证证据不足时，不会把这些情况当成测试通过。插件不会为了自动启动而安装依赖、扩大宿主权限或隐式购买额度。宿主的正常工具批准仍然有效。
 
+## 切换外观
+
+右侧工作流或团队设置的右上角，选择 **风格 → 明日方舟 / 原版 UI**。仅更改插件界面，不改变 DSH 宿主主题、模型或运行状态。选择保存在当前客户端的本地外观偏好中；没有配置凭据或同意数据发送的副作用。存储不可用时可在当前打开的插件中切换。
+
 ## 查看与停止
 
 右侧显示团队任务、Jev 决策和验证状态。Jev 的 lane 升级不偷偷更换你选好的模型。
@@ -47,7 +51,7 @@
 只在知道实际 Desktop profile 时使用。不要把测试 profile 覆盖到日常配置。
 
 ```bash
-dsh plugin --profile YOUR_DESKTOP_PROFILE add /absolute/path/dsh-desktop-workflow-0.4.0.tgz --ignore-scripts
+dsh plugin --profile YOUR_DESKTOP_PROFILE add /absolute/path/dsh-desktop-workflow-0.5.0.tgz --ignore-scripts
 ```
 
 Windows 使用安装包对应的绝对路径。卸载：

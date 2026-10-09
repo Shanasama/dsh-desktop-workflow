@@ -1,6 +1,8 @@
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { TeamCatalog, TeamEdge, TeamLimits, TeamModelSelection, TeamNode, TeamNodeStatus, TeamNodeRole, TeamRole, TeamSettings, TeamSnapshot, TeamSettingsViewProps, TeamViewProps } from './team-types';
 import teamCss from './team.css';
+import themeCss from './team-theme.css';
+import { TeamThemeSwitch, useTeamTheme } from './team-theme';
 export * from './team-types';
 
 type IconName = 'team' | 'plan' | 'coordinate' | 'search' | 'explore' | 'code' | 'review' | 'route' | 'arrow' | 'check' | 'close' | 'refresh' | 'settings' | 'clock' | 'file' | 'chevron' | 'play' | 'stop' | 'lock' | 'activity' | 'branch' | 'alert';
@@ -165,7 +167,7 @@ function TaskGraph({ snapshot, selected, onSelect }: { snapshot: TeamSnapshot | 
   const layout = useMemo(() => taskLayout(snapshot?.nodes || [], snapshot?.edges || [], vertical), [snapshot?.nodes, snapshot?.edges, vertical]);
   if (!snapshot?.nodes.length) return <div className="tm-empty-graph"><span className="tm-empty-icon"><Icon name="branch"/></span><strong>任务关系将在派发后出现</strong><p>发起 /team 后，已记录的派发、依赖与反馈会显示在这里。</p></div>;
   return <div className={`tm-task-graph ${vertical ? 'tm-task-graph--vertical' : ''}`} ref={graphRef}>
-    <div className="tm-graph-tools"><span>{snapshot.nodes.length} 个节点 · {snapshot.edges.length} 条关系</span><div className="tm-graph-controls"><button type="button" className="tm-fit-button" onClick={() => setZoom(Math.min(1, Math.max(.5, Math.floor((viewportWidth - 12) / layout.width * 100) / 100)))}>适应</button><label>缩放<select value={zoom} onChange={e => setZoom(Number(e.target.value))}>{![.5, .75, 1].includes(zoom) && <option value={zoom}>{Math.round(zoom * 100)}%</option>}<option value={.5}>50%</option><option value={.75}>75%</option><option value={1}>100%</option></select></label></div></div>
+    <div className="tm-graph-tools"><span>{snapshot.nodes.length} 个节点 · {snapshot.edges.length} 条关系</span><div className="tm-graph-controls"><button type="button" className="tm-fit-button" onClick={() => setZoom(Math.min(1, Math.max(.5, Math.floor((viewportWidth - 12) / layout.width * 100) / 100)))}>适应</button><label>缩放<select aria-label="任务图缩放" value={zoom} onChange={e => setZoom(Number(e.target.value))}>{![.5, .75, 1].includes(zoom) && <option value={zoom}>{Math.round(zoom * 100)}%</option>}<option value={.5}>50%</option><option value={.75}>75%</option><option value={1}>100%</option></select></label></div></div>
     <div className="tm-graph-scroll" tabIndex={0} role="region" aria-label="任务关系图，可横向滚动">
       <div style={{ width: layout.width * zoom, height: layout.height * zoom }}><div className="tm-task-canvas" style={{ width: layout.width, height: layout.height, transform: `scale(${zoom})` }}>
         <svg className="tm-task-wires" width={layout.width} height={layout.height} aria-hidden="true"><defs><marker id={marker} markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto-start-reverse"><path d="M0 0 6 3 0 6" fill="none" stroke="currentColor" strokeWidth="1"/></marker></defs>{snapshot.edges.map(edge => {
@@ -213,6 +215,7 @@ const LIMIT_FIELDS: { key: keyof TeamLimits; label: string; min: number; max: nu
   { key: 'maxDurationMs', label: '运行超时', min: 1, max: 30, suffix: '分钟', factor: 60000 }, { key: 'maxStepsPerAgent', label: '每个智能体最大步数', min: 1, max: 16, suffix: '步' },
 ];
 export function TeamSettingsView({ setup, catalog, credential, loading = false, saving = false, error, notice, onSave, onClose, onRefresh, onModelSelectionChange }: TeamSettingsViewProps) {
+  const theme = useTeamTheme();
   const [settings, setSettings] = useState<TeamSettings>(setup.settings);
   const [settingsRole, setSettingsRole] = useState<TeamRole>('planner');
   const [disclosureAccepted, setDisclosureAccepted] = useState(setup.disclosureAccepted);
@@ -244,8 +247,8 @@ export function TeamSettingsView({ setup, catalog, credential, loading = false, 
     catch { setLocalError('保存未完成。请刷新确认已保存的设置，再重试；密钥输入已清空。'); }
     finally { saveLock.current = false; setSubmitting(false); }
   }
-  return <div className="tm-root tm-setup-root"><style>{teamCss}</style><section className="tm-settings" aria-label="团队一次性设置">
-    <header><div><span className="tm-section-eyebrow">团队设置 / 原生 Desktop</span><h3>配置一次，以后直接 /team</h3><p>选择六个岗位模型并连接 Jev。保存后，在项目聊天输入 /team 和任务目标即可启动。</p></div><button type="button" className="tm-icon-button" onClick={() => { setKeyDraft(''); onClose(); }} aria-label="关闭团队设置"><Icon name="close"/></button></header>
+  return <div className="tm-root tm-setup-root" data-theme={theme}><style>{teamCss}</style><style>{themeCss}</style><section className="tm-settings" aria-label="团队一次性设置">
+    <header><div><span className="tm-section-eyebrow">团队设置 / 原生 Desktop</span><h3>配置一次，以后直接 /team</h3><p>选择六个岗位模型并连接 Jev。保存后，在项目聊天输入 /team 和任务目标即可启动。</p></div><div className="tm-settings-header-actions"><TeamThemeSwitch theme={theme}/><button type="button" className="tm-icon-button" onClick={() => { setKeyDraft(''); onClose(); }} aria-label="关闭团队设置"><Icon name="close"/></button></div></header>
     {(error || localError) && <p className="tm-notice tm-notice--error" role="alert"><Icon name="alert"/>{error || localError}</p>}
     {notice && <p className="tm-notice" role="status"><Icon name="check"/>{notice}</p>}
     {!catalog.available && <p className="tm-notice tm-notice--warning"><Icon name="alert"/>{catalog.reason || '无法读取宿主模型目录，请刷新重试。'}</p>}
@@ -272,6 +275,7 @@ export function TeamSettingsView({ setup, catalog, credential, loading = false, 
 }
 
 export function TeamView({ catalog, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings }: TeamViewProps) {
+  const theme = useTeamTheme();
   const [graph, setGraph] = useState<'team' | 'tasks'>('team');
   const [selectedRole, setSelectedRole] = useState<TeamNodeRole>('coordinator');
   const [selectedNodeId, setSelectedNodeId] = useState<string>();
@@ -304,8 +308,8 @@ export function TeamView({ catalog, sessionId, sessionContext, snapshot, loading
     cancelLock.current = true; setCancelling(true); setLocalError(undefined);
     try { await onCancel(); } catch (failure) { if (generation === cancelGeneration.current) setLocalError(failure instanceof Error ? failure.message : '无法停止，请刷新确认当前状态。'); } finally { if (generation === cancelGeneration.current) { setCancelling(false); cancelLock.current = false; } }
   }
-  return <div className="tm-root"><style>{teamCss}</style><div className="tm-shell">
-    <header className="tm-header"><div className="tm-brand"><span className="tm-brand-mark"><Icon name="team"/></span><div><div className="tm-wordmark">DSH <span>/ WORKSPACE</span></div><h1>智能体团队</h1></div></div><div className="tm-header-actions"><button type="button" className={`tm-button tm-button--quiet ${demo ? 'is-demo' : ''}`} onClick={onDemo} disabled={active}><Icon name="play"/>演示</button><button type="button" className="tm-icon-button" onClick={() => void onRefresh()} disabled={loading} aria-label={demo ? '返回实时视图' : '刷新团队状态'} title={demo ? '返回实时视图' : '刷新团队状态'}><Icon name="refresh" className={loading ? 'is-spinning' : ''}/></button></div></header>
+  return <div className="tm-root" data-theme={theme}><style>{teamCss}</style><style>{themeCss}</style><div className="tm-shell">
+    <header className="tm-header"><div className="tm-brand"><span className="tm-brand-mark"><Icon name="team"/></span><div><div className="tm-wordmark">DSH <span>/ WORKSPACE</span></div><h1>智能体团队</h1></div></div><div className="tm-header-actions"><button type="button" className={`tm-button tm-button--quiet ${demo ? 'is-demo' : ''}`} onClick={onDemo} disabled={active}><Icon name="play"/>演示</button><button type="button" className="tm-icon-button" onClick={() => void onRefresh()} disabled={loading} aria-label={demo ? '返回实时视图' : '刷新团队状态'} title={demo ? '返回实时视图' : '刷新团队状态'}><Icon name="refresh" className={loading ? 'is-spinning' : ''}/></button><TeamThemeSwitch theme={theme}/></div></header>
     {demo && <div className="tm-demo-banner"><span>演示</span><p>合成数据 · 未调用真实模型或 TypeSafe，未修改项目。</p><button type="button" onClick={() => void onRefresh()}>返回实时<Icon name="arrow"/></button></div>}
     {(error || localError) && <div className="tm-notice tm-notice--error" role="alert"><Icon name="alert"/><span>{localError || error}</span></div>}
     <main className="tm-main">

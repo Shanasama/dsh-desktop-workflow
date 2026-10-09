@@ -24,12 +24,12 @@ const liveSnapshot = () => { const value = client.teamDemoSnapshot(); return { .
 
 test('normal team view has six roles and native /team guidance, never per-run forms', async () => {
   let opened = 0; const view = team({ onOpenSettings() { opened++; } });
-  try { await view.render(); assert.equal(document.querySelectorAll('.tm-role-card').length, 6); assert.match(document.querySelector('.tm-command-guide').textContent, /\/team/); assert.equal(document.querySelectorAll('textarea,input,select').length, 0); assert.equal(document.querySelector('.tm-composer,.tm-confirm,.tm-settings'), null); assert.ok(!document.body.textContent.includes('确认并启动')); await click('团队设置'); assert.equal(opened, 1); } finally { await view.unmount(); }
+  try { await view.render(); assert.equal(document.querySelectorAll('.tm-role-card').length, 6); assert.match(document.querySelector('.tm-command-guide').textContent, /\/team/); assert.equal(document.querySelectorAll('textarea,input,select:not([aria-label="界面风格"])').length, 0); assert.equal(document.querySelector('.tm-composer,.tm-confirm,.tm-settings'), null); assert.ok(!document.body.textContent.includes('确认并启动')); await click('团队设置'); assert.equal(opened, 1); } finally { await view.unmount(); }
 });
 
 test('missing setup and missing automatic verification stay actionable without per-run forms', async () => {
   const view = team({ configured: false, sessionContext: { setupRequired: true, reason: '尚未完成设置' } });
-  try { await view.render(); assert.match(document.querySelector('.tm-command-guide').textContent, /先完成一次团队设置/); await view.render({ configured: true, sessionContext: { reason: '未发现可安全运行的项目测试，请检查 package.json 后重试。' } }); assert.match(document.body.textContent, /未发现可安全运行的项目测试/); assert.equal(document.querySelectorAll('textarea,input,select').length, 0); } finally { await view.unmount(); }
+  try { await view.render(); assert.match(document.querySelector('.tm-command-guide').textContent, /先完成一次团队设置/); await view.render({ configured: true, sessionContext: { reason: '未发现可安全运行的项目测试，请检查 package.json 后重试。' } }); assert.match(document.body.textContent, /未发现可安全运行的项目测试/); assert.equal(document.querySelectorAll('textarea,input,select:not([aria-label="界面风格"])').length, 0); } finally { await view.unmount(); }
 });
 
 test('setup exposes exactly six native model choices and a masked native credential field', async () => {
@@ -82,7 +82,7 @@ test('partial save reports key saved and settings conflict, without re-sending t
 
 test('connected normal view only reads settings/catalog/snapshot and never starts from render or text', async () => {
   const host = connectedHost(); localStorage.setItem('dsh-desktop-workflow:team-settings:v2', 'malformed-old-data'); const view = mount(client.ConnectedTeam, { ctx: host.ctx, sessionId: 's-one', onOpenSettings() {} });
-  try { await view.render(); assert.ok(host.calls.every(item => /\/(settings|catalog|snapshot)$/.test(item.endpoint))); assert.equal(document.querySelectorAll('textarea,input,select').length, 0); assert.match(document.body.textContent, /目录模型/); } finally { await view.unmount(); localStorage.clear(); }
+  try { await view.render(); assert.ok(host.calls.every(item => /\/(settings|catalog|snapshot)$/.test(item.endpoint))); assert.equal(document.querySelectorAll('textarea,input,select:not([aria-label="界面风格"])').length, 0); assert.match(document.body.textContent, /目录模型/); } finally { await view.unmount(); localStorage.clear(); }
 });
 
 test('session changes discard a late snapshot and abort old polling', async () => {

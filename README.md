@@ -1,4 +1,4 @@
-# DSH 多模型团队 · v0.4
+# DSH 多模型团队 · v0.5
 
 **装一次、设置一次，以后直接在聊天框输入 `/team 任务正文`。**
 
@@ -6,7 +6,7 @@
 
 ## 开始使用
 
-1. 下载 `dist/dsh-desktop-workflow-0.4.0.tgz`，拖给 DSH，并明确说“请用官方插件管理器安装到当前配置”。详见 [安装说明](INSTALL-ME.md)。这使用 DSH 代理的官方安装工具，不是插件新增的自动拖拽导入器。
+1. 下载 `dist/dsh-desktop-workflow-0.5.0.tgz`，拖给 DSH，并明确说“请用官方插件管理器安装到当前配置”。详见 [安装说明](INSTALL-ME.md)。这使用 DSH 代理的官方安装工具，不是插件新增的自动拖拽导入器。
 2. 在 **设置 → 多模型团队** 选择六岗位模型，输入 Jev Key，阅读并自行启用 TypeSafe 数据许可，保存。
 3. 回到项目聊天，输入：
 
@@ -16,9 +16,17 @@
 
 右侧自动显示团队进度。配置不全时直接打开团队设置。正常使用不用填写每次的 key、检查 profile 或路径范围表单。
 
-![工作流图谱局部预览：离线 fixture，非真实模型运行](docs/images/v04-workflow-preview.png)
+![明日方舟风格：离线 fixture，非真实模型运行](docs/images/v05-arknights-preview.png)
 
-界面参考开发者工具、节点编辑器与设计社区的布局原则，采用原创 CSS/SVG 实现。见 [设计参考与交互说明](docs/UI-DESIGN.md)。
+右上角 **风格 → 明日方舟 / 原版 UI** 可随时切换；设置页也有同一入口。选择会在当前客户端记住，切换不重启任务、不清空未保存的模型表单或图谱选择。首次使用此功能默认方舟风格；存储被禁用时仍可切换，但重启后不保证记忆。
+
+方舟风格参考战术终端、档案面板及你提供的社区设计，使用原创 CSS/SVG；没有附带游戏角色、Logo 或第三方海报素材。来源和取舍见 [设计参考与交互说明](docs/UI-DESIGN.md)。
+
+<details><summary>查看保留的原版 UI</summary>
+
+![原版 UI：离线 fixture](docs/images/v05-classic-preview.png)
+
+</details>
 
 ![一次设置界面：明确标注为离线 fixture](docs/images/v04-settings-preview.png)
 
@@ -35,7 +43,7 @@
 
 ## 能力与边界
 
-| 场景 | v0.4 行为 |
+| 场景 | 当前行为 |
 |---|---|
 | 读取/搜索/开发 | 项目内读文件、列文件、逐文件搜索、精确编辑和新文件写入 |
 | 自动 Node 检查 | 已识别的 Node test、已安装 Jest/Vitest、TypeScript noEmit；保留安全测试参数，零测试或全跳过不算通过 |
