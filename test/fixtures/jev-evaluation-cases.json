@@ -1,0 +1,13 @@
+{
+  "provenance": "synthetic-offline-fixture",
+  "realModelCalls": 0,
+  "purpose": "Exercise code decisions against authored fixture expectations; these labels are not human-reviewed production evidence.",
+  "cases": [
+    {"id":"complete-candidate","next":"complete","checksFailed":0,"scopeOk":true,"implemented":1,"expectedAction":"complete"},
+    {"id":"failed-check-overrides-confidence","next":"complete","checksFailed":1,"scopeOk":true,"implemented":1,"expectedAction":"retry"},
+    {"id":"scope-overrides-complete","next":"complete","checksFailed":0,"scopeOk":false,"implemented":1,"expectedAction":"retry"},
+    {"id":"human-needed","next":"needs_person","checksFailed":0,"scopeOk":true,"implemented":1,"expectedAction":"escalate"},
+    {"id":"incomplete-work","next":"continue","checksFailed":0,"scopeOk":true,"implemented":0.2,"expectedAction":"continue"},
+    {"id":"unclear-next","next":"other","checksFailed":0,"scopeOk":true,"implemented":1,"expectedAction":"verify"}
+  ]
+}

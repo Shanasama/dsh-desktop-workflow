@@ -37,7 +37,9 @@
     "test:client-host": "node --expose-internals scripts/verify-client-host.mjs",
     "test:verifier-host": "node --expose-internals scripts/verify-verifier-host.mjs",
     "test:verifier-windows": "node --expose-internals scripts/verify-verifier-windows.mjs",
-    "test:verifier-pwsh": "node --expose-internals scripts/verify-verifier-pwsh.mjs"
+    "test:verifier-pwsh": "node --expose-internals scripts/verify-verifier-pwsh.mjs",
+    "check:evaluation": "npm --prefix evaluation run check",
+    "check:integration": "npm run check && npm run check:evaluation"
   },
   "dsh": {
     "bundle": {

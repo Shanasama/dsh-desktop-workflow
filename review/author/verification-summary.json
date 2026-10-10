@@ -1,0 +1,122 @@
+{
+  "status": "independent offline source candidate; not a new release or live acceptance",
+  "base": "frozen dsh-desktop-workflow 0.5.4",
+  "rootVersionUnchanged": "0.5.4",
+  "frozenSourceChecksumVerified": true,
+  "sourceFiles": 137,
+  "changedFiles": 43,
+  "patchForwardReplayByteAndModeMatch": true,
+  "sourceChecksumVerification": true,
+  "tests": {
+    "build": "passed",
+    "typecheck": "passed",
+    "core": {
+      "total": 210,
+      "pass": 209,
+      "fail": 0,
+      "skip": 1
+    },
+    "evaluationAndHttp": {
+      "total": 123,
+      "pass": 123,
+      "fail": 0,
+      "skip": 0
+    },
+    "combined": {
+      "total": 333,
+      "pass": 332,
+      "fail": 0,
+      "skip": 1
+    },
+    "skipReason": "non-repository fixture cannot be made inside enclosing Git marker"
+  },
+  "syntheticEvidence": {
+    "stage1Cases": 6,
+    "integratedCases": 4,
+    "actualIndependentTestProcesses": true,
+    "persistentDualLedgers": true,
+    "lastCase": {
+      "simulatedModelHttpPosts": 5,
+      "simulatedJevHttpPosts": 4
+    }
+  },
+  "realModelCalls": 0,
+  "realJevCalls": 0,
+  "realCredentialOperations": 0,
+  "userComputerUsed": false,
+  "githubWrites": false,
+  "liveReady": false,
+  "costRoutingImplemented": false,
+  "observedProductionAccuracy": null,
+  "blockers": [
+    "Supplier/model-specific usage, reasoning, input bound and total-billable-output contract unverified.",
+    "No user-performed safe credential submission or real API acceptance.",
+    "Real user-project task execution adapter has not been accepted; current edits are fixed synthetic test actions.",
+    "No dynamic cost routing or verified price catalog.",
+    "Durable filesystem behavior tested in Linux cloud only; no new Windows live verification."
+  ],
+  "reviewedFixes": [
+    "Separate per-logical-call attempts from team physical request cap while sharing task budget.",
+    "Reject symlink/hardlink ledger aliases and verify separate-process exclusion.",
+    "Persist all primary/shadow Jev calls and unacknowledged active requests.",
+    "Use separately bounded shadow queue and physical-request deadlines.",
+    "Retain Jev active marker and lock for exceptional dispatched HTTP requests and unconfirmed body cleanup."
+  ],
+  "artifacts": {
+    "jev-integrated-offline.patch": {
+      "bytes": 265873,
+      "sha256": "c7899b5a1e5db2fa95a4154e602971f165a2407d8c540c993fee75699ed066ca"
+    }
+  },
+  "changedPaths": [
+    "README.md",
+    "SHA256SUMS",
+    "docs/JEV-EVALUATION-ROADMAP.zh-CN.md",
+    "evaluation/.gitignore",
+    "evaluation/README.md",
+    "evaluation/config/evaluation.example.json",
+    "evaluation/docs/ACCEPTANCE-PLAN.zh-CN.md",
+    "evaluation/package.json",
+    "evaluation/scripts/integrated-offline.mjs",
+    "evaluation/scripts/pilot-offline.mjs",
+    "evaluation/scripts/preflight.mjs",
+    "evaluation/src/budget.mjs",
+    "evaluation/src/integration.mjs",
+    "evaluation/src/preflight.mjs",
+    "evaluation/test/budget.test.mjs",
+    "evaluation/test/helpers/integration-fixture.mjs",
+    "evaluation/test/helpers/mock-http.mjs",
+    "evaluation/test/helpers/verified-project.mjs",
+    "evaluation/test/http-integration.test.mjs",
+    "evaluation/test/integration.test.mjs",
+    "evaluation/test/preflight.test.mjs",
+    "evaluation/test/verified-project.test.mjs",
+    "evaluation/transport/README.zh-CN.md",
+    "evaluation/transport/http.mjs",
+    "evaluation/transport/index.mjs",
+    "evaluation/transport/openai.mjs",
+    "evaluation/transport/preflight.example.json",
+    "evaluation/transport/run.mjs",
+    "evaluation/transport/terminal.mjs",
+    "evaluation/transport/test/cli.test.mjs",
+    "evaluation/transport/test/transport.test.mjs",
+    "evaluation/transport/typesafe.mjs",
+    "package.json",
+    "scripts/evaluate-jev-fixtures.mjs",
+    "scripts/replay-evaluation-trace.mjs",
+    "src/execution-trace.js",
+    "src/jev-client.js",
+    "src/jev-controller.js",
+    "src/orchestrator.js",
+    "src/team-runtime.js",
+    "src/team-setup.js",
+    "test/evaluation-trace.test.mjs",
+    "test/fixtures/jev-evaluation-cases.json"
+  ],
+  "bundleLayout": {
+    "source": "source/",
+    "testEvidence": "evidence/",
+    "patch": "jev-integrated-offline.patch",
+    "start": "START-HERE.zh-CN.md"
+  }
+}

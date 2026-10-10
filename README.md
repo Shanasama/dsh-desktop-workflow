@@ -86,3 +86,9 @@ DSH_NODE_MODULES=/path/to/official/node_modules npm run test:team-host
 ## 归属
 
 保留 `hermes-jev-skills` commit `b22a21f365720cb7cf06f9b229c095176b39cdb9` 的原始 lane/loop-step 策略及 MIT 归属。未运行其安装器；见 [NOTICE](NOTICE)。
+
+## 离线评估整合候选（未发布）
+
+本源码副本在冻结 0.5.4 之上附加默认关闭的 Jev 记录与影子评估，以及 `evaluation/` 的预算验收入口。没有更改正式版本号、原六岗位模型或默认网络行为。
+
+运行 `npm run check:integration` 可完成已有插件回归和新增预算/独立验证组合测试；不读取凭据，不发真实 API 请求。详见 `evaluation/README.md`。这不是新的正式安装包，也不是生产效果验收。

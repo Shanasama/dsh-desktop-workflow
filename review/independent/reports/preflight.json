@@ -1,0 +1,40 @@
+{
+  "mode": "offline-preflight",
+  "realModelCalls": 0,
+  "realJevCalls": 0,
+  "configurationReady": false,
+  "liveTransportImplemented": true,
+  "liveReady": false,
+  "independentVerifierIntegrationImplemented": true,
+  "persistentJevMeterImplemented": true,
+  "realTaskAdapterVerified": false,
+  "costRoutingImplemented": false,
+  "modelId": "gpt6-luna",
+  "preferredModelFamily": "Luna",
+  "projectTokenLimit": 10000000,
+  "pilotTokenLimit": 100000,
+  "taskTokenLimit": 20000,
+  "moneyLimit": null,
+  "priceKnown": false,
+  "blockers": [
+    "User must securely configure a fresh credential; this tool never checks or reads it.",
+    "Provider usage format is unverified.",
+    "Provider reasoning accounting is unverified.",
+    "A verified bound for the full serialized input is required.",
+    "Provider must enforce an output cap including all billable reasoning.",
+    "Model-specific provider-contract evidence is required.",
+    "Real provider accounting, safe user-controlled credential entry, and an authorized task adapter must be verified before live acceptance."
+  ],
+  "evidence": {
+    "fixtureProvenance": "synthetic-offline-fixture",
+    "referenceCases": 6,
+    "syntheticReferenceAgreement": null,
+    "replayAgreement": null,
+    "actualVerification": "not-run",
+    "observedProductionAccuracy": null,
+    "effectiveCompletionRate": null,
+    "failureRecoveryRate": null,
+    "falseAcceptRate": null,
+    "unnecessaryReworkRate": null
+  }
+}

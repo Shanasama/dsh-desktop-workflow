@@ -1,0 +1,10 @@
+PASS delivered-config-and-live-blockers
+PASS default-offline-and-unverified-live-template
+PASS insufficient-project-budget-blocks-before-transport
+PASS single-task-cap-is-shared-between-roles
+PASS unknown-usage-persists-full-reservation-and-lock
+PASS main-and-opposing-shadow-stay-isolated-and-serial
+PASS normal-real-node-test
+PASS failed-real-node-test
+PASS tamper-after-check-before-seal
+PASS mock-http-persistent-combination

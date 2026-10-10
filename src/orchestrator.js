@@ -1,3 +1,4 @@
+import {createExecutionTrace} from './execution-trace.js';
 import {PLAN_SCHEMA, REVIEW_SCHEMA, ROUTE_SCHEMA, RETENTION_LIMITS, safeText, validateConfig, validatePlan, validateReview, validateRoute} from './team-contracts.js';
 
 const clone = value => structuredClone(value);
@@ -23,9 +24,10 @@ function outputText(output) {
  * start() returns before execution; wait() and dispose() await all adapter cleanup.
  */
 export class TeamController {
-  constructor({execute, now = () => Date.now(), id} = {}) {
+  constructor({execute, now = () => Date.now(), id, trace = false} = {}) {
     if (typeof execute !== 'function' || typeof now !== 'function' || (id !== undefined && typeof id !== 'function')) throw new TypeError('execute and now must be functions; id must be a function when supplied');
     this.execute = execute;
+    this.traceEnabled = trace === true;
     this.now = now;
     this.id = id;
     this.runs = new Map();
@@ -45,6 +47,7 @@ export class TeamController {
     const started = this._time();
     const snapshot = {id: runId, sessionId: config.sessionId, goal: config.goal, status: 'planning', roles: clone(config.roles), nodes: [], edges: [], events: [], limits: clone(config.limits), startedAt: new Date(started).toISOString()};
     const run = {config, snapshot, controller: new AbortController(), started, calls: 0, nodeSeq: 0, edgeSeq: 0, eventSeq: 0, outputSize: 0, active: new Set(), done: false, stop: null};
+    if (this.traceEnabled) run.trace = createExecutionTrace();
     this.runs.set(runId, run);
     this.sessions.set(config.sessionId, runId);
     this._event(run, 'run_started', 'Team run started');
@@ -55,6 +58,16 @@ export class TeamController {
   snapshot(sessionId) {
     const run = this.runs.get(this.sessions.get(sessionId));
     return run ? clone(run.snapshot) : null;
+  }
+  trace(sessionId, runId) {
+    const run = this.runs.get(runId || this.sessions.get(sessionId));
+    return run?.snapshot.sessionId === sessionId ? run.trace?.snapshot() || null : null;
+  }
+  _trace(run, type, data) { run.trace?.record(type, data); }
+  _modelTrace(run, node, status) {
+    if (!run.trace) return;
+    const model = run.config.roles[node.role];
+    this._trace(run, 'model_call', {node:run.snapshot.nodes.indexOf(node)+1,role:node.role,modelRef:run.trace.modelRef(model),maxTokens:model.maxTokens,status});
   }
   cancel(sessionId, runId) {
     const run = this.runs.get(runId);
@@ -128,6 +141,7 @@ export class TeamController {
     run.calls++;
     node.status = 'running'; node.startedAt = this._stamp();
     this._event(run, 'node_started', `${node.role} started`, node);
+    this._modelTrace(run, node, 'started');
     const onChildStart = childId => {
       if (run.done || node.status !== 'running' || typeof childId !== 'string' || !childId || childId.length > 160 || safeText(childId, 160) !== childId || /\s/.test(childId) || node.childId) return;
       node.childId = childId;
@@ -156,6 +170,7 @@ export class TeamController {
       this._output(run, node, outputText(result.output) || (structured ? JSON.stringify(structured) : ''));
       node.status = 'completed'; node.finishedAt = this._stamp();
       this._event(run, 'node_completed', `${node.role} completed`, node);
+      this._modelTrace(run, node, 'completed');
       return structured;
     } catch (error) {
       if (run.stop || error instanceof StopRun) {
@@ -165,6 +180,7 @@ export class TeamController {
       }
       node.finishedAt = this._stamp();
       this._event(run, `node_${node.status}`, node.error, node);
+      this._modelTrace(run, node, node.status);
       if (run.stop) throw new StopRun(run.stop);
       throw error instanceof ExecutionError ? error : new ExecutionError(node.error, error?.retryable !== false, error?.retryable === false);
     } finally {
@@ -176,6 +192,10 @@ export class TeamController {
     const node = this._node(run, {role, kind, title, attempt, dependsOn: parents.map(parent => parent.id)});
     for (const parent of parents) this._edge(run, parent.id, node.id, kind === 'review' ? 'join' : 'dispatch');
     const value = await this._invoke(run, node, prompt, schema, validate);
+    if (run.trace && ['plan','coordination'].includes(kind)) {
+      const refs = new Map(value.tasks.map((task,index) => [task.id,index+1]));
+      this._trace(run, 'plan', {node:run.snapshot.nodes.indexOf(node)+1,kind,tasks:value.tasks.map(task=>({task:refs.get(task.id),role:task.role,dependsOn:task.dependsOn.map(id=>refs.get(id))}))});
+    }
     return {node, value};
   }
   _planPrompt(run, feedback) {
@@ -320,6 +340,7 @@ export class TeamController {
       run.snapshot.message = safeText(result?.message || 'Team execution failed', 2000);
       run.snapshot.finishedAt = this._stamp();
       this._event(run, `run_${run.snapshot.status}`, run.snapshot.message);
+      this._trace(run, 'terminal', {status:run.snapshot.status});
       run.done = true;
     }
     return run.snapshot;

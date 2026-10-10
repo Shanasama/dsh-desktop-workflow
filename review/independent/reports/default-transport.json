@@ -1,0 +1,24 @@
+{
+  "mode": "offline",
+  "networkRequests": 0,
+  "simulatedHttpPosts": 2,
+  "modelId": "gpt6-luna",
+  "simulatedModelUsage": {
+    "input": 20,
+    "output": 8,
+    "reasoning": 3,
+    "billedOutput": 8,
+    "total": 28
+  },
+  "simulatedJev": {
+    "calls": 1,
+    "failures": 0,
+    "retries": 0,
+    "inputTokens": 20,
+    "outputTokens": 2,
+    "unknownUsageCalls": 0,
+    "active": 0
+  },
+  "decodedFixturePassed": true,
+  "liveReady": false
+}

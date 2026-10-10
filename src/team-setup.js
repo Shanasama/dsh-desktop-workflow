@@ -2,7 +2,7 @@
 import z from '@deepseek-ai/schemastery';
 import {TEAM_ROLES,DEFAULT_LIMITS,validateConfig,safeText} from './team-contracts.js';
 import {TeamHostError} from './host-adapter.js';
-import {createJevClient,JEV_ENDPOINT,JEV_DISCLOSURE} from './jev-client.js';
+import {createJevClient,selectJevModel,JEV_ENDPOINT,JEV_DISCLOSURE} from './jev-client.js';
 export const JEV_CREDENTIAL_REF='DSH_TEAM_JEV_API_KEY';
 export const emptySetup=()=>({roles:Object.fromEntries(TEAM_ROLES.map(role=>[role,{provider:'',model:'',maxTokens:4096}])),limits:{...DEFAULT_LIMITS},reviewPlan:true,disclosureAccepted:false});
 const roleSchema=()=>z.object({provider:z.string().default(''),model:z.string().default(''),reasoningEffort:z.string(),maxTokens:z.number().default(4096)});
@@ -32,11 +32,12 @@ export function createSetupStore(ctx,config={}, {entryId=ctx.fiber?.entry?.optio
   },
  };
 }
-export function createHostJevClient(ctx,store,{fetchImpl=fetch}={}){
+export function createHostJevClient(ctx,store,{fetchImpl=fetch,model}={}){
+ const requestedModel=selectJevModel({model});
  let available=false;
- return {mode:'live',
+ return {mode:'live',requestedModel,
   async refresh(){const s=await store.refresh();available=s.keyConfigured&&s.disclosureAccepted;return s;},
-  async status(){const s=await this.refresh();return {configured:s.keyConfigured,available,endpoint:JEV_ENDPOINT,disclosure:JEV_DISCLOSURE,reason:!s.keyConfigured?'请在设置 → 多模型团队填写 Jev API key。':!s.disclosureAccepted?'请在团队设置中明确启用 TypeSafe 数据传输。':undefined};},
+  async status(){const s=await this.refresh();return {configured:s.keyConfigured,available,endpoint:JEV_ENDPOINT,requestedModel,disclosure:JEV_DISCLOSURE,reason:!s.keyConfigured?'请在设置 → 多模型团队填写 Jev API key。':!s.disclosureAccepted?'请在团队设置中明确启用 TypeSafe 数据传输。':undefined};},
   preflight(){if(!available)throw new TeamHostError('SETUP_REQUIRED','请先在设置 → 多模型团队完成模型、Jev key 和启用授权。');},
   async decide(spec){
    const state=await this.refresh();if(!state.disclosureAccepted)throw new TeamHostError('CONSENT_REVOKED','TypeSafe 数据传输已停用，后续请求已阻止。');
@@ -44,7 +45,7 @@ export function createHostJevClient(ctx,store,{fetchImpl=fetch}={}){
    let secret;try{secret=await ctx.get?.('credentials')?.resolve(JEV_CREDENTIAL_REF);}catch{throw new TeamHostError('JEV_CREDENTIAL_UNAVAILABLE','Jev 凭据当前无法读取，请检查宿主凭据设置。');}
    if(!secret?.value)throw new TeamHostError('JEV_NOT_CONFIGURED','Jev key 已移除或不可用，请打开团队设置。');
    // The native provider owns storage. Resolve per request, never export to env or a model.
-   const client=createJevClient({credentialEnv:JEV_CREDENTIAL_REF},{resolveCredential:()=>secret.value,fetchImpl});
+   const client=createJevClient({credentialEnv:JEV_CREDENTIAL_REF,model:requestedModel},{resolveCredential:()=>secret.value,fetchImpl});
    return client.decide(spec);
   },
  };

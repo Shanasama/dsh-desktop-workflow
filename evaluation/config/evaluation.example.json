@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "projectId": "dsh-jev-project-acceptance",
+  "baseUrl": "https://api.aiuzh.icu",
+  "preferredModelFamily": "Luna",
+  "modelId": "gpt6-luna",
+  "upgradeModelIds": [],
+  "automaticUpgrade": false,
+  "credentialConfiguredByUser": false,
+  "budget": {
+    "definitionConfirmed": true,
+    "definition": "input-plus-total-billable-output-reasoning-counted-once",
+    "projectTokenLimit": 10000000,
+    "pilotTokenLimit": 100000,
+    "taskTokenLimit": 20000,
+    "concurrency": 1,
+    "maxOutputTokens": 2048,
+    "maxModelAttemptsPerTask": 2,
+    "transportRetries": 0,
+    "maxRequestsPerTask": 12
+  },
+  "providerContract": {
+    "usageFormat": null,
+    "reasoningAccounting": null,
+    "inputUpperBoundMethod": null,
+    "outputLimitParameter": null,
+    "outputLimitIncludesAllBillableOutput": false,
+    "verifiedForModelId": null,
+    "evidence": null
+  },
+  "jev": {
+    "projectOnly": true,
+    "maxAttemptsPerDecision": 2,
+    "pilotMaxCalls": 30,
+    "concurrency": 1,
+    "ledgerPath": "./run-state/project-jev.json"
+  },
+  "pricing": null,
+  "fixturePath": "../test/fixtures/jev-evaluation-cases.json",
+  "ledgerPath": "./run-state/project-budget.json"
+}

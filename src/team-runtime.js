@@ -1,5 +1,5 @@
 import {JevTeamController} from './jev-controller.js';
-import {projectJevText} from './jev-client.js';
+import {projectJevText,selectJevModel} from './jev-client.js';
 import {createAutoVerifier} from './auto-verification.js';
 import {createSetupStore,createHostJevClient} from './team-setup.js';
 import {createHash,randomUUID} from 'node:crypto';
@@ -11,6 +11,11 @@ const fields=(value,names)=>value&&typeof value==='object'&&!Array.isArray(value
 const validSession=id=>typeof id==='string'&&id.length>0&&id.length<=128;
 const unavailable=()=>({available:false,providers:[],reason:'当前宿主未加载 agents、subagents、llm、tools 或 sandboxPolicy 服务，团队执行不可用。'});
 export function createTeamRuntime(ctx,serverConfig={},dependencies={}){
+ const requestedJevModel=selectJevModel({model:serverConfig.jev?.model}),shadowConfig=serverConfig.jev?.shadow;
+ if(shadowConfig?.enabled===true)selectJevModel({model:shadowConfig.model});
+ if(shadowConfig?.enabled===true&& !/^jev-\d+\.\d+\.\d+(?:-[a-z0-9.]+)?$/.test(shadowConfig.model))throw new TeamHostError('JEV_SHADOW_MODEL','影子评估需要用户明确配置固定 Jev 版本。');
+ const maxShadowCalls=shadowConfig?.enabled===true||dependencies.shadowJev?shadowConfig?.maxCalls??2:2;
+ if(!Number.isInteger(maxShadowCalls)||maxShadowCalls<0||maxShadowCalls>20)throw new TeamHostError('JEV_SHADOW_LIMIT','影子评估调用上限必须为 0–20。');
  let controller,closed=false,disposal;const owner={},requests=new Map(),commandPending=new Map(),commandStates=new Map();
  const resolveProject=sessionId=>{const parent=ctx.agents.get(sessionId);if(!parent)throw new TeamHostError('SESSION_UNAVAILABLE','当前会话不可用。');try{return (dependencies.projectIdentity??projectIdentity)(parent.session.header.cwd);}catch{throw new TeamHostError('PROJECT_UNAVAILABLE','无法确认当前项目边界，未启动团队。');}};
  const leases=createProjectLeases(owner,resolveProject);
@@ -43,10 +48,11 @@ export function createTeamRuntime(ctx,serverConfig={},dependencies={}){
   onCleanupFailed:(sessionId,source='subagent',diagnostic)=>{leases.poison(sessionId,source,diagnostic);const snapshot=controller?.snapshot(sessionId);if(snapshot)controller.cancel(sessionId,snapshot.id);},
   onParentUnavailable:sessionId=>{const lease=leases.get(sessionId);if(lease?.owner===owner)lease.state='cancelling';const snapshot=controller?.snapshot(sessionId);if(snapshot)controller.cancel(sessionId,snapshot.id);},
  });
- const setup=dependencies.setup??createSetupStore(ctx,serverConfig),jev=dependencies.jev??createHostJevClient(ctx,setup);
+ const setup=dependencies.setup??createSetupStore(ctx,serverConfig),jev=dependencies.jev??createHostJevClient(ctx,setup,{model:requestedJevModel});
+ const shadowJev=dependencies.shadowJev??(shadowConfig?.enabled===true?createHostJevClient(ctx,setup,{model:shadowConfig.model}):undefined);
  const diagnostics=new Map();
  const verifier=dependencies.verifier??createAutoVerifier({executeTool:executor.executeTool,shellName:executor.shellName,poison:executor.poison,onPolicy:executor.setProjectPolicy,onDiagnostic:(sessionId,diagnostic)=>{diagnostics.set(sessionId,diagnostic);const lease=leases.get(sessionId);if(lease?.owner===owner)lease.diagnostic=diagnostic;}});
- controller=new JevTeamController({execute:spec=>executor.execute(spec),jev,verifier,id:()=>randomUUID()});
+ controller=new JevTeamController({execute:spec=>executor.execute(spec),jev,verifier,shadowJev,maxShadowCalls,trace:serverConfig.jev?.trace===true,id:()=>randomUUID()});
  const publicContext=sessionId=>{
   const context=executor.context(sessionId);let occupied;
   if(context.available){try{occupied=leases.conflict(sessionId,resolveProject(sessionId));}catch(error){context.canStart=false;context.reason=error.message;}}
@@ -59,6 +65,7 @@ export function createTeamRuntime(ctx,serverConfig={},dependencies={}){
   settings:async()=>setup.refresh(),
   async configure(input){if(input?.disclosureAccepted===true){const validated=validateConfig({sessionId:'settings',goal:'settings validation',...input.settings});await executor.validateModels(validated.roles,AbortSignal.timeout(15000));}const saved=await setup.configure(input);for(const[id,state]of commandStates)if(state.kind==='settings-required')commandStates.delete(id);if(!saved.disclosureAccepted)for(const lease of leases.owned()){const snapshot=controller.snapshot(lease.sessionId);if(snapshot)controller.cancel(snapshot.sessionId,snapshot.id);}return saved;},
   snapshot(sessionId,runId){if(!validSession(sessionId)||runId!==undefined&&(typeof runId!=='string'||runId.length>160))throw new TeamHostError('SESSION_REQUIRED','请先打开真实 DSH 会话。');save(sessionId);return response(sessionId,runId);},
+  trace(input){if(!fields(input,['sessionId','runId'])||!validSession(input.sessionId)||input.runId!==undefined&&(typeof input.runId!=='string'||input.runId.length>160))throw new TeamHostError('INVALID_INPUT','评估记录查询参数无效。');return controller.trace(input.sessionId,input.runId);},
   async start(input,externalSignal){
    if(!fields(input,['sessionId','contextKey','requestId','goal','settings'])||typeof input.requestId!=='string'||!/^[A-Za-z0-9_-]{8,128}$/.test(input.requestId)||!fields(input.settings,['roles','limits','reviewPlan','routeEnabled','jev','verification']))throw new TeamHostError('INVALID_INPUT','启动参数无效。');
    const config=validateConfig({sessionId:input.sessionId,goal:input.goal,...input.settings});
@@ -119,7 +126,7 @@ export function registerTeamCommand(ctx,getRuntime){return ctx.commands.register
 /** Exact authenticated /api endpoints; never replace the host gateway interceptor. */
 export function registerTeamRoutes(ctx,getRuntime){
   const disposers=[];
-  for(const action of ['catalog','snapshot','start','cancel','request','settings','configure']){
+  for(const action of ['catalog','snapshot','start','cancel','request','settings','configure','trace']){
     const endpoint=prefix+action;
     disposers.push(ctx.connection.fetch.register({path:'/api/'+endpoint,methods:['POST'],requestBody:'buffered',async fetch(request){
       let envelope;
