@@ -84,6 +84,7 @@ test('theme review: connected settings and workflow synchronize without RPCs, sa
   const settings = mount(client.ConnectedTeamSettings, { ctx: host.ctx, onClose() {} });
   try {
     await workflow.render(); await settings.render();
+    for(const view of [workflow,settings])assert.deepEqual([...switchIn(view.container).options].map(option=>[option.value,option.textContent]),[['arknights','泰拉'],['classic','原版 UI']]);
     const password = settings.container.querySelector('input[type=password]');
     await setValue(password, 'fixture-key-must-remain-in-memory');
     await setValue(settings.container.querySelector('[aria-label="规划者模型"]'), 'review-model-b');

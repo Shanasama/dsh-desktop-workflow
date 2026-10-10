@@ -398,3 +398,19 @@ test('every task and task retry receives the original goal verbatim', async () =
   assert.equal(result.status, 'completed'); assert.equal(workerAttempts, 2);
   assert.equal(fake.calls.filter(call => ['worker', 'explorer', 'researcher'].includes(call.role)).length, 4);
 });
+
+test('planning and task prompts state the enforced tool boundary so no task waits on a shell command', async () => {
+  const fake = adapter([task('read', 'explorer')]);
+  const controller = new TeamController({execute: fake.execute, now: () => 100000, id: () => 'fixed-run'});
+  const result = await controller.wait(controller.start(config()).id);
+  assert.equal(result.status, 'completed');
+  const planner = fake.calls.find(call => call.role === 'planner');
+  assert.match(planner.prompt, /Enforced tool boundary/);
+  assert.match(planner.prompt, /no general shell and no network/);
+  assert.match(planner.prompt, /never make a task depend on a command result/);
+  const taskCall = fake.calls.find(call => call.role === 'explorer');
+  assert.match(taskCall.prompt, /there is no shell and no network, so never run commands/);
+  const reviewCall = fake.calls.find(call => call.role === 'reviewer');
+  assert.match(reviewCall.prompt, /Enforce the host tool boundary while reviewing a plan/);
+  assert.match(reviewCall.prompt, /a task that needs one is blocked/);
+});

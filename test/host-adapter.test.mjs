@@ -16,3 +16,38 @@ test('step cap and host ask decision become blocked refusal, never fabricated co
 test('missing guard service and counterfeit child fail closed; accepted child is disposed',async()=>{const f=fixture({missingTools:true});const a=ready(f);await assert.rejects(a.execute(spec()),/保护/);await a.dispose();const g=fixture({counterfeit:true});const b=ready(g);await assert.rejects(b.execute(spec()),/保护验证/);assert.equal(g.disposed,1);await b.dispose();});
 test('session generation changes invalidate previous explicit-start context',async()=>{const f=fixture();const a=ready(f);const key=a.context('session-a').contextKey;a.verifyContext('session-a',key);f.replace();assert.throws(()=>a.verifyContext('session-a',key),/会话已变化/);assert.equal(a.context('').canStart,false);await a.dispose();});
 test('main-session new work cancels owning team rather than overlap writes',async()=>{const f=fixture();const messages=[];const a=ready(f,{onParentUnavailable:(id,reason)=>messages.push({id,reason})});await a.execute(spec('worker'));await f.emit('agent/status',{agent:f.parent,status:'running'});assert.equal(messages[0].id,'session-a');await a.dispose();});
+
+test('concurrent adapter disposal shares its pending cleanup and repeats a failure without replaying disposers',async()=>{
+ const f=fixture(),originalOn=f.ctx.on;let release,calls=0;const failure=new Error('synthetic disposer failure');
+ f.ctx.on=(name,fn)=>{const off=originalOn(name,fn);return async()=>{calls++;await new Promise(r=>release=r);off();throw failure;};};
+ const a=createExecutionAdapter(f.ctx),first=a.dispose(),second=a.dispose();assert.equal(second,first);
+ await new Promise(setImmediate);assert.equal(calls,1);let settled=false;first.catch(()=>settled=true);await new Promise(setImmediate);assert.equal(settled,false);
+ release();await assert.rejects(first,error=>error===failure);await assert.rejects(second,error=>error===failure);assert.equal(a.dispose(),first);await assert.rejects(a.dispose(),error=>error===failure);assert.equal(calls,1);
+});
+
+test('verifier asks the host which shell tool exists instead of assuming bash',async()=>{
+ const f=fixture(),registry=new Set(['pwsh']),executed=[];
+ const tools={get:(name,scope)=>registry.has(name)?{name,scope}:undefined,guard:()=>()=>{},presentAs:()=>()=>{},async execute(exec){executed.push({name:exec.name,args:exec.arguments});return {isError:false,value:{kind:'foreground',exitCode:0,stdout:{text:'{}',truncated:false},stderr:{text:'',truncated:false}}};}};
+ f.parent.ctx.on=f.ctx.on;f.parent.ctx.get=name=>name==='tools'?tools:undefined;
+ const a=ready(f),signal=new AbortController().signal,verifierSpec={name:'bash',arguments:{command:'node fixture.js',description:'fixture verifier',timeoutMs:1000,run_in_background:false}};
+ try{
+  const result=await a.executeTool('session-a',verifierSpec,signal);
+  assert.equal(result.isError,false);assert.equal(executed.length,1);assert.equal(executed[0].name,'pwsh');assert.match(executed[0].args.command,/fixture\.js/);
+  assert.equal(a.shellName('session-a'),'pwsh');
+  registry.clear();
+  assert.equal(a.shellName('session-a'),undefined);
+  await assert.rejects(a.executeTool('session-a',verifierSpec,signal),error=>error.code==='VERIFIER_UNAVAILABLE');
+  assert.equal(executed.length,1);
+ }finally{await a.dispose();}
+});
+
+test('a host without tool enumeration keeps the caller-provided shell name',async()=>{
+ const f=fixture(),executed=[];
+ const tools={guard:()=>()=>{},async execute(exec){executed.push(exec.name);return {isError:false,value:{kind:'foreground',exitCode:0,stdout:{text:'{}',truncated:false},stderr:{text:'',truncated:false}}};}};
+ f.parent.ctx.on=f.ctx.on;f.parent.ctx.get=name=>name==='tools'?tools:undefined;
+ const a=ready(f);
+ try{
+  const result=await a.executeTool('session-a',{name:'bash',arguments:{command:'node fixture.js',description:'fixture verifier'}},new AbortController().signal);
+  assert.equal(result.isError,false);assert.deepEqual(executed,['bash']);
+ }finally{await a.dispose();}
+});

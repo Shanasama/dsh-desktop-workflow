@@ -1,0 +1,1239 @@
+diff --git a/INSTALL-ME.md b/INSTALL-ME.md
+index bfe4f5e..ed774f6 100644
+--- a/INSTALL-ME.md
++++ b/INSTALL-ME.md
+@@ -4,7 +4,7 @@
+ 
+ ## 用户怎么做
+ 
+-1. 从仓库 `dist/` 下载 `dsh-desktop-workflow-0.5.2.tgz`。不要下载旧版，也不要把 GitHub 的源码 ZIP 当成插件包。
++1. 从仓库 `dist/` 下载 `dsh-desktop-workflow-0.5.3.tgz`。不要下载旧版，也不要把 GitHub 的源码 ZIP 当成插件包。
+ 2. 把 `.tgz` 拖到 DSH 聊天框，发送：
+ 
+    **请使用官方插件管理器把这个附件安装到当前 DSH 配置中。安装后告诉我怎么打开多模型团队设置。不要修改我的模型提供方、凭据或安全权限。**
+@@ -19,7 +19,7 @@
+ - 从当前附件元数据取宿主提供的真实绝对路径，不要猜路径，不要把文件名当命令，不要读取附件以外的私密文件。
+ - 优先使用官方 `plugin_manager`，参数 `action: "install_bundle"`，`target` 为该 `.tgz` 的绝对路径。这会使用宿主的实际插件管理配置。保留原有安装确认流程。
+ - 如果工具没有启用、附件没有有效本地路径或安装失败，准确说明原因。不要擅自安装其他软件、扩大权限、切换 profile、改写全局配置或解包运行未知脚本。
+-- 安装后核对插件名 `dsh-desktop-workflow` 和版本 `0.5.2`，说明是否需要重新加载/重启。无法核实时不要说安装成功。
++- 安装后核对插件名 `dsh-desktop-workflow` 和版本 `0.5.3`，说明是否需要重新加载/重启。无法核实时不要说安装成功。
+ - Jev Key 由用户自己在插件设置的专用密钥表单输入，不能通过聊天、普通配置示例或环境诊断收集。
+ 
+ ## 已知边界
+diff --git a/README.md b/README.md
+index f414813..da794bd 100644
+--- a/README.md
++++ b/README.md
+@@ -6,7 +6,7 @@
+ 
+ ## 开始使用
+ 
+-1. 下载 `dist/dsh-desktop-workflow-0.5.2.tgz`，拖给 DSH，并明确说“请用官方插件管理器安装到当前配置”。详见 [安装说明](INSTALL-ME.md)。这使用 DSH 代理的官方安装工具，不是插件新增的自动拖拽导入器。
++1. 下载 `dist/dsh-desktop-workflow-0.5.3.tgz`，拖给 DSH，并明确说“请用官方插件管理器安装到当前配置”。详见 [安装说明](INSTALL-ME.md)。这使用 DSH 代理的官方安装工具，不是插件新增的自动拖拽导入器。
+ 2. 在 **设置 → 多模型团队** 选择六岗位模型，输入 Jev Key，阅读并自行启用 TypeSafe 数据许可，保存。
+ 3. 回到项目聊天，输入：
+ 
+diff --git a/SHA256SUMS b/SHA256SUMS
+index 510e4b4..04a3732 100644
+--- a/SHA256SUMS
++++ b/SHA256SUMS
+@@ -1,6 +1,97 @@
+-ed93f94adc2756e63f1d69c7f8e3cbd9b55f03e02f6ae683bd0fcfb8a7f4c22e  dist/dsh-desktop-workflow-0.1.0.tgz
+-54447e8ec0cd00f128ba7523bd27083b265880e09874492bd67109895eb04fa9  dist/dsh-desktop-workflow-0.2.0.tgz
+-5d9706c27c601aeddeb3d2e6502b559692e2370b430aa0fdf68fe6cbc280053b  dist/dsh-desktop-workflow-0.3.0.tgz
+-c16d24deb8fc8d86164167e19d6de388f5ebc911c3186acc92da195fb6526194  dist/dsh-desktop-workflow-0.4.0.tgz
+-1c78920d72a0c08d84f741f4f71ec283fe39c320ba1683fce12aeff8e227881a  dist/dsh-desktop-workflow-0.5.0.tgz
+-c9b077ec424c5a0332012b1106a85abffe5907b6d55ae1dfc4d2fcada1c66847  dist/dsh-desktop-workflow-0.5.2.tgz
++28bf9ef260e5d9fd06caccdf6946e5b889547b9bd26dd4f2eddb90a316e87f7a  .gitignore
++d032c92ab48b88413b820f52e48f6ef0a4b323eed4661f19f5dad02e1504625f  INSTALL-ME.md
++5f453eb096a78f3bfdf9e3132dfb73712fdbdcb87d4a6c128e0515315e9bcd20  LICENSE
++bdc2e8589337bcf9b06eb942d050893ff726668f1ac51dc93339baf6f74f6386  NOTICE
++e26374cc493e59e475bc9da2c011a7943666667f5a4d1b37e605a3800aa51057  README.md
++4914d6634877051ebe1508e381aa3bd2561fe65b4b15c1711fae05862ec88987  client/ConnectedTeam.tsx
++be92af520d11504552c00dac73156d707064fa132ebd2f51813aa9e2802edd9c  client/TeamView.tsx
++813a739f9877abb8eb02d9837357235d8fb1cfb78372ac10539a6fc2891471d0  client/WorkflowView.tsx
++eee49f6ee337e071d3be212c1a5d5c693a2a5f42af70c90492585d225cad21cc  client/assets.d.ts
++2d8fc652d3971787f7b5774cd2846fb4a67c832c62853924dd8551c9636d3387  client/demo.ts
++0dd084e0770b9a0eb5de3289edde6801e24aafc7f9261d246861b2ef4ec396c1  client/index.tsx
++114582693f182f30352d638de1f6eca3bee7c5180b9e88b1dd816c049534b053  client/request.ts
++eb9ddfd2a3334f82009fe8fc1c95f7e5bf970d1eae101f1028c6909e6d5380a8  client/team-demo.ts
++932326ac72c1136d8fed17cbec822b6e2a2e0b89f7f6737c557b8be763f7a005  client/team-theme.css
++b970115fede40c7c93d592e6ff8babe957beabbb500f5cbc8ac81eeb5c5d5794  client/team-theme.tsx
++e61dba3788a8f790b9b77957075910154441132357de5bf3ef43751d65dc8ff2  client/team-types.ts
++9e8074b865938664136175c78f2ab25a9e41b1f3810d5d0668144eaee205f6f0  client/team.css
++5d9488a191123ab3aa21c1e8e8352979b29a668205bd60bc1f99781b3f39f24e  client/workflow.css
++9d87744ca507bff2130e6e470e0536e7a90626d725a629bde6aed48baacbd4ee  cordis.patch.yml
++9d02548d97bcbaee5c14162f24957d5f3ed942a827dd0606187008c3d15cab85  docs/ARCHITECTURE.md
++acc1f988a0b67badc58b7f0f149be2d8f06ae15a0b0ccb8c018716a996b7682c  docs/CLOUD-HOST-QA.zh-CN.md
++42d58b6b39772b0708683eb90f13be438f88251b5e28a1894fb5342587180216  docs/INSTALL.zh-CN.md
++fa099412c32d331aebddf34d4a428d9b78278f65ca2396a6d61b8f34c0e97aa8  docs/JEV-V03.md
++275efd7408d0dbca4f60668da192f067fd207a2c457f5d566c16693e15db9b5f  docs/SESSION-ISOLATION-053.md
++c57889d7a6829da1fd7d6e7dad3ef65a0ea9fd3911622592cb22aab7f2a62547  docs/UI-DESIGN.md
++575288c623efc1d6a3dc1de60b54d579f720a49863cb37ba2800d1e4ffc5e4f2  docs/V04-ARCHITECTURE.md
++ff64a7a21414c94319b04a8f38a3f7a05315683fdc3b07889835737735e726e6  docs/VERIFICATION.md
++355b2c59f71ea89a0b11ffc77ae80064e77999bded1918421ad86227da8555d6  docs/WINDOWS-CLIENT-051.md
++14a80d593692c72aa55e83b9707cb69212dba76ee1d393dc53272f4f4ba3c90c  docs/WINDOWS-VERIFIER-052.md
++5057fec289de432ff1d81f4813e9cb72959240bf7d2648b2245653613a45f42d  docs/images/component-preview.png
++22adafb7de8494818e004f917f5aa0b2160ae65bdbb7ee0bd4ba70b60272d089  docs/images/v04-settings-preview.png
++798df759dae296f4b1f6953c2eb8f3ff1c90de1a2129d6a633e2e21911d34038  docs/images/v04-workflow-preview.png
++0066376234dee9e8b46a43a9d5feba0d2dd0c9cd10d95f6a275b87ee23d42b01  docs/images/v05-arknights-preview.png
++7cdc6e8a3ee9af16ba578bdf2c967902be5a6cf2c3122fc0c3451ab7d5083f57  docs/images/v05-classic-preview.png
++31cd8e61ad01ea98f7829f1eb0acd883ad619345baea5fb64c54d3d60ce2efcd  lib/client.js
++9fcfe227d496fc11e9c830ecd65e4e0a3fa74011e5336d5105e1971767c523e3  package-lock.json
++f9a66eea17840c05d5cb8b68c38cbf7511aee9d9be377651d2fc25da88ecf957  package.json
++dbaca5c7a0cfa38b07fe8f6435493c9cf9006cdb6062288f4cf23243bd728cc1  preview/index.html
++be3c37d9b0be7726ffdd44e6bda15c3c2a79fb828d452dc8dc242376edb55db2  preview/legacy.tsx
++9247e5efa33b68e3478e92387bee45621c9104711e4a6b473aa9dd91fa142ce0  preview/main.tsx
++44a13c88ceb40713b98b92e16dd1326c93e54b4f1c81af832de9a2e6b5466a01  scripts/build.mjs
++48bb1a95a7f6787d6708c94bea6570f2813043503d53b2cfebef979a6a4441f9  scripts/prepare-verifier-fixture.mjs
++2b86b0a49aa07d09b17dcfd8bf7d5f440c421aa017179fb04b888935a069bc98  scripts/preview.mjs
++297804b04ca44c63d1e55dd7ba13ae583bd6d49917c3843d638978aef58f3ea1  scripts/profile-install.mjs
++ce8011bc548f75b37814e93af338bd0a51c4c380fc03979a245ed56288cc0e2b  scripts/verify-client-host.mjs
++fdb2dae1f76b050ed2d343aa99ffd1c6cadd092fd8d0710f1ae304f9d5147dcb  scripts/verify-host.mjs
++3ee079390440144c23aa7d9bd747e629f7cebd2e06760adc8fd6324afee3fcfa  scripts/verify-profile.mjs
++044629c8fd72273d45ddb783706274d4b5ba3a405f290a0cc242a96ed53154d3  scripts/verify-team-host.mjs
++42c1a95d770b1e2556a86e23b8ec9ab2421074fdbde6a3a651d871622ac7dd55  scripts/verify-v04-host.mjs
++b435459c0070b3d2d3c896b4d4d00ef1f4d4939655d96f0e0f8d6d3cdb25ecdd  scripts/verify-verifier-host.mjs
++65132617dacb120840f66f9e79f74dccac782a00b2f0db2299a12f58a547e4df  scripts/verify-verifier-windows.mjs
++6e9e1b3b7b5530ef6569f9eb42e88e246c5f03468ee22b50ead62c03a15d3423  src/auto-verification.js
++fbec5e51df6dfcbe53191ce8cfcae4d91cf86756ebca5e13a79a95aeb62d6629  src/host-adapter.js
++f79838159a8dbb50cf4c79139a981e21848a5a76ce3f8fcee18c571a1a2f09c6  src/index.js
++482ded7996938a935c89ba6b7a048cd544174f4392ec347faacf022566c48382  src/jev-client.js
++907fbad6b94ec27a66ca232d27b018a7a3b7e73417bd2943e90597c61c2e7913  src/jev-controller.js
++f8e37c013a215da632cfbc3f68ca8fe5a0b73e6bf67cf40db43502b095674753  src/orchestrator.js
++19f52d55d86ba9d0c85afae66f40c526d8620e3fd01f0fa2f58f1122a677a6bf  src/project-leases.js
++dae69d8fe7c891a984399872121a0f7a07a9790cc018389cff7c1d0dfc8a1b72  src/state.js
++48519bb2a4cebcbc9ca08526f2f31ceb6d0e4495808af914757c9d7433182b8b  src/team-contracts.js
++238a0828284bc8499bdafc4add596cc54cb018caeaf94993a0256c4cc9c5e718  src/team-runtime.js
++686d2473b53c5041af8b1097d4e03daac8c795a47490616956d32d6b579c2e64  src/team-setup.js
++774dda02bdf9a1dbdc4c1a33377b96331aff99fb664bb3e442037c9f2d6fb461  src/vendor/HERMES-JEV-LICENSE
++8b04fc9fd9ef13698cafb6eb02b12090021e8b8ab673442bef27cf5b31170ab2  src/vendor/lane.json
++5fd18815848d7dc27ecd8f3962654e967ab18dc5b9b586b9b1f6ae348507be84  src/vendor/loop-step.json
++232bc52e8017495e5b14467d96de07a644b6bb489a1c0f009e202527d29823f4  src/verification-diagnostics.js
++d1fd68ddd71fc4faf1b95dd1056387667c27b75174d2051faacd3b9f597b7480  src/verification-host-runner.js
++2e63497e41636300b6f701d5157d78b46e5af9cfdefb06a8f335afc002dc8717  src/verification-project-runner.js
++8859b7c7168e3f09a59902ba58fe02d8a4d96aa47ff4e3abd9f6ef841ccdd967  src/verification.js
++74dadb60e87a926856479687157e0ba14509106bcecd14241572abce4e24e0ad  src/verifier-command.js
++cda3c2f38215f50f263518d55ed52ab223881ce5fe19b26d64fbfb95c1686ff2  test/bridge.test.mjs
++cbff2dd38bb369ab2ead189b6ac0f92ba7f554d8150bbb8f2240261ffeec3e3a  test/client-host.test.mjs
++cc2d5efe60ae81249667278924e73e2e826b6e2dd0f3ffe09b5b70290e93d36d  test/client.test.mjs
++e3e9b56ad27fff6b8d399e3ae3cca88c83feec7ba916daab4fc07b66419ce307  test/helpers/team-host.mjs
++0424af13bb65e2349ac8abca0b2776595d3af12e78bd26701fd84186f3d4ff41  test/host-adapter.test.mjs
++a9c3dfb4cd001484a52134c3f7bc32c94181aebf950de7f7e4e1f12e36080ab1  test/install.test.mjs
++3fa35245b353e73d77df2b02295891da9890b37d213740e791daf96542e0400a  test/jev.test.mjs
++6aa81a13eb4bc8e532ef21c27deb0be8209b43a4f1342701049c1df7067aef66  test/orchestrator.test.mjs
++b6345223438de903c100445efd2118526c8f3ab628becc92a70feafae9a6f562  test/package.test.mjs
++e531cbdde58d768c356a45a73fb4d6276b70a00b28b026580e351e85124151b3  test/project-identity.test.mjs
++2f76b72968ac6568ec84685b860aed4625534d1cf7ead090da973ba587e82bcd  test/redesigned-ui.test.mjs
++0fa546b4c3a08977a261943ed55e674ae8218b34377959aa8e2dd44ff630a95c  test/review-auto-safety.test.mjs
++36660bafb1cc382cac0c29b0da5498367598de489a074b78d7295b4256c0ec22  test/review-safety.test.mjs
++50182da79814d5673782a00a4031803a641edcaaed08d2bc07e9f92b68e4cdcf  test/session-isolation.test.mjs
++52acf9ea89beb69569e31114cf18201bdf0d39faaac7fe43c0d461d4c6215cc4  test/state.test.mjs
++87f2131a08d61860190b8a29ce10c6d801a90dc9ba2cf64e5d973233d139992d  test/team-runtime.test.mjs
++c9e1c2650188f5035c7a4d1195f93783f035f4e61394858bae8e2cb14c753b06  test/team-setup.test.mjs
++eccc82da01453801eb55e5a1c5cb1235c5ec6c68e3c04e4706d4af91284375b4  test/team-theme.test.mjs
++a833bdd918ef75a567cb13c57c25cd8dd9cc360e28ac787a01ff6d326b611c5f  test/team-ui.test.mjs
++dc170f28ceae2fc55ebb9a5876a86df2081764dc937c10b081b9e6fa7edcff23  test/theme-review.test.mjs
++1c75533db17d6dd1d810f4fa23cbda0b31ff3b14c9d3bf9d64bd746a135397dc  test/v04-host-acceptance.test.mjs
++d2d5b0d5f692d7e3541c20eec378c4b79355ac88acefd2c97bc0f91564abe83d  test/verification.test.mjs
++d6ed0c49bfa30fbce0aa59e1ef1e6f3eb374691c1bd6595f81822f2a59e41f68  test/verifier-cleanup.test.mjs
++eb9f56a0a50a179c0a04e44bc2a793cb68cbce32f171d3530c7cc9a3419c14da  test/verifier-command.test.mjs
++245e9ec7bff112d67b7e165a2dd963f6ae2d62b9c460711ee4617941daaa3e77  test/verifier-host.test.mjs
++1920fb34ae2cdc820467f3a4298f2ff8f6127598aa5bcf77495b94ef1a052072  test/verifier-quarantine.test.mjs
++41092206d9022dcc87c2a4728f122bde236d4a589683ca1d7c886318bf04931c  tsconfig.json
+diff --git a/client/ConnectedTeam.tsx b/client/ConnectedTeam.tsx
+index 67b47d7..0634c13 100644
+--- a/client/ConnectedTeam.tsx
++++ b/client/ConnectedTeam.tsx
+@@ -1,12 +1,12 @@
+ import React, { useEffect, useRef, useState } from 'react';
+ import { TeamView, TeamSettingsView } from './TeamView';
+-import { createDefaultTeamSettings, type CredentialStatus, type TeamCatalog, type TeamSettingsInput, type TeamSetup, type TeamSettings, type TeamSnapshot, type TeamSessionContext } from './team-types';
++import { createDefaultTeamSettings, type CredentialStatus, type TeamCatalog, type TeamSettingsInput, type TeamSetup, type TeamSettings, type TeamSnapshot, type TeamSessionContext, type TeamHistory } from './team-types';
+ import { teamDemoSnapshot } from './team-demo';
+ import { requestWithDeadline } from './request';
+ import type { HostContext } from './index';
+ 
+ export const JEV_CREDENTIAL_REF = 'DSH_TEAM_JEV_API_KEY';
+-export type StateResponse = { snapshot: TeamSnapshot | null; context: TeamSessionContext & { sessionId?: string; lastCommand?: { kind: string; message: string; runId?: string } } };
++export type StateResponse = { history?:TeamHistory[]; snapshot: TeamSnapshot | null; context: TeamSessionContext & { sessionId?: string; lastCommand?: { kind: string; message: string; runId?: string } } };
+ const emptySetup = (): TeamSetup => ({ settings: createDefaultTeamSettings(), configured: false, keyConfigured: false, disclosureAccepted: false, revision: 0 });
+ const emptyCatalog: TeamCatalog = { available: false, providers: [], reason: '正在读取宿主模型目录…' };
+ export async function teamCall<T>(ctx: HostContext, action: string, payload: object, signal: AbortSignal): Promise<T> {
+@@ -101,6 +101,8 @@ export function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSe
+   const [loading, setLoading] = useState(true);
+   const [revision, setRevision] = useState(0);
+   const [demo, setDemo] = useState(false);
++  const [history,setHistory]=useState<TeamHistory[]>([]);
++  const [selectedRunId,setSelectedRunId]=useState<string>();
+   const generation = useRef(0);
+   const current = useRef(sessionId); current.current = sessionId;
+   useEffect(() => {
+@@ -119,26 +121,27 @@ export function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSe
+   useEffect(() => {
+     const token = ++generation.current;
+     const abort = new AbortController(); let timer: ReturnType<typeof setTimeout>;
+-    setSnapshot(null); setSessionContext(undefined); setError(undefined); setLoading(true);
++    setSnapshot(null); setHistory([]); setSessionContext(undefined); setError(undefined); setLoading(true);
+     if (demo) { setSnapshot(teamDemoSnapshot()); setLoading(false); return () => abort.abort(); }
+     if (!sessionId) { setLoading(false); return () => abort.abort(); }
+     const bound = sessionId;
+     async function refresh() {
+       try {
+-        const state = await teamCall<StateResponse>(ctx, 'snapshot', { sessionId: bound }, abort.signal);
++        const state = await teamCall<StateResponse>(ctx, 'snapshot', { sessionId: bound,...selectedRunId?{runId:selectedRunId}:{} }, abort.signal);
+         if (abort.signal.aborted || current.current !== bound || token !== generation.current) return;
+-        setSnapshot(state.snapshot); setSessionContext(state.context); setError(undefined);
++        if(state.context.sessionId!==bound||state.snapshot&&state.snapshot.sessionId!==bound||selectedRunId&&state.snapshot?.id!==selectedRunId)throw new Error('宿主返回了其它会话的运行，已拒绝显示。');
++        setSnapshot(state.snapshot); setHistory((state.history||[]).filter(row=>row.sessionId===bound));setSessionContext(state.context); setError(undefined);
+       } catch (failure) { if (!abort.signal.aborted && token === generation.current) setError(failure instanceof Error ? failure.message : '无法读取团队运行。'); }
+       finally { if (!abort.signal.aborted && token === generation.current) { setLoading(false); timer = setTimeout(refresh, 1500); } }
+     }
+     void refresh(); return () => { abort.abort(); clearTimeout(timer); };
+-  }, [ctx, sessionId, demo, revision, navigationRevision]);
+-  useEffect(() => { setDemo(false); }, [sessionId, navigationRevision]);
++  }, [ctx, sessionId, selectedRunId, demo, revision, navigationRevision]);
++  useEffect(() => { setDemo(false);setSelectedRunId(undefined); }, [sessionId, navigationRevision]);
+   async function cancel() {
+     if (!sessionId || !snapshot || snapshot.demo || snapshot.sessionId !== sessionId) return;
+     const bound = sessionId; const token = generation.current;
+     const state = await teamCall<StateResponse>(ctx, 'cancel', { sessionId, runId: snapshot.id }, new AbortController().signal);
+     if (current.current === bound && token === generation.current) setSnapshot(state.snapshot);
+   }
+-  return <TeamView catalog={catalog} sessionId={sessionId} sessionContext={sessionContext} snapshot={snapshot} settings={setup.settings} configured={setup.configured} loading={loading} error={error || (sessionContext?.lastCommand?.kind === 'blocked' ? sessionContext.lastCommand.message : undefined)} onOpenSettings={onOpenSettings} onCancel={cancel} onDemo={() => setDemo(value => !value)} onRefresh={() => { setDemo(false); setRevision(value => value + 1); }}/>;
++  return <TeamView catalog={catalog} history={history.filter(row=>row.sessionId===sessionId)} selectedRunId={selectedRunId} onSelectRun={setSelectedRunId} sessionId={sessionId} sessionContext={sessionContext} snapshot={snapshot?.demo||snapshot?.sessionId===sessionId?snapshot:null} settings={setup.settings} configured={setup.configured} loading={loading} error={error || (sessionContext?.lastCommand?.kind === 'blocked' ? sessionContext.lastCommand.message : undefined)} onOpenSettings={onOpenSettings} onCancel={cancel} onDemo={() => setDemo(value => !value)} onRefresh={() => { setDemo(false); setRevision(value => value + 1); }}/>;
+ }
+diff --git a/client/TeamView.tsx b/client/TeamView.tsx
+index fa0d8ad..928fe1f 100644
+--- a/client/TeamView.tsx
++++ b/client/TeamView.tsx
+@@ -274,7 +274,8 @@ export function TeamSettingsView({ setup, catalog, credential, loading = false,
+   </section></div>;
+ }
+ 
+-export function TeamView({ catalog, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings }: TeamViewProps) {
++export function TeamView({ catalog, history = [], selectedRunId, onSelectRun, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings }: TeamViewProps) {
++  const diagnostic=snapshot?.diagnostic||(!selectedRunId?sessionContext?.diagnostic:undefined);
+   const theme = useTeamTheme();
+   const [graph, setGraph] = useState<'team' | 'tasks'>('team');
+   const [selectedRole, setSelectedRole] = useState<TeamNodeRole>('coordinator');
+@@ -316,6 +317,9 @@ export function TeamView({ catalog, sessionId, sessionContext, snapshot, loading
+       <section className="tm-overview"><div><div className="tm-section-eyebrow"><span>{snapshot ? '当前任务' : '工作台'}</span><span className="tm-session"><i/>{demo ? '示例会话' : sessionId ? '已连接当前会话' : '等待 Desktop 会话'}</span></div><h2>{snapshot?.goal || (configured ? '团队已就位' : '连接你的工作团队')}</h2>{snapshot ? <details className="tm-run-description"><summary>运行说明<Icon name="chevron"/></summary><p>{snapshot.message || '任务按实际需要派发，研究与探索并行，编辑工作串行。'}</p></details> : <p>在聊天中使用 /team 发起任务。</p>}</div>{snapshot && <div className="tm-run-state"><Status status={snapshot.status === 'completed' && !completionVerified ? 'completion_unverified' : snapshot.status}/><span>{snapshot.finishedAt ? duration(snapshot) : `开始于 ${time(snapshot.startedAt)}`}</span></div>}</section>
+       <div className="tm-summary-strip"><div><Icon name="team"/><span>岗位</span><strong>6</strong></div><div><Icon name="branch"/><span>节点</span><strong>{nodes.length}</strong></div><div><Icon name="activity"/><span>执行中</span><strong>{running}<small> / {(snapshot?.limits || settings.limits).concurrency}</small></strong></div><div><Icon name="check"/><span>完成</span><strong>{completed}</strong></div></div>
+       <JevPanel catalog={catalog} snapshot={snapshot} settings={settings} onSelectNode={node => { setGraph('tasks'); selectNode(node); }}/>
++      {history.length>1&&<label className="tm-notice">本会话运行 <select aria-label="本会话运行历史" value={selectedRunId||''} onChange={event=>onSelectRun?.(event.target.value||undefined)}><option value="">最新运行</option>{history.filter(row=>row.sessionId===sessionId).map(row=><option key={row.id} value={row.id}>{row.id} · {row.finishedAt?'历史':'进行中'} · {row.goal.slice(0,60)}</option>)}</select></label>}
++      {diagnostic&&<p className="tm-notice" role="status">检查阶段：{diagnostic.phase}；原因：{diagnostic.reason}；宿主分类：{diagnostic.code} / {diagnostic.kind}{diagnostic.exitCode===undefined?'':' / exit '+diagnostic.exitCode}</p>}
++      {sessionContext?.occupancy&&<p className="tm-notice" role="status">项目占用：会话 {sessionContext.occupancy.sessionId} · {sessionContext.occupancy.state}{sessionContext.occupancy.runId?' · '+sessionContext.occupancy.runId:''}</p>}
+       <div className="tm-workspace"><section className="tm-graph-panel" ref={canvasRef} aria-label="团队与任务可视化"><div className="tm-panel-header"><div className="tm-tabs" role="tablist" aria-label="图表视图"><button type="button" role="tab" id={`${prefix}-team-tab`} aria-controls={`${prefix}-graph`} aria-selected={graph === 'team'} tabIndex={graph === 'team' ? 0 : -1} onClick={() => setGraph('team')} onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setGraph('tasks'); (e.currentTarget.nextElementSibling as HTMLElement)?.focus(); } }}><Icon name="team"/>团队拓扑</button><button type="button" role="tab" id={`${prefix}-tasks-tab`} aria-controls={`${prefix}-graph`} aria-selected={graph === 'tasks'} tabIndex={graph === 'tasks' ? 0 : -1} onClick={() => setGraph('tasks')} onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setGraph('team'); (e.currentTarget.previousElementSibling as HTMLElement)?.focus(); } }}><Icon name="branch"/>任务关系{nodes.length > 0 && <span>{nodes.length}</span>}</button></div><button type="button" className="tm-button tm-button--quiet tm-config-trigger" aria-label="团队设置" onClick={openSettings}><Icon name="settings"/><span>团队设置</span></button></div><div className="tm-graph-caption"><span>{graph === 'team' ? '岗位配置' : '动态任务图'}</span><span className="tm-graph-context">{selectedNode ? selectedNode.title : ROLE[role].name}</span><button type="button" className="tm-inspect-jump" onClick={() => inspectorRef.current?.scrollIntoView({ block: 'start', behavior: 'auto' })}>查看详情<Icon name="arrow"/></button></div><div role="tabpanel" id={`${prefix}-graph`} aria-labelledby={`${prefix}-${graph}-tab`}>{graph === 'team' ? <Topology snapshot={snapshot} settings={settings} catalog={catalog} selected={!selectedNodeId ? role : undefined} onSelect={selectRole}/> : <TaskGraph snapshot={snapshot} selected={selectedNodeId} onSelect={selectNode}/>}</div></section><div className="tm-inspector-wrap" ref={inspectorRef}><Inspector role={role} node={selectedNode} snapshot={snapshot} settings={settings} catalog={catalog} onSelectNode={selectNode} onConfigure={openSettings} onBack={() => canvasRef.current?.scrollIntoView({ block: 'start', behavior: 'auto' })}/></div></div>
+       {snapshot && <section className="tm-activity"><button type="button" className="tm-activity-toggle" onClick={() => setActivityOpen(!activityOpen)} aria-expanded={activityOpen} aria-controls={`${prefix}-events`}><Icon name="activity"/><strong>团队动态</strong><span>{demo ? '合成事件' : '最近事件'} · {Math.min(snapshot.events.length, 30)} 条</span><Icon name="chevron"/></button>{activityOpen && <div id={`${prefix}-events`} className="tm-event-list" aria-label="最近团队事件">{events.length ? events.map(event => { const eventNode = nodes.find(node => node.id === event.nodeId); return <button type="button" key={event.seq} className={`tm-event ${/retry|feedback/.test(event.type) ? 'tm-event--feedback' : ''}`} disabled={!eventNode} onClick={() => eventNode && selectNode(eventNode)}><span className="tm-event-icon"><Icon name={/retry|feedback/.test(event.type) ? 'refresh' : eventNode ? eventNode.kind === 'verification' ? 'review' : ROLE[eventNode.role]?.icon || 'activity' : 'activity'}/></span><strong>{eventNode ? eventNode.kind === 'verification' ? '宿主验证' : ROLE[eventNode.role]?.name || eventNode.role : '团队'}</strong><span>{event.message}</span><time dateTime={event.at}>{time(event.at)}</time></button>; }) : <p className="tm-inline-empty">尚无事件记录</p>}{snapshot.events.length > 30 && <p className="tm-event-bound">显示最近 30 条事件，节点详情保留独立产出。</p>}</div>}</section>}
+       {active ? <section className="tm-running-bar"><span className="tm-running-indicator"/><div><strong>团队正在处理当前任务</strong><p>停止只影响本次运行；不会回滚已经产生的文件修改。</p></div><button type="button" className="tm-button tm-button--danger" onClick={() => void cancel()} disabled={cancelling}><Icon name="stop"/>{cancelling ? '正在停止…' : '停止本次运行'}</button></section> : <section className="tm-command-guide" aria-label="使用 team 命令"><span className="tm-command-icon"><Icon name="team"/></span><div><h3>{configured ? '在聊天中给团队一个目标' : '先完成一次团队设置'}</h3><p>{configured ? '输入 /team 和任务目标，团队会自动开始，进展显示在这里。' : '选择六个岗位模型、保存 Jev 密钥后，以后直接在聊天中使用 /team。'}</p><code>/team 检查购物车数量更新问题，修复实现并验证</code>{sessionContext?.reason && <p className="tm-start-hint">{sessionContext.reason}</p>}{!sessionId && <p className="tm-start-hint">请先在 Desktop 打开一个项目会话。</p>}</div><button type="button" className="tm-button" onClick={openSettings}><Icon name="settings"/>{configured ? '团队设置' : '完成设置'}<Icon name="arrow"/></button></section>}
+diff --git a/client/index.tsx b/client/index.tsx
+index b2dd526..2279247 100644
+--- a/client/index.tsx
++++ b/client/index.tsx
+@@ -84,7 +84,7 @@ export function apply(ctx:HostContext){
+     const navigation=info?.tab.navigation;
+     const [view,setView]=useState('results');
+     useEffect(()=>{setView(navigation?.params?.view==='settings'?'settings':'results');},[sessionId,navigation?.revision]);
+-    return view==='settings'?<ConnectedTeamSettings ctx={ctx} onClose={()=>setView('results')}/>:<ConnectedTeam ctx={ctx} sessionId={sessionId} navigationRevision={navigation?.revision} onOpenSettings={()=>setView('settings')}/>;
++    return view==='settings'?<ConnectedTeamSettings ctx={ctx} onClose={()=>setView('results')}/>:<ConnectedTeam key={sessionId||"no-session"} ctx={ctx} sessionId={sessionId} navigationRevision={navigation?.revision} onOpenSettings={()=>setView('settings')}/>;
+   }
+   const Settings=({close}:{close:()=>void})=><ConnectedTeamSettings ctx={ctx} onClose={close}/>;
+   ctx.effect(()=>ctx.slots.inject('sidebar.right.pane.tab',()=>ctx.slots.register({name:'sidebar.right.pane.tab',key:PACKAGE},Body)),'desktop-workflow: native team body');
+diff --git a/client/team-types.ts b/client/team-types.ts
+index fa34dcb..051e368 100644
+--- a/client/team-types.ts
++++ b/client/team-types.ts
+@@ -78,7 +78,9 @@ export interface JevState {
+   evidence?: { checksPassed: boolean; scopeOk: boolean; diffAvailable: boolean; verified: boolean; reason: string };
+   mode: 'live' | 'fixture';
+ }
+-export interface TeamSnapshot {
++export interface TeamSnapshot {
++  diagnostic?:TeamDiagnostic;
++  lifecycle?:string;
+   id: string;
+   sessionId: string;
+   goal: string;
+@@ -94,7 +96,12 @@ export interface TeamSnapshot {
+   demo?: boolean;
+   jev?: JevState;
+ }
+-export interface TeamSessionContext {
++export interface TeamDiagnostic {phase:string;reason:string;code:string;kind:string;exitCode?:number;at:string}
++export type TeamHistory = Pick<TeamSnapshot,'id'|'sessionId'|'goal'|'status'|'startedAt'|'finishedAt'>;
++export interface TeamSessionContext {
++  sessionId?:string;
++  diagnostic?:TeamDiagnostic;
++  occupancy?:{sessionId:string;runId?:string;state:string;workspace?:string;legacy?:boolean;scopeKnown?:boolean;diagnostic?:TeamDiagnostic};
+   contextKey?: string;
+   workspace?: string;
+   permissionNotice?: string;
+@@ -127,6 +134,9 @@ export interface TeamSettingsViewProps {
+ }
+ export interface TeamViewProps {
+   catalog: TeamCatalog;
++  history?:TeamHistory[];
++  selectedRunId?:string;
++  onSelectRun?:(runId:string|undefined)=>void;
+   sessionId: string | undefined;
+   sessionContext?: TeamSessionContext;
+   snapshot: TeamSnapshot | null;
+diff --git a/docs/INSTALL.zh-CN.md b/docs/INSTALL.zh-CN.md
+index 4dbcea3..61fe2a2 100644
+--- a/docs/INSTALL.zh-CN.md
++++ b/docs/INSTALL.zh-CN.md
+@@ -4,7 +4,7 @@
+ 
+ ## 推荐：把安装包拖给 DSH
+ 
+-1. 在 GitHub 仓库 `dist/` 下载 **dsh-desktop-workflow-0.5.2.tgz**。
++1. 在 GitHub 仓库 `dist/` 下载 **dsh-desktop-workflow-0.5.3.tgz**。
+ 2. 拖到 DSH 聊天框，发送：
+ 
+    > 请用官方插件管理器安装这个附件到当前 DSH 配置。不要修改我的提供方、凭据或安全权限。
+@@ -51,7 +51,7 @@
+ 只在知道实际 Desktop profile 时使用。不要把测试 profile 覆盖到日常配置。
+ 
+ ```bash
+-dsh plugin --profile YOUR_DESKTOP_PROFILE add /absolute/path/dsh-desktop-workflow-0.5.2.tgz --ignore-scripts
++dsh plugin --profile YOUR_DESKTOP_PROFILE add /absolute/path/dsh-desktop-workflow-0.5.3.tgz --ignore-scripts
+ ```
+ 
+ Windows 使用安装包对应的绝对路径。卸载：
+diff --git a/docs/SESSION-ISOLATION-053.md b/docs/SESSION-ISOLATION-053.md
+new file mode 100644
+index 0000000..c9c6bcb
+--- /dev/null
++++ b/docs/SESSION-ISOLATION-053.md
+@@ -0,0 +1,45 @@
++# v0.5.3 会话状态与项目占用保护
++
++运行、启动请求、命令应答、取消、历史选择及错误诊断均绑定 `sessionId` 和唯一 `runId`。两个独立项目的会话能够同时运行；同一会话只接受一个活动运行，相同请求或命令不会重复派发。原版 / 泰拉切换、内部 arknights 标识、CSS 和来源声明保留。
++
++## 项目占用
++
++进程级单一 current 锁改为会话索引和项目占用集合。占用在模型元数据预检之前取得，只在已跟踪子代理和验证器结束、清理确认后释放。取消过程中仍持有占用。异常清理或无法证明终态时只隔离相关项目，并显示占用会话、运行 ID、状态及脱敏阶段。
++
++项目身份由服务器根据真实会话 cwd 确定，RPC 不能选择锁键。realpath 与 Windows 大小写统一，仓库子目录归到其仓库，链接 Git 工作树归到共用 Git 目录；非仓库目录按目录边界检查重叠。在派发前再次核对权限上下文及项目身份。宿主全局工具 guard 同时限制其它会话在已占用项目上的修改，不能靠切换会话绕过保护；只读工具保留。
++
++跨会话修改还核验 `write/edit` 的实际目标（包括未创建的父目录和已有目标的真实路径），不以调用会话 cwd 代替目标边界；硬链接或无法核验的 cwd/目标保留保护。独立会话的 shell 必须有声明沙箱能力的执行后端，按本次 `sandbox_permissions` 或站立策略核验模式；工作区写入同时检查 workspace、平台临时目录和 `/tmp`（官方 rc.2 writableRoots 的三项边界）。任何边界与占用项目重叠或申请完全访问均阻止；范围未知的修改工具拒绝。隔离项目的原拥有者也不能继续修改。
++
++旧 v2 占用只读取，不清除或重写。能从原会话核验项目时按该项目保护；原会话不可用、范围不明时继续保守保护并明确显示范围未确认。没有手动强制解锁或重置接口。
++
++## 状态、历史与 UI
++
++每个会话保留最多 8 条运行历史，历史集合保留最多 64 个可淘汰会话，活动或隔离占用不会因历史淘汰而释放。保留原有每运行输出、图节点和事件上限。请求缓存最多 256 项，未完成请求不会被优先淘汰。运行 ID 使用 UUID，跨 runtime 不会碰撞。
++
++历史为宿主进程内存状态，在插件 runtime 重建时仍可按会话查询；完整宿主进程重启后不从磁盘恢复。没有增加包含目标或产出的额外磁盘历史文件。全局模型/岗位/凭据设置继续使用原宿主设置体系，不随会话自动改写。
++
++runtime 和 adapter 的并发或后续 `dispose()` 返回同一清理 Promise；全部调用等待同一次预检排空、子代理/验证器结束和监听器清理，不重复执行 disposer。重复调用保留同一失败结果。清理完成前占用保持 cancelling，未知终态继续 quarantined。
++
++侧栏组件按会话绑定；异步回复同时验证会话、请求代次和所选运行 ID。历史端点只能返回所指定会话的记录，旧请求查询返回其原运行。另一个会话的回复不能显示，也不能取消另一个运行。命令打开面板时仍检查当前挂载会话，A→B→A 的晚到回复不会打开错误面板。
++
++## 检查失败诊断与证据边界
++
++诊断记录使用封闭字段：阶段、固定原因分类、已知错误码、前台/后台/未知返回类型、退出码、超时/中断标志和输出流是否存在。与具体 runId 绑定并保留到其历史快照，不保存命令、stdout/stderr、原始异常文本、项目正文或凭据。UI 显示阶段、原因分类和宿主返回形状。
++
++自动验证器清理失败不再吞掉后直接释放项目；无法确认清理时保留项目隔离。未派发的拒绝与未知已派发执行分别处理。模型/角色配置、权限和验证门禁未被放宽。
++
++2026-10-10 的真实会话日志仅保存 team 命令及应答，没有保存截图中失败的工具原始异常。只读检查确认实际 cwd 是仓库根目录。分别以已安装 0.5.2 和候选源码，在实际目录使用隔离的官方原生服务执行 baseline：都返回前台、exit 0、analysis-only，未产生隔离锁。候选分类为 NON_FILE_INPUT；进一步只读元数据计数发现 4 个未跟踪嵌套仓库目录。没有输出其路径或正文。
++
++这解释了真实项目自动验收降为只读分析的原因，**不能证明已定位或修复运行中宿主截图的清理锁原因**。隔离诊断未继承运行中父会话的完整 sandbox/工具组合，也未加载日常 profile。下一次经过授权的原生验收应使用新诊断明确取得失败阶段及返回分类，不能用隔离测试成功代替真实宿主验收。
++
++## 回归
++
++针对性回归覆盖独立项目并发、同项目/预检冲突、其它会话修改保护、取消等待清理、已结束失败的释放、子代理与检查器未知终态隔离、runtime 替换、父会话销毁、重复命令、会话历史、旧锁已知/未知范围、Windows 路径大小写/嵌套目录/共用 Git 目录、清理失败和错误脱敏、UI 晚到回复及精确历史路由。
++
++Windows 原生验证器回归通过 24 次调用，包括两轮 baseline/check/seal/cleanup、显式验证及篡改/过期证据负例。官方 schema/ToolRuntime、Remote 注入和 adapter 契约也通过。全部服务调用使用合成传输或独立临时项目，没有模型或 Jev 调用。
++
++本任务 Windows 原生首轮在合成项目 cleanup 观察到前台 exit 3；已保留首次失败报告，后续两次串行复核各通过 24 次调用。首次报告没有保留 runner 的解析结果，不能确定原因或宣称已修复间歇故障。测试脚本增加 verified、observation、证据文件是否存在与 stderr 是否有文本的元数据，供以后区分 runner 失败与宿主退出状态异常，不输出原始流。这也不能替代真实日常宿主截图故障的验收。当前源码针对性测试 94/94；全量 175 pass、4 fail、3 skip，改前相同环境为 170 pass、同样 4 fail、3 skip。四项失败名称一致。
++
++全量普通测试的四项 Windows 夹具限制仍为 POSIX 安装包装脚本、bare npm/Unix cache 调用和两项 EPERM 符号链接夹具；实际 npm 离线打包与载荷审计另行核验。三项 opt-in 宿主测试未带环境变量时跳过，其官方契约已单独执行。精确测试计数及报告哈希见交付清单。
++
++本版本为源码及待宿主验收的候选包，日常安装仍为 0.5.2。交付清单记录包审计与 SHA，不使用旧版本的 SHA256SUMS 证明候选。曾发生 exec-server 断开及恢复超时，恢复后先只读核验命令报告、进程和源码差异，再继续。没有热更、重启、结束进程、清理旧任务/锁或上传 GitHub。
+diff --git a/docs/VERIFICATION.md b/docs/VERIFICATION.md
+index 86b0972..1f52f57 100644
+--- a/docs/VERIFICATION.md
++++ b/docs/VERIFICATION.md
+@@ -1,3 +1,5 @@
++最新会话隔离回归见 [SESSION-ISOLATION-053.md](SESSION-ISOLATION-053.md)。
++
+ > v0.5.2 Windows verifier patch: see [current results and limitations](WINDOWS-VERIFIER-052.md). The aggregate counts below describe the historical cloud v0.5.0 run.
+ 
+ # v0.5 verification record
+diff --git a/lib/client.js b/lib/client.js
+index d90c2b0..d5d7447 100644
+--- a/lib/client.js
++++ b/lib/client.js
+@@ -1423,7 +1423,8 @@ function TeamSettingsView({ setup, catalog, credential, loading = false, saving
+     ] })
+   ] });
+ }
+-function TeamView({ catalog, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings }) {
++function TeamView({ catalog, history = [], selectedRunId, onSelectRun, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings }) {
++  const diagnostic = snapshot?.diagnostic || (!selectedRunId ? sessionContext?.diagnostic : void 0);
+   const theme2 = useTeamTheme();
+   const [graph, setGraph] = (0, import_react3.useState)("team");
+   const [selectedRole, setSelectedRole] = (0, import_react3.useState)("coordinator");
+@@ -1574,6 +1575,37 @@ function TeamView({ catalog, sessionId, sessionContext, snapshot, loading = fals
+           setGraph("tasks");
+           selectNode(node);
+         } }),
++        history.length > 1 && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { className: "tm-notice", children: [
++          "\u672C\u4F1A\u8BDD\u8FD0\u884C ",
++          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("select", { "aria-label": "\u672C\u4F1A\u8BDD\u8FD0\u884C\u5386\u53F2", value: selectedRunId || "", onChange: (event) => onSelectRun?.(event.target.value || void 0), children: [
++            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "", children: "\u6700\u65B0\u8FD0\u884C" }),
++            history.filter((row) => row.sessionId === sessionId).map((row) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("option", { value: row.id, children: [
++              row.id,
++              " \xB7 ",
++              row.finishedAt ? "\u5386\u53F2" : "\u8FDB\u884C\u4E2D",
++              " \xB7 ",
++              row.goal.slice(0, 60)
++            ] }, row.id))
++          ] })
++        ] }),
++        diagnostic && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-notice", role: "status", children: [
++          "\u68C0\u67E5\u9636\u6BB5\uFF1A",
++          diagnostic.phase,
++          "\uFF1B\u539F\u56E0\uFF1A",
++          diagnostic.reason,
++          "\uFF1B\u5BBF\u4E3B\u5206\u7C7B\uFF1A",
++          diagnostic.code,
++          " / ",
++          diagnostic.kind,
++          diagnostic.exitCode === void 0 ? "" : " / exit " + diagnostic.exitCode
++        ] }),
++        sessionContext?.occupancy && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-notice", role: "status", children: [
++          "\u9879\u76EE\u5360\u7528\uFF1A\u4F1A\u8BDD ",
++          sessionContext.occupancy.sessionId,
++          " \xB7 ",
++          sessionContext.occupancy.state,
++          sessionContext.occupancy.runId ? " \xB7 " + sessionContext.occupancy.runId : ""
++        ] }),
+         /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-workspace", children: [
+           /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-graph-panel", ref: canvasRef, "aria-label": "\u56E2\u961F\u4E0E\u4EFB\u52A1\u53EF\u89C6\u5316", children: [
+             /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-panel-header", children: [
+@@ -1909,6 +1941,8 @@ function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSettings
+   const [loading, setLoading] = (0, import_react4.useState)(true);
+   const [revision, setRevision] = (0, import_react4.useState)(0);
+   const [demo, setDemo] = (0, import_react4.useState)(false);
++  const [history, setHistory] = (0, import_react4.useState)([]);
++  const [selectedRunId, setSelectedRunId] = (0, import_react4.useState)();
+   const generation = (0, import_react4.useRef)(0);
+   const current = (0, import_react4.useRef)(sessionId);
+   current.current = sessionId;
+@@ -1932,6 +1966,7 @@ function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSettings
+     const abort = new AbortController();
+     let timer;
+     setSnapshot(null);
++    setHistory([]);
+     setSessionContext(void 0);
+     setError(void 0);
+     setLoading(true);
+@@ -1947,9 +1982,11 @@ function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSettings
+     const bound = sessionId;
+     async function refresh() {
+       try {
+-        const state = await teamCall(ctx, "snapshot", { sessionId: bound }, abort.signal);
++        const state = await teamCall(ctx, "snapshot", { sessionId: bound, ...selectedRunId ? { runId: selectedRunId } : {} }, abort.signal);
+         if (abort.signal.aborted || current.current !== bound || token !== generation.current) return;
++        if (state.context.sessionId !== bound || state.snapshot && state.snapshot.sessionId !== bound || selectedRunId && state.snapshot?.id !== selectedRunId) throw new Error("\u5BBF\u4E3B\u8FD4\u56DE\u4E86\u5176\u5B83\u4F1A\u8BDD\u7684\u8FD0\u884C\uFF0C\u5DF2\u62D2\u7EDD\u663E\u793A\u3002");
+         setSnapshot(state.snapshot);
++        setHistory((state.history || []).filter((row) => row.sessionId === bound));
+         setSessionContext(state.context);
+         setError(void 0);
+       } catch (failure) {
+@@ -1966,9 +2003,10 @@ function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSettings
+       abort.abort();
+       clearTimeout(timer);
+     };
+-  }, [ctx, sessionId, demo, revision, navigationRevision]);
++  }, [ctx, sessionId, selectedRunId, demo, revision, navigationRevision]);
+   (0, import_react4.useEffect)(() => {
+     setDemo(false);
++    setSelectedRunId(void 0);
+   }, [sessionId, navigationRevision]);
+   async function cancel() {
+     if (!sessionId || !snapshot || snapshot.demo || snapshot.sessionId !== sessionId) return;
+@@ -1977,7 +2015,7 @@ function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSettings
+     const state = await teamCall(ctx, "cancel", { sessionId, runId: snapshot.id }, new AbortController().signal);
+     if (current.current === bound && token === generation.current) setSnapshot(state.snapshot);
+   }
+-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(TeamView, { catalog, sessionId, sessionContext, snapshot, settings: setup.settings, configured: setup.configured, loading, error: error || (sessionContext?.lastCommand?.kind === "blocked" ? sessionContext.lastCommand.message : void 0), onOpenSettings, onCancel: cancel, onDemo: () => setDemo((value) => !value), onRefresh: () => {
++  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(TeamView, { catalog, history: history.filter((row) => row.sessionId === sessionId), selectedRunId, onSelectRun: setSelectedRunId, sessionId, sessionContext, snapshot: snapshot?.demo || snapshot?.sessionId === sessionId ? snapshot : null, settings: setup.settings, configured: setup.configured, loading, error: error || (sessionContext?.lastCommand?.kind === "blocked" ? sessionContext.lastCommand.message : void 0), onOpenSettings, onCancel: cancel, onDemo: () => setDemo((value) => !value), onRefresh: () => {
+     setDemo(false);
+     setRevision((value) => value + 1);
+   } });
+@@ -2097,7 +2135,7 @@ function apply(ctx) {
+     (0, import_react5.useEffect)(() => {
+       setView(navigation?.params?.view === "settings" ? "settings" : "results");
+     }, [sessionId, navigation?.revision]);
+-    return view === "settings" ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ConnectedTeamSettings, { ctx, onClose: () => setView("results") }) : /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ConnectedTeam, { ctx, sessionId, navigationRevision: navigation?.revision, onOpenSettings: () => setView("settings") });
++    return view === "settings" ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ConnectedTeamSettings, { ctx, onClose: () => setView("results") }) : /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ConnectedTeam, { ctx, sessionId, navigationRevision: navigation?.revision, onOpenSettings: () => setView("settings") }, sessionId || "no-session");
+   }
+   const Settings = ({ close }) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ConnectedTeamSettings, { ctx, onClose: close });
+   ctx.effect(() => ctx.slots.inject("sidebar.right.pane.tab", () => ctx.slots.register({ name: "sidebar.right.pane.tab", key: PACKAGE }, Body)), "desktop-workflow: native team body");
+diff --git a/package-lock.json b/package-lock.json
+index 218b1c9..88c5047 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "dsh-desktop-workflow",
+-  "version": "0.5.2",
++  "version": "0.5.3",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "dsh-desktop-workflow",
+-      "version": "0.5.2",
++      "version": "0.5.3",
+       "dependencies": {
+         "@deepseek-ai/schemastery": "3.18.4"
+       },
+diff --git a/package.json b/package.json
+index 19ee206..3ea1a18 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "dsh-desktop-workflow",
+-  "version": "0.5.2",
++  "version": "0.5.3",
+   "private": true,
+   "description": "Native /team command, one-time role and Jev settings, and bounded multi-agent workflow for DSH 0.2.0-rc.2",
+   "type": "module",
+diff --git a/scripts/verify-verifier-windows.mjs b/scripts/verify-verifier-windows.mjs
+index 1cc9421..6172a5b 100644
+--- a/scripts/verify-verifier-windows.mjs
++++ b/scripts/verify-verifier-windows.mjs
+@@ -22,7 +22,7 @@ fs.mkdirSync(root);fs.mkdirSync(path.join(plugin,'src'),{recursive:true});
+ fs.writeFileSync(path.join(plugin,'package.json'),'{"type":"module"}');
+ // Copy the exact production entry files to exercise spaces, non-ASCII and apostrophes.
+ const production=path.resolve(fileURLToPath(new URL('../src',import.meta.url)));
+-for(const file of ['auto-verification.js','verification.js','host-adapter.js','verifier-command.js','verification-project-runner.js','verification-host-runner.js'])fs.copyFileSync(path.join(production,file),path.join(plugin,'src',file));
++for(const file of ['auto-verification.js','verification.js','host-adapter.js','verification-diagnostics.js','verifier-command.js','verification-project-runner.js','verification-host-runner.js'])fs.copyFileSync(path.join(production,file),path.join(plugin,'src',file));
+ const {createAutoVerifier}=await import(pathToFileURL(path.join(plugin,'src/auto-verification.js')));
+ const {createVerifier}=await import(pathToFileURL(path.join(plugin,'src/verification.js')));
+ const {verifierCommand}=await import(pathToFileURL(path.join(plugin,'src/verifier-command.js')));
+@@ -59,13 +59,14 @@ const executeTool=async(_id,spec)=>{
+   assert.equal(value.kind,'foreground');assert.equal(value.signal,null);assert.equal(value.timedOut,false);assert.equal(value.aborted,false);
+   let data;try{data=JSON.parse(value.stdout.text);}catch{throw Error('No verifier JSON; exit '+value.exitCode+' stderr '+value.stderr.text.slice(0,500));}
+   if(data.baselineRef)baselineRefs.set(payload.runId,data.baselineRef);
+-  phases.push({runId:payload.runId,phase:payload.phase,exitCode:value.exitCode,checksPassed:data.checksPassed,protectedOk:data.protectedOk,sealed:data.sealed});
++  phases.push({runId:payload.runId,phase:payload.phase,exitCode:value.exitCode,verified:data.verified,observation:data.observation,checksPassed:data.checksPassed,protectedOk:data.protectedOk,sealed:data.sealed,evidenceExists:baselineRefs.has(payload.runId)?fs.existsSync(baselineRefs.get(payload.runId).path):undefined,hasStderrText:!!value.stderr.text});
++  if(value.exitCode!==0)console.log('NATIVE NONZERO '+JSON.stringify(phases.at(-1)));
+   return result;
+ };
+ const verifier=createAutoVerifier({poison:id=>poisons.push(id),executeTool});
+ const config={sessionId:'isolated-windows-fixture',verification:{profileId:'auto',scope:['workspace']}},signal=new AbortController().signal;
+ const collect=(runId,phase)=>verifier.collect({config,runId,round:phase==='baseline'?0:1,phase,signal});
+-async function release(runId){const ref=baselineRefs.get(runId);assert.ok(ref);await verifier.release(runId);assert.equal(phases.at(-1).phase,'cleanup');assert.equal(phases.at(-1).exitCode,0);assert.equal(fs.existsSync(ref.path),false);}
++async function release(runId){const ref=baselineRefs.get(runId);assert.ok(ref);await verifier.release(runId);assert.equal(phases.at(-1).phase,'cleanup');assert.equal(phases.at(-1).exitCode,0,JSON.stringify(phases.at(-1)));assert.equal(fs.existsSync(ref.path),false);}
+ try{
+   for(let cycle=1;cycle<=2;cycle++){
+     const runId='normal-'+cycle;
+diff --git a/src/auto-verification.js b/src/auto-verification.js
+index 4beaef0..5247905 100644
+--- a/src/auto-verification.js
++++ b/src/auto-verification.js
+@@ -1,24 +1,35 @@
+-/** Automatic project verification. All subprocesses execute INSIDE a native host tool. */
+-import {randomUUID} from 'node:crypto';
+-import {TeamHostError} from './host-adapter.js';
+-import {verifierCommand} from './verifier-command.js';
+-export function createAutoVerifier({executeTool,poison,onPolicy=()=>{}}){
+- const states=new Map();
+- return {profiles:[],automatic:true,
+- preflight(config){if(config.verification?.profileId!=='auto')throw new TeamHostError('AUTO_PROJECT_REQUIRED','请使用 /team 自动探测当前项目。');},
+- async collect({config,runId,round,signal,phase='check'}){
+-  const state=states.get(runId);if(phase!=='baseline'&&!state)throw new TeamHostError('BASELINE_REQUIRED','缺少项目启动快照。');
+-  if(phase==='check'&&state.project.mode==='analysis-only'&&!state.baselineRef)return {verified:false,analysisOnly:true,checksPassed:false,checksFailed:0,checksRun:false,diffAvailable:false,scopeOk:false,protectedOk:false,reason:state.project.reason,diffStat:'Unavailable',checkSummary:'No independent checks'};
+-  const nonce=randomUUID(),payload={runId,round,nonce,phase,baselineRef:state?.baselineRef,expectedFingerprint:state?.round===round?state.fingerprint:undefined};
+-  let result;try{result=await executeTool(config.sessionId,{name:'bash',arguments:{description:'Verify project evidence within the current workspace',command:verifierCommand('project',payload),timeoutMs:90000,run_in_background:false}},signal,{allowUserApproval:true});}catch(error){if(!['CANCELLED','CONTEXT_CHANGED','VERIFIER_UNAVAILABLE','VERIFIER_SCOPE_UNSAFE'].includes(error?.code))poison(config.sessionId);throw error;}
+-  if(result?.verificationNotDispatched)throw new TeamHostError('VERIFICATION_DENIED','宿主未批准这次项目检查；没有执行检查，也没有自动批准。可在当前会话重新发起 /team。');
+-  const v=result?.value;if(result?.isError||!v||v.kind!=='foreground'||v.timedOut||v.aborted||v.signal||v.stopped||!Number.isInteger(v.exitCode)||!v.stdout||!v.stderr){poison(config.sessionId);throw new TeamHostError('VERIFICATION_UNSETTLED','自动项目检查的清理状态不明，已暂停新运行。');}
+-  if(v.stdout?.truncated||v.stderr?.truncated||v.sandbox?.denied||v.sandbox?.runnerFailed)throw new TeamHostError('VERIFICATION_BLOCKED','项目检查被宿主限制或证据过大，无法验证。');
+-  let data;try{data=JSON.parse(v.stdout.text);}catch{throw new TeamHostError('VERIFICATION_INVALID','项目检查未返回可验证结果。');}
+-  if(data.unsettled||data.checks?.some(c=>c.unsettled)){poison(config.sessionId);throw new TeamHostError('VERIFICATION_UNSETTLED','检查进程清理未确认，已暂停新运行。');}
+-  if(data.runId!==runId||data.round!==round||data.nonce!==nonce||v.exitCode!==0||!data.verified)throw new TeamHostError('VERIFICATION_INVALID','项目证据发生变化或不完整，不能宣称完成。');
+-  if(phase==='baseline'){states.set(runId,{project:data.project,baselineRef:data.baselineRef,config});onPolicy(runId,data.project);return {verified:true,reason:data.project.reason,project:data.project,analysisOnly:data.project.mode==='analysis-only'};}
+-  if(phase==='check'){state.round=round;state.fingerprint=data.fingerprint;}
+-  return data;
+- },async release(runId){const state=states.get(runId);if(state?.baselineRef){try{await this.collect({config:state.config,runId,round:state.round||0,phase:'cleanup',signal:new AbortController().signal});}catch{/* Evidence contains only project metadata/hashes. Host restrictions may prevent cleanup; never broaden permissions. */}}states.delete(runId);onPolicy(runId,null);}};
+-}
++/** Automatic project verification. All subprocesses execute INSIDE a native host tool. */
++import {randomUUID} from 'node:crypto';
++import {TeamHostError} from './host-adapter.js';
++import {verifierCommand} from './verifier-command.js';
++import {verificationDiagnostic,verificationFailureText} from './verification-diagnostics.js';
++export function createAutoVerifier({executeTool,poison,onPolicy=()=>{},onDiagnostic=()=>{}}){
++ const states=new Map();
++ return {profiles:[],automatic:true,
++ preflight(config){if(config.verification?.profileId!=='auto')throw new TeamHostError('AUTO_PROJECT_REQUIRED','请使用 /team 自动探测当前项目。');},
++ async collect({config,runId,round,signal,phase='check'}){
++  const fail=(code,reason,result,error,unsettled=false)=>{const diagnostic={...verificationDiagnostic(phase,result,error,reason),runId};onDiagnostic(config.sessionId,diagnostic);if(unsettled)poison(config.sessionId,diagnostic);const failure=new TeamHostError(code,verificationFailureText(diagnostic));failure.diagnostic=diagnostic;throw failure;};
++  const state=states.get(runId);if(phase!=='baseline'&&!state)fail('BASELINE_REQUIRED','缺少项目启动快照');
++  if(phase==='check'&&state.project.mode==='analysis-only'&&!state.baselineRef)return {verified:false,analysisOnly:true,checksPassed:false,checksFailed:0,checksRun:false,diffAvailable:false,scopeOk:false,protectedOk:false,reason:state.project.reason,diffStat:'Unavailable',checkSummary:'No independent checks'};
++  const nonce=randomUUID(),payload={runId,round,nonce,phase,baselineRef:state?.baselineRef,expectedFingerprint:state?.round===round?state.fingerprint:undefined};
++  let result;
++  try{result=await executeTool(config.sessionId,{name:'bash',arguments:{description:'Verify project evidence within the current workspace',command:verifierCommand('project',payload),timeoutMs:90000,run_in_background:false}},signal,{allowUserApproval:true});}
++  catch(error){fail('VERIFICATION_TOOL_FAILURE','宿主工具抛出异常',undefined,error,!['CANCELLED','CONTEXT_CHANGED','VERIFIER_UNAVAILABLE','VERIFIER_SCOPE_UNSAFE'].includes(error?.code));}
++  if(result?.verificationNotDispatched)fail('VERIFICATION_DENIED','宿主未派发检查工具',result);
++  const v=result?.value;
++  if(result?.isError)fail('VERIFICATION_UNSETTLED','宿主工具返回错误，执行终态未确认',result,undefined,true);
++  if(!v||v.kind!=='foreground'||v.timedOut||v.aborted||v.signal||v.stopped||!Number.isInteger(v.exitCode)||!v.stdout||!v.stderr)fail('VERIFICATION_UNSETTLED','前台结束或完整输出未确认',result,undefined,true);
++  if(v.stdout.truncated||v.stderr.truncated||v.sandbox?.denied||v.sandbox?.runnerFailed)fail('VERIFICATION_BLOCKED','宿主限制或输出截断',result);
++  let data;try{data=JSON.parse(v.stdout.text);}catch{fail('VERIFICATION_INVALID','检查输出不是完整 JSON',result);}
++  if(data.unsettled||data.checks?.some(c=>c.unsettled))fail('VERIFICATION_UNSETTLED','检查进程超时或收到信号',result,undefined,true);
++  if(data.runId!==runId||data.round!==round||data.nonce!==nonce||v.exitCode!==0||!data.verified)fail('VERIFICATION_INVALID','项目证据校验未通过',result);
++  if(phase==='baseline'){states.set(runId,{project:data.project,baselineRef:data.baselineRef,config});onPolicy(runId,data.project);return {verified:true,reason:data.project.reason,project:data.project,analysisOnly:data.project.mode==='analysis-only',observation:data.observation};}
++  if(phase==='check'){state.round=round;state.fingerprint=data.fingerprint;}
++  return data;
++ },
++ async release(runId){
++  const state=states.get(runId);let settled=true;
++  if(state?.baselineRef){try{await this.collect({config:state.config,runId,round:state.round||0,phase:'cleanup',signal:new AbortController().signal});}catch(error){settled=false;poison(state.config.sessionId,error.diagnostic||verificationDiagnostic('cleanup',undefined,error,'证据清理未确认'));}}
++  if(settled)states.delete(runId);onPolicy(runId,null);return {settled};
++ }};
++}
+diff --git a/src/host-adapter.js b/src/host-adapter.js
+index 3245882..e5c2654 100644
+--- a/src/host-adapter.js
++++ b/src/host-adapter.js
+@@ -11,7 +11,7 @@ const clean = (value, length=500) => typeof value === 'string' ? value.replace(/
+ export class TeamHostError extends Error { constructor(code,message){super(message);this.code=code;this.retryable=false;this.blocked=true;} }
+ function need(condition,code,message){if(!condition)throw new TeamHostError(code,message);}
+ 
+-export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, onCleanupFailed = () => {} } = {}) {
++export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, onCleanupFailed = () => {}, guardProject = () => {} } = {}) {
+   const creation = new AsyncLocalStorage();
+   const projectPolicies=new Map();
+   const verifierCalls = new AsyncLocalStorage();
+@@ -22,7 +22,9 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
+   let monitor;
+   const owned = new Map();
+   const disposers = [];
+-  let closed=false;
++  let closed=false,disposal;
++  const globalTools=ctx.get?.('tools');
++  const projectGuardDisposer=typeof globalTools?.guard==='function'?globalTools.guard(exec=>!researchTools.has(exec.name)?guardProject(exec.agent,exec):undefined):undefined;
+   function requireSpawn(){const provider=ctx.subagents.getProvider('spawn');need(provider?.capabilities?.agentOptions && provider.capabilities.outputSchema && provider.capabilities.persona && provider.capabilities.depthLimit,'UNSUPPORTED_HOST','当前宿主缺少支持独立模型和结构化输出的 spawn 子代理。');}
+ 
+   function permissionState(parent){
+@@ -165,10 +167,10 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
+     try{const result=await verifierCalls.run({parent,name:spec.name,args:JSON.stringify(spec.arguments)},()=>tools.execute({callId:randomUUID(),...spec,agent:parent,signal}));return !dispatched&&result?.isError?{...result,verificationNotDispatched:true}:result;}finally{offDispatch();dispose();}
+ 
+   }
+-  function poison(sessionId){quarantined.add(sessionId);onCleanupFailed(sessionId,'verification');}
++  function poison(sessionId,diagnostic){quarantined.add(sessionId);onCleanupFailed(sessionId,'verification',diagnostic);}
+   return {context,verifyContext,catalog,validateModels,execute,executeTool,poison,setProjectPolicy:(runId,policy)=>policy?projectPolicies.set(runId,policy):projectPolicies.delete(runId),
+     beginSession(sessionId,key){need(!quarantined.has(sessionId),'CLEANUP_UNCONFIRMED','子代理清理未确认，禁止新运行。');const parent=verifyContext(sessionId,key);const tools=parent.ctx?.get('tools');need(tools&&typeof tools.guard==='function','PARENT_GUARD_UNAVAILABLE','无法保护主会话与子代理的并发写入，已阻止执行。');const cleanup=tools.guard(exec=>exec.agent===parent&&!researchTools.has(exec.name)&&!(verifierCalls.getStore()?.parent===parent&&verifierCalls.getStore()?.name===exec.name&&verifierCalls.getStore()?.args===JSON.stringify(exec.arguments))?'团队运行或清理期间，主会话的修改操作已暂停。请先取消团队并等待清理完成。':undefined);parentGuards.set(sessionId,cleanup);activeFingerprints.set(sessionId,fingerprint(parent));activeParents.add(sessionId);if(!monitor)monitor=setInterval(checkActive,500);},
+     releaseSession(sessionId){if(quarantined.has(sessionId))return;parentGuards.get(sessionId)?.();parentGuards.delete(sessionId);activeParents.delete(sessionId);activeFingerprints.delete(sessionId);if(!activeParents.size){clearInterval(monitor);monitor=undefined;}},
+-    async dispose(){closed=true;clearInterval(monitor);for(const dispose of disposers.reverse())await dispose();owned.clear();for(const[id,cleanup]of parentGuards)if(!quarantined.has(id))cleanup();activeParents.clear();},
++    dispose(){if(disposal)return disposal;closed=true;clearInterval(monitor);disposal=Promise.resolve().then(async()=>{for(const dispose of [...disposers].reverse())await dispose();owned.clear();if(!quarantined.size)projectGuardDisposer?.();for(const[id,cleanup]of parentGuards)if(!quarantined.has(id))cleanup();activeParents.clear();});return disposal;},
+   };
+ }
+diff --git a/src/project-leases.js b/src/project-leases.js
+new file mode 100644
+index 0000000..a0c0807
+--- /dev/null
++++ b/src/project-leases.js
+@@ -0,0 +1,79 @@
++/** Process-wide project exclusion; run state and histories belong to sessions. */
++import path from 'node:path';
++import {tmpdir} from 'node:os';
++import {realpathSync,existsSync,lstatSync,readFileSync} from 'node:fs';
++import {TeamHostError} from './host-adapter.js';
++const normalize=p=>process.platform==='win32'?p.toLowerCase():p;
++const canonical=p=>normalize(realpathSync(p));
++export function projectIdentity(cwd){
++ if(typeof cwd!=='string'||!path.isAbsolute(cwd))throw new TeamHostError('PROJECT_UNAVAILABLE','无法确认当前项目边界，未启动团队。');
++ let root=canonical(cwd);if(!lstatSync(root).isDirectory())throw new TeamHostError('PROJECT_UNAVAILABLE','当前工作区不是目录。');
++ for(let dir=root;;dir=path.dirname(dir)){
++  const marker=path.join(dir,'.git');
++  if(existsSync(marker)){
++   let gitDir;
++   const stat=lstatSync(marker);if(stat.isSymbolicLink())throw new TeamHostError('PROJECT_UNAVAILABLE','Git 边界包含无法核验的链接。');
++   if(stat.isDirectory())gitDir=canonical(marker);
++   else if(stat.isFile()&&stat.size<=4096){const match=readFileSync(marker,'utf8').trim().match(/^gitdir: ([^\r\n\0]+)$/);if(!match)throw new TeamHostError('PROJECT_UNAVAILABLE','无法核验 Git 工作区边界。');gitDir=canonical(path.resolve(dir,match[1]));}
++   else throw new TeamHostError('PROJECT_UNAVAILABLE','无法核验 Git 工作区边界。');
++   const common=path.join(gitDir,'commondir');
++   if(existsSync(common)){const stat=lstatSync(common);if(!stat.isFile()||stat.isSymbolicLink()||stat.size>4096)throw new TeamHostError('PROJECT_UNAVAILABLE','无法核验 Git 共用目录。');const value=readFileSync(common,'utf8').trim();if(!value||/[\r\n\0]/.test(value))throw new TeamHostError('PROJECT_UNAVAILABLE','无法核验 Git 共用目录。');gitDir=canonical(path.resolve(gitDir,value));}
++   return {root:dir,key:'git:'+gitDir};
++  }
++  if(path.dirname(dir)===dir)break;
++ }
++ return {root,key:'directory:'+root};
++}
++const KEY=Symbol.for('dsh-desktop-workflow:project-runs:v3');
++export function mutationProjectIdentity(cwd,filePath,identify=projectIdentity){
++ if(typeof cwd!=='string'||!path.isAbsolute(cwd)||typeof filePath!=='string'||!filePath||filePath.includes('\0'))throw new TeamHostError('PROJECT_UNAVAILABLE','无法核验修改目标的项目边界。');
++ const target=path.resolve(cwd,filePath);let directory;
++ try{const actual=realpathSync(target),stat=lstatSync(actual);if(!stat.isDirectory()&&(!stat.isFile()||stat.nlink>1))throw new TeamHostError('PROJECT_UNAVAILABLE','修改目标包含无法隔离的文件链接。');directory=stat.isDirectory()?actual:path.dirname(actual);}catch(error){if(error.code!=='ENOENT')throw error;directory=path.dirname(target);}
++ for(;;){try{if(!lstatSync(directory).isDirectory())throw new TeamHostError('PROJECT_UNAVAILABLE','修改目标的父路径不是目录。');return identify(realpathSync(directory));}catch(error){if(error.code!=='ENOENT')throw error;const parent=path.dirname(directory);if(parent===directory)throw error;directory=parent;}}
++}
++// rc.2's shared writableRoots contract includes both platform temp and /tmp.
++export function shellWriteProjects(workspaceRoot,identify=projectIdentity){
++ return [...new Set([workspaceRoot,path.resolve('/tmp'),tmpdir()])].map(root=>{if(typeof root!=='string'||!path.isAbsolute(root))throw new TeamHostError('PROJECT_UNAVAILABLE','无法核验 shell 写入边界。');try{return identify(root);}catch(error){if(error.code!=='ENOENT')throw error;const resolved=normalize(path.resolve(root));return {root:resolved,key:'directory:'+resolved};}});
++}
++const state=globalThis[KEY]??(globalThis[KEY]={sessions:new Map(),leases:new Set(),history:new Map()});
++const inside=(a,b)=>a===b||a.startsWith(b.endsWith(path.sep)?b:b+path.sep);
++export const overlaps=(a,b)=>a.key===b.key||inside(a.root,b.root)||inside(b.root,a.root);
++export function createProjectLeases(owner,resolveLegacy){
++ const legacy=()=>{
++  const old=globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')]?.current;
++  if(!old)return null;
++  let project;try{project=resolveLegacy(old.sessionId);}catch{}
++  return {...old,project,state:old.poisoned?'quarantined':'running',legacy:true};
++ };
++ const conflict=(sessionId,project,{includeSession=true}={})=>{
++  const own=includeSession&&state.sessions.get(sessionId);if(own)return own;
++  for(const lease of state.leases)if(!project||overlaps(project,lease.project))return lease;
++  const old=legacy();if(old&&(!project||!old.project||overlaps(project,old.project)||old.sessionId===sessionId))return old;
++  return null;
++ };
++ const save=snapshot=>{
++  if(!snapshot)return;
++  let rows=state.history.get(snapshot.sessionId);if(!rows)state.history.set(snapshot.sessionId,rows=[]);
++  const index=rows.findIndex(r=>r.id===snapshot.id);if(index>=0)rows[index]=structuredClone(snapshot);else rows.unshift(structuredClone(snapshot));
++  while(rows.length>8){const index=rows.findLastIndex(r=>!!r.finishedAt);if(index<0)break;rows.splice(index,1);}
++  while(state.history.size>64){const id=[...state.history.keys()].find(id=>!state.sessions.has(id));if(!id)break;state.history.delete(id);}
++ };
++ return {
++  conflict,
++  get:sessionId=>state.sessions.get(sessionId),
++  owned:()=>[...state.leases].filter(l=>l.owner===owner),
++  acquire(sessionId,project){const occupied=conflict(sessionId,project);if(occupied)return {occupied};const lease={owner,sessionId,project,state:'starting',poisoned:false,startedAt:new Date().toISOString()};state.sessions.set(sessionId,lease);state.leases.add(lease);return {lease};},
++  release(lease){if(lease.poisoned)return false;if(state.sessions.get(lease.sessionId)===lease)state.sessions.delete(lease.sessionId);state.leases.delete(lease);return true;},
++  poison(sessionId,source,diagnostic){const lease=state.sessions.get(sessionId);if(lease?.owner!==owner)return;lease.poisoned=true;lease.state='quarantined';lease.poisonSource=source;lease.diagnostic=diagnostic||lease.diagnostic;},
++  save,
++  snapshot(sessionId,runId){return structuredClone(state.history.get(sessionId)?.find(r=>!runId||r.id===runId)||null);},
++  history(sessionId){return (state.history.get(sessionId)||[]).map(({id,sessionId,goal,status,startedAt,finishedAt})=>({id,sessionId,goal,status,startedAt,finishedAt}));},
++ };
++}
++export function occupancy(lease){return lease?{sessionId:lease.sessionId,runId:lease.runId,state:lease.state,workspace:lease.project?.root,legacy:!!lease.legacy,scopeKnown:!!lease.project,diagnostic:lease.diagnostic}:undefined;}
++export function occupiedMessage(lease){
++ const who=`会话 ${lease.sessionId}${lease.runId?' / '+lease.runId:''}`;
++ if(lease.legacy&&!lease.project)return `旧运行由${who}占用，项目范围尚未确认；保留保护，请先在宿主确认结束。`;
++ if(lease.poisoned)return `此项目由${who}隔离：${lease.poisonSource==='verification'?'项目检查':'子代理'}清理未确认${lease.diagnostic?'（'+lease.diagnostic.phase+' / '+lease.diagnostic.reason+'）':''}。其它独立项目可继续；当前项目须确认执行已结束。`;
++ return `此项目由${who}占用（${lease.state==='starting'?'启动检查':lease.state==='cancelling'?'正在取消并清理':'正在运行'}）；请等待可验证结束。`;
++}
+diff --git a/src/team-runtime.js b/src/team-runtime.js
+index a1644b5..edd4dc2 100644
+--- a/src/team-runtime.js
++++ b/src/team-runtime.js
+@@ -1,94 +1,119 @@
+-import { JevTeamController } from './jev-controller.js';
+-import {projectJevText} from './jev-client.js';
+-import {createAutoVerifier} from './auto-verification.js';
+-import {createSetupStore,createHostJevClient} from './team-setup.js';
+-import {createHash} from 'node:crypto';
+-import { validateConfig } from './team-contracts.js';
+-import { createExecutionAdapter, TeamHostError } from './host-adapter.js';
+-
+-const LEASE_KEY=Symbol.for('dsh-desktop-workflow:exclusive-run:v2');
+-const leases=globalThis[LEASE_KEY]??(globalThis[LEASE_KEY]={current:null});
+-const cleanupSubject=()=>leases.current?.poisonSource==='verification'?'项目检查':'子代理';
+-const poisonNotice=()=>`上一次${cleanupSubject()}清理未确认，已锁定新运行。请检查残留任务并重启宿主。`;
+-const prefix='dsh-desktop-workflow/team/';
+-const fields=(value,names)=>value && typeof value==='object' && !Array.isArray(value) && Object.keys(value).every(k=>names.includes(k));
+-const validSession=id=>typeof id==='string' && id.length>0 && id.length<=128;
+-const unavailable=()=>({available:false,providers:[],reason:'当前宿主未加载 agents、subagents、llm、tools 或 sandboxPolicy 服务，团队执行不可用。'});
+-export function createTeamRuntime(ctx,serverConfig={}, dependencies={}){
+-  let controller;const owner={};
+-  const decorateContext=context=>leases.current?{...context,canStart:false,reason:leases.current.poisoned?poisonNotice():'已有团队运行或启动请求；为避免共享工作区冲突，本插件一次只运行一个团队。'}:context;
+-  const decorateSnapshot=snapshot=>snapshot&&leases.current?.poisoned&&leases.current.owner===owner?{...snapshot,status:'blocked',message:`${cleanupSubject()}清理未确认，不能宣称已停止；新运行已锁定。请检查残留任务并重启宿主。`}:snapshot;
+-  const executor=createExecutionAdapter(ctx,{onCleanupFailed:(sessionId,source='subagent')=>{if(leases.current?.owner===owner){leases.current.poisoned=true;leases.current.poisonSource=source;}const snapshot=controller?.snapshot(sessionId);if(snapshot)controller.cancel(sessionId,snapshot.id);},onParentUnavailable:(sessionId)=>{const snapshot=controller?.snapshot(sessionId);if(snapshot)controller.cancel(sessionId,snapshot.id);}});
+-  const setup=dependencies.setup??createSetupStore(ctx,serverConfig);
+-  const jev=dependencies.jev??createHostJevClient(ctx,setup);
+-  const verifier=dependencies.verifier??createAutoVerifier({executeTool:executor.executeTool,poison:executor.poison,onPolicy:executor.setProjectPolicy});
+-  controller=new JevTeamController({execute:spec=>executor.execute(spec),jev,verifier});
+-  const requests=new Map();
+-  let closed=false;const commandPending=new Map(),commandStates=new Map();
+-  const publicContext=sessionId=>({...decorateContext(executor.context(sessionId)),setupRequired:!setup.view().configured||commandStates.get(sessionId)?.kind==='settings-required',lastCommand:commandStates.get(sessionId)});
+-  const api={
+-    catalog:async selected=>({...await executor.catalog(selected),jev:await jev.status(),verificationProfiles:verifier.profiles,automaticVerification:!!verifier.automatic}),
+-    settings:async()=>setup.refresh(),
+-    async configure(input){if(input?.disclosureAccepted===true){const validated=validateConfig({sessionId:'settings',goal:'settings validation',...input.settings});await executor.validateModels(validated.roles,AbortSignal.timeout(15000));}const saved=await setup.configure(input);for(const[id,state]of commandStates)if(state.kind==='settings-required')commandStates.delete(id);if(!saved.disclosureAccepted&&leases.current?.owner===owner){const snapshot=controller.snapshot(leases.current.sessionId);if(snapshot)controller.cancel(snapshot.sessionId,snapshot.id);}return saved;},
+-    snapshot(sessionId){if(!validSession(sessionId))throw new TeamHostError('SESSION_REQUIRED','请先打开真实 DSH 会话。');return {snapshot:decorateSnapshot(controller.snapshot(sessionId)),context:publicContext(sessionId)};},
+-    async start(input,externalSignal){
+-      if(!fields(input,['sessionId','contextKey','requestId','goal','settings']) || typeof input.requestId!=='string' || !/^[A-Za-z0-9_-]{8,128}$/.test(input.requestId) || !fields(input.settings,['roles','limits','reviewPlan','routeEnabled','jev','verification']))throw new TeamHostError('INVALID_INPUT','启动参数无效。');
+-      const config=validateConfig({sessionId:input.sessionId,goal:input.goal,...input.settings});
+-      if(config.jev?.enabled!==true||config.jev.disclosureAccepted!==true)throw new TeamHostError('JEV_CONSENT_REQUIRED','请确认本次 TypeSafe 数据传输范围。');
+-      await jev.refresh?.();jev.preflight();verifier.preflight(config);
+-      if(closed)throw new TeamHostError('UNAVAILABLE','团队服务已关闭。');
+-      executor.verifyContext(config.sessionId,input.contextKey);
+-      const key=`${config.sessionId}:${input.requestId}`;
+-      if(requests.has(key))return requests.get(key).promise;
+-      if(leases.current)throw new TeamHostError('HOST_BUSY',leases.current.poisoned?poisonNotice():'已有团队运行或启动请求，请等待结束后再试。');
+-      const lease={owner,sessionId:config.sessionId,poisoned:false};leases.current=lease;
+-      const entry={status:'pending',promise:null};
+-      const pending=(async()=>{
+-        const abort=new AbortController();let timer;
+-        try{
+-          await Promise.race([executor.validateModels(config.roles,abort.signal),new Promise((_,reject)=>{timer=setTimeout(()=>{abort.abort();reject(new TeamHostError('MODEL_PREFLIGHT_TIMEOUT','模型元数据验证超时，尚未启动任何模型调用。'));},15000);})]);
+-          if(externalSignal?.aborted)throw new TeamHostError('CANCELLED','命令已取消，未启动新的团队。');
+-          if(closed)throw new TeamHostError('UNAVAILABLE','团队服务已关闭。');
+-          executor.verifyContext(config.sessionId,input.contextKey);
+-          executor.beginSession(config.sessionId,input.contextKey);
+-          const snapshot=controller.start(config);lease.runId=snapshot.id;
+-          controller.wait(snapshot.id).finally(()=>{executor.releaseSession(config.sessionId);if(leases.current===lease&&!lease.poisoned)leases.current=null;}).catch(()=>{});
+-          return {snapshot:decorateSnapshot(snapshot),context:decorateContext(executor.context(config.sessionId))};
+-        }finally{clearTimeout(timer);abort.abort();}
+-      })();
+-      entry.promise=pending;requests.set(key,entry);while(requests.size>32)requests.delete(requests.keys().next().value);
+-      try{const value=await pending;entry.status='accepted';entry.runId=value.snapshot.id;return value;}catch(error){entry.status='failed';if(!lease.runId)executor.releaseSession(config.sessionId);entry.error=error instanceof TeamHostError?error.message:'启动配置无效，未成功启动团队。';if(leases.current===lease&&!lease.poisoned)leases.current=null;throw error;}
+-    },
+-    command(invocation){
+-      const sessionId=invocation.agent?.id;
+-      if(!validSession(sessionId)||ctx.agents.get(sessionId)!==invocation.agent)return Promise.resolve({kind:'error',text:'当前主会话不可用。'});
+-      if(commandPending.has(sessionId))return commandPending.get(sessionId);
+-      const pending=(async()=>{
+-        const set=(kind,message,runId)=>{commandStates.set(sessionId,{kind,message,...runId?{runId}:{}});while(commandStates.size>32)commandStates.delete(commandStates.keys().next().value);return {kind:'success',text:message};};
+-        try{
+-          const goal=typeof invocation.rawInput==='string'?invocation.rawInput.trim():'';
+-          if(!goal)return set('help','在聊天框输入 /team + 任务正文。首次使用请打开设置 → 多模型团队。');
+-          if(goal.length>8000)return {kind:'error',text:'任务正文过长，请缩短到 8000 字符以内。'};
+-          projectJevText(goal,8000);
+-          const saved=await setup.refresh();
+-          if(!saved.configured)return set('settings-required','请先在设置 → 多模型团队选择六个岗位模型、填写 Jev key 并启用服务。');
+-          if(invocation.signal?.aborted)return {kind:'error',text:'命令已取消，未启动新的团队。'};
+-          if(leases.current?.owner===owner&&leases.current.sessionId===sessionId){const active=controller.snapshot(sessionId);if(active&&!active.finishedAt)return set('started','此会话已有团队运行，已打开当前进度；没有重复派发。',active.id);}
+-          const context=executor.context(sessionId);if(!context.canStart)return set('blocked',context.reason||'当前会话不可启动。');
+-          const requestId='command-'+createHash('sha256').update(String(invocation.commandId)).digest('hex').slice(0,40);
+-          const result=await api.start({sessionId,contextKey:context.contextKey,requestId,goal,settings:{...saved.settings,routeEnabled:false,jev:{enabled:true,disclosureAccepted:true},verification:{profileId:verifier.automatic?'auto':verifier.profiles[0]?.id,scope:['workspace']}}},invocation.signal);
+-          return set('started','团队已开始；正在自动检查当前项目，进度显示在右侧。',result.snapshot.id);
+-        }catch(error){return set(error instanceof TeamHostError&&/^(SETUP_|JEV_NOT_CONFIGURED|MODEL_)/.test(error.code)?'settings-required':'blocked',error instanceof TeamHostError?error.message:'团队无法启动，请查看设置或宿主权限；未自动重试。');}
+-      })();
+-      commandPending.set(sessionId,pending);pending.finally(()=>{if(commandPending.get(sessionId)===pending)commandPending.delete(sessionId);});return pending;
+-    },
+-    request(input){if(!fields(input,['sessionId','requestId'])||!validSession(input.sessionId)||typeof input.requestId!=='string')throw new TeamHostError('INVALID_INPUT','启动查询参数无效。');const entry=requests.get(`${input.sessionId}:${input.requestId}`);return {status:entry?.status||'unknown',error:entry?.error,snapshot:decorateSnapshot(controller.snapshot(input.sessionId)),context:decorateContext(executor.context(input.sessionId))};},
+-    cancel(input){if(!fields(input,['sessionId','runId']) || !validSession(input.sessionId) || typeof input.runId!=='string')throw new TeamHostError('INVALID_INPUT','取消参数无效。');const snapshot=controller.cancel(input.sessionId,input.runId);if(!snapshot)throw new TeamHostError('RUN_NOT_FOUND','当前会话没有这个团队运行。');return {snapshot:decorateSnapshot(snapshot),context:decorateContext(executor.context(input.sessionId))};},
+-    async dispose(){closed=true;await controller.dispose();await executor.dispose();requests.clear();if(leases.current?.owner===owner&&!leases.current.poisoned)leases.current=null;},
+-  };
+-  return api;
+-}
+-
++import {JevTeamController} from './jev-controller.js';
++import {projectJevText} from './jev-client.js';
++import {createAutoVerifier} from './auto-verification.js';
++import {createSetupStore,createHostJevClient} from './team-setup.js';
++import {createHash,randomUUID} from 'node:crypto';
++import {validateConfig} from './team-contracts.js';
++import {createExecutionAdapter,TeamHostError} from './host-adapter.js';
++import {projectIdentity,mutationProjectIdentity,shellWriteProjects,createProjectLeases,occupancy,occupiedMessage} from './project-leases.js';
++const prefix='dsh-desktop-workflow/team/';
++const fields=(value,names)=>value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).every(k=>names.includes(k));
++const validSession=id=>typeof id==='string'&&id.length>0&&id.length<=128;
++const unavailable=()=>({available:false,providers:[],reason:'当前宿主未加载 agents、subagents、llm、tools 或 sandboxPolicy 服务，团队执行不可用。'});
++export function createTeamRuntime(ctx,serverConfig={},dependencies={}){
++ let controller,closed=false,disposal;const owner={},requests=new Map(),commandPending=new Map(),commandStates=new Map();
++ const resolveProject=sessionId=>{const parent=ctx.agents.get(sessionId);if(!parent)throw new TeamHostError('SESSION_UNAVAILABLE','当前会话不可用。');try{return (dependencies.projectIdentity??projectIdentity)(parent.session.header.cwd);}catch{throw new TeamHostError('PROJECT_UNAVAILABLE','无法确认当前项目边界，未启动团队。');}};
++ const leases=createProjectLeases(owner,resolveProject);
++ const decorateSnapshot=snapshot=>{
++  const lease=snapshot&&leases.get(snapshot.sessionId);
++  const diagnostic=snapshot&&(diagnostics.get(snapshot.sessionId)?.runId===snapshot.id?diagnostics.get(snapshot.sessionId):snapshot.diagnostic);if(snapshot&&diagnostic)snapshot={...snapshot,diagnostic};
++  return snapshot&&lease?.runId===snapshot.id&&lease.poisoned?{...snapshot,status:'blocked',lifecycle:'quarantined',diagnostic:lease.diagnostic,message:`${lease.poisonSource==='verification'?'项目检查':'子代理'}清理未确认，不能宣称已停止。${occupiedMessage(lease)}`} : snapshot;
++ };
++ const currentSnapshot=(sessionId,runId)=>{
++  const current=controller.snapshot(sessionId);const found=current&&(!runId||current.id===runId)?current:leases.snapshot(sessionId,runId);
++  if(runId&&!found)throw new TeamHostError('RUN_NOT_FOUND','当前会话没有这个运行记录。');return decorateSnapshot(found);
++ };
++ const save=sessionId=>leases.save(decorateSnapshot(controller.snapshot(sessionId)));
++ const executor=createExecutionAdapter(ctx,{
++  guardProject:(agent,exec)=>{
++   const sessionId=agent?.session?.header?.parentSession||agent?.id,identify=dependencies.projectIdentity??projectIdentity;
++   const denied=project=>{const occupied=leases.conflict(sessionId,project,{includeSession:false});return occupied&&(!project||occupied.poisoned||occupied.legacy&&!occupied.project||occupied.sessionId!==sessionId)?occupiedMessage(occupied):undefined;};
++   if(!agent?.session?.header)return denied();
++   let project;try{project=identify(agent.session.header.cwd);}catch{return denied();}
++   const blocked=denied(project);if(blocked)return blocked;
++   if(['write','edit'].includes(exec?.name)){
++    try{return denied(mutationProjectIdentity(agent.session.header.cwd,exec.arguments?.file_path,identify));}catch{return denied();}
++   }
++   if(leases.get(sessionId))return;
++   if(['bash','pwsh'].includes(exec?.name)){
++    try{const backend=agent.ctx?.get?.(exec.name)??ctx.get?.(exec.name),policy=ctx.get?.('sandboxPolicy')?.resolve({session:agent.session}),mode=exec.arguments?.sandbox_permissions??policy?.mode;if(['workspace-write','read-only'].includes(backend?.sandboxMode)){if(mode==='read-only')return;if(mode==='workspace-write'){for(const writable of shellWriteProjects(policy.workspaceRoot,identify)){const conflict=denied(writable);if(conflict)return conflict;}return;}}}catch{}
++   }
++   return denied()? '存在项目占用，当前操作的写入范围无法核验，已阻止修改。':undefined;
++  },
++  onCleanupFailed:(sessionId,source='subagent',diagnostic)=>{leases.poison(sessionId,source,diagnostic);const snapshot=controller?.snapshot(sessionId);if(snapshot)controller.cancel(sessionId,snapshot.id);},
++  onParentUnavailable:sessionId=>{const lease=leases.get(sessionId);if(lease?.owner===owner)lease.state='cancelling';const snapshot=controller?.snapshot(sessionId);if(snapshot)controller.cancel(sessionId,snapshot.id);},
++ });
++ const setup=dependencies.setup??createSetupStore(ctx,serverConfig),jev=dependencies.jev??createHostJevClient(ctx,setup);
++ const diagnostics=new Map();
++ const verifier=dependencies.verifier??createAutoVerifier({executeTool:executor.executeTool,poison:executor.poison,onPolicy:executor.setProjectPolicy,onDiagnostic:(sessionId,diagnostic)=>{diagnostics.set(sessionId,diagnostic);const lease=leases.get(sessionId);if(lease?.owner===owner)lease.diagnostic=diagnostic;}});
++ controller=new JevTeamController({execute:spec=>executor.execute(spec),jev,verifier,id:()=>randomUUID()});
++ const publicContext=sessionId=>{
++  const context=executor.context(sessionId);let occupied;
++  if(context.available){try{occupied=leases.conflict(sessionId,resolveProject(sessionId));}catch(error){context.canStart=false;context.reason=error.message;}}
++  return {...context,...occupied?{canStart:false,reason:occupiedMessage(occupied),occupancy:occupancy(occupied)}:{},diagnostic:diagnostics.get(sessionId),setupRequired:!setup.view().configured||commandStates.get(sessionId)?.kind==='settings-required',lastCommand:commandStates.get(sessionId)};
++ };
++ const response=(sessionId,runId)=>({snapshot:currentSnapshot(sessionId,runId),context:publicContext(sessionId),history:leases.history(sessionId)});
++ function finish(lease){save(lease.sessionId);executor.releaseSession(lease.sessionId);if(!lease.poisoned){lease.state='settled';leases.release(lease);}}
++ const api={
++  catalog:async selected=>({...await executor.catalog(selected),jev:await jev.status(),verificationProfiles:verifier.profiles,automaticVerification:!!verifier.automatic}),
++  settings:async()=>setup.refresh(),
++  async configure(input){if(input?.disclosureAccepted===true){const validated=validateConfig({sessionId:'settings',goal:'settings validation',...input.settings});await executor.validateModels(validated.roles,AbortSignal.timeout(15000));}const saved=await setup.configure(input);for(const[id,state]of commandStates)if(state.kind==='settings-required')commandStates.delete(id);if(!saved.disclosureAccepted)for(const lease of leases.owned()){const snapshot=controller.snapshot(lease.sessionId);if(snapshot)controller.cancel(snapshot.sessionId,snapshot.id);}return saved;},
++  snapshot(sessionId,runId){if(!validSession(sessionId)||runId!==undefined&&(typeof runId!=='string'||runId.length>160))throw new TeamHostError('SESSION_REQUIRED','请先打开真实 DSH 会话。');save(sessionId);return response(sessionId,runId);},
++  async start(input,externalSignal){
++   if(!fields(input,['sessionId','contextKey','requestId','goal','settings'])||typeof input.requestId!=='string'||!/^[A-Za-z0-9_-]{8,128}$/.test(input.requestId)||!fields(input.settings,['roles','limits','reviewPlan','routeEnabled','jev','verification']))throw new TeamHostError('INVALID_INPUT','启动参数无效。');
++   const config=validateConfig({sessionId:input.sessionId,goal:input.goal,...input.settings});
++   if(config.jev?.enabled!==true||config.jev.disclosureAccepted!==true)throw new TeamHostError('JEV_CONSENT_REQUIRED','请确认本次 TypeSafe 数据传输范围。');
++   if(closed)throw new TeamHostError('UNAVAILABLE','团队服务已关闭。');
++   executor.verifyContext(config.sessionId,input.contextKey);
++   await jev.refresh?.();jev.preflight();verifier.preflight(config);
++   if(closed)throw new TeamHostError('UNAVAILABLE','团队服务已关闭。');
++   const key=`${config.sessionId}:${input.requestId}`;if(requests.has(key))return requests.get(key).promise;
++   const {lease,occupied}=leases.acquire(config.sessionId,resolveProject(config.sessionId));
++   if(occupied)throw new TeamHostError(occupied.sessionId===config.sessionId?'SESSION_BUSY':'PROJECT_BUSY',occupiedMessage(occupied));
++   const entry={status:'pending',promise:null};
++   const pending=(async()=>{const abort=new AbortController();let timer;
++    try{
++     await Promise.race([executor.validateModels(config.roles,abort.signal),new Promise((_,reject)=>{timer=setTimeout(()=>{abort.abort();reject(new TeamHostError('MODEL_PREFLIGHT_TIMEOUT','模型元数据验证超时，尚未启动任何模型调用。'));},15000);})]);
++     if(externalSignal?.aborted)throw new TeamHostError('CANCELLED','命令已取消，未启动新的团队。');
++     if(closed)throw new TeamHostError('UNAVAILABLE','团队服务已关闭。');
++     executor.verifyContext(config.sessionId,input.contextKey);const currentProject=resolveProject(config.sessionId);if(currentProject.key!==lease.project.key||currentProject.root!==lease.project.root)throw new TeamHostError('CONTEXT_CHANGED','项目边界已变化，未启动团队。');executor.beginSession(config.sessionId,input.contextKey);diagnostics.delete(config.sessionId);
++     const snapshot=controller.start(config);lease.runId=snapshot.id;lease.state='running';leases.save(snapshot);
++     controller.wait(snapshot.id).then(()=>finish(lease),()=>{leases.poison(config.sessionId,'subagent');finish(lease);});
++     return response(config.sessionId);
++    }finally{clearTimeout(timer);abort.abort();}
++   })();
++   entry.promise=pending;requests.set(key,entry);
++   while(requests.size>256){const evict=[...requests].find(([,r])=>r.status!=='pending');if(!evict)break;requests.delete(evict[0]);}
++   try{const value=await pending;entry.status='accepted';entry.runId=value.snapshot.id;return value;}
++   catch(error){entry.status='failed';entry.error=error instanceof TeamHostError?error.message:'启动配置无效，未成功启动团队。';if(!lease.runId){executor.releaseSession(config.sessionId);leases.release(lease);}throw error;}
++  },
++  command(invocation){
++   const sessionId=invocation.agent?.id;
++   if(!validSession(sessionId)||ctx.agents.get(sessionId)!==invocation.agent)return Promise.resolve({kind:'error',text:'当前主会话不可用。'});
++   if(commandPending.has(sessionId))return commandPending.get(sessionId);
++   const pending=(async()=>{
++    const set=(kind,message,runId)=>{commandStates.set(sessionId,{kind,message,...runId?{runId}:{}});return {kind:'success',text:message};};
++    try{
++     const goal=typeof invocation.rawInput==='string'?invocation.rawInput.trim():'';
++     if(!goal)return set('help','在聊天框输入 /team + 任务正文。首次使用请打开设置 → 多模型团队。');
++     if(goal.length>8000)return {kind:'error',text:'任务正文过长，请缩短到 8000 字符以内。'};
++     projectJevText(goal,8000);const saved=await setup.refresh();
++     if(!saved.configured)return set('settings-required','请先在设置 → 多模型团队选择六个岗位模型、填写 Jev key 并启用服务。');
++     if(invocation.signal?.aborted)return {kind:'error',text:'命令已取消，未启动新的团队。'};
++     const lease=leases.get(sessionId);if(lease?.owner===owner&&!lease.poisoned&&lease.runId)return set('started','此会话已有团队运行，已打开当前进度；没有重复派发。',lease.runId);
++     const context=publicContext(sessionId);if(!context.canStart)return set('blocked',context.reason||'当前会话不可启动。');
++     const requestId='command-'+createHash('sha256').update(String(invocation.commandId)).digest('hex').slice(0,40);
++     const result=await api.start({sessionId,contextKey:context.contextKey,requestId,goal,settings:{...saved.settings,routeEnabled:false,jev:{enabled:true,disclosureAccepted:true},verification:{profileId:verifier.automatic?'auto':verifier.profiles[0]?.id,scope:['workspace']}}},invocation.signal);
++     return set('started','团队已开始；正在自动检查当前项目，进度显示在右侧。',result.snapshot.id);
++    }catch(error){return set(error instanceof TeamHostError&&/^(SETUP_|JEV_NOT_CONFIGURED|MODEL_)/.test(error.code)?'settings-required':'blocked',error instanceof TeamHostError?error.message:'团队无法启动，请查看设置或宿主权限；未自动重试。');}
++   })();commandPending.set(sessionId,pending);pending.finally(()=>{if(commandPending.get(sessionId)===pending)commandPending.delete(sessionId);});return pending;
++  },
++  request(input){if(!fields(input,['sessionId','requestId'])||!validSession(input.sessionId)||typeof input.requestId!=='string')throw new TeamHostError('INVALID_INPUT','启动查询参数无效。');const entry=requests.get(`${input.sessionId}:${input.requestId}`);return {status:entry?.status||'unknown',error:entry?.error,...response(input.sessionId,entry?.runId)};},
++  cancel(input){if(!fields(input,['sessionId','runId'])||!validSession(input.sessionId)||typeof input.runId!=='string')throw new TeamHostError('INVALID_INPUT','取消参数无效。');const snapshot=controller.cancel(input.sessionId,input.runId);if(!snapshot)throw new TeamHostError('RUN_NOT_FOUND','当前会话没有这个团队运行。');const lease=leases.get(input.sessionId);if(lease?.owner===owner&&!lease.poisoned)lease.state='cancelling';save(input.sessionId);return response(input.sessionId);},
++  dispose(){if(disposal)return disposal;closed=true;for(const lease of leases.owned())if(!lease.poisoned)lease.state='cancelling';disposal=Promise.resolve().then(async()=>{await Promise.allSettled([...requests.values()].filter(e=>e.status==='pending').map(e=>e.promise));await controller.dispose();for(const lease of leases.owned())if(lease.runId)finish(lease);await executor.dispose();requests.clear();commandPending.clear();});return disposal;},
++ };return api;
++}
++
+ export function registerTeamCommand(ctx,getRuntime){return ctx.commands.register({name:'team',description:'用已配置的六岗位团队执行任务，自动显示右侧进度',input:{hint:'任务正文'},recordInput:false,handler:invocation=>{const runtime=getRuntime();return runtime?runtime.command(invocation):{kind:'error',text:'团队服务尚未加载，请检查插件与宿主。'};}});}
+ 
+ /** Exact authenticated /api endpoints; never replace the host gateway interceptor. */
+@@ -112,8 +137,8 @@ export function registerTeamRoutes(ctx,getRuntime){
+           if(!runtime)throw new TeamHostError('UNSUPPORTED_HOST',unavailable().reason);
+           if(action==='settings'){if(!fields(payload??{},[]))throw new TeamHostError('INVALID_INPUT','设置读取不接受额外参数。');result={ok:true,value:await runtime.settings()};}
+           else if(action==='snapshot'){
+-            if(!fields(payload,['sessionId']))throw new TeamHostError('INVALID_INPUT','状态查询参数无效。');
+-            result={ok:true,value:runtime.snapshot(payload.sessionId)};
++            if(!fields(payload,['sessionId','runId']))throw new TeamHostError('INVALID_INPUT','状态查询参数无效。');
++            result={ok:true,value:runtime.snapshot(payload.sessionId,payload.runId)};
+           }else result={ok:true,value:await runtime[action](payload)};
+         }
+       }catch(error){result={ok:false,error:{code:error instanceof TeamHostError?error.code:'INVALID_INPUT',message:error instanceof TeamHostError?error.message:'团队配置或任务结构无效，请检查输入；不会自动修改宿主权限。',details:{}}};}
+diff --git a/src/verification-diagnostics.js b/src/verification-diagnostics.js
+new file mode 100644
+index 0000000..bc38711
+--- /dev/null
++++ b/src/verification-diagnostics.js
+@@ -0,0 +1,7 @@
++/** Closed diagnostic vocabulary. Never retain stdout, stderr, commands or exception text. */
++const codes=new Set(['INVALID_ARGS','UNKNOWN_TOOL','ABORTED','ABORTED_BEFORE_DISPATCH','EPERM','EACCES','ENOENT','ETIMEDOUT','VERIFIER_UNAVAILABLE','VERIFIER_SCOPE_UNSAFE','CONTEXT_CHANGED','CANCELLED']);
++export function verificationDiagnostic(phase,result,error,reason){
++ const v=result?.value,code=error?.code||result?.error?.code;
++ return {phase,reason,at:new Date().toISOString(),code:codes.has(code)?code:'UNCLASSIFIED',kind:['foreground','background','promoted'].includes(v?.kind)?v.kind:'unknown',exitCode:Number.isInteger(v?.exitCode)?v.exitCode:undefined,timedOut:v?.timedOut===true,aborted:v?.aborted===true,signalled:!!v?.signal,hasStdout:!!v?.stdout,hasStderr:!!v?.stderr,notDispatched:result?.verificationNotDispatched===true};
++}
++export const verificationFailureText=d=>`项目检查受阻：${d.phase} / ${d.reason}（${d.code}，${d.kind}${d.exitCode===undefined?'':', exit '+d.exitCode}）。`;
+diff --git a/src/verification-project-runner.js b/src/verification-project-runner.js
+index 6186d8c..c3c884b 100644
+--- a/src/verification-project-runner.js
++++ b/src/verification-project-runner.js
+@@ -53,9 +53,10 @@ async function projectRunner(p){
+   const checks=project.checks.map(c=>{const r=run(c.argv,c.timeoutMs);const nonempty=c.kind==='typecheck'||c.kind==='node-test'?c.kind==='typecheck'||/(?:#|ℹ) pass [1-9][0-9]*/.test(r.text):c.kind==='vitest'?/Test Files[^\n]*[1-9][0-9]*\s+passed/.test(r.text):c.kind==='jest'?/Tests:[^\n]*[1-9][0-9]*\s+passed/.test(r.text):c.kind==='pytest'?/[1-9][0-9]* passed/.test(r.text):c.kind==='unittest'?Number(r.text.match(/Ran ([0-9]+) tests?/)?.[1]||0)>Number(r.text.match(/skipped=([0-9]+)/)?.[1]||0):c.kind==='cargo'?/test result: ok\. [1-9][0-9]* passed/.test(r.text):c.kind==='go'?r.text.split('\n').some(line=>/^ok\s+\S+/.test(line)&&!line.includes('[no tests to run]')):false;return {id:c.id,exitCode:r.code,passed:r.ok&&nonempty,unsettled:r.unsettled,infrastructure:r.infrastructure||/No module named (?:pytest|unittest)/.test(r.text),tail:r.text.slice(-700)+(nonempty?'':'\nNo nonempty test result observed')};});
+   const after=manifest();if(JSON.stringify(after.entries)!==JSON.stringify(m.entries))throw Error('Checks modified project inputs');if(after.head!==baseline.head||after.gitHash!==baseline.gitHash||project.protectedFiles.some(n=>after.entries[n]!==baseline.entries[n]))throw Error('Checks changed protected evidence');
+   output({verified:true,checksPassed:checks.length>0&&checks.every(c=>c.passed),checksFailed:checks.filter(c=>!c.passed).length,checksRun:true,needsVerification:checks.some(c=>c.infrastructure),diffAvailable:true,scopeOk:true,protectedOk:true,diffEmpty:changed.length===0,expectsChanges:true,checks,checkSummary:checks.map(c=>c.id+': exit '+c.exitCode+'\n'+c.tail).join('\n').slice(-2500),diffStat:changed.map(n=>n+' changed since task start').join('\n').slice(0,1500),fingerprint:hash(JSON.stringify(after)),securityChanged:changed.some(f=>/(^|\/)(?:auth|permission|credential|secret|payment|migration)/i.test(f)),reason:'基于本次启动快照独立检查；既有未提交变更未计入本次贡献。'});
+- }catch{
+-  if(p.phase==='baseline'&&!unsettled){output({verified:true,project:{safeRoot,mode:'analysis-only',reason:'当前项目无法建立可靠自动验收；先只读分析，不会宣称代码任务完成。',checks:[],protectedFiles:[],inventory:[],root},baseline:null});return;}
+-  output({verified:false,unsettled,reason:'项目证据不完整或验收文件发生变化，结果待验证。'});process.exitCode=1;
++ }catch(error){
++  const text=String(error?.message||''),reason=['EPERM','EACCES','ENOENT'].includes(error?.code)?'FILE_ACCESS_UNAVAILABLE':text==='Git observation unavailable'?'GIT_UNAVAILABLE':text==='Project root must be repository root'?'NOT_REPOSITORY_ROOT':/limit|too large/.test(text)?'EVIDENCE_LIMIT':text==='Hidden index entries'?'HIDDEN_INDEX':text==='Non-file entry'?'NON_FILE_INPUT':text==='Symlink path'?'SYMLINK_INPUT':text==='Git metadata symlink'?'GIT_METADATA_SYMLINK':text==='Linked Git worktree not supported'?'LINKED_WORKTREE':text.includes('Home/profile')?'UNSAFE_PROJECT_ROOT':'EVIDENCE_INVALID';
++  if(p.phase==='baseline'&&!unsettled){output({verified:true,project:{safeRoot,mode:'analysis-only',reason:'当前项目无法建立可靠自动验收（'+reason+'）；先只读分析，不会宣称代码任务完成。',checks:[],protectedFiles:[],inventory:[],root},baseline:null,observation:{phase:p.phase,reason}});return;}
++  output({verified:false,unsettled,observation:{phase:p.phase,reason},reason:'项目证据不完整或验收文件发生变化（'+reason+'），结果待验证。'});process.exitCode=1;
+  }
+ }
+ const payload=JSON.parse(Buffer.from(process.argv[2],'base64').toString('utf8'));
+diff --git a/test/helpers/team-host.mjs b/test/helpers/team-host.mjs
+index 7a5fb62..b048903 100644
+--- a/test/helpers/team-host.mjs
++++ b/test/helpers/team-host.mjs
+@@ -1,19 +1,22 @@
+ import {createTeamRuntime as actualRuntime} from '../../src/team-runtime.js';
+-export function teamHost({sessionId='fixture-session',hold=false,cleanupFail=false,preflightHold=false,tasks}={}){
++export function teamHost({sessionId='fixture-session',hold=false,cleanupFail=false,preflightHold=false,tasks,workspace='/fixture/shared-project',sessionIds}={}){
+  const listeners=new Map();let mode='workspace-write';const calls=[];let releasePreflight;
+  const on=(name,fn)=>{const list=listeners.get(name)||[];list.push(fn);listeners.set(name,list);return()=>list.splice(list.indexOf(fn),1);};
+  const parentGuards=[];
+- const parent={id:sessionId,status:'idle',session:{id:sessionId,header:{cwd:'/fixture/shared-project'}},ctx:{get:()=>({guard(fn){parentGuards.push(fn);return()=>parentGuards.splice(parentGuards.indexOf(fn),1);}})}};
+- const ctx={on,get:name=>name==='sandboxPolicy'?{resolve:()=>({mode,workspaceRoot:'/fixture/shared-project'})}:undefined,agents:{get:id=>id===parent.id?parent:undefined,isOwnedBy:(_id,p)=>p===parent},llm:{listProviders:()=>[{id:'fixture',name:'Test-only provider'}],listModels:async()=>[{id:'model',name:'Test-only model'}],resolveModelInfo:async()=>({}),resolveCallConfig:async x=>{if(preflightHold)await new Promise(r=>{releasePreflight=r;});return x;}},subagents:{getProvider:()=>({capabilities:{agentOptions:true,outputSchema:true,persona:true,depthLimit:true}}),resolveMaxDepth:()=>1,async start(provider,request){calls.push(request);const role=request.label.split(' ')[1];const childEvents=new Map();const agent={id:'fixture-child-'+calls.length,session:{header:{parentSession:parent.id}},ctx:{get:()=>({guard:()=>()=>{},presentAs:()=>()=>{}}),on(name,fn){childEvents.set(name,fn);return()=>{};}}};for(const fn of listeners.get('agent/created')||[])await fn({agent});
++ const parent={id:sessionId,status:'idle',session:{id:sessionId,header:{cwd:workspace}},ctx:{get:()=>({guard(fn){parentGuards.push(fn);return()=>parentGuards.splice(parentGuards.indexOf(fn),1);}})}};
++ const globalGuards=[];const globalTools={guard(fn){globalGuards.push(fn);return()=>globalGuards.splice(globalGuards.indexOf(fn),1);}};
++ const parents=new Map([[parent.id,parent]]);
++ for(const id of sessionIds||[]){if(id===parent.id)continue;parents.set(id,{...parent,id,session:{id,header:{cwd:workspace}},ctx:parent.ctx});}
++ const ctx={on,get:name=>name==='tools'?globalTools:name==='sandboxPolicy'?{resolve:({session})=>({mode,workspaceRoot:session.header.cwd})}:undefined,agents:{get:id=>parents.get(id),isOwnedBy:(_id,p)=>parents.get(p.id)===p},llm:{listProviders:()=>[{id:'fixture',name:'Test-only provider'}],listModels:async()=>[{id:'model',name:'Test-only model'}],resolveModelInfo:async()=>({}),resolveCallConfig:async x=>{if(preflightHold)await new Promise(r=>{releasePreflight=r;});return x;}},subagents:{getProvider:()=>({capabilities:{agentOptions:true,outputSchema:true,persona:true,depthLimit:true}}),resolveMaxDepth:()=>1,async start(provider,request){calls.push(request);const role=request.label.split(' ')[1];const childEvents=new Map();const agent={id:'fixture-child-'+calls.length,session:{header:{parentSession:request.parent.id,cwd:request.parent.session.header.cwd}},ctx:{get:()=>({guard:()=>()=>{},presentAs:()=>()=>{}}),on(name,fn){childEvents.set(name,fn);return()=>{};}}};for(const fn of listeners.get('agent/created')||[])await fn({agent});
+  const plan={summary:'Deterministic plan',tasks:tasks||[{id:'read',role:'explorer',title:'Read fixture',instructions:'Read only the synthetic fixture',dependsOn:[]}]};const structured=role==='reviewer'?{verdict:'approve',summary:'Fixture approved',issues:[]}:role==='router'?{route:'plan',summary:'Fixture route'}:plan;
+- const result=hold?(request.signal.aborted?Promise.resolve({stopReason:'aborted',output:[]}):new Promise(resolve=>{request.signal.addEventListener('abort',()=>resolve({stopReason:'aborted',output:[]}),{once:true});})):Promise.resolve({stopReason:'completed',structured,output:[{type:'text',text:'Synthetic result only'}]});
+- return {id:agent.id,localAgent:agent,result,async dispose(){if(typeof cleanupFail==='function'?cleanupFail(role):cleanupFail)throw Error('fixture cleanup failure');for(const fn of listeners.get('agent/disposed')||[])fn({agent});}};
++ const result=(typeof hold==='function'?hold(role,request.parent.id):hold)?(request.signal.aborted?Promise.resolve({stopReason:'aborted',output:[]}):new Promise(resolve=>{request.signal.addEventListener('abort',()=>resolve({stopReason:'aborted',output:[]}),{once:true});})):Promise.resolve({stopReason:'completed',structured,output:[{type:'text',text:'Synthetic result only'}]});
++ return {id:agent.id,localAgent:agent,result,async dispose(){if(typeof cleanupFail==='function'?cleanupFail(role,request.parent.id):cleanupFail)throw Error('fixture cleanup failure');for(const fn of listeners.get('agent/disposed')||[])fn({agent});}};
+  }}};
+  const emit=async(name,...args)=>{for(const fn of listeners.get(name)||[])await fn(...args);};
+- return {ctx,parent,calls,parentGuards,releasePreflight:()=>{preflightHold=false;releasePreflight?.();},async setMode(next){mode=next;await emit('session/event',parent.session,{type:'sandbox/mode'});},emit};
++ return {ctx,parent,parents,calls,parentGuards,globalGuards,releasePreflight:()=>{preflightHold=false;releasePreflight?.();},async setMode(next){mode=next;await emit('session/event',parent.session,{type:'sandbox/mode'});},emit};
+ }
+ export const settings=()=>({roles:Object.fromEntries(['planner','coordinator','researcher','explorer','worker','reviewer'].map(role=>[role,{provider:'fixture',model:'model',maxTokens:4096}])),limits:{concurrency:2,maxAgents:12,maxTasks:8,maxRetries:0,maxDurationMs:30000,maxStepsPerAgent:8},reviewPlan:true,routeEnabled:false,jev:{enabled:true,disclosureAccepted:true},verification:{profileId:'fixture',scope:['src']}});
+ export const waitFor=async(test)=>{for(let i=0;i<200;i++){const value=test();if(value)return value;await new Promise(r=>setTimeout(r,5));}throw Error('Fixture condition timed out');};
+ 
+-export function fixtureDependencies(){return {jev:{mode:'fixture',status:()=>({configured:true,available:true,endpoint:'fixture://no-network',disclosure:'Explicit test fixture'}),preflight(){},async decide({phase}){return phase==='classify'?{lane:{choice:'small',confidence:.9},security_sensitive:{noul:0},underspecified:{noul:0}}:{implemented:{noul:1},in_scope:{noul:1},next:{choice:'complete',confidence:.9}};}},verifier:{profiles:[{id:'fixture',name:'Explicit fixture'}],preflight(){},async collect({phase}){return phase==='baseline'?{verified:true,reason:'Fixture baseline'}:phase==='seal'?{verified:true,sealed:true,reason:'Fixture seal'}:{checksPassed:true,checksFailed:0,checksRun:true,scopeOk:true,diffAvailable:true,protectedOk:true,verified:true,expectsChanges:true,diffEmpty:false,reason:'Explicit fixture facts',diffStat:'fixture +1',checkSummary:'fixture pass',checks:[]};},release(){}}};}
++export function fixtureDependencies(){return {projectIdentity:cwd=>({root:cwd,key:'fixture:'+cwd}),jev:{mode:'fixture',status:()=>({configured:true,available:true,endpoint:'fixture://no-network',disclosure:'Explicit test fixture'}),preflight(){},async decide({phase}){return phase==='classify'?{lane:{choice:'small',confidence:.9},security_sensitive:{noul:0},underspecified:{noul:0}}:{implemented:{noul:1},in_scope:{noul:1},next:{choice:'complete',confidence:.9}};}},verifier:{profiles:[{id:'fixture',name:'Explicit fixture'}],preflight(){},async collect({phase}){return phase==='baseline'?{verified:true,reason:'Fixture baseline'}:phase==='seal'?{verified:true,sealed:true,reason:'Fixture seal'}:{checksPassed:true,checksFailed:0,checksRun:true,scopeOk:true,diffAvailable:true,protectedOk:true,verified:true,expectsChanges:true,diffEmpty:false,reason:'Explicit fixture facts',diffStat:'fixture +1',checkSummary:'fixture pass',checks:[]};},release(){}}};}
+ export const fixtureRuntime=ctx=>actualRuntime(ctx,{},fixtureDependencies());
+diff --git a/test/host-adapter.test.mjs b/test/host-adapter.test.mjs
+index d39345a..bad199f 100644
+--- a/test/host-adapter.test.mjs
++++ b/test/host-adapter.test.mjs
+@@ -16,3 +16,11 @@ test('step cap and host ask decision become blocked refusal, never fabricated co
+ test('missing guard service and counterfeit child fail closed; accepted child is disposed',async()=>{const f=fixture({missingTools:true});const a=ready(f);await assert.rejects(a.execute(spec()),/保护/);await a.dispose();const g=fixture({counterfeit:true});const b=ready(g);await assert.rejects(b.execute(spec()),/保护验证/);assert.equal(g.disposed,1);await b.dispose();});
+ test('session generation changes invalidate previous explicit-start context',async()=>{const f=fixture();const a=ready(f);const key=a.context('session-a').contextKey;a.verifyContext('session-a',key);f.replace();assert.throws(()=>a.verifyContext('session-a',key),/会话已变化/);assert.equal(a.context('').canStart,false);await a.dispose();});
+ test('main-session new work cancels owning team rather than overlap writes',async()=>{const f=fixture();const messages=[];const a=ready(f,{onParentUnavailable:(id,reason)=>messages.push({id,reason})});await a.execute(spec('worker'));await f.emit('agent/status',{agent:f.parent,status:'running'});assert.equal(messages[0].id,'session-a');await a.dispose();});
++
++test('concurrent adapter disposal shares its pending cleanup and repeats a failure without replaying disposers',async()=>{
++ const f=fixture(),originalOn=f.ctx.on;let release,calls=0;const failure=new Error('synthetic disposer failure');
++ f.ctx.on=(name,fn)=>{const off=originalOn(name,fn);return async()=>{calls++;await new Promise(r=>release=r);off();throw failure;};};
++ const a=createExecutionAdapter(f.ctx),first=a.dispose(),second=a.dispose();assert.equal(second,first);
++ await new Promise(setImmediate);assert.equal(calls,1);let settled=false;first.catch(()=>settled=true);await new Promise(setImmediate);assert.equal(settled,false);
++ release();await assert.rejects(first,error=>error===failure);await assert.rejects(second,error=>error===failure);assert.equal(a.dispose(),first);await assert.rejects(a.dispose(),error=>error===failure);assert.equal(calls,1);
++});
+diff --git a/test/project-identity.test.mjs b/test/project-identity.test.mjs
+new file mode 100644
+index 0000000..a3786f4
+--- /dev/null
++++ b/test/project-identity.test.mjs
+@@ -0,0 +1,7 @@
++import {test} from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';
++import {projectIdentity,overlaps} from '../src/project-leases.js';
++const fixture=()=>fs.mkdtempSync(path.join(os.tmpdir(),'dsh-project-053-'));
++test('canonical identity binds nested directories to their repository and Windows casing to one project',()=>{const root=fixture(),repo=path.join(root,"项目 space '泰拉'"),child=path.join(repo,'src');fs.mkdirSync(path.join(repo,'.git'),{recursive:true});fs.mkdirSync(child);assert.deepEqual(projectIdentity(child),projectIdentity(repo));if(process.platform==='win32')assert.deepEqual(projectIdentity(repo.toUpperCase()),projectIdentity(repo));});
++test('linked Git worktrees share a common project lock even when their working directories differ',()=>{const root=fixture(),common=path.join(root,'common'),a=path.join(root,'work-a'),b=path.join(root,'work-b');fs.mkdirSync(common);for(const [dir,id]of[[a,'a'],[b,'b']]){const gitDir=path.join(common,'worktrees',id);fs.mkdirSync(gitDir,{recursive:true});fs.writeFileSync(path.join(gitDir,'commondir'),'../..');fs.mkdirSync(dir);fs.writeFileSync(path.join(dir,'.git'),'gitdir: '+gitDir+'\n');}const left=projectIdentity(a),right=projectIdentity(b);assert.notEqual(left.root,right.root);assert.equal(left.key,right.key);assert.equal(overlaps(left,right),true);});
++test('non-repository directories overlap by path boundary but separate sibling projects do not',()=>{const root=fixture(),child=path.join(root,'nested'),sibling=root+'-different';fs.mkdirSync(child);fs.mkdirSync(sibling);assert.equal(overlaps(projectIdentity(root),projectIdentity(child)),true);assert.equal(overlaps(projectIdentity(root),projectIdentity(sibling)),false);});
++test('unreadable or malformed project identity fails closed without accepting a client-selected key',()=>{const root=fixture();assert.throws(()=>projectIdentity('relative/path'),/当前项目边界/);fs.writeFileSync(path.join(root,'.git'),'not a gitdir file');assert.throws(()=>projectIdentity(root),/Git 工作区边界/);assert.throws(()=>projectIdentity(path.join(root,'missing')));});
+diff --git a/test/session-isolation.test.mjs b/test/session-isolation.test.mjs
+new file mode 100644
+index 0000000..3e829ba
+--- /dev/null
++++ b/test/session-isolation.test.mjs
+@@ -0,0 +1,120 @@
++import {test} from 'node:test';
++import assert from 'node:assert/strict';
++import fs from 'node:fs';
++import os from 'node:os';
++import path from 'node:path';
++import {TeamHostError} from '../src/host-adapter.js';
++import {createTeamRuntime} from '../src/team-runtime.js';
++import {teamHost,fixtureRuntime,fixtureDependencies,settings,waitFor} from './helpers/team-host.mjs';
++const KEY=Symbol.for('dsh-desktop-workflow:project-runs:v3');
++const reset=()=>{const s=globalThis[KEY];s?.sessions.clear();s?.leases.clear();s?.history.clear();};
++const input=(r,id,requestId='fixture-request')=>({sessionId:id,contextKey:r.snapshot(id).context.contextKey,requestId,goal:'Only synthetic fixtures',settings:settings()});
++const multi=options=>{const f=teamHost({sessionId:'a',sessionIds:['b','c'],...options});f.parents.get('b').session.header.cwd='/fixture/other-project';return f;};
++test('two sessions in independent projects run concurrently; cancellation and snapshots stay session bound',async()=>{
++ const f=multi({hold:true}),r=fixtureRuntime(f.ctx);
++ try{const [a,b]=await Promise.all([r.start(input(r,'a','request-a')),r.start(input(r,'b','request-b'))]);await waitFor(()=>f.calls.length===2);
++  assert.notEqual(a.snapshot.id,b.snapshot.id);assert.equal(r.snapshot('a').snapshot.sessionId,'a');assert.equal(r.snapshot('b').snapshot.sessionId,'b');
++  assert.throws(()=>r.snapshot('b',a.snapshot.id),/当前会话没有/);assert.equal(r.snapshot('b').history.some(x=>x.sessionId==='a'),false);
++  r.cancel({sessionId:'a',runId:a.snapshot.id});await waitFor(()=>r.snapshot('a').snapshot.status==='cancelled');assert.equal(f.calls.find(c=>c.parent.id==='b').signal.aborted,false);
++  assert.equal(r.snapshot('a').context.canStart,true);assert.equal(r.snapshot('b').context.occupancy.sessionId,'b');
++ }finally{await r.dispose();reset();}
++});
++test('same project reserves before metadata preflight and reports owner; switching session cannot bypass',async()=>{
++ const f=multi({preflightHold:true,hold:true}),r=fixtureRuntime(f.ctx);f.parents.get('b').session.header.cwd=f.parent.session.header.cwd;
++ try{const pending=r.start(input(r,'a','request-a'));await waitFor(()=>r.snapshot('b').context.occupancy?.state==='starting');
++  await assert.rejects(r.start(input(r,'b','request-b')),e=>e.code==='PROJECT_BUSY'&&e.message.includes('会话 a'));assert.equal(f.calls.length,0);
++  assert.equal(f.globalGuards[0]({agent:f.parents.get('b'),name:'write'}).includes('会话 a'),true);assert.equal(f.globalGuards[0]({agent:f.parents.get('b'),name:'read'}),undefined);
++  f.releasePreflight();const a=await pending;r.cancel({sessionId:'a',runId:a.snapshot.id});await waitFor(()=>r.snapshot('a').snapshot.status==='cancelled');await waitFor(()=>r.snapshot('b').context.canStart);
++  assert.ok((await r.start(input(r,'b','request-b-new'))).snapshot.id);
++ }finally{f.releasePreflight();await r.dispose();reset();}
++});
++test('cancellation holds project until verifier cleanup acknowledges; independent project continues',async()=>{
++ const f=multi({hold:true}),deps=fixtureDependencies();let release,cleaning=false;deps.verifier.release=async()=>{cleaning=true;await new Promise(r=>release=r);};const r=createTeamRuntime(f.ctx,{},deps);
++ try{const a=await r.start(input(r,'a'));await waitFor(()=>f.calls.length);r.cancel({sessionId:'a',runId:a.snapshot.id});await waitFor(()=>cleaning);
++  assert.equal(r.snapshot('c').context.canStart,false);assert.equal(r.snapshot('c').context.occupancy.state,'cancelling');const b=await r.start(input(r,'b','request-b'));assert.ok(b.snapshot.id);
++  release();await waitFor(()=>r.snapshot('c').context.canStart);deps.verifier.release=()=>{};
++ }finally{release?.();deps.verifier.release=()=>{};await r.dispose();reset();}
++});
++test('settled baseline failure releases only its project and does not cancel another session',async()=>{
++ const f=multi({hold:true}),deps=fixtureDependencies(),collect=deps.verifier.collect;deps.verifier.collect=spec=>spec.config.sessionId==='a'?Promise.reject(new TeamHostError('VERIFICATION_INVALID','Fixture known settled failure')):collect(spec);const r=createTeamRuntime(f.ctx,{},deps);
++ try{await Promise.all([r.start(input(r,'a','request-a')),r.start(input(r,'b','request-b'))]);await waitFor(()=>r.snapshot('a').snapshot.finishedAt);assert.equal(r.snapshot('c').context.canStart,true);await waitFor(()=>f.calls.length);assert.equal(f.calls[0].parent.id,'b');assert.equal(f.calls[0].signal.aborted,false);
++ }finally{await r.dispose();reset();}
++});
++test('failed child cleanup quarantines its project across runtime replacement; another project stays usable',async()=>{
++ const f=multi({cleanupFail:(_role,id)=>id==='a'}),r=fixtureRuntime(f.ctx);
++ try{await r.start(input(r,'a'));await waitFor(()=>r.snapshot('a').snapshot.message?.includes('清理未确认'));assert.equal(r.snapshot('c').context.canStart,false);assert.equal(r.snapshot('b').context.canStart,true);assert.match(f.globalGuards[0]({agent:f.parent,name:'edit'}),/隔离/);assert.equal(f.globalGuards[0]({agent:f.parent,name:'read'}),undefined);await r.dispose();
++  const next=fixtureRuntime(f.ctx);try{await assert.rejects(next.start(input(next,'c')),/隔离/);assert.ok((await next.start(input(next,'b','other-request'))).snapshot.id);assert.equal(next.snapshot('a').snapshot.sessionId,'a');}finally{await next.dispose();}
++ }finally{await r.dispose();reset();}
++});
++test('unknown native tool result keeps project quarantine and exposes only allowlisted error diagnostics',async()=>{
++ const f=teamHost({sessionId:'a',workspace:'/fixture/project-a'});f.parent.ctx.on=f.ctx.on;f.parent.ctx.get=()=>({guard:()=>()=>{},async execute(exec){await f.emit('tools/execute',exec,async()=>{});return {isError:true,error:{code:'EPERM',message:'FAKE_PRIVATE_BODY_AND_KEY'},content:[{type:'text',text:'FAKE_PRIVATE_BODY_AND_KEY'}]};}});
++ const deps=fixtureDependencies();delete deps.verifier;const r=createTeamRuntime(f.ctx,{},deps);const g=teamHost({sessionId:'b',workspace:'/fixture/project-b'}),other=fixtureRuntime(g.ctx);
++ try{const req=input(r,'a');req.settings.verification={profileId:'auto',scope:['workspace']};await r.start(req);await waitFor(()=>r.snapshot('a').snapshot.lifecycle==='quarantined');const state=r.snapshot('a');assert.equal(state.context.diagnostic.phase,'baseline');assert.equal(state.context.diagnostic.code,'EPERM');assert.equal(JSON.stringify(state).includes('FAKE_PRIVATE'),false);assert.ok((await other.start(input(other,'b','request-b'))).snapshot.id);
++ }finally{await r.dispose();await other.dispose();reset();}
++});
++test('duplicate command IDs are independent per session and replays never dispatch twice',async()=>{
++ const f=multi({hold:true}),deps=fixtureDependencies();deps.setup={view:()=>({configured:true}),refresh:async()=>({configured:true,settings:settings()})};const r=createTeamRuntime(f.ctx,{},deps);
++ const invoke=id=>({agent:f.parents.get(id),rawInput:'Synthetic goal',commandId:'same-command-id',signal:new AbortController().signal});
++ try{await Promise.all([r.command(invoke('a')),r.command(invoke('a')),r.command(invoke('b'))]);await waitFor(()=>f.calls.length===2);const a=r.snapshot('a').snapshot.id,b=r.snapshot('b').snapshot.id;assert.notEqual(a,b);await r.command(invoke('a'));assert.equal(f.calls.length,2);assert.equal(r.snapshot('a').context.lastCommand.runId,a);assert.equal(r.snapshot('b').context.lastCommand.runId,b);
++ }finally{await r.dispose();reset();}
++});
++test('session history and request recovery cannot route to another run; verified disposal releases occupancy',async()=>{
++ const f=multi(),r=fixtureRuntime(f.ctx);
++ try{const first=await r.start(input(r,'a','request-one'));await waitFor(()=>r.snapshot('a').snapshot.finishedAt);await waitFor(()=>r.snapshot('a').context.canStart);const second=await r.start(input(r,'a','request-two'));await waitFor(()=>r.snapshot('a').snapshot.finishedAt);
++  assert.equal(r.snapshot('a').history.length,2);assert.equal(r.request({sessionId:'a',requestId:'request-one'}).snapshot.id,first.snapshot.id);assert.notEqual(first.snapshot.id,second.snapshot.id);assert.equal(r.snapshot('b').history.length,0);
++  await r.dispose();const next=fixtureRuntime(f.ctx);try{assert.equal(next.snapshot('a').history.length,2);assert.equal(next.snapshot('a',first.snapshot.id).snapshot.id,first.snapshot.id);assert.equal(next.snapshot('c').context.canStart,true);}finally{await next.dispose();}
++ }finally{await r.dispose();reset();}
++});
++test('parent disposal cancels only its own session; host runtime disposal drains its own leases',async()=>{
++ const f=multi({hold:true}),r=fixtureRuntime(f.ctx);
++ try{const a=await r.start(input(r,'a')),b=await r.start(input(r,'b','request-b'));await waitFor(()=>f.calls.length===2);await f.emit('agent/disposed',{agent:f.parent});await waitFor(()=>r.snapshot('a').snapshot.status==='cancelled');assert.equal(f.calls.find(c=>c.parent.id==='b').signal.aborted,false);await r.dispose();assert.equal(r.snapshot('b').snapshot.id,b.snapshot.id);assert.equal(r.snapshot('b').snapshot.status,'cancelled');assert.equal(globalThis[KEY].leases.size,0);assert.ok(a.snapshot.id);
++ }finally{await r.dispose();reset();}
++});
++test('legacy poisoned lease is retained and scoped when its project can be verified',async()=>{
++ const old=globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')]??(globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')]={current:null});const previous=old.current;const legacy={sessionId:'a',poisoned:true,poisonSource:'verification'};old.current=legacy;const f=multi(),r=fixtureRuntime(f.ctx);
++ try{assert.equal(r.snapshot('c').context.canStart,false);assert.equal(r.snapshot('b').context.canStart,true);assert.equal(old.current,legacy);await r.start(input(r,'b','request-b'));assert.equal(old.current,legacy);}finally{await r.dispose();old.current=previous;reset();}
++});
++
++
++test('legacy lease with unavailable owner keeps unknown scope protected without clearing or reassigning it',async()=>{const old=globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')]??(globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')]={current:null});const previous=old.current,unknown={sessionId:'unavailable-owner',poisoned:true};old.current=unknown;const f=multi(),r=fixtureRuntime(f.ctx);try{assert.equal(r.snapshot('a').context.canStart,false);assert.equal(r.snapshot('b').context.canStart,false);assert.equal(r.snapshot('b').context.occupancy.scopeKnown,false);assert.equal(old.current,unknown);await assert.rejects(r.start(input(r,'b','request-b')),/项目范围尚未确认/);}finally{await r.dispose();old.current=previous;reset();}});
++
++test('settled diagnostic is retained with its own historical run after a later run clears current diagnostics',async()=>{const f=teamHost({sessionId:'a'});let first=true;f.parent.ctx.on=f.ctx.on;f.parent.ctx.get=()=>({guard:()=>()=>{},async execute(exec){await f.emit('tools/execute',exec,async()=>{});const p=JSON.parse(Buffer.from(exec.arguments.command.match(/'([A-Za-z0-9+/=]+)'$/)[1],'base64').toString('utf8'));const value={kind:'foreground',exitCode:first?1:0,signal:null,timedOut:false,aborted:false,stdout:{text:first?'not json':JSON.stringify({...p,verified:true,project:{mode:'analysis-only',reason:'Fixture analysis',root:'/fixture/shared-project'}})},stderr:{text:''}};first=false;return {isError:false,value};}});const deps=fixtureDependencies();delete deps.verifier;const r=createTeamRuntime(f.ctx,{},deps);const request=id=>{const v=input(r,'a',id);v.settings.verification={profileId:'auto',scope:['workspace']};return v;};try{const a=await r.start(request('first-request'));await waitFor(()=>r.snapshot('a').context.canStart);const b=await r.start(request('second-request'));await waitFor(()=>r.snapshot('a').snapshot.finishedAt);assert.notEqual(a.snapshot.id,b.snapshot.id);assert.equal(r.snapshot('a').context.diagnostic,undefined);assert.equal(r.snapshot('a',a.snapshot.id).snapshot.diagnostic.runId,a.snapshot.id);assert.equal(r.snapshot('a',a.snapshot.id).snapshot.diagnostic.phase,'baseline');}finally{await r.dispose();reset();}});
++
++
++test('repeated runtime disposal waits for one cleanup while independent runtime stays usable',async()=>{const f=multi({hold:true}),deps=fixtureDependencies();let release,cleaning=false,releases=0;deps.verifier.release=async()=>{releases++;cleaning=true;await new Promise(r=>release=r);};const a=createTeamRuntime(f.ctx,{},deps),b=fixtureRuntime(f.ctx);try{await a.start(input(a,'a'));await waitFor(()=>f.calls.length);const closing=a.dispose();await waitFor(()=>cleaning);const again=a.dispose();assert.equal(again,closing);let completed=false;again.then(()=>completed=true);await new Promise(setImmediate);assert.equal(completed,false);assert.equal(releases,1);assert.equal(b.snapshot('c').context.occupancy.state,'cancelling');assert.equal(b.snapshot('b').context.canStart,true);await b.start(input(b,'b','request-b'));release();await Promise.all([closing,again]);assert.equal(b.snapshot('c').context.canStart,true);assert.equal(a.dispose(),closing);assert.equal(releases,1);}finally{release?.();await a.dispose();await b.dispose();reset();}});
++
++test('cross-session mutation guard checks actual targets and sandbox bounds, including active independent owners',async()=>{
++ const root=fs.mkdtempSync(path.join(os.tmpdir(),'dsh-guard-target-053-')),left=path.join(root,'left'),right=path.join(root,'right');fs.mkdirSync(left);fs.mkdirSync(right);fs.writeFileSync(path.join(left,'existing.js'),'synthetic');fs.linkSync(path.join(left,'existing.js'),path.join(right,'linked.js'));
++ const f=teamHost({sessionId:'a',sessionIds:['b','c'],workspace:left,hold:true});f.parents.get('b').session.header.cwd=right;f.parents.get('c').session.header.cwd=right;
++ const deps=fixtureDependencies();delete deps.projectIdentity;const r=createTeamRuntime(f.ctx,{},deps);
++ try{await r.start(input(r,'a'));const guard=f.globalGuards[0],b=f.parents.get('b'),c=f.parents.get('c');const call=(agent,name,file_path)=>guard({agent,name,arguments:{file_path}});
++  assert.equal(call(c,'edit',path.join(left,'existing.js'))?.includes('会话 a'),true);assert.equal(call(c,'write',path.join(left,'new','file.js'))?.includes('会话 a'),true);
++  assert.equal(call(c,'edit',path.join(right,'own.js')),undefined);assert.ok(call(c,'bash'));assert.equal(call(c,'read',path.join(left,'existing.js')),undefined);
++  assert.ok(call(c,'edit',path.join(right,'linked.js')));
++  const originalGet=f.ctx.get;f.ctx.get=name=>name==='sandboxPolicy'?{resolve:()=>({mode:'danger-full-access',workspaceRoot:right})}:originalGet(name);
++  assert.match(call(c,'bash'),/写入范围无法核验/);f.ctx.get=originalGet;
++  await r.start(input(r,'b','request-b'));assert.equal(call(b,'edit',path.join(left,'other.js'))?.includes('会话 a'),true);assert.equal(call(f.parent,'edit',path.join(right,'other.js'))?.includes('会话 b'),true);
++  c.session.header.cwd=path.join(root,'missing');assert.ok(call(c,'edit',path.join(right,'own.js')));assert.equal(call(c,'read'),undefined);
++ }finally{await r.dispose();reset();fs.rmSync(root,{recursive:true,force:true});}
++});
++
++test('cross-session shell guard requires enforcing backend, covers shared temp roots, and rejects wider per-call grants',async()=>{
++ const f=multi({hold:true}),r=fixtureRuntime(f.ctx),c=f.parents.get('c');c.session.header.cwd='/fixture/shell-project';const originalGet=c.ctx.get,globalGet=f.ctx.get;
++ try{await r.start(input(r,'a'));const guard=f.globalGuards[0],call=(sandbox_permissions)=>guard({agent:c,name:'bash',arguments:{sandbox_permissions}});
++  assert.match(call(),/写入范围无法核验/);c.ctx.get=name=>name==='bash'?{sandboxMode:'workspace-write'}:originalGet(name);assert.equal(call(),undefined);assert.match(call('danger-full-access'),/写入范围无法核验/);
++  f.ctx.get=name=>name==='sandboxPolicy'?{resolve:()=>({mode:'read-only',workspaceRoot:c.session.header.cwd})}:globalGet(name);assert.equal(call(),undefined);assert.match(call('danger-full-access'),/写入范围无法核验/);
++ }finally{c.ctx.get=originalGet;f.ctx.get=globalGet;await r.dispose();reset();}
++ const g=multi({hold:true}),deps=fixtureDependencies();g.parent.session.header.cwd=os.tmpdir();g.parents.get('c').session.header.cwd='/fixture/shell-project';const h=createTeamRuntime(g.ctx,{},deps),get=g.parents.get('c').ctx.get;g.parents.get('c').ctx.get=name=>name==='bash'?{sandboxMode:'workspace-write'}:get(name);
++ try{await h.start(input(h,'a'));assert.match(g.globalGuards[0]({agent:g.parents.get('c'),name:'bash',arguments:{}}),/会话 a/);}finally{await h.dispose();reset();}
++});
++
++test('repeated disposal waits for reserved metadata preflight without dispatching children',async()=>{
++ const f=multi({preflightHold:true}),r=fixtureRuntime(f.ctx);const pending=r.start(input(r,'a')).catch(error=>error);
++ try{await waitFor(()=>r.snapshot('c').context.occupancy?.state==='starting');const closing=r.dispose();assert.equal(r.dispose(),closing);let completed=false;closing.then(()=>completed=true);await new Promise(setImmediate);assert.equal(completed,false);assert.equal(r.snapshot('c').context.occupancy.state,'cancelling');f.releasePreflight();assert.equal((await pending).code,'UNAVAILABLE');await closing;assert.equal(f.calls.length,0);assert.equal(globalThis[KEY].leases.size,0);}finally{f.releasePreflight();await r.dispose();reset();}
++});
++
++test('legacy unknown scope also protects mutations with an unavailable session cwd',async()=>{
++ const old=globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')]??(globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')]={current:null}),previous=old.current,unknown={sessionId:'unavailable-owner',poisoned:true};old.current=unknown;
++ const f=multi(),deps=fixtureDependencies();deps.projectIdentity=()=>{throw Error('fixture unavailable cwd');};const r=createTeamRuntime(f.ctx,{},deps);
++ try{assert.match(f.globalGuards[0]({agent:f.parents.get('b'),name:'edit'}),/项目范围尚未确认/);assert.equal(f.globalGuards[0]({agent:f.parents.get('b'),name:'read'}),undefined);assert.equal(old.current,unknown);}finally{await r.dispose();old.current=previous;reset();}
++});
+diff --git a/test/team-runtime.test.mjs b/test/team-runtime.test.mjs
+index 1b69fd6..89b9185 100644
+--- a/test/team-runtime.test.mjs
++++ b/test/team-runtime.test.mjs
+@@ -1,9 +1,10 @@
++const reset=()=>{const s=globalThis[Symbol.for('dsh-desktop-workflow:project-runs:v3')];s?.sessions.clear();s?.leases.clear();s?.history.clear();};
+ import {test}from'node:test';import assert from'node:assert/strict';import{fixtureRuntime as createTeamRuntime}from'./helpers/team-host.mjs';import{teamHost,settings,waitFor}from'./helpers/team-host.mjs';
+ const input=(runtime,id='fixture-session',requestId='fixture-request')=>({sessionId:id,contextKey:runtime.snapshot(id).context.contextKey,requestId,goal:'Only test synthetic data',settings:settings()});
+ test('explicit start binds session and stable request identity; mounting never executes',async()=>{const f=teamHost({hold:true});const r=createTeamRuntime(f.ctx);try{assert.equal(f.calls.length,0);const req=input(r);const[first,again]=await Promise.all([r.start(req),r.start(req)]);assert.equal(first.snapshot.id,again.snapshot.id);await waitFor(()=>f.calls.length);assert.equal(f.calls.length,1);assert.equal(r.snapshot('missing').context.canStart,false);r.cancel({sessionId:'fixture-session',runId:first.snapshot.id});await waitFor(()=>r.snapshot('fixture-session').snapshot.status==='cancelled');}finally{await r.dispose();}});
+-test('process-wide team lease blocks other sessions before any provider starts',async()=>{const f=teamHost({hold:true}),g=teamHost({sessionId:'session-b'});const a=createTeamRuntime(f.ctx),b=createTeamRuntime(g.ctx);try{const first=await a.start(input(a));await assert.rejects(b.start(input(b,'session-b','other-request')),/已有团队/);assert.equal(g.calls.length,0);assert.equal(b.snapshot('session-b').context.canStart,false);a.cancel({sessionId:'fixture-session',runId:first.snapshot.id});await waitFor(()=>a.snapshot('fixture-session').snapshot.status==='cancelled');}finally{await a.dispose();await b.dispose();}});
++test('project lease blocks another session in the same project before providers start',async()=>{const f=teamHost({hold:true}),g=teamHost({sessionId:'session-b'});const a=createTeamRuntime(f.ctx),b=createTeamRuntime(g.ctx);try{const first=await a.start(input(a));await assert.rejects(b.start(input(b,'session-b','other-request')),/此项目/);assert.equal(g.calls.length,0);assert.equal(b.snapshot('session-b').context.canStart,false);a.cancel({sessionId:'fixture-session',runId:first.snapshot.id});await waitFor(()=>a.snapshot('fixture-session').snapshot.status==='cancelled');}finally{await a.dispose();await b.dispose();}});
+ test('context key rejects widened permissions before explicit start',async()=>{const f=teamHost();const r=createTeamRuntime(f.ctx);try{const stale=input(r);await f.setMode('danger-full-access');await assert.rejects(r.start(stale),/会话已变化/);assert.equal(f.calls.length,0);assert.notEqual(r.snapshot('fixture-session').context.contextKey,stale.contextKey);}finally{await r.dispose();}});
+ test('permission change during a run cancels children, retains parent mutation guard until cleanup',async()=>{const f=teamHost({hold:true});const r=createTeamRuntime(f.ctx);try{const result=await r.start(input(r));await waitFor(()=>f.calls.length);assert.ok(f.parentGuards.length);assert.ok(f.parentGuards[0]({agent:f.parent,name:'write'}));await f.setMode('read-only');await waitFor(()=>r.snapshot('fixture-session').snapshot.status==='cancelled');await waitFor(()=>!f.parentGuards.length);assert.equal(f.calls[0].signal.aborted,true);}finally{await r.dispose();}});
+-test('metadata preflight reserves global lease without inference',async()=>{const f=teamHost({preflightHold:true}),g=teamHost({sessionId:'b'});const a=createTeamRuntime(f.ctx),b=createTeamRuntime(g.ctx);try{const promise=a.start(input(a));await new Promise(r=>setTimeout(r,10));await assert.rejects(b.start(input(b,'b','request-b')),/已有团队/);assert.equal(f.calls.length,0);f.releasePreflight();await promise;await waitFor(()=>['completed','blocked','failed'].includes(a.snapshot('fixture-session').snapshot.status));}finally{await a.dispose();await b.dispose();}});
+-test('cleanup failure poisons the process lease across runtime replacement and never claims stopped',async()=>{const f=teamHost({cleanupFail:true});const a=createTeamRuntime(f.ctx);try{await a.start(input(a));await waitFor(()=>a.snapshot('fixture-session').snapshot.status==='blocked');assert.match(a.snapshot('fixture-session').snapshot.message,/不能宣称已停止/);await a.dispose();const g=teamHost({sessionId:'replacement'}),b=createTeamRuntime(g.ctx);try{await assert.rejects(b.start(input(b,'replacement','new-request')),/清理未确认/);assert.equal(g.calls.length,0);}finally{await b.dispose();}}finally{await a.dispose();/* Test-only process fixture reset, deliberately not exposed by production. */globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')].current=null;}});
+-test('a failed worker cleanup cancels the current run before any independent next worker starts',async()=>{const tasks=['one','two'].map(id=>({id,role:'worker',title:id,instructions:'Synthetic write task',dependsOn:[]}));const f=teamHost({tasks,cleanupFail:role=>role==='worker'});const a=createTeamRuntime(f.ctx);try{await a.start(input(a));await waitFor(()=>a.snapshot('fixture-session').snapshot.message?.includes('清理未确认'));await new Promise(r=>setTimeout(r,20));assert.equal(f.calls.filter(x=>x.label.includes(' worker ')).length,1);assert.equal(a.snapshot('fixture-session').context.canStart,false);}finally{await a.dispose();globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')].current=null;}});
++test('metadata preflight reserves project lease without inference',async()=>{const f=teamHost({preflightHold:true}),g=teamHost({sessionId:'b'});const a=createTeamRuntime(f.ctx),b=createTeamRuntime(g.ctx);try{const promise=a.start(input(a));await new Promise(r=>setTimeout(r,10));await assert.rejects(b.start(input(b,'b','request-b')),/此项目/);assert.equal(f.calls.length,0);f.releasePreflight();await promise;await waitFor(()=>['completed','blocked','failed'].includes(a.snapshot('fixture-session').snapshot.status));}finally{await a.dispose();await b.dispose();}});
++test('cleanup failure quarantines the project across runtime replacement and never claims stopped',async()=>{const f=teamHost({cleanupFail:true});const a=createTeamRuntime(f.ctx);try{await a.start(input(a));await waitFor(()=>a.snapshot('fixture-session').snapshot.status==='blocked');assert.match(a.snapshot('fixture-session').snapshot.message,/不能宣称已停止/);await a.dispose();const g=teamHost({sessionId:'replacement'}),b=createTeamRuntime(g.ctx);try{await assert.rejects(b.start(input(b,'replacement','new-request')),/清理未确认/);assert.equal(g.calls.length,0);}finally{await b.dispose();}}finally{await a.dispose();/* Test-only process fixture reset, deliberately not exposed by production. */reset();}});
++test('a failed worker cleanup cancels the current run before any independent next worker starts',async()=>{const tasks=['one','two'].map(id=>({id,role:'worker',title:id,instructions:'Synthetic write task',dependsOn:[]}));const f=teamHost({tasks,cleanupFail:role=>role==='worker'});const a=createTeamRuntime(f.ctx);try{await a.start(input(a));await waitFor(()=>a.snapshot('fixture-session').snapshot.message?.includes('清理未确认'));await new Promise(r=>setTimeout(r,20));assert.equal(f.calls.filter(x=>x.label.includes(' worker ')).length,1);assert.equal(a.snapshot('fixture-session').context.canStart,false);}finally{await a.dispose();reset();}});
+diff --git a/test/team-ui.test.mjs b/test/team-ui.test.mjs
+index 47b2518..2c84ad1 100644
+--- a/test/team-ui.test.mjs
++++ b/test/team-ui.test.mjs
+@@ -167,3 +167,15 @@ test('pending verification is a distinct terminal result, with no active cancel
+   const view = team({ snapshot: { ...liveSnapshot(), status: 'unverified', message: '已产生允许范围内的改动，结果待验证。' } });
+   try { await view.render(); assert.match(document.querySelector('.tm-run-state .tm-status').textContent, /待验证/); assert.equal(document.querySelector('.tm-running-bar'), null); assert.ok(document.querySelector('.tm-command-guide')); assert.equal(document.querySelector('.tm-gates-heading>.is-passed'), null); assert.match(document.querySelector('.tm-overview').textContent, /结果待验证/); } finally { await view.unmount(); }
+ });
++
++
++test('session switch rejects a late reply and history selection sends the current session and exact run ID',async()=>{
++ const calls=[];let late;const snap=(sessionId,id)=>({...liveSnapshot(),id,sessionId,goal:'Goal '+sessionId,finishedAt:'2026-01-01T00:00:01Z',status:'completed'});
++ const host=connectedHost();host.ctx.connection.rpc.call=async(_channel,endpoint,payload)=>{calls.push({endpoint,payload});if(endpoint.endsWith('/settings'))return {ok:true,value:stored()};if(endpoint.endsWith('/catalog'))return {ok:true,value:catalog};if(endpoint.endsWith('/snapshot')){if(payload.sessionId==='a')return new Promise(r=>late=r);return {ok:true,value:{snapshot:snap('b',payload.runId||'b-latest'),context:{sessionId:'b',canStart:true},history:[{...snap('b','b-latest')},{...snap('b','b-old')}]}};}throw Error('Unexpected fixture endpoint');};
++ const view=mount(client.ConnectedTeam,{ctx:host.ctx,sessionId:'a',onOpenSettings(){}});try{await view.render();await view.render({sessionId:'b'});assert.match(document.body.textContent,/Goal b/);assert.ok(!document.body.textContent.includes('Goal a'));await act(async()=>late({ok:true,value:{snapshot:snap('a','a-late'),context:{sessionId:'a'},history:[]}}));assert.ok(!document.body.textContent.includes('Goal a'));const select=document.querySelector('select[aria-label="本会话运行历史"]');await setValue(select,'b-old');assert.ok(calls.some(c=>c.endpoint.endsWith('/snapshot')&&c.payload.sessionId==='b'&&c.payload.runId==='b-old'));assert.match(document.body.textContent,/Goal b/);}finally{await view.unmount();}
++});
++
++test('foreign session response is refused and diagnostic UI never inserts HTML',async()=>{
++ const host=connectedHost();const call=host.ctx.connection.rpc.call;host.ctx.connection.rpc.call=async(channel,endpoint,payload,signal)=>endpoint.endsWith('/snapshot')?{ok:true,value:{snapshot:{...liveSnapshot(),sessionId:'other'},context:{sessionId:'other'},history:[]}}:call(channel,endpoint,payload,signal);const view=mount(client.ConnectedTeam,{ctx:host.ctx,sessionId:'s-one',onOpenSettings(){}});try{await view.render();assert.match(document.body.textContent,/其它会话/);assert.equal(document.querySelector('.tm-run-state'),null);}finally{await view.unmount();}
++ const plain=team({sessionContext:{diagnostic:{phase:'baseline',reason:'<script>private</script>',code:'EPERM',kind:'unknown',at:'fixture'},occupancy:{sessionId:'same-project-owner',state:'quarantined'}}});try{await plain.render();assert.match(document.body.textContent,/baseline/);assert.match(document.body.textContent,/same-project-owner/);assert.equal(document.querySelectorAll('script').length,0);}finally{await plain.unmount();}
++});
+diff --git a/test/verifier-cleanup.test.mjs b/test/verifier-cleanup.test.mjs
+new file mode 100644
+index 0000000..9b617d6
+--- /dev/null
++++ b/test/verifier-cleanup.test.mjs
+@@ -0,0 +1,5 @@
++import {test} from 'node:test';import assert from 'node:assert/strict';import {createAutoVerifier} from '../src/auto-verification.js';
++const result=payload=>({isError:false,value:{kind:'foreground',exitCode:0,signal:null,timedOut:false,aborted:false,stdout:{text:JSON.stringify({...payload,verified:true,project:{mode:'verified',reason:'Fixture'},baselineRef:{path:'fixture-only',digest:'fixture'}})},stderr:{text:''}}});
++const payload=spec=>JSON.parse(Buffer.from(spec.arguments.command.match(/'([A-Za-z0-9+/=]+)'$/)[1],'base64').toString('utf8'));
++test('cleanup foreground failure still quarantines the project and reports cleanup, without retaining raw output',async()=>{const poisoned=[],diagnostics=[];const verifier=createAutoVerifier({poison:(id,d)=>poisoned.push({id,d}),onDiagnostic:(_id,d)=>diagnostics.push(d),executeTool:async(_id,spec)=>{const p=payload(spec),r=result(p);if(p.phase==='cleanup'){r.value.exitCode=1;r.value.stdout.text=JSON.stringify({...p,verified:false,reason:'FAKE_PRIVATE_PROJECT_BODY'});}return r;}});await verifier.collect({config:{sessionId:'fixture'},runId:'fixture',round:0,phase:'baseline',signal:new AbortController().signal});assert.equal((await verifier.release('fixture')).settled,false);assert.equal(poisoned.length,1);assert.equal(poisoned[0].d.phase,'cleanup');assert.equal(diagnostics[0].exitCode,1);assert.equal(JSON.stringify({poisoned,diagnostics}).includes('FAKE_PRIVATE'),false);});
++test('known not-dispatched tool denial reports its phase without quarantining execution that never started',async()=>{const poisoned=[],diagnostics=[];const verifier=createAutoVerifier({poison:id=>poisoned.push(id),onDiagnostic:(_id,d)=>diagnostics.push(d),executeTool:async()=>({isError:true,verificationNotDispatched:true,error:{code:'UNKNOWN_TOOL',message:'FAKE_SECRET'}})});await assert.rejects(verifier.collect({config:{sessionId:'fixture'},runId:'fixture',round:0,phase:'baseline',signal:new AbortController().signal}),e=>e.code==='VERIFICATION_DENIED');assert.equal(poisoned.length,0);assert.equal(diagnostics[0].notDispatched,true);assert.equal(diagnostics[0].code,'UNKNOWN_TOOL');assert.equal(JSON.stringify(diagnostics).includes('FAKE_SECRET'),false);});
+diff --git a/test/verifier-quarantine.test.mjs b/test/verifier-quarantine.test.mjs
+index 35710ce..ba6bedb 100644
+--- a/test/verifier-quarantine.test.mjs
++++ b/test/verifier-quarantine.test.mjs
+@@ -1,3 +1,4 @@
++const reset=()=>{const s=globalThis[Symbol.for('dsh-desktop-workflow:project-runs:v3')];s?.sessions.clear();s?.leases.clear();s?.history.clear();};
+ import {test} from 'node:test';
+ import assert from 'node:assert/strict';
+ import {createTeamRuntime} from '../src/team-runtime.js';
+@@ -20,8 +21,8 @@ test('unknown baseline tool result still locks the lease before any child, with
+     assert.match(state.context.reason,/项目检查清理未确认/);
+     assert.doesNotMatch(state.context.reason,/子代理/);
+     assert.match(state.snapshot.message,/项目检查清理未确认/);
+-    assert.equal(globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')].current.poisoned,true);
+-  }finally{await runtime.dispose();globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')].current=null;}
++    assert.equal(globalThis[Symbol.for('dsh-desktop-workflow:project-runs:v3')].sessions.get(f.parent.id).poisoned,true);
++  }finally{await runtime.dispose();reset();}
+ });
+ 
+ test('auto verifier retains quarantine for background, promoted, timed-out and unknown execution outcomes',async()=>{

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TeamView, TeamSettingsView } from './TeamView';
-import { createDefaultTeamSettings, type CredentialStatus, type TeamCatalog, type TeamSettingsInput, type TeamSetup, type TeamSettings, type TeamSnapshot, type TeamSessionContext } from './team-types';
+import { createDefaultTeamSettings, type CredentialStatus, type TeamCatalog, type TeamSettingsInput, type TeamSetup, type TeamSettings, type TeamSnapshot, type TeamSessionContext, type TeamHistory } from './team-types';
 import { teamDemoSnapshot } from './team-demo';
 import { requestWithDeadline } from './request';
 import type { HostContext } from './index';
 
 export const JEV_CREDENTIAL_REF = 'DSH_TEAM_JEV_API_KEY';
-export type StateResponse = { snapshot: TeamSnapshot | null; context: TeamSessionContext & { sessionId?: string; lastCommand?: { kind: string; message: string; runId?: string } } };
+export type StateResponse = { history?:TeamHistory[]; snapshot: TeamSnapshot | null; context: TeamSessionContext & { sessionId?: string; lastCommand?: { kind: string; message: string; runId?: string } } };
 const emptySetup = (): TeamSetup => ({ settings: createDefaultTeamSettings(), configured: false, keyConfigured: false, disclosureAccepted: false, revision: 0 });
 const emptyCatalog: TeamCatalog = { available: false, providers: [], reason: '正在读取宿主模型目录…' };
 export async function teamCall<T>(ctx: HostContext, action: string, payload: object, signal: AbortSignal): Promise<T> {
@@ -29,7 +29,7 @@ export function ConnectedTeamSettings({ ctx, onClose }: { ctx: HostContext; onCl
   const modelRequest = useRef<AbortController>();
   useEffect(() => { live.current = true; return () => { live.current = false; modelRequest.current?.abort(); }; }, []);
   useEffect(() => {
-    const abort = new AbortController(); setLoading(true);
+    const abort = new AbortController(); setLoading(true); setCatalog(emptyCatalog); setCredential(undefined);
     void (async () => {
       try {
         const stored = await teamCall<TeamSetup>(ctx, 'settings', {}, abort.signal);
@@ -42,7 +42,12 @@ export function ConnectedTeamSettings({ ctx, onClose }: { ctx: HostContext; onCl
         if (abort.signal.aborted) return;
         setCatalog(models);
         setCredential(status?.ok ? status.value[JEV_CREDENTIAL_REF] : undefined);
-      } catch (failure) { if (!abort.signal.aborted) setError(failure instanceof Error ? failure.message : '无法读取团队设置，请刷新重试。'); }
+      } catch (failure) {
+        if (!abort.signal.aborted) {
+          setCatalog({ available: false, providers: [], reason: '团队设置读取失败，请刷新重试。' });
+          setError(failure instanceof Error ? failure.message : '无法读取团队设置，请刷新重试。');
+        }
+      }
       finally { if (!abort.signal.aborted) setLoading(false); }
     })();
     return () => abort.abort();
@@ -96,6 +101,8 @@ export function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSe
   const [loading, setLoading] = useState(true);
   const [revision, setRevision] = useState(0);
   const [demo, setDemo] = useState(false);
+  const [history,setHistory]=useState<TeamHistory[]>([]);
+  const [selectedRunId,setSelectedRunId]=useState<string>();
   const generation = useRef(0);
   const current = useRef(sessionId); current.current = sessionId;
   useEffect(() => {
@@ -114,26 +121,27 @@ export function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSe
   useEffect(() => {
     const token = ++generation.current;
     const abort = new AbortController(); let timer: ReturnType<typeof setTimeout>;
-    setSnapshot(null); setSessionContext(undefined); setError(undefined); setLoading(true);
+    setSnapshot(null); setHistory([]); setSessionContext(undefined); setError(undefined); setLoading(true);
     if (demo) { setSnapshot(teamDemoSnapshot()); setLoading(false); return () => abort.abort(); }
     if (!sessionId) { setLoading(false); return () => abort.abort(); }
     const bound = sessionId;
     async function refresh() {
       try {
-        const state = await teamCall<StateResponse>(ctx, 'snapshot', { sessionId: bound }, abort.signal);
+        const state = await teamCall<StateResponse>(ctx, 'snapshot', { sessionId: bound,...selectedRunId?{runId:selectedRunId}:{} }, abort.signal);
         if (abort.signal.aborted || current.current !== bound || token !== generation.current) return;
-        setSnapshot(state.snapshot); setSessionContext(state.context); setError(undefined);
+        if(state.context.sessionId!==bound||state.snapshot&&state.snapshot.sessionId!==bound||selectedRunId&&state.snapshot?.id!==selectedRunId)throw new Error('宿主返回了其它会话的运行，已拒绝显示。');
+        setSnapshot(state.snapshot); setHistory((state.history||[]).filter(row=>row.sessionId===bound));setSessionContext(state.context); setError(undefined);
       } catch (failure) { if (!abort.signal.aborted && token === generation.current) setError(failure instanceof Error ? failure.message : '无法读取团队运行。'); }
       finally { if (!abort.signal.aborted && token === generation.current) { setLoading(false); timer = setTimeout(refresh, 1500); } }
     }
     void refresh(); return () => { abort.abort(); clearTimeout(timer); };
-  }, [ctx, sessionId, demo, revision, navigationRevision]);
-  useEffect(() => { setDemo(false); }, [sessionId, navigationRevision]);
+  }, [ctx, sessionId, selectedRunId, demo, revision, navigationRevision]);
+  useEffect(() => { setDemo(false);setSelectedRunId(undefined); }, [sessionId, navigationRevision]);
   async function cancel() {
     if (!sessionId || !snapshot || snapshot.demo || snapshot.sessionId !== sessionId) return;
     const bound = sessionId; const token = generation.current;
     const state = await teamCall<StateResponse>(ctx, 'cancel', { sessionId, runId: snapshot.id }, new AbortController().signal);
     if (current.current === bound && token === generation.current) setSnapshot(state.snapshot);
   }
-  return <TeamView catalog={catalog} sessionId={sessionId} sessionContext={sessionContext} snapshot={snapshot} settings={setup.settings} configured={setup.configured} loading={loading} error={error || (sessionContext?.lastCommand?.kind === 'blocked' ? sessionContext.lastCommand.message : undefined)} onOpenSettings={onOpenSettings} onCancel={cancel} onDemo={() => setDemo(value => !value)} onRefresh={() => { setDemo(false); setRevision(value => value + 1); }}/>;
+  return <TeamView catalog={catalog} history={history.filter(row=>row.sessionId===sessionId)} selectedRunId={selectedRunId} onSelectRun={setSelectedRunId} sessionId={sessionId} sessionContext={sessionContext} snapshot={snapshot?.demo||snapshot?.sessionId===sessionId?snapshot:null} settings={setup.settings} configured={setup.configured} loading={loading} error={error || (sessionContext?.lastCommand?.kind === 'blocked' ? sessionContext.lastCommand.message : undefined)} onOpenSettings={onOpenSettings} onCancel={cancel} onDemo={() => setDemo(value => !value)} onRefresh={() => { setDemo(false); setRevision(value => value + 1); }}/>;
 }

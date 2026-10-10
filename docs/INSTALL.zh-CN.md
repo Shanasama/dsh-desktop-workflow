@@ -4,7 +4,7 @@
 
 ## 推荐：把安装包拖给 DSH
 
-1. 在 GitHub 仓库 `dist/` 下载 **dsh-desktop-workflow-0.5.0.tgz**。
+1. 在 GitHub 仓库 `dist/` 下载 **dsh-desktop-workflow-0.5.3.tgz**。
 2. 拖到 DSH 聊天框，发送：
 
    > 请用官方插件管理器安装这个附件到当前 DSH 配置。不要修改我的提供方、凭据或安全权限。
@@ -38,7 +38,7 @@
 
 ## 切换外观
 
-右侧工作流或团队设置的右上角，选择 **风格 → 明日方舟 / 原版 UI**。仅更改插件界面，不改变 DSH 宿主主题、模型或运行状态。选择保存在当前客户端的本地外观偏好中；没有配置凭据或同意数据发送的副作用。存储不可用时可在当前打开的插件中切换。
+右侧工作流或团队设置的右上角，选择 **风格 → 泰拉 / 原版 UI**。仅更改插件界面，不改变 DSH 宿主主题、模型或运行状态。选择保存在当前客户端的本地外观偏好中；没有配置凭据或同意数据发送的副作用。存储不可用时可在当前打开的插件中切换。
 
 ## 查看与停止
 
@@ -51,7 +51,7 @@
 只在知道实际 Desktop profile 时使用。不要把测试 profile 覆盖到日常配置。
 
 ```bash
-dsh plugin --profile YOUR_DESKTOP_PROFILE add /absolute/path/dsh-desktop-workflow-0.5.0.tgz --ignore-scripts
+dsh plugin --profile YOUR_DESKTOP_PROFILE add /absolute/path/dsh-desktop-workflow-0.5.3.tgz --ignore-scripts
 ```
 
 Windows 使用安装包对应的绝对路径。卸载：

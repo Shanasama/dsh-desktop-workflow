@@ -11,7 +11,7 @@ const clean = (value, length=500) => typeof value === 'string' ? value.replace(/
 export class TeamHostError extends Error { constructor(code,message){super(message);this.code=code;this.retryable=false;this.blocked=true;} }
 function need(condition,code,message){if(!condition)throw new TeamHostError(code,message);}
 
-export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, onCleanupFailed = () => {} } = {}) {
+export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, onCleanupFailed = () => {}, guardProject = () => {} } = {}) {
   const creation = new AsyncLocalStorage();
   const projectPolicies=new Map();
   const verifierCalls = new AsyncLocalStorage();
@@ -22,7 +22,9 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
   let monitor;
   const owned = new Map();
   const disposers = [];
-  let closed=false;
+  let closed=false,disposal;
+  const globalTools=ctx.get?.('tools');
+  const projectGuardDisposer=typeof globalTools?.guard==='function'?globalTools.guard(exec=>!researchTools.has(exec.name)?guardProject(exec.agent,exec):undefined):undefined;
   function requireSpawn(){const provider=ctx.subagents.getProvider('spawn');need(provider?.capabilities?.agentOptions && provider.capabilities.outputSchema && provider.capabilities.persona && provider.capabilities.depthLimit,'UNSUPPORTED_HOST','当前宿主缺少支持独立模型和结构化输出的 spawn 子代理。');}
 
   function permissionState(parent){
@@ -152,23 +154,39 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
       if(exec.name==='write'&&existsSync(candidate))return '已有文件请使用精确 edit，保留用户原有改动。';
     }catch{return denied;}
   }
+  /**
+   * The shell tool this host actually mounts: POSIX deployments register `bash`,
+   * Windows deployments register `pwsh`. A tools service that cannot enumerate
+   * keeps the caller's name; a scope that restricts the tool away reads as
+   * absent, so a verifier call must never guess a platform.
+   */
+  function shellToolName(requested,parent){
+    const tools=parent.ctx.get('tools');
+    if(typeof tools?.get!=='function')return requested;
+    for(const candidate of [...new Set([requested,'bash','pwsh'])])if(tools.get(candidate,parent))return candidate;
+    return undefined;
+  }
+  /** The shell flavor a verifier command must target for this session, or undefined when none is mounted. */
+  function shellName(sessionId){const parent=parentFor(sessionId,{idle:true});return shellToolName('bash',parent);}
   async function executeTool(sessionId,spec,signal,{allowUserApproval=false}={}){
     const parent=parentFor(sessionId,{idle:true});
     need(!signal.aborted&&!quarantined.has(sessionId),'CANCELLED','运行已取消或隔离。');
     need(activeFingerprints.get(sessionId)===fingerprint(parent),'CONTEXT_CHANGED','验证上下文或权限已变化。');
     const policy=permissionState(parent);need(['workspace-write','read-only'].includes(policy.sandboxMode)&&policy.workspaceRoot===policy.cwd,'VERIFIER_SCOPE_UNSAFE','独立验证要求仓库根目录与宿主工作区边界一致，且不能使用完全访问模式。');
     const tools=parent.ctx.get('tools');need(typeof tools?.execute==='function','VERIFIER_UNAVAILABLE','宿主原生工具执行器不可用。');
+    const resolvedName=shellToolName(spec.name,parent);need(typeof resolvedName==='string'&&resolvedName.length>0,'VERIFIER_UNAVAILABLE','宿主未注册可用的 shell 工具（bash 或 pwsh），无法运行独立验证；未派发任何检查。');
+    const resolved=resolvedName===spec.name?spec:{...spec,name:resolvedName};
     const dispose=parent.ctx.on('tools/pre-execute',async(exec,next)=>{const decision=await next();if(verifierCalls.getStore()?.parent===parent&&(decision.kind==='ask'&&!allowUserApproval||decision.kind==='deny'))return {kind:'deny',reason:'验证需要额外权限；请由用户在主会话处理。'};return decision;});
     let dispatched=false;
-    const match=exec=>exec.agent===parent&&exec.name===spec.name&&JSON.stringify(exec.arguments)===JSON.stringify(spec.arguments);
+    const match=exec=>exec.agent===parent&&exec.name===resolved.name&&JSON.stringify(exec.arguments)===JSON.stringify(resolved.arguments);
     const offDispatch=parent.ctx.on('tools/execute',async(exec,next)=>{if(match(exec))dispatched=true;return next();});
-    try{const result=await verifierCalls.run({parent,name:spec.name,args:JSON.stringify(spec.arguments)},()=>tools.execute({callId:randomUUID(),...spec,agent:parent,signal}));return !dispatched&&result?.isError?{...result,verificationNotDispatched:true}:result;}finally{offDispatch();dispose();}
+    try{const result=await verifierCalls.run({parent,name:resolved.name,args:JSON.stringify(resolved.arguments)},()=>tools.execute({callId:randomUUID(),...resolved,agent:parent,signal}));return !dispatched&&result?.isError?{...result,verificationNotDispatched:true}:result;}finally{offDispatch();dispose();}
 
   }
-  function poison(sessionId){quarantined.add(sessionId);onCleanupFailed(sessionId);}
-  return {context,verifyContext,catalog,validateModels,execute,executeTool,poison,setProjectPolicy:(runId,policy)=>policy?projectPolicies.set(runId,policy):projectPolicies.delete(runId),
+  function poison(sessionId,diagnostic){quarantined.add(sessionId);onCleanupFailed(sessionId,'verification',diagnostic);}
+  return {context,verifyContext,catalog,validateModels,execute,executeTool,shellName,poison,setProjectPolicy:(runId,policy)=>policy?projectPolicies.set(runId,policy):projectPolicies.delete(runId),
     beginSession(sessionId,key){need(!quarantined.has(sessionId),'CLEANUP_UNCONFIRMED','子代理清理未确认，禁止新运行。');const parent=verifyContext(sessionId,key);const tools=parent.ctx?.get('tools');need(tools&&typeof tools.guard==='function','PARENT_GUARD_UNAVAILABLE','无法保护主会话与子代理的并发写入，已阻止执行。');const cleanup=tools.guard(exec=>exec.agent===parent&&!researchTools.has(exec.name)&&!(verifierCalls.getStore()?.parent===parent&&verifierCalls.getStore()?.name===exec.name&&verifierCalls.getStore()?.args===JSON.stringify(exec.arguments))?'团队运行或清理期间，主会话的修改操作已暂停。请先取消团队并等待清理完成。':undefined);parentGuards.set(sessionId,cleanup);activeFingerprints.set(sessionId,fingerprint(parent));activeParents.add(sessionId);if(!monitor)monitor=setInterval(checkActive,500);},
     releaseSession(sessionId){if(quarantined.has(sessionId))return;parentGuards.get(sessionId)?.();parentGuards.delete(sessionId);activeParents.delete(sessionId);activeFingerprints.delete(sessionId);if(!activeParents.size){clearInterval(monitor);monitor=undefined;}},
-    async dispose(){closed=true;clearInterval(monitor);for(const dispose of disposers.reverse())await dispose();owned.clear();for(const[id,cleanup]of parentGuards)if(!quarantined.has(id))cleanup();activeParents.clear();},
+    dispose(){if(disposal)return disposal;closed=true;clearInterval(monitor);disposal=Promise.resolve().then(async()=>{for(const dispose of [...disposers].reverse())await dispose();owned.clear();if(!quarantined.size)projectGuardDisposer?.();for(const[id,cleanup]of parentGuards)if(!quarantined.has(id))cleanup();activeParents.clear();});return disposal;},
   };
 }

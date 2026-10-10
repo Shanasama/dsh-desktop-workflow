@@ -79,6 +79,8 @@ export interface JevState {
   mode: 'live' | 'fixture';
 }
 export interface TeamSnapshot {
+  diagnostic?:TeamDiagnostic;
+  lifecycle?:string;
   id: string;
   sessionId: string;
   goal: string;
@@ -94,7 +96,12 @@ export interface TeamSnapshot {
   demo?: boolean;
   jev?: JevState;
 }
+export interface TeamDiagnostic {phase:string;reason:string;code:string;kind:string;exitCode?:number;at:string}
+export type TeamHistory = Pick<TeamSnapshot,'id'|'sessionId'|'goal'|'status'|'startedAt'|'finishedAt'>;
 export interface TeamSessionContext {
+  sessionId?:string;
+  diagnostic?:TeamDiagnostic;
+  occupancy?:{sessionId:string;runId?:string;state:string;workspace?:string;legacy?:boolean;scopeKnown?:boolean;diagnostic?:TeamDiagnostic};
   contextKey?: string;
   workspace?: string;
   permissionNotice?: string;
@@ -127,6 +134,9 @@ export interface TeamSettingsViewProps {
 }
 export interface TeamViewProps {
   catalog: TeamCatalog;
+  history?:TeamHistory[];
+  selectedRunId?:string;
+  onSelectRun?:(runId:string|undefined)=>void;
   sessionId: string | undefined;
   sessionContext?: TeamSessionContext;
   snapshot: TeamSnapshot | null;

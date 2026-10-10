@@ -1,3 +1,7 @@
+最新会话隔离回归见 [SESSION-ISOLATION-053.md](SESSION-ISOLATION-053.md)。
+
+> v0.5.2 Windows verifier patch: see [current results and limitations](WINDOWS-VERIFIER-052.md). The aggregate counts below describe the historical cloud v0.5.0 run.
+
 # v0.5 verification record
 
 ## Final code checks

@@ -8,7 +8,7 @@ import css from './workflow.css';
 import { requestWithDeadline } from './request';
 export { requestWithDeadline } from './request';
 
-export const inject = ['slots', 'sidebarRightTabs', 'sidebarRight', 'connection', 'remote.credentials'];
+export const inject = ['slots', 'sidebarRightTabs', 'sidebarRight', 'connection', 'remote', 'remote.credentials'];
 export const PACKAGE = 'dsh-desktop-workflow';
 export const ENDPOINT = 'dsh-desktop-workflow/snapshot';
 // Structural contracts verified against DSH 0.2.0-rc.2; no second React runtime.
@@ -84,7 +84,7 @@ export function apply(ctx:HostContext){
     const navigation=info?.tab.navigation;
     const [view,setView]=useState('results');
     useEffect(()=>{setView(navigation?.params?.view==='settings'?'settings':'results');},[sessionId,navigation?.revision]);
-    return view==='settings'?<ConnectedTeamSettings ctx={ctx} onClose={()=>setView('results')}/>:<ConnectedTeam ctx={ctx} sessionId={sessionId} navigationRevision={navigation?.revision} onOpenSettings={()=>setView('settings')}/>;
+    return view==='settings'?<ConnectedTeamSettings ctx={ctx} onClose={()=>setView('results')}/>:<ConnectedTeam key={sessionId||"no-session"} ctx={ctx} sessionId={sessionId} navigationRevision={navigation?.revision} onOpenSettings={()=>setView('settings')}/>;
   }
   const Settings=({close}:{close:()=>void})=><ConnectedTeamSettings ctx={ctx} onClose={close}/>;
   ctx.effect(()=>ctx.slots.inject('sidebar.right.pane.tab',()=>ctx.slots.register({name:'sidebar.right.pane.tab',key:PACKAGE},Body)),'desktop-workflow: native team body');
