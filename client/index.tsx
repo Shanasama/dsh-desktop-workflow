@@ -8,7 +8,7 @@ import css from './workflow.css';
 import { requestWithDeadline } from './request';
 export { requestWithDeadline } from './request';
 
-export const inject = ['slots', 'sidebarRightTabs', 'sidebarRight', 'connection', 'remote.credentials'];
+export const inject = ['slots', 'sidebarRightTabs', 'sidebarRight', 'connection', 'remote', 'remote.credentials'];
 export const PACKAGE = 'dsh-desktop-workflow';
 export const ENDPOINT = 'dsh-desktop-workflow/snapshot';
 // Structural contracts verified against DSH 0.2.0-rc.2; no second React runtime.

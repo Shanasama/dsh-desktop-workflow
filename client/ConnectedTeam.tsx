@@ -29,7 +29,7 @@ export function ConnectedTeamSettings({ ctx, onClose }: { ctx: HostContext; onCl
   const modelRequest = useRef<AbortController>();
   useEffect(() => { live.current = true; return () => { live.current = false; modelRequest.current?.abort(); }; }, []);
   useEffect(() => {
-    const abort = new AbortController(); setLoading(true);
+    const abort = new AbortController(); setLoading(true); setCatalog(emptyCatalog); setCredential(undefined);
     void (async () => {
       try {
         const stored = await teamCall<TeamSetup>(ctx, 'settings', {}, abort.signal);
@@ -42,7 +42,12 @@ export function ConnectedTeamSettings({ ctx, onClose }: { ctx: HostContext; onCl
         if (abort.signal.aborted) return;
         setCatalog(models);
         setCredential(status?.ok ? status.value[JEV_CREDENTIAL_REF] : undefined);
-      } catch (failure) { if (!abort.signal.aborted) setError(failure instanceof Error ? failure.message : '无法读取团队设置，请刷新重试。'); }
+      } catch (failure) {
+        if (!abort.signal.aborted) {
+          setCatalog({ available: false, providers: [], reason: '团队设置读取失败，请刷新重试。' });
+          setError(failure instanceof Error ? failure.message : '无法读取团队设置，请刷新重试。');
+        }
+      }
       finally { if (!abort.signal.aborted) setLoading(false); }
     })();
     return () => abort.abort();

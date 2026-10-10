@@ -1,3 +1,5 @@
+> v0.5.1 Windows patch: see [current results and limitations](WINDOWS-CLIENT-051.md). The aggregate counts below are the historical cloud v0.5.0 run.
+
 # v0.5 verification record
 
 ## Final code checks

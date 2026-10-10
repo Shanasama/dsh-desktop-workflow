@@ -4,7 +4,7 @@
 
 ## 推荐：把安装包拖给 DSH
 
-1. 在 GitHub 仓库 `dist/` 下载 **dsh-desktop-workflow-0.5.0.tgz**。
+1. 在 GitHub 仓库 `dist/` 下载 **dsh-desktop-workflow-0.5.1.tgz**。
 2. 拖到 DSH 聊天框，发送：
 
    > 请用官方插件管理器安装这个附件到当前 DSH 配置。不要修改我的提供方、凭据或安全权限。
@@ -51,7 +51,7 @@
 只在知道实际 Desktop profile 时使用。不要把测试 profile 覆盖到日常配置。
 
 ```bash
-dsh plugin --profile YOUR_DESKTOP_PROFILE add /absolute/path/dsh-desktop-workflow-0.5.0.tgz --ignore-scripts
+dsh plugin --profile YOUR_DESKTOP_PROFILE add /absolute/path/dsh-desktop-workflow-0.5.1.tgz --ignore-scripts
 ```
 
 Windows 使用安装包对应的绝对路径。卸载：
