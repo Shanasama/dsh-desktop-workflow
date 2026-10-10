@@ -1,4 +1,4 @@
-# DSH 多模型团队 · v0.5.4
+# DSH 多模型团队 · v0.6.0
 
 **装一次、设置一次，以后直接在聊天框输入 `/team 任务正文`。**
 
@@ -6,7 +6,7 @@
 
 ## 开始使用
 
-1. 下载 `dist/dsh-desktop-workflow-0.5.4.tgz`，拖给 DSH，并明确说“请用官方插件管理器安装到当前配置”。详见 [安装说明](INSTALL-ME.md)。这使用 DSH 代理的官方安装工具，不是插件新增的自动拖拽导入器。
+1. 下载 `dist/dsh-desktop-workflow-0.6.0.tgz`，拖给 DSH，并明确说“请用官方插件管理器安装到当前配置”。详见 [安装说明](INSTALL-ME.md)。这使用 DSH 代理的官方安装工具，不是插件新增的自动拖拽导入器。
 2. 在 **设置 → 多模型团队** 选择六岗位模型，输入 Jev Key，阅读并自行启用 TypeSafe 数据许可，保存。
 3. 回到项目聊天，输入：
 
@@ -55,7 +55,9 @@
 
 自动模式不把任意 shell、依赖安装或凭据/权限修改交给岗位模型；常规检查由受控宿主工具运行并反馈结果。验证仍要求 cwd 与 workspaceRoot 一致、原有 read-only/workspace-write sandbox；不自动改权限或支持 full-access 验收。源码证据上限为 10,000 个非敏感、非依赖文件 / 128 MiB，超限不声称完整验收。检查结果不是整个操作系统的事务隔离。
 
-lane 升级调整复核策略，**不偷偷换模型或厂商**；强审查模型由用户在审查岗位选择。各派发/步骤/输出/Jev 次数限制不是总 token 或美元费用上限。
+默认六岗位使用各自基础模型。启用动态路由后，可为每个岗位明确选择 weak / strong 候选；small 使用 weak，medium 使用基础模型，high / escalate 使用 strong，缺少候选时沿用基础模型。只使用宿主目录中已配置的选择，不猜模型 ID、不比较虚构价格，也不扩大工具或文件权限。
+
+可选 Token 预算按**每次运行**设置，默认关闭、额度 0；开启必须明确填写正整数，没有把评估用 1,000 万写成产品默认。每次原生模型派发前预留该准确模型生成上下文声明的完整上界，用宿主原生 usage 结算；小预算可能在第一次调用前就不足。缺少可核验上界/usage 时停止后续派发，未知用量不退款。预算不是金额预算、跨运行项目总账或供应商账单保证。Jev 是单独计数的决策服务，不混入岗位模型 Token 额度。
 
 ## 隐私
 
@@ -65,7 +67,7 @@ TypeSafe 会收到限长脱敏任务、差异统计、检查尾部摘要和审�
 
 ## 验证与安装说明
 
-本版安装包、源码归档、增量补丁从同一最终源码生成并逐文件校验。真实 PowerShell 7.6.6 + 官方 rc.2 执行链已在 Linux 云端通过；Windows/Electron 原生与日常 `/team` 全流程尚未复验。旧 cleanup exit 3 仍是未确定原因的历史问题。见 [v0.5.4 验收与发布说明](docs/PWSH-RELEASE-054.md)。
+本版是 0.6.0 功能闭环候选。原生 /team、设置、真实子代理、官方文件工具、独立验证子进程在官方 rc.2 Linux 云环境中运行；模型与 Jev transport 使用明确的惰性 fixture，没有读取真实凭据或发送付费 API 请求。Windows/Electron 原生与供应商实际模型能力仍需在对应环境验证。旧 cleanup exit 3 根因未确认；保留局部项目隔离，不把修复兼容性描述成根治。详见 [0.6.0 原生验收](docs/PRODUCTION-ACCEPTANCE.md)。
 
 - [安装、一次设置与日常使用](docs/INSTALL.zh-CN.md)
 - [验证记录](docs/VERIFICATION.md)
@@ -79,6 +81,7 @@ npm ci --ignore-scripts
 DSH_NODE_MODULES=/path/to/official/node_modules npm run check
 DSH_NODE_MODULES=/path/to/official/node_modules npm run test:host
 DSH_NODE_MODULES=/path/to/official/node_modules npm run test:team-host
+DSH_NODE_MODULES=/path/to/official/node_modules npm run test:production-host
 ```
 
 未运行真实付费 Jev/岗位模型，也不声称本机 Electron 全链路通过。全部原生接口、fixture、浏览器组件和真实模型验收分别报告。
@@ -87,8 +90,10 @@ DSH_NODE_MODULES=/path/to/official/node_modules npm run test:team-host
 
 保留 `hermes-jev-skills` commit `b22a21f365720cb7cf06f9b229c095176b39cdb9` 的原始 lane/loop-step 策略及 MIT 归属。未运行其安装器；见 [NOTICE](NOTICE)。
 
-## 离线评估整合候选（未发布）
+## 0.6.0 生产接线
 
-本源码副本在冻结 0.5.4 之上附加默认关闭的 Jev 记录与影子评估，以及 `evaluation/` 的预算验收入口。没有更改正式版本号、原六岗位模型或默认网络行为。
+设置中的「运行控制」可配置每次运行预算、显式动态路由、主 Jev 版本、固定版本 shadow 与元数据记录。保存采用宿主原生 revision 冲突检查；已开始运行保留启动时的模型和预算，许可撤销会取消在途团队并阻止后续 Jev 发送。右侧显示实际派发模型、主/shadow 请求与响应版本、预算状态和可展开的脱敏元数据记录。
 
-运行 `npm run check:integration` 可完成已有插件回归和新增预算/独立验证组合测试；不读取凭据，不发真实 API 请求。详见 `evaluation/README.md`。这不是新的正式安装包，也不是生产效果验收。
+Shadow 只观察，独立超时、次数和并发上限；其结果不改变主流程、模型选择、权限或完成门禁。版本别名实际解析版本仅以响应为准，未报告时显示未知。元数据日志不含目标、源码、路径、原始错误或密钥。
+
+运行 `npm run check:integration` 检查回归与历史离线评估组件；运行 `DSH_NODE_MODULES=/path/to/official/node_modules npm run test:production-host` 验证真正的原生宿主闭环。`evaluation/` 保留独立实验工具，不是当前生产预算入口。生产实现位于 `src/production-budget.js`、`src/host-adapter.js` 和原生运行时，并包含在安装 tgz 中。

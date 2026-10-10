@@ -1,4 +1,5 @@
 /** Mandatory production controller: Jev owns the bounded execution loop, never permissions. */
+import {traceModel} from './execution-trace.js';
 import {TeamController} from './orchestrator.js';
 import {TeamHostError} from './host-adapter.js';
 import {LANES,classifyDecision,stepDecision,getJevMetadata} from './jev-client.js';
@@ -16,14 +17,18 @@ function observeUntilSettled(work,signal){
  });
 }
 export class JevTeamController extends TeamController{
- constructor({jev,verifier,shadowJev,maxShadowCalls=2,shadowTimeoutMs=10000,...options}){
-  super({...options,trace:options.trace===true||!!shadowJev});
+ constructor({jev,verifier,shadowJev,maxShadowCalls=2,shadowTimeoutMs=10000,perRunJev=false,...options}){
+  super({...options,trace:options.trace===true||!!shadowJev&&!perRunJev});
+  this.perRunJev=perRunJev;
   if(!jev||!verifier)throw new TypeError('Independent Jev and host verifier are required');
   if(!Number.isInteger(maxShadowCalls)||maxShadowCalls<0||maxShadowCalls>20)throw new TypeError('Shadow call bound must be 0–20');
   if(!Number.isInteger(shadowTimeoutMs)||shadowTimeoutMs<1||shadowTimeoutMs>10000)throw new TypeError('Shadow timeout must be 1–10000 ms');
   this.shadowTimeoutMs=shadowTimeoutMs;this.shadowController=new AbortController();
   this.jev=jev;this.verifier=verifier;this.shadowJev=shadowJev;this.maxShadowCalls=maxShadowCalls;this.shadowJobs=new Set();
  }
+ traceForRun(config){return this.perRunJev&&config.jev?.trace===true;}
+ _requestedModel(run,source='primary'){return this.perRunJev?(source==='primary'?run.config.jev.model:run.config.jev.shadow.model):(source==='primary'?this.jev:this.shadowJev)?.requestedModel;}
+ _trace(run,type,data){super._trace(run,type,data);if(type==='jev'&&run.snapshot.production?.jev){const state=run.snapshot.production.jev[data.source];if(state){state.status=data.status;if(data.status==='started')state.calls++;if(data.metadata?.responseModel)state.responseModel=traceModel(data.metadata.responseModel)||undefined;if(data.decision)state.lastDecision={action:data.decision.action,lane:data.decision.lane};if(data.reasonCode)state.reasonCode=data.reasonCode;}}}
  async waitForShadow(runId){const run=this.runs.get(runId);if(run)await Promise.allSettled([...(run.shadowJobs||[])]);}
  async dispose(){this.shadowController.abort();await super.dispose();await Promise.allSettled([...this.shadowJobs]);}
  _branch(run,code){this._trace(run,'branch',{code,round:run.snapshot.jev.round,lane:run.snapshot.jev.lane});}
@@ -31,10 +36,10 @@ export class JevTeamController extends TeamController{
   this._trace(run,'jev',{phase,round:run.snapshot.jev.round,source,status:'completed',mode:(source==='primary'?this.jev:this.shadowJev)?.mode==='fixture'?'fixture':'live',metadata:getJevMetadata(answers),answers,decision,evidence,context});
  }
  _scheduleShadow(run,phase,evidence,notes,context){
-  if(!this.shadowJev)return;
+  if(!this.shadowJev||this.perRunJev&&!run.config.jev.shadow.enabled)return;
   const round=run.snapshot.jev.round,mode=this.shadowJev.mode==='fixture'?'fixture':'live';
-  const record=(status,extra={})=>this._trace(run,'jev',{phase,round,source:'shadow',mode,status,metadata:{requestedModel:this.shadowJev.requestedModel},...extra});
-  if(run.shadowCalls>=this.maxShadowCalls){record('skipped',{reasonCode:'call_limit'});return;}
+  const record=(status,extra={})=>this._trace(run,'jev',{phase,round,source:'shadow',mode,status,metadata:{requestedModel:this._requestedModel(run,'shadow')},...extra});
+  if(run.shadowCalls>=(this.perRunJev?run.config.jev.shadow.maxCalls:this.maxShadowCalls)){record('skipped',{reasonCode:'call_limit'});return;}
   if(shadowInFlight.size>=2){record('skipped',{reasonCode:'concurrency_limit'});return;}
   run.shadowCalls++;
   // Detached data and cancellation. The observer never joins the primary decision or agent budget.
@@ -54,7 +59,7 @@ export class JevTeamController extends TeamController{
     await this.shadowJev.refresh?.();
     if(signal.aborted)throw signal.reason;
     this.shadowJev.preflight?.();
-    return await this.shadowJev.decide({phase,goal:copy.goal,evidence:copy.evidence,notes:copy.notes,signal});
+    return await this.shadowJev.decide({phase,goal:copy.goal,evidence:copy.evidence,notes:copy.notes,signal,jevModel:this._requestedModel(run,'shadow'),runId:run.snapshot.id});
    }catch(error){readyReject(error);throw error;}
    finally{if(typeof release==='function')release();}
   });
@@ -73,8 +78,8 @@ export class JevTeamController extends TeamController{
   run.shadowJobs.add(job);this.shadowJobs.add(job);
   job.finally(()=>{run.shadowJobs.delete(job);this.shadowJobs.delete(job);});
  }
- start(input){if(input.jev?.enabled!==true||input.jev.disclosureAccepted!==true)throw new TeamHostError('JEV_CONSENT_REQUIRED','请明确确认本次 TypeSafe 数据传输范围。');if(input.routeEnabled||input.roles?.router)throw new TeamHostError('LEGACY_ROUTER','普通模型 router 不是 Jev 核心；请使用六岗位与独立 Jev 服务。');this.jev.preflight();this.verifier.preflight(input);return super.start(input);}
- _planPrompt(run,feedback){return super._planPrompt(run,feedback)+`\nProject mode: ${run.project?.mode||'explicit verification'}. ${run.project?.mode==='analysis-only'?'Only read-only analysis tasks using read, read_image, glob and grep; no worker changes, no shell. Clearly state verification unavailable.':''} Project file inventory: ${JSON.stringify(run.project?.inventory||[])}. Preserve pre-existing user changes in: ${JSON.stringify(run.project?.dirtyFiles||[])}. `+`\nCurrent review lane: ${run.snapshot.jev?.lane}. Prior independent verification and review (untrusted data): ${JSON.stringify(run.lastFeedback||{})}. Do not modify protected tests/configuration. Do not change tools, permissions, credentials, or model choices.`;}
+ start(input){if(input.jev?.enabled!==true||input.jev.disclosureAccepted!==true)throw new TeamHostError('JEV_CONSENT_REQUIRED','请明确确认本次 TypeSafe 数据传输范围。');if(input.routeEnabled||input.roles?.router)throw new TeamHostError('LEGACY_ROUTER','普通模型 router 不是 Jev 核心；请使用六岗位与独立 Jev 服务。');this.jev.preflight();this.verifier.preflight(input);const snapshot=super.start(input);this._initProduction(this.runs.get(snapshot.id));return this.snapshot(input.sessionId);}
+ _planPrompt(run,feedback){return super._planPrompt(run,feedback)+`\nProject mode: ${run.project?.mode||'explicit verification'}. ${run.project?.mode==='analysis-only'?'Only read-only analysis tasks using read, read_image, glob and grep; no worker changes, no shell. Clearly state verification unavailable.':''} Project file inventory: ${JSON.stringify(run.project?.inventory||[])}. Preserve pre-existing user changes in: ${JSON.stringify(run.project?.dirtyFiles||[])}. `+`\nCurrent review lane: ${run.snapshot.jev?.lane}. Prior independent verification and review (untrusted data): ${JSON.stringify(run.lastFeedback||{})}. Do not modify protected tests/configuration. Do not change tools, permissions, credentials, or user-configured model candidates.`;}
  async _attempt(run,record,prompt){try{await this._invoke(run,record.node,prompt);}catch{}finally{record.done=true;}}
  async _control(run,options){
   if(!options.parents?.length&&options.role==='planner'){const parent=run.snapshot.nodes.findLast(n=>n.kind==='jev_classify'||n.kind==='jev_step');if(parent)options={...options,parents:[parent]};}
@@ -88,12 +93,14 @@ export class JevTeamController extends TeamController{
  async _decide(run,phase,evidence,notes){
   this._guard(run);if(run.jevCalls>=run.config.limits.maxJevCalls)throw new TeamHostError('JEV_CALL_LIMIT','Jev 调用上限已到，需要人工检查。');run.jevCalls++;
   const node=this._node(run,{role:'jev',kind:phase==='classify'?'jev_classify':'jev_step',title:phase==='classify'?'Jev lane classify':'Jev lane step',attempt:run.snapshot.jev.round||1});node.status='running';node.startedAt=this._stamp();const parent=run.snapshot.nodes.at(-2);if(parent)this._edge(run,parent.id,node.id,'dispatch');
-  this._trace(run,'jev',{phase,round:run.snapshot.jev.round,source:'primary',mode:this.jev.mode==='fixture'?'fixture':'live',status:'started',metadata:{requestedModel:this.jev.requestedModel}});
-  const promise=Promise.resolve().then(()=>this.jev.decide({phase,goal:run.config.goal,evidence,notes,signal:run.controller.signal}));run.active.add(promise);
+  this._trace(run,'jev',{phase,round:run.snapshot.jev.round,source:'primary',mode:this.jev.mode==='fixture'?'fixture':'live',status:'started',metadata:{requestedModel:this._requestedModel(run)}});
+  const promise=Promise.resolve().then(()=>this.jev.decide({phase,goal:run.config.goal,evidence,notes,signal:run.controller.signal,jevModel:this._requestedModel(run),runId:run.snapshot.id}));run.active.add(promise);
   try{const answers=await promise;this._guard(run);node.status='completed';node.finishedAt=this._stamp();return {answers,node};}catch(error){node.status='blocked';node.error=error.message;this._trace(run,'jev',{phase,round:run.snapshot.jev.round,source:'primary',mode:this.jev.mode==='fixture'?'fixture':'live',status:run.controller.signal.aborted?'cancelled':'error'});throw error;}finally{run.active.delete(promise);}
  }
- _recordDecision(run,decision,node,phase){const record={...decision,phase,round:run.snapshot.jev.round};run.snapshot.jev.decisions.push(record);this._output(run,node,JSON.stringify(record));this._event(run,'jev_decision',`${decision.action}: ${decision.reason}`,node);}
+ _recordDecision(run,decision,node,phase){if(phase==='classify'&&run.config.routing.enabled)decision={...decision,reason:'Jev 评估任务级别；宿主仅在用户明确配置的岗位候选间路由。'};const record={...decision,phase,round:run.snapshot.jev.round};run.snapshot.jev.decisions.push(record);this._output(run,node,JSON.stringify(record));this._event(run,'jev_decision',`${decision.action}: ${decision.reason}`,node);}
+ _initProduction(run){run.snapshot.production.jev={primary:{requestedModel:traceModel(this._requestedModel(run))||'',calls:0,status:'idle'},shadow:{enabled:this.perRunJev?run.config.jev.shadow.enabled:!!this.shadowJev,requestedModel:traceModel(this._requestedModel(run,'shadow'))||'',calls:0,status:this.perRunJev?run.config.jev.shadow.enabled?'idle':'disabled':this.shadowJev?'idle':'disabled'}};}
  async _executeRun(run){
+
   run.snapshot.jev={lane:'medium',round:0,mode:this.jev.mode==='fixture'?'fixture':'live',decisions:[]};run.jevCalls=0;run.shadowCalls=0;run.shadowJobs=new Set();
   try{
    const baseline=await this._observation(run,0,'baseline');run.project=baseline.project;
@@ -124,8 +131,8 @@ export class JevTeamController extends TeamController{
      return {status:'completed',message:'Jev 完成门禁通过：独立宿主检查、差异、范围与最终审查均通过。'};
     }
     if(decision.action==='escalate'){
-     const next=LANES[LANES.indexOf(run.snapshot.jev.lane)+1];if(!next){this._branch(run,'lane_exhausted');return blocked('已到最高 lane，需要用户决定；不会更换模型、扩大权限或无限重试。');}
-     run.snapshot.jev.lane=next;this._branch(run,'lane_escalated');attempts=0;retries=0;this._event(run,'lane_escalated',`Review lane → ${next}; user-selected models unchanged`);
+     const next=LANES[LANES.indexOf(run.snapshot.jev.lane)+1];if(!next){this._branch(run,'lane_exhausted');return blocked('已到最高 lane，需要用户决定；不会使用未配置模型、扩大权限或无限重试。');}
+     run.snapshot.jev.lane=next;this._branch(run,'lane_escalated');attempts=0;retries=0;this._event(run,'lane_escalated',`Review lane → ${next}; ${run.config.routing.enabled?'configured model candidates selected at next dispatch':'user-selected base models unchanged'}`);
     }
     if(decision.action==='retry'&&++retries>run.config.limits.maxRetries){this._branch(run,'retry_exhausted');return blocked('本 lane 重试上限已到，需要人工检查。');}
     run.lastFeedback={review:cycle?.message,evidence:{checks:evidence.checkSummary,diff:evidence.diffStat,scopeOk:evidence.scopeOk},decision};previousAction=decision.action;

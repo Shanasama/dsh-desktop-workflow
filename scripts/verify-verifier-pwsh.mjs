@@ -94,9 +94,10 @@ export async function runPwshAcceptance({requireWindows=false}={}){
   const root=path.join(home,"项目 space '泰拉'"),plugin=path.join(home,"插件 package '泰拉'");
   fs.mkdirSync(root);fs.mkdirSync(path.join(plugin,'src'),{recursive:true});
   fs.writeFileSync(path.join(plugin,'package.json'),' {"type":"module"}\n');
+  fs.symlinkSync(modules,path.join(plugin,'node_modules'),process.platform==='win32'?'junction':'dir');
   // Import a byte-identical copy so the production runner entry itself has
   // spaces, non-ASCII characters and an apostrophe in its absolute path.
-  for(const name of ['auto-verification.js','verification.js','host-adapter.js','verification-diagnostics.js','verifier-command.js','verification-project-runner.js','verification-host-runner.js']){
+  for(const name of ['auto-verification.js','verification.js','host-adapter.js','production-budget.js','verification-diagnostics.js','verifier-command.js','verification-project-runner.js','verification-host-runner.js']){
     fs.copyFileSync(path.join(source,name),path.join(plugin,'src',name));
     assert.deepEqual(fs.readFileSync(path.join(source,name)),fs.readFileSync(path.join(plugin,'src',name)));
   }

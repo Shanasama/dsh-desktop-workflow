@@ -3,6 +3,16 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 import {realpathSync,lstatSync,existsSync} from 'node:fs';
+import { ProductionBudget, ProductionBudgetError, nativeRequestBound, normalizeBudgetConfig, resolveNativeBudgetContract } from './production-budget.js';
+
+// Exact retired/unconfirmed child identities survive plugin/runtime replacement. Keep
+// only ids, never agents, sessions, project paths, budgets, or active listeners.
+// This cannot enforce anything while no workflow adapter is mounted.
+const quarantineKey=Symbol.for('dsh-desktop-workflow:unconfirmed-model-children:v1');
+const unconfirmedModelChildren=globalThis[quarantineKey]??(globalThis[quarantineKey]=new Set());
+const retiredChildrenKey=Symbol.for('dsh-desktop-workflow:retired-model-children:v1');
+const retiredBudgetChildren=globalThis[retiredChildrenKey]??(globalThis[retiredChildrenKey]=new Set());
+function tombstoneChildren(tag){for(const agent of tag.created)unconfirmedModelChildren.add(agent.id);}
 
 const readTools = new Set(['read', 'read_image', 'glob', 'grep', 'structured_output']);
 const researchTools = new Set([...readTools, 'web_search', 'web_fetch']);
@@ -11,7 +21,7 @@ const clean = (value, length=500) => typeof value === 'string' ? value.replace(/
 export class TeamHostError extends Error { constructor(code,message){super(message);this.code=code;this.retryable=false;this.blocked=true;} }
 function need(condition,code,message){if(!condition)throw new TeamHostError(code,message);}
 
-export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, onCleanupFailed = () => {}, guardProject = () => {} } = {}) {
+export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, onCleanupFailed = () => {}, guardProject = () => {}, onBudgetUpdate = () => {} } = {}) {
   const creation = new AsyncLocalStorage();
   const projectPolicies=new Map();
   const verifierCalls = new AsyncLocalStorage();
@@ -19,8 +29,30 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
   const activeParents = new Set();
   const activeFingerprints = new Map();
   const parentGuards=new Map();const quarantined=new Set();
-  let monitor;
+  let monitor,nativeBudgetContract;
   const owned = new Map();
+  const budgets = new Map();
+  const retiredBudgetRuns = new Set();
+  // Keep child attribution until adapter disposal, including late auxiliary
+  // calls after child cleanup. Released ledgers veto late dispatches.
+  const budgetChildren = new Map();
+  function beginBudget(runId, config) {
+    need(typeof runId==='string'&&runId.length>0&&runId.length<=128,'INVALID_BUDGET','Token 预算运行标识无效。');
+    need(!budgets.has(runId)&&!retiredBudgetRuns.has(runId),'BUDGET_ALREADY_STARTED','此运行的 Token 预算已建立，不能重置。');
+    const budget=new ProductionBudget(config,snapshot=>{pruneBudgets();onBudgetUpdate(runId,snapshot);});
+    budgets.set(runId,budget);return budget.snapshot();
+  }
+  function budgetSnapshot(runId){return budgets.get(runId)?.snapshot();}
+  function pruneBudgets(){
+    const settled=[...budgets].filter(([,budget])=>budget.released&&!budget.activeCalls&&!budget.snapshot().reserved&&!budget.snapshot().unknownUsageCalls);
+    for(const [id]of settled.slice(0,-64))budgets.delete(id);
+  }
+  function releaseBudget(runId){
+    const budget=budgets.get(runId);if(!budget)return;
+    retiredBudgetRuns.add(runId);
+    for(const [id,entry]of budgetChildren)if(entry.tag.runId===runId){budgetChildren.delete(id);retiredBudgetChildren.add(id);}
+    const snapshot=budget.release();pruneBudgets();return snapshot;
+  }
   const disposers = [];
   let closed=false,disposal;
   const globalTools=ctx.get?.('tools');
@@ -57,8 +89,22 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
       if(++steps>tag.limits.maxStepsPerAgent){tag.blockedReason='子代理达到模型请求步骤上限，已停止；不会继续重试。';return {kind:'reject'};}
       return next();
     });
-    tag.created.add(agent);owned.set(agent.id,{agent,tag,guard,presentation,cap});
+    tag.created.add(agent);owned.set(agent.id,{agent,tag,guard,presentation,cap});budgetChildren.set(agent.id,{agent,tag});
   }));
+  // Global reception is required because the LLM service may live in a sibling
+  // Cordis scope. Only exact owned child ids / creation context are attributed.
+  disposers.push(ctx.on('llm/stream',(options,next)=>{
+    if(unconfirmedModelChildren.has(options.sessionId))throw new ProductionBudgetError('CLEANUP_UNCONFIRMED','此子代理的清理尚未确认，已阻止后续模型请求。');
+    if(retiredBudgetChildren.has(options.sessionId))throw new ProductionBudgetError('BUDGET_RELEASED','团队运行已结束，已阻止迟到的模型请求。');
+    const entry=options.sessionId!==undefined?budgetChildren.get(options.sessionId):undefined;
+    const tag=entry?.tag || (options.sessionId===undefined?creation.getStore():undefined);
+    if(!tag)return next();
+    const budget=budgets.get(tag.runId);
+    need(budget,'BUDGET_NOT_STARTED','运行的 Token 预算状态不可用，已阻止模型请求。');
+    let bound;
+    try{bound=nativeRequestBound(options,entry?.agent,tag.budgetContract);}catch{/* Unknown metadata fails closed only when enabled. */}
+    return budget.stream(options,next,{bound,signal:tag.signal,onBlocked:error=>{tag.blockedReason=error.message;tag.budgetError=error;}});
+  },{global:true}));
   disposers.push(ctx.on('agent/disposed',({agent})=>{
     owned.delete(agent.id);
     if(activeParents.has(agent.id))onParentUnavailable(agent.id,'当前会话已关闭，团队运行已取消。');
@@ -82,7 +128,7 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
   }
   function verifyContext(sessionId,key){const parent=parentFor(sessionId,{idle:true});need(typeof key==='string' && contexts.get(parent)?.key===key && contexts.get(parent)?.fingerprint===fingerprint(parent),'STALE_SESSION','会话已变化，请刷新面板后重新确认运行。');return parent;}
   async function catalog(selected=[]){
-    need(Array.isArray(selected)&&selected.length<=7,'INVALID_INPUT','模型查询数量无效。');
+    need(Array.isArray(selected)&&selected.length<=18,'INVALID_INPUT','模型查询数量无效。');
     const providers=[];
     for(const provider of ctx.llm.listProviders().slice(0,20)){
       const id=provider.id;if(typeof id!=='string'||!id||id.length>120||clean(id,120)!==id)continue;
@@ -112,7 +158,15 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
     const parent=parentFor(spec.sessionId,{idle:true});
     need(!spec.signal.aborted,'CANCELLED','运行已取消。');
     const currentFingerprint=fingerprint(parent);need(activeFingerprints.get(parent.id)===currentFingerprint,'CONTEXT_CHANGED','执行上下文或权限已变化，请重新确认。');
-    const tag={parent,role:spec.role,project:projectPolicies.get(spec.runId),limits:spec.limits,signal:spec.signal,created:new Set(),fingerprint:currentFingerprint};
+    if(!budgets.has(spec.runId))beginBudget(spec.runId,spec.budget);
+    const budget=budgets.get(spec.runId);
+    if(spec.budget!==undefined){const config=normalizeBudgetConfig(spec.budget);need(config.enabled===budget.config.enabled&&config.tokenLimit===budget.config.tokenLimit,'BUDGET_CONFIG_CHANGED','同一次运行的 Token 预算不可在执行中变更。');}
+    budget.check();
+    // Await host-bound request branding before any child can be published.
+    const budgetContract=budget.config.enabled?await(nativeBudgetContract??=resolveNativeBudgetContract(ctx)):undefined;
+    need(!spec.signal.aborted,'CANCELLED','运行已取消。');
+    need(fingerprint(parent)===currentFingerprint,'CONTEXT_CHANGED','执行上下文或权限已变化，请重新确认。');
+    const tag={budgetContract,runId:spec.runId,parent,role:spec.role,project:projectPolicies.get(spec.runId),limits:spec.limits,signal:spec.signal,created:new Set(),fingerprint:currentFingerprint};
     const maxDepth=ctx.subagents.resolveMaxDepth();
     need(Number.isSafeInteger(maxDepth)&&maxDepth>=1,'DEPTH_UNAVAILABLE','宿主未允许当前会话派发子代理。');
     let run;
@@ -130,8 +184,10 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
       return {stopReason:tag.blockedReason?'refusal':result.stopReason,structured:tag.blockedReason?undefined:result.structured,output:tag.blockedReason||(result.output||[]).filter(b=>b.type==='text').map(b=>clean(b.text,16000)).join('\n').slice(0,24000),childId:run.id};
     }catch(error){
       if(error instanceof TeamHostError)throw error;
+      if(error instanceof ProductionBudgetError)throw new TeamHostError(error.code,error.message);
+      if(tag.budgetError)throw new TeamHostError(tag.budgetError.code,tag.budgetError.message);
       throw new TeamHostError('CHILD_FAILED','子代理运行失败；请在宿主会话检查模型连接或权限。不会自动放宽权限。');
-    }finally{if(run){try{await run.dispose();}catch{quarantined.add(spec.sessionId);onCleanupFailed(spec.sessionId);throw new TeamHostError('CLEANUP_FAILED','子代理未能确认清理完成，已停止继续派发；请检查宿主会话。');}}}
+    }finally{if(run){try{await run.dispose();tag.cleanupConfirmed=true;}catch{tombstoneChildren(tag);quarantined.add(spec.sessionId);onCleanupFailed(spec.sessionId);throw new TeamHostError('CLEANUP_FAILED','子代理未能确认清理完成，已停止继续派发；请检查宿主会话。');}}}
   }
   function projectGuard(tag,exec){
     const denied='自动团队仅能访问当前项目的安全文件；写入、凭据或验收边界已阻止此操作。';
@@ -184,9 +240,9 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
 
   }
   function poison(sessionId,diagnostic){quarantined.add(sessionId);onCleanupFailed(sessionId,'verification',diagnostic);}
-  return {context,verifyContext,catalog,validateModels,execute,executeTool,shellName,poison,setProjectPolicy:(runId,policy)=>policy?projectPolicies.set(runId,policy):projectPolicies.delete(runId),
+  return {context,verifyContext,catalog,validateModels,execute,executeTool,shellName,poison,beginBudget,budgetSnapshot,releaseBudget,setProjectPolicy:(runId,policy)=>policy?projectPolicies.set(runId,policy):projectPolicies.delete(runId),
     beginSession(sessionId,key){need(!quarantined.has(sessionId),'CLEANUP_UNCONFIRMED','子代理清理未确认，禁止新运行。');const parent=verifyContext(sessionId,key);const tools=parent.ctx?.get('tools');need(tools&&typeof tools.guard==='function','PARENT_GUARD_UNAVAILABLE','无法保护主会话与子代理的并发写入，已阻止执行。');const cleanup=tools.guard(exec=>exec.agent===parent&&!researchTools.has(exec.name)&&!(verifierCalls.getStore()?.parent===parent&&verifierCalls.getStore()?.name===exec.name&&verifierCalls.getStore()?.args===JSON.stringify(exec.arguments))?'团队运行或清理期间，主会话的修改操作已暂停。请先取消团队并等待清理完成。':undefined);parentGuards.set(sessionId,cleanup);activeFingerprints.set(sessionId,fingerprint(parent));activeParents.add(sessionId);if(!monitor)monitor=setInterval(checkActive,500);},
     releaseSession(sessionId){if(quarantined.has(sessionId))return;parentGuards.get(sessionId)?.();parentGuards.delete(sessionId);activeParents.delete(sessionId);activeFingerprints.delete(sessionId);if(!activeParents.size){clearInterval(monitor);monitor=undefined;}},
-    dispose(){if(disposal)return disposal;closed=true;clearInterval(monitor);disposal=Promise.resolve().then(async()=>{for(const dispose of [...disposers].reverse())await dispose();owned.clear();if(!quarantined.size)projectGuardDisposer?.();for(const[id,cleanup]of parentGuards)if(!quarantined.has(id))cleanup();activeParents.clear();});return disposal;},
+    dispose(){if(disposal)return disposal;closed=true;clearInterval(monitor);for(const id of budgetChildren.keys())retiredBudgetChildren.add(id);for(const {tag}of owned.values())if(!tag.cleanupConfirmed)tombstoneChildren(tag);disposal=Promise.resolve().then(async()=>{for(const dispose of [...disposers].reverse())await dispose();owned.clear();budgetChildren.clear();retiredBudgetRuns.clear();budgets.clear();if(!quarantined.size)projectGuardDisposer?.();for(const[id,cleanup]of parentGuards)if(!quarantined.has(id))cleanup();activeParents.clear();});return disposal;},
   };
 }

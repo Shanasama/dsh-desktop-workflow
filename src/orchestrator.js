@@ -1,5 +1,5 @@
 import {createExecutionTrace} from './execution-trace.js';
-import {PLAN_SCHEMA, REVIEW_SCHEMA, ROUTE_SCHEMA, RETENTION_LIMITS, safeText, validateConfig, validatePlan, validateReview, validateRoute} from './team-contracts.js';
+import {PLAN_SCHEMA, REVIEW_SCHEMA, ROUTE_SCHEMA, RETENTION_LIMITS, safeText, validateConfig, validatePlan, validateReview, validateRoute, selectRoleModel} from './team-contracts.js';
 
 const clone = value => structuredClone(value);
 class StopRun extends Error {}
@@ -47,7 +47,8 @@ export class TeamController {
     const started = this._time();
     const snapshot = {id: runId, sessionId: config.sessionId, goal: config.goal, status: 'planning', roles: clone(config.roles), nodes: [], edges: [], events: [], limits: clone(config.limits), startedAt: new Date(started).toISOString()};
     const run = {config, snapshot, controller: new AbortController(), started, calls: 0, nodeSeq: 0, edgeSeq: 0, eventSeq: 0, outputSize: 0, active: new Set(), done: false, stop: null};
-    if (this.traceEnabled) run.trace = createExecutionTrace();
+    if (this.traceEnabled || this.traceForRun?.(config)) run.trace = createExecutionTrace();
+    snapshot.production={budget:{enabled:config.budget.enabled,limit:config.budget.tokenLimit,spent:0,reserved:0,remaining:config.budget.tokenLimit,halted:null,accounting:'host-usage',unknownUsageCalls:0,physicalCalls:0},routing:{enabled:config.routing.enabled,decisions:[]},trace:{enabled:!!run.trace,eventCount:0,truncated:false}};
     this.runs.set(runId, run);
     this.sessions.set(config.sessionId, runId);
     this._event(run, 'run_started', 'Team run started');
@@ -57,6 +58,7 @@ export class TeamController {
   }
   snapshot(sessionId) {
     const run = this.runs.get(this.sessions.get(sessionId));
+    if(run?.snapshot.production){const trace=run.trace?.snapshot();run.snapshot.production.trace={enabled:!!trace,eventCount:trace?.events.length||0,truncated:trace?.truncated||false};}
     return run ? clone(run.snapshot) : null;
   }
   trace(sessionId, runId) {
@@ -66,7 +68,7 @@ export class TeamController {
   _trace(run, type, data) { run.trace?.record(type, data); }
   _modelTrace(run, node, status) {
     if (!run.trace) return;
-    const model = run.config.roles[node.role];
+    const model = node.model || run.config.roles[node.role];
     this._trace(run, 'model_call', {node:run.snapshot.nodes.indexOf(node)+1,role:node.role,modelRef:run.trace.modelRef(model),maxTokens:model.maxTokens,status});
   }
   cancel(sessionId, runId) {
@@ -139,6 +141,12 @@ export class TeamController {
       throw new LimitError(node.error);
     }
     run.calls++;
+    const selected=selectRoleModel(run.config,node.role,run.snapshot.jev?.lane||'medium');
+    node.model=selected.model;
+    const route={nodeId:node.id,role:node.role,lane:run.snapshot.jev?.lane||'medium',tier:selected.tier,provider:selected.model.provider,model:selected.model.model,reason:selected.reason};
+    run.snapshot.production.routing.decisions.push(route);
+    if(run.config.routing.enabled)this._event(run,'model_routed',`${node.role}: ${selected.tier} → ${selected.model.provider}/${selected.model.model}`,node);
+    if(run.trace)this._trace(run,'routing',{node:run.snapshot.nodes.indexOf(node)+1,role:node.role,lane:route.lane,tier:route.tier,modelRef:run.trace.modelRef(selected.model),reason:route.reason});
     node.status = 'running'; node.startedAt = this._stamp();
     this._event(run, 'node_started', `${node.role} started`, node);
     this._modelTrace(run, node, 'started');
@@ -151,7 +159,7 @@ export class TeamController {
     try {
       promise = Promise.resolve().then(() => {
         this._guard(run);
-        return this.execute({runId: run.snapshot.id, sessionId: run.snapshot.sessionId, nodeId: node.id, role: node.role, goal: run.config.goal, prompt, model: clone(run.config.roles[node.role]), outputSchema: schema ? clone(schema) : undefined, signal: run.controller.signal, limits: clone(run.config.limits), onChildStart});
+        return this.execute({runId: run.snapshot.id, sessionId: run.snapshot.sessionId, nodeId: node.id, role: node.role, goal: run.config.goal, prompt, model: clone(node.model), budget: clone(run.config.budget), outputSchema: schema ? clone(schema) : undefined, signal: run.controller.signal, limits: clone(run.config.limits), onChildStart});
       });
       run.active.add(promise);
       const result = await promise;
@@ -342,6 +350,7 @@ export class TeamController {
       this._event(run, `run_${run.snapshot.status}`, run.snapshot.message);
       this._trace(run, 'terminal', {status:run.snapshot.status});
       run.done = true;
+      if(run.snapshot.production){const trace=run.trace?.snapshot();run.snapshot.production.trace={enabled:!!trace,eventCount:trace?.events.length||0,truncated:trace?.truncated||false};}
     }
     return run.snapshot;
   }

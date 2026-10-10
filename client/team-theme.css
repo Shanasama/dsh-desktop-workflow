@@ -190,3 +190,7 @@
   .tm-root[data-theme=arknights] .tm-header-actions{gap:3px}
 }
 @media(prefers-reduced-motion:reduce){.tm-root[data-theme=arknights] *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* Production controls keep Terra's hard-edged terminal treatment. */
+.tm-root[data-theme=arknights] :is(.tm-production-settings,.tm-production-status,.tm-routing-candidate,.tm-production-errors){border-radius:0}
+.tm-root[data-theme=arknights] .tm-production-settings :is(select,input:not([type=checkbox])){border-radius:0}
+.tm-root[data-theme=arknights] .tm-production-status{border-left:3px solid var(--tm-accent)}

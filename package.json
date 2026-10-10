@@ -1,8 +1,8 @@
 {
   "name": "dsh-desktop-workflow",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "private": true,
-  "description": "Native /team command, one-time role and Jev settings, and bounded multi-agent workflow for DSH 0.2.0-rc.2",
+  "description": "Native DSH /team workflow with configurable token guard, explicit lane model routing, Jev versions and isolated shadow observation",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
@@ -39,7 +39,8 @@
     "test:verifier-windows": "node --expose-internals scripts/verify-verifier-windows.mjs",
     "test:verifier-pwsh": "node --expose-internals scripts/verify-verifier-pwsh.mjs",
     "check:evaluation": "npm --prefix evaluation run check",
-    "check:integration": "npm run check && npm run check:evaluation"
+    "check:integration": "npm run check && npm run check:evaluation",
+    "test:production-host": "node --expose-internals scripts/verify-production-host.mjs"
   },
   "dsh": {
     "bundle": {
@@ -68,5 +69,8 @@
   },
   "dependencies": {
     "@deepseek-ai/schemastery": "3.18.4"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-llm": "0.2.0-rc.2"
   }
 }

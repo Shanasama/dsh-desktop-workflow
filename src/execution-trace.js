@@ -1,4 +1,4 @@
-/** Opt-in, bounded metadata trace. Never stores prompts, source, paths, IDs or raw errors. */
+/** Bounded metadata trace. Production settings default on; standalone controllers opt in. Never stores prompts, source, paths, IDs or raw errors. */
 import {classifyDecision, stepDecision} from './jev-client.js';
 export const TRACE_SCHEMA = 'dsh-evaluation-trace/v1';
 export const DECISION_POLICY = 'hermes-b22a21f+dsh-gates-v1';
@@ -35,6 +35,7 @@ const branchCodes = ['initial_blocked','task_blocked','unverified','needs_person
 function project(type, data) {
  switch(type) {
   case 'plan': return {node:integer(data.node),kind:one(data.kind,['plan','coordination']),tasks:(data.tasks||[]).slice(0,12).map(task=>({task:integer(task.task),role:one(task.role,roles),dependsOn:(task.dependsOn||[]).slice(0,12).map(integer)}))};
+  case 'routing': return {node:integer(data.node),role:one(data.role,roles),lane:one(data.lane,lanes),tier:one(data.tier,['base','weak','strong']),modelRef:integer(data.modelRef),reason:one(data.reason,['routing_disabled','medium_lane_base','configured_lane_candidate','candidate_absent_base'])};
   case 'model_call': return {node:integer(data.node),role:one(data.role,roles),modelRef:integer(data.modelRef),maxTokens:integer(data.maxTokens),status:one(data.status,statuses)};
   case 'verification': return {phase:one(data.phase,['baseline','check','seal']),round:integer(data.round),evidence:traceEvidence(data.evidence),checks:(data.checks||[]).slice(0,32).map(check=>({check:integer(check.check),passed:flag(check.passed),exitCode:Number.isSafeInteger(check.exitCode)?check.exitCode:null}))};
   case 'jev': return {phase:one(data.phase,['classify','step']),round:integer(data.round),source:one(data.source,['primary','shadow']),reasonCode:one(data.reasonCode,['call_limit','concurrency_limit','unavailable','cancelled','timeout']),status:one(data.status,statuses),mode:one(data.mode,['live','fixture']),metadata:metadata(data.metadata),answers:data.answers?traceAnswers(data.answers,data.phase):null,evidence:data.evidence?traceEvidence(data.evidence):null,context:data.context?context(data.context):null,decision:data.decision?decision(data.decision):null};

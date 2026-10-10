@@ -3,6 +3,7 @@ import type { TeamCatalog, TeamEdge, TeamLimits, TeamModelSelection, TeamNode, T
 import teamCss from './team.css';
 import themeCss from './team-theme.css';
 import { TeamThemeSwitch, useTeamTheme } from './team-theme';
+import { ProductionSettings, ProductionStatus, productionDefaults, productionSettingsErrors } from './TeamProduction';
 export * from './team-types';
 
 type IconName = 'team' | 'plan' | 'coordinate' | 'search' | 'explore' | 'code' | 'review' | 'route' | 'arrow' | 'check' | 'close' | 'refresh' | 'settings' | 'clock' | 'file' | 'chevron' | 'play' | 'stop' | 'lock' | 'activity' | 'branch' | 'alert';
@@ -92,7 +93,7 @@ function JevPanel({ catalog, snapshot, settings, onSelectNode }: { catalog: Team
     { label: '独立验证成立', value: evidence?.verified },
   ];
   return <section className="tm-jev-panel" aria-label="Jev 核心调度与完成门禁">
-    <details className="tm-control-details"><summary><span className="tm-control-title"><Icon name="route"/>Jev 核心调度</span><span className={`tm-jev-connection ${fixture ? 'is-fixture' : ready ? 'is-ready' : 'is-blocked'}`}>{fixture ? 'FIXTURE · 未连接服务' : ready ? 'TypeSafe · 已配置' : '真实运行已阻止'}</span><Icon name="chevron"/></summary><p className="tm-jev-description">Jev 决定任务分档与下一步流程。六个岗位始终使用你选择的模型和提供方，不会随分档自动换模。</p>
+    <details className="tm-control-details"><summary><span className="tm-control-title"><Icon name="route"/>Jev 核心调度</span><span className={`tm-jev-connection ${fixture ? 'is-fixture' : ready ? 'is-ready' : 'is-blocked'}`}>{fixture ? 'FIXTURE · 未连接服务' : ready ? 'TypeSafe · 已配置' : '真实运行已阻止'}</span><Icon name="chevron"/></summary><p className="tm-jev-description">Jev 决定任务分档与下一步流程。动态路由关闭时沿用六岗位基础模型；启用后仅在你明确配置的候选间选择，实际选择以运行记录为准。</p>
     {!fixture && !ready && <p className="tm-jev-warning" role="status"><Icon name="alert"/>{catalog.jev?.reason || '尚未完成 Jev 设置。请打开团队设置，连接密钥并选择六个岗位模型。'}</p>}
     <div className="tm-jev-metrics"><div><span>当前分档</span><strong>{state ? `${state.lane} · ${LANE[state.lane] || state.lane}` : '等待 Jev 分类'}</strong></div><div><span>调度轮次</span><strong>{state?.round ?? 0} / {(snapshot?.limits || settings.limits).maxRounds}</strong></div><div><span>Jev 决策记录</span><strong>{state?.decisions.length ?? 0} 条 <small>调用上限 {(snapshot?.limits || settings.limits).maxJevCalls}</small></strong></div></div>
     {latestDecision && <div className="tm-jev-next"><strong>最新决策 · {latestDecision.action}</strong><p>{latestDecision.reason}</p></div>}
@@ -189,7 +190,8 @@ function TaskGraph({ snapshot, selected, onSelect }: { snapshot: TeamSnapshot | 
 function Inspector({ role, node, snapshot, settings, catalog, onSelectNode, onConfigure, onBack }: { role: TeamNodeRole; node?: TeamNode; snapshot: TeamSnapshot | null; settings: TeamSettings; catalog: TeamCatalog; onSelectNode: (node: TeamNode) => void; onConfigure: () => void; onBack: () => void }) {
   const verificationNode = node?.kind === 'verification';
   const definition = verificationNode ? { name: '宿主验证', subtitle: '独立完成检查', icon: 'review' as IconName, description: '由宿主运行服务端允许的验证配置，并检查修改范围与差异证据。此节点不是模型自报成功。', access: '固定服务端验证配置' } : ROLE[role] || ROLE.worker;
-  const selection = role === 'jev' || verificationNode ? undefined : (snapshot?.roles || settings.roles)[role];
+  const route = node && snapshot?.production?.routing.decisions.filter(decision => decision.nodeId === node.id).at(-1);
+  const selection: TeamModelSelection | undefined = role === 'jev' || verificationNode ? undefined : route || (snapshot?.roles || settings.roles)[role];
   const nodes = snapshot?.nodes.filter(item => item.role === role) || [];
   const relations = node ? snapshot?.edges.filter(edge => edge.from === node.id || edge.to === node.id) || [] : [];
   return <aside className="tm-inspector" aria-label={node ? '节点详情' : '岗位详情'}>
@@ -198,6 +200,7 @@ function Inspector({ role, node, snapshot, settings, catalog, onSelectNode, onCo
     <div className="tm-inspector-heading"><span className={`tm-role-icon tm-role-icon--${role}`}><Icon name={definition.icon}/></span><div><h3>{node?.title || definition.name}</h3><Status status={node?.status || roleStatus(nodes)}/></div></div>
     <p className="tm-role-description">{definition.description}</p>
     <dl className="tm-facts"><div><dt>负责角色</dt><dd>{definition.name}</dd></div><div><dt>{role === 'jev' || verificationNode ? '执行方式' : '模型'}</dt><dd>{verificationNode ? '服务端验证检查' : role === 'jev' ? 'Jev · 独立服务' : modelName(selection, catalog, isFixture(snapshot))}</dd></div><div><dt>提供方</dt><dd>{verificationNode ? (isFixture(snapshot) || snapshot?.jev?.mode === 'fixture' ? 'Fixture · 合成验证' : '当前宿主') : role === 'jev' ? (isFixture(snapshot) || catalog.jev?.mode === 'fixture' ? 'Fixture · 未连接 TypeSafe' : catalog.jev?.configured && catalog.jev.available ? 'TypeSafe · 服务端已配置' : 'TypeSafe · 未连接服务') : isFixture(snapshot) && !selection?.provider ? '合成示例' : providerName(selection, catalog)}</dd></div>{selection?.reasoningEffort && <div><dt>思考强度</dt><dd>{catalog.providers.find(p => p.id === selection.provider)?.models.find(m => m.id === selection.model)?.efforts?.find(e => e.id === selection.reasoningEffort)?.name || selection.reasoningEffort}</dd></div>}<div><dt>工作方式</dt><dd>{definition.access}</dd></div>{node && <><div><dt>开始时间</dt><dd>{time(node.startedAt)}</dd></div><div><dt>结束时间</dt><dd>{time(node.finishedAt)}</dd></div></>}</dl>
+    {route && <p className="tm-production-help">本节点路由：{route.lane} · {route.tier} · {route.reason}</p>}
     {!snapshot && <button type="button" className="tm-button tm-button--wide" onClick={onConfigure}><Icon name="settings"/>配置角色模型<Icon name="arrow"/></button>}
     {node ? <>
       <section className="tm-evidence"><div className="tm-mini-heading"><h4>输出与证据</h4><span>原文</span></div>{node.output ? <pre>{node.output}</pre> : <div className="tm-inline-empty"><Icon name="file"/>尚无公开输出</div>}{node.error && <div className="tm-node-error" role="status"><strong>错误信息</strong><pre>{node.error}</pre></div>}</section>
@@ -216,27 +219,28 @@ const LIMIT_FIELDS: { key: keyof TeamLimits; label: string; min: number; max: nu
 ];
 export function TeamSettingsView({ setup, catalog, credential, loading = false, saving = false, error, notice, onSave, onClose, onRefresh, onModelSelectionChange }: TeamSettingsViewProps) {
   const theme = useTeamTheme();
-  const [settings, setSettings] = useState<TeamSettings>(setup.settings);
+  const [settings, setSettings] = useState<TeamSettings>(() => productionDefaults(setup.settings));
   const [settingsRole, setSettingsRole] = useState<TeamRole>('planner');
   const [disclosureAccepted, setDisclosureAccepted] = useState(setup.disclosureAccepted);
   const [keyDraft, setKeyDraft] = useState('');
   const [localError, setLocalError] = useState<string>();
   const [submitting, setSubmitting] = useState(false);
   const saveLock = useRef(false);
-  useEffect(() => { setSettings(setup.settings); setDisclosureAccepted(setup.disclosureAccepted); setKeyDraft(''); }, [setup.revision, setup.settings, setup.disclosureAccepted]);
+  useEffect(() => { setSettings(productionDefaults(setup.settings)); setDisclosureAccepted(setup.disclosureAccepted); setKeyDraft(''); }, [setup.revision, setup.settings, setup.disclosureAccepted]);
   const disabled = loading || saving || submitting || setup.writable === false;
   const missingRoles = validateSettings(settings, catalog);
+  const productionErrors = productionSettingsErrors(settings, catalog);
   const invalidLimits = LIMIT_FIELDS.some(field => !Number.isInteger(settings.limits[field.key]) || settings.limits[field.key] < field.min * (field.factor || 1) || settings.limits[field.key] > field.max * (field.factor || 1));
   const keyReady = !!credential?.configured || setup.keyConfigured || (!!keyDraft.trim() && !!credential?.writable);
   const revokingConsent = setup.disclosureAccepted && !disclosureAccepted;
-  const canSave = !disabled && !missingRoles.length && !invalidLimits && (revokingConsent || (catalog.available && disclosureAccepted && keyReady));
+  const canSave = !disabled && !missingRoles.length && !invalidLimits && !productionErrors.length && (revokingConsent || (catalog.available && disclosureAccepted && keyReady));
   function update(role: TeamRole, selection: TeamModelSelection) {
     const clean: TeamModelSelection = { provider: selection.provider, model: selection.model };
     if (selection.reasoningEffort) clean.reasoningEffort = selection.reasoningEffort;
     if (selection.maxTokens !== undefined) clean.maxTokens = selection.maxTokens;
     const roles = { ...settings.roles, [role]: clean };
     setSettings(current => ({ ...current, roles }));
-    onModelSelectionChange?.(roles);
+    onModelSelectionChange?.(roles, settings.routing);
   }
   async function save() {
     if (!canSave || saveLock.current) return;
@@ -264,7 +268,9 @@ export function TeamSettingsView({ setup, catalog, credential, loading = false, 
       const model = provider?.models.find(item => item.id === selection.model);
       return <fieldset key={role} hidden={settingsRole !== role} className="tm-model-config" disabled={disabled || !catalog.available}><legend><span className={`tm-role-icon tm-role-icon--${role}`}><Icon name={ROLE[role].icon}/></span><strong>{ROLE[role].name}</strong><span>{ROLE[role].subtitle}</span></legend><div className="tm-config-selects"><label>提供方<select aria-label={`${ROLE[role].name}提供方`} value={selection.provider} onChange={e => update(role, { provider: e.target.value, model: '', maxTokens: selection.maxTokens })}><option value="">选择提供方</option>{selection.provider && !provider && <option value={selection.provider} disabled>{selection.provider} · 当前不可用</option>}{catalog.providers.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><label>模型<select aria-label={`${ROLE[role].name}模型`} value={selection.model} disabled={!provider || disabled || !catalog.available} onChange={e => { const next = provider?.models.find(item => item.id === e.target.value); update(role, { ...selection, model: e.target.value, reasoningEffort: next?.defaultEffort }); }}><option value="">选择模型</option>{selection.model && !model && <option value={selection.model} disabled>{selection.model} · 当前不可用</option>}{provider?.models.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label></div><details className="tm-advanced-model"><summary>请求设置<Icon name="chevron"/></summary><div>{!!model?.efforts?.length && <label>推理强度<select aria-label={`${ROLE[role].name}推理强度`} value={selection.reasoningEffort || ''} onChange={e => update(role, { ...selection, reasoningEffort: e.target.value || undefined })}><option value="">使用模型默认值</option>{model.efforts.map(effort => <option key={effort.id} value={effort.id}>{effort.name}</option>)}</select></label>}<label>每次模型请求输出上限<input aria-label={`${ROLE[role].name}每次模型请求输出上限`} type="number" min={128} max={32768} step={128} value={selection.maxTokens ?? ''} placeholder="默认 4096 tokens" onChange={e => update(role, { ...selection, maxTokens: e.target.value === '' ? undefined : Math.min(32768, Math.max(128, Math.trunc(Number(e.target.value)))) })}/></label></div></details></fieldset>;
     })}</div></div></section>
-    <div className="tm-config-switches"><label><input type="checkbox" checked={settings.reviewPlan} disabled={disabled} onChange={e => setSettings({ ...settings, reviewPlan: e.target.checked })}/><span><strong>复核初始方案</strong><small>规划完成后由审查者复核</small></span></label><div><strong>Jev 核心调度 · 必须启用</strong><small>分档只调整执行流程，不更换所选模型或提供方</small></div></div>
+    <div className="tm-config-switches"><label><input type="checkbox" checked={settings.reviewPlan} disabled={disabled} onChange={e => setSettings({ ...settings, reviewPlan: e.target.checked })}/><span><strong>复核初始方案</strong><small>规划完成后由审查者复核</small></span></label><div><strong>Jev 核心调度 · 必须启用</strong><small>默认沿用基础模型，可在生产控制中明确启用候选路由</small></div></div>
+    <ProductionSettings settings={settings} catalog={catalog} disabled={disabled} role={settingsRole} onRoleChange={setSettingsRole} onChange={setSettings} onModelSelectionChange={onModelSelectionChange}/>
+    {productionErrors.length > 0 && <div className="tm-production-errors" role="alert"><strong>生产控制需要修正</strong><ul>{productionErrors.map(message => <li key={message}>{message}</li>)}</ul></div>}
     <details className="tm-advanced-settings"><summary>高级运行限制<Icon name="chevron"/></summary>
     <div className="tm-limits-header"><h4>运行边界</h4><span>只读工作可并行，编辑始终串行</span></div><div className="tm-limits">{LIMIT_FIELDS.map(field => <label key={field.key}>{field.label}<span><input aria-label={field.label} type="number" min={field.min} max={field.max} step={1} disabled={disabled} value={settings.limits[field.key] / (field.factor || 1)} onChange={e => { const value = Math.min(field.max, Math.max(field.min, Math.trunc(Number(e.target.value) || field.min))); setSettings({ ...settings, limits: { ...settings.limits, [field.key]: value * (field.factor || 1) } }); }}/><small>{field.suffix}</small></span></label>)}</div>
     </details>
@@ -274,7 +280,7 @@ export function TeamSettingsView({ setup, catalog, credential, loading = false, 
   </section></div>;
 }
 
-export function TeamView({ catalog, history = [], selectedRunId, onSelectRun, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings }: TeamViewProps) {
+export function TeamView({ catalog, history = [], selectedRunId, onSelectRun, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings, onLoadTrace }: TeamViewProps) {
   const diagnostic=snapshot?.diagnostic||(!selectedRunId?sessionContext?.diagnostic:undefined);
   const theme = useTeamTheme();
   const [graph, setGraph] = useState<'team' | 'tasks'>('team');
@@ -317,6 +323,7 @@ export function TeamView({ catalog, history = [], selectedRunId, onSelectRun, se
       <section className="tm-overview"><div><div className="tm-section-eyebrow"><span>{snapshot ? '当前任务' : '工作台'}</span><span className="tm-session"><i/>{demo ? '示例会话' : sessionId ? '已连接当前会话' : '等待 Desktop 会话'}</span></div><h2>{snapshot?.goal || (configured ? '团队已就位' : '连接你的工作团队')}</h2>{snapshot ? <details className="tm-run-description"><summary>运行说明<Icon name="chevron"/></summary><p>{snapshot.message || '任务按实际需要派发，研究与探索并行，编辑工作串行。'}</p></details> : <p>在聊天中使用 /team 发起任务。</p>}</div>{snapshot && <div className="tm-run-state"><Status status={snapshot.status === 'completed' && !completionVerified ? 'completion_unverified' : snapshot.status}/><span>{snapshot.finishedAt ? duration(snapshot) : `开始于 ${time(snapshot.startedAt)}`}</span></div>}</section>
       <div className="tm-summary-strip"><div><Icon name="team"/><span>岗位</span><strong>6</strong></div><div><Icon name="branch"/><span>节点</span><strong>{nodes.length}</strong></div><div><Icon name="activity"/><span>执行中</span><strong>{running}<small> / {(snapshot?.limits || settings.limits).concurrency}</small></strong></div><div><Icon name="check"/><span>完成</span><strong>{completed}</strong></div></div>
       <JevPanel catalog={catalog} snapshot={snapshot} settings={settings} onSelectNode={node => { setGraph('tasks'); selectNode(node); }}/>
+      <ProductionStatus key={`${sessionId || "none"}:${snapshot?.id || "idle"}`} snapshot={snapshot} settings={settings} onLoadTrace={onLoadTrace}/>
       {history.length>1&&<label className="tm-notice">本会话运行 <select aria-label="本会话运行历史" value={selectedRunId||''} onChange={event=>onSelectRun?.(event.target.value||undefined)}><option value="">最新运行</option>{history.filter(row=>row.sessionId===sessionId).map(row=><option key={row.id} value={row.id}>{row.id} · {row.finishedAt?'历史':'进行中'} · {row.goal.slice(0,60)}</option>)}</select></label>}
       {diagnostic&&<p className="tm-notice" role="status">检查阶段：{diagnostic.phase}；原因：{diagnostic.reason}；宿主分类：{diagnostic.code} / {diagnostic.kind}{diagnostic.exitCode===undefined?'':' / exit '+diagnostic.exitCode}</p>}
       {sessionContext?.occupancy&&<p className="tm-notice" role="status">项目占用：会话 {sessionContext.occupancy.sessionId} · {sessionContext.occupancy.state}{sessionContext.occupancy.runId?' · '+sessionContext.occupancy.runId:''}</p>}

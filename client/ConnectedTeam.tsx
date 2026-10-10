@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TeamView, TeamSettingsView } from './TeamView';
-import { createDefaultTeamSettings, type CredentialStatus, type TeamCatalog, type TeamSettingsInput, type TeamSetup, type TeamSettings, type TeamSnapshot, type TeamSessionContext, type TeamHistory } from './team-types';
+import { createDefaultTeamSettings, selectedTeamModels, type CredentialStatus, type TeamCatalog, type TeamSettingsInput, type TeamSetup, type TeamSettings, type TeamSnapshot, type TeamSessionContext, type TeamHistory } from './team-types';
 import { teamDemoSnapshot } from './team-demo';
 import { requestWithDeadline } from './request';
 import type { HostContext } from './index';
@@ -29,6 +29,7 @@ export function ConnectedTeamSettings({ ctx, onClose }: { ctx: HostContext; onCl
   const modelRequest = useRef<AbortController>();
   useEffect(() => { live.current = true; return () => { live.current = false; modelRequest.current?.abort(); }; }, []);
   useEffect(() => {
+    modelRequest.current?.abort();
     const abort = new AbortController(); setLoading(true); setCatalog(emptyCatalog); setCredential(undefined);
     void (async () => {
       try {
@@ -36,7 +37,7 @@ export function ConnectedTeamSettings({ ctx, onClose }: { ctx: HostContext; onCl
         if (abort.signal.aborted) return;
         setSetup(stored);
         const [models, status] = await Promise.all([
-          teamCall<TeamCatalog>(ctx, 'catalog', { selected: Object.values(stored.settings.roles).map(({ provider, model }) => ({ provider, model })) }, abort.signal),
+          teamCall<TeamCatalog>(ctx, 'catalog', { selected: selectedTeamModels(stored.settings) }, abort.signal),
           ctx.remote?.credentials?.describe([JEV_CREDENTIAL_REF]),
         ]);
         if (abort.signal.aborted) return;
@@ -52,10 +53,10 @@ export function ConnectedTeamSettings({ ctx, onClose }: { ctx: HostContext; onCl
     })();
     return () => abort.abort();
   }, [ctx, revision]);
-  function refreshModelSelection(roles: TeamSettings['roles']) {
+  function refreshModelSelection(roles: TeamSettings['roles'], routing?: TeamSettings['routing']) {
     modelRequest.current?.abort();
     const abort = new AbortController(); modelRequest.current = abort;
-    void teamCall<TeamCatalog>(ctx, 'catalog', { selected: Object.values(roles).map(({ provider, model }) => ({ provider, model })) }, abort.signal).then(models => {
+    void teamCall<TeamCatalog>(ctx, 'catalog', { selected: selectedTeamModels({ roles, routing }) }, abort.signal).then(models => {
       if (!abort.signal.aborted && live.current) setCatalog(models);
     }).catch(() => {
       if (!abort.signal.aborted && live.current) setError('无法更新所选模型的能力目录，请刷新后重试。');
@@ -112,7 +113,7 @@ export function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSe
         const stored = await teamCall<TeamSetup>(ctx, 'settings', {}, abort.signal);
         if (abort.signal.aborted) return;
         setSetup(stored);
-        const models = await teamCall<TeamCatalog>(ctx, 'catalog', { selected: Object.values(stored.settings.roles).map(({ provider, model }) => ({ provider, model })) }, abort.signal);
+        const models = await teamCall<TeamCatalog>(ctx, 'catalog', { selected: selectedTeamModels(stored.settings) }, abort.signal);
         if (!abort.signal.aborted) setCatalog(models);
       } catch { if (!abort.signal.aborted) setCatalog({ available: false, providers: [], reason: '无法读取团队设置或模型目录，请刷新重试。' }); }
     })();
@@ -143,5 +144,12 @@ export function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSe
     const state = await teamCall<StateResponse>(ctx, 'cancel', { sessionId, runId: snapshot.id }, new AbortController().signal);
     if (current.current === bound && token === generation.current) setSnapshot(state.snapshot);
   }
-  return <TeamView catalog={catalog} history={history.filter(row=>row.sessionId===sessionId)} selectedRunId={selectedRunId} onSelectRun={setSelectedRunId} sessionId={sessionId} sessionContext={sessionContext} snapshot={snapshot?.demo||snapshot?.sessionId===sessionId?snapshot:null} settings={setup.settings} configured={setup.configured} loading={loading} error={error || (sessionContext?.lastCommand?.kind === 'blocked' ? sessionContext.lastCommand.message : undefined)} onOpenSettings={onOpenSettings} onCancel={cancel} onDemo={() => setDemo(value => !value)} onRefresh={() => { setDemo(false); setRevision(value => value + 1); }}/>;
+  async function loadTrace(runId: string, signal: AbortSignal): Promise<unknown> {
+    if (!sessionId || !snapshot || snapshot.demo || snapshot.sessionId !== sessionId || snapshot.id !== runId) throw new Error('当前会话与记录不匹配。');
+    const bound = sessionId;
+    const result = await teamCall<unknown>(ctx, 'trace', { sessionId: bound, runId }, signal);
+    if (signal.aborted || current.current !== bound) throw new Error('记录请求已取消。');
+    return result;
+  }
+  return <TeamView onLoadTrace={loadTrace} catalog={catalog} history={history.filter(row=>row.sessionId===sessionId)} selectedRunId={selectedRunId} onSelectRun={setSelectedRunId} sessionId={sessionId} sessionContext={sessionContext} snapshot={snapshot?.demo||snapshot?.sessionId===sessionId?snapshot:null} settings={setup.settings} configured={setup.configured} loading={loading} error={error || (sessionContext?.lastCommand?.kind === 'blocked' ? sessionContext.lastCommand.message : undefined)} onOpenSettings={onOpenSettings} onCancel={cancel} onDemo={() => setDemo(value => !value)} onRefresh={() => { setDemo(false); setRevision(value => value + 1); }}/>;
 }

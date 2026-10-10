@@ -1,9 +1,9 @@
 import {JevTeamController} from './jev-controller.js';
 import {projectJevText,selectJevModel} from './jev-client.js';
 import {createAutoVerifier} from './auto-verification.js';
-import {createSetupStore,createHostJevClient} from './team-setup.js';
+import {createSetupStore,createConfiguredHostJevClient} from './team-setup.js';
 import {createHash,randomUUID} from 'node:crypto';
-import {validateConfig} from './team-contracts.js';
+import {validateConfig,configuredModels} from './team-contracts.js';
 import {createExecutionAdapter,TeamHostError} from './host-adapter.js';
 import {projectIdentity,mutationProjectIdentity,shellWriteProjects,createProjectLeases,occupancy,occupiedMessage} from './project-leases.js';
 const prefix='dsh-desktop-workflow/team/';
@@ -22,6 +22,7 @@ export function createTeamRuntime(ctx,serverConfig={},dependencies={}){
  const decorateSnapshot=snapshot=>{
   const lease=snapshot&&leases.get(snapshot.sessionId);
   const diagnostic=snapshot&&(diagnostics.get(snapshot.sessionId)?.runId===snapshot.id?diagnostics.get(snapshot.sessionId):snapshot.diagnostic);if(snapshot&&diagnostic)snapshot={...snapshot,diagnostic};
+  if(snapshot){const budget=executor.budgetSnapshot?.(snapshot.id);if(budget)snapshot={...snapshot,production:{...snapshot.production,budget}};}
   return snapshot&&lease?.runId===snapshot.id&&lease.poisoned?{...snapshot,status:'blocked',lifecycle:'quarantined',diagnostic:lease.diagnostic,message:`${lease.poisonSource==='verification'?'项目检查':'子代理'}清理未确认，不能宣称已停止。${occupiedMessage(lease)}`} : snapshot;
  };
  const currentSnapshot=(sessionId,runId)=>{
@@ -48,27 +49,28 @@ export function createTeamRuntime(ctx,serverConfig={},dependencies={}){
   onCleanupFailed:(sessionId,source='subagent',diagnostic)=>{leases.poison(sessionId,source,diagnostic);const snapshot=controller?.snapshot(sessionId);if(snapshot)controller.cancel(sessionId,snapshot.id);},
   onParentUnavailable:sessionId=>{const lease=leases.get(sessionId);if(lease?.owner===owner)lease.state='cancelling';const snapshot=controller?.snapshot(sessionId);if(snapshot)controller.cancel(sessionId,snapshot.id);},
  });
- const setup=dependencies.setup??createSetupStore(ctx,serverConfig),jev=dependencies.jev??createHostJevClient(ctx,setup,{model:requestedJevModel});
- const shadowJev=dependencies.shadowJev??(shadowConfig?.enabled===true?createHostJevClient(ctx,setup,{model:shadowConfig.model}):undefined);
+ const setup=dependencies.setup??createSetupStore(ctx,serverConfig),jev=dependencies.jev??createConfiguredHostJevClient(ctx,setup,{model:requestedJevModel,...dependencies.jevFetch?{fetchImpl:dependencies.jevFetch}:{}});
+ const shadowJev=dependencies.shadowJev??createConfiguredHostJevClient(ctx,setup,{shadow:true,model:shadowConfig?.enabled?shadowConfig.model:requestedJevModel,...dependencies.jevFetch?{fetchImpl:dependencies.jevFetch}:{}});
  const diagnostics=new Map();
  const verifier=dependencies.verifier??createAutoVerifier({executeTool:executor.executeTool,shellName:executor.shellName,poison:executor.poison,onPolicy:executor.setProjectPolicy,onDiagnostic:(sessionId,diagnostic)=>{diagnostics.set(sessionId,diagnostic);const lease=leases.get(sessionId);if(lease?.owner===owner)lease.diagnostic=diagnostic;}});
- controller=new JevTeamController({execute:spec=>executor.execute(spec),jev,verifier,shadowJev,maxShadowCalls,trace:serverConfig.jev?.trace===true,id:()=>randomUUID()});
+ controller=new JevTeamController({execute:spec=>executor.execute(spec),jev,verifier,shadowJev,maxShadowCalls,trace:false,perRunJev:true,id:()=>randomUUID()});
  const publicContext=sessionId=>{
   const context=executor.context(sessionId);let occupied;
   if(context.available){try{occupied=leases.conflict(sessionId,resolveProject(sessionId));}catch(error){context.canStart=false;context.reason=error.message;}}
   return {...context,...occupied?{canStart:false,reason:occupiedMessage(occupied),occupancy:occupancy(occupied)}:{},diagnostic:diagnostics.get(sessionId),setupRequired:!setup.view().configured||commandStates.get(sessionId)?.kind==='settings-required',lastCommand:commandStates.get(sessionId)};
  };
  const response=(sessionId,runId)=>({snapshot:currentSnapshot(sessionId,runId),context:publicContext(sessionId),history:leases.history(sessionId)});
- function finish(lease){save(lease.sessionId);executor.releaseSession(lease.sessionId);if(!lease.poisoned){lease.state='settled';leases.release(lease);}}
+ function finish(lease){save(lease.sessionId);executor.releaseBudget?.(lease.runId);executor.releaseSession(lease.sessionId);if(!lease.poisoned){lease.state='settled';leases.release(lease);}}
  const api={
   catalog:async selected=>({...await executor.catalog(selected),jev:await jev.status(),verificationProfiles:verifier.profiles,automaticVerification:!!verifier.automatic}),
   settings:async()=>setup.refresh(),
-  async configure(input){if(input?.disclosureAccepted===true){const validated=validateConfig({sessionId:'settings',goal:'settings validation',...input.settings});await executor.validateModels(validated.roles,AbortSignal.timeout(15000));}const saved=await setup.configure(input);for(const[id,state]of commandStates)if(state.kind==='settings-required')commandStates.delete(id);if(!saved.disclosureAccepted)for(const lease of leases.owned()){const snapshot=controller.snapshot(lease.sessionId);if(snapshot)controller.cancel(snapshot.sessionId,snapshot.id);}return saved;},
+  async configure(input){if(input?.disclosureAccepted===true){const validated=validateConfig({sessionId:'settings',goal:'settings validation',...input.settings,jev:{...input.settings.jev,enabled:true,disclosureAccepted:true}});await executor.validateModels(configuredModels(validated),AbortSignal.timeout(15000));}const saved=await setup.configure(input);for(const[id,state]of commandStates)if(state.kind==='settings-required')commandStates.delete(id);if(!saved.disclosureAccepted)for(const lease of leases.owned()){const snapshot=controller.snapshot(lease.sessionId);if(snapshot)controller.cancel(snapshot.sessionId,snapshot.id);}return saved;},
   snapshot(sessionId,runId){if(!validSession(sessionId)||runId!==undefined&&(typeof runId!=='string'||runId.length>160))throw new TeamHostError('SESSION_REQUIRED','请先打开真实 DSH 会话。');save(sessionId);return response(sessionId,runId);},
   trace(input){if(!fields(input,['sessionId','runId'])||!validSession(input.sessionId)||input.runId!==undefined&&(typeof input.runId!=='string'||input.runId.length>160))throw new TeamHostError('INVALID_INPUT','评估记录查询参数无效。');return controller.trace(input.sessionId,input.runId);},
   async start(input,externalSignal){
-   if(!fields(input,['sessionId','contextKey','requestId','goal','settings'])||typeof input.requestId!=='string'||!/^[A-Za-z0-9_-]{8,128}$/.test(input.requestId)||!fields(input.settings,['roles','limits','reviewPlan','routeEnabled','jev','verification']))throw new TeamHostError('INVALID_INPUT','启动参数无效。');
-   const config=validateConfig({sessionId:input.sessionId,goal:input.goal,...input.settings});
+   if(!fields(input,['sessionId','contextKey','requestId','goal','settings'])||typeof input.requestId!=='string'||!/^[A-Za-z0-9_-]{8,128}$/.test(input.requestId)||!fields(input.settings,['roles','limits','reviewPlan','routeEnabled','jev','verification','budget','routing']))throw new TeamHostError('INVALID_INPUT','启动参数无效。');
+   const inheritedJev={model:requestedJevModel,trace:serverConfig.jev?.trace??true,...shadowConfig?{shadow:{enabled:shadowConfig.enabled===true,model:shadowConfig.model||'',maxCalls:shadowConfig.maxCalls??2}}:{}};
+   const config=validateConfig({sessionId:input.sessionId,goal:input.goal,...input.settings,jev:input.settings.jev?{...inheritedJev,...input.settings.jev}:undefined});
    if(config.jev?.enabled!==true||config.jev.disclosureAccepted!==true)throw new TeamHostError('JEV_CONSENT_REQUIRED','请确认本次 TypeSafe 数据传输范围。');
    if(closed)throw new TeamHostError('UNAVAILABLE','团队服务已关闭。');
    executor.verifyContext(config.sessionId,input.contextKey);
@@ -80,11 +82,11 @@ export function createTeamRuntime(ctx,serverConfig={},dependencies={}){
    const entry={status:'pending',promise:null};
    const pending=(async()=>{const abort=new AbortController();let timer;
     try{
-     await Promise.race([executor.validateModels(config.roles,abort.signal),new Promise((_,reject)=>{timer=setTimeout(()=>{abort.abort();reject(new TeamHostError('MODEL_PREFLIGHT_TIMEOUT','模型元数据验证超时，尚未启动任何模型调用。'));},15000);})]);
+     await Promise.race([executor.validateModels(configuredModels(config),abort.signal),new Promise((_,reject)=>{timer=setTimeout(()=>{abort.abort();reject(new TeamHostError('MODEL_PREFLIGHT_TIMEOUT','模型元数据验证超时，尚未启动任何模型调用。'));},15000);})]);
      if(externalSignal?.aborted)throw new TeamHostError('CANCELLED','命令已取消，未启动新的团队。');
      if(closed)throw new TeamHostError('UNAVAILABLE','团队服务已关闭。');
      executor.verifyContext(config.sessionId,input.contextKey);const currentProject=resolveProject(config.sessionId);if(currentProject.key!==lease.project.key||currentProject.root!==lease.project.root)throw new TeamHostError('CONTEXT_CHANGED','项目边界已变化，未启动团队。');executor.beginSession(config.sessionId,input.contextKey);diagnostics.delete(config.sessionId);
-     const snapshot=controller.start(config);lease.runId=snapshot.id;lease.state='running';leases.save(snapshot);
+     const snapshot=controller.start(config);executor.beginBudget?.(snapshot.id,config.budget);lease.runId=snapshot.id;lease.state='running';leases.save(snapshot);
      controller.wait(snapshot.id).then(()=>finish(lease),()=>{leases.poison(config.sessionId,'subagent');finish(lease);});
      return response(config.sessionId);
     }finally{clearTimeout(timer);abort.abort();}
@@ -110,7 +112,7 @@ export function createTeamRuntime(ctx,serverConfig={},dependencies={}){
      const lease=leases.get(sessionId);if(lease?.owner===owner&&!lease.poisoned&&lease.runId)return set('started','此会话已有团队运行，已打开当前进度；没有重复派发。',lease.runId);
      const context=publicContext(sessionId);if(!context.canStart)return set('blocked',context.reason||'当前会话不可启动。');
      const requestId='command-'+createHash('sha256').update(String(invocation.commandId)).digest('hex').slice(0,40);
-     const result=await api.start({sessionId,contextKey:context.contextKey,requestId,goal,settings:{...saved.settings,routeEnabled:false,jev:{enabled:true,disclosureAccepted:true},verification:{profileId:verifier.automatic?'auto':verifier.profiles[0]?.id,scope:['workspace']}}},invocation.signal);
+     const result=await api.start({sessionId,contextKey:context.contextKey,requestId,goal,settings:{...saved.settings,routeEnabled:false,jev:{...saved.settings.jev,enabled:true,disclosureAccepted:true},verification:{profileId:verifier.automatic?'auto':verifier.profiles[0]?.id,scope:['workspace']}}},invocation.signal);
      return set('started','团队已开始；正在自动检查当前项目，进度显示在右侧。',result.snapshot.id);
     }catch(error){return set(error instanceof TeamHostError&&/^(SETUP_|JEV_NOT_CONFIGURED|MODEL_)/.test(error.code)?'settings-required':'blocked',error instanceof TeamHostError?error.message:'团队无法启动，请查看设置或宿主权限；未自动重试。');}
    })();commandPending.set(sessionId,pending);pending.finally(()=>{if(commandPending.get(sessionId)===pending)commandPending.delete(sessionId);});return pending;
