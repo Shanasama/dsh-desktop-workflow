@@ -23,6 +23,5 @@ test('verifier commands are built for the shell the host actually mounts',()=>{
   assert.match(pwsh,/(^|; )& '/);
   const encoded=pwsh.match(/'([A-Za-z0-9+/=]+)'$/)?.[1];
   assert.deepEqual(JSON.parse(Buffer.from(encoded,'base64').toString('utf8')),payload);
-  assert.throws(()=>verifierCommand('project',payload,'cmd'),/fixed verifier shell/);
-  assert.throws(()=>verifierCommand('profile',payload,{}),/fixed verifier shell/);
+  for(const shell of ['cmd','constructor','__proto__','toString',{},null,[],{toString:()=> 'pwsh'}])assert.throws(()=>verifierCommand('project',payload,shell),/fixed verifier shell/);
 });

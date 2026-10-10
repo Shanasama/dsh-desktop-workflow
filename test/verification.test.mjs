@@ -1,5 +1,6 @@
 import{test}from'node:test';import assert from'node:assert/strict';import{createVerifier,safeRelative,verificationProfiles}from'../src/verification.js';
 import{verificationDiagnostic,notStartedCodes}from'../src/verification-diagnostics.js';
+import{createAutoVerifier}from'../src/auto-verification.js';
 const profile={id:'fixture',name:'Explicit fixture',checks:[{id:'test',argv:['node','--test','test.mjs'],timeoutMs:1000}],protectedPaths:['test.mjs']};
 const config={sessionId:'s',verification:{profileId:'fixture',scope:['src']}};const signal=new AbortController().signal;
 function setup(value,shell){const calls=[],poisons=[];return {calls,poisons,v:createVerifier({profiles:[profile],executeTool:async(s,spec)=>{calls.push({s,...spec});return typeof value==='function'?value(spec):value;},poison:s=>poisons.push(s),shellName:()=>shell})};}
@@ -28,4 +29,16 @@ test('explicit verification builds its command for the resolved shell',async()=>
  const fallback=setup(shellOk);
  await assert.rejects(fallback.v.collect({config,runId:'run',round:0,phase:'baseline',signal}));
  assert.ok(!fallback.calls[0].arguments.command.startsWith('& '));
+});
+test('official not-started wire codes release both verifier kinds; invented symbolic names remain fail-closed',async()=>{
+ for(const code of ['UNKNOWN_TOOL','INVALID_ARGS','ABORTED_BEFORE_DISPATCH','TOOL_ABORTED_BEFORE_DISPATCH','ABORTED','EPERM']){
+  const expected=['UNKNOWN_TOOL','INVALID_ARGS','ABORTED_BEFORE_DISPATCH'].includes(code);
+  assert.equal(notStartedCodes.has(code),expected);
+  const result={isError:true,error:{info:{code}}};
+  const explicit=setup(result),autoPoisons=[];
+  const automatic=createAutoVerifier({executeTool:async()=>result,poison:id=>autoPoisons.push(id)});
+  for(const verifier of [explicit.v,automatic])await assert.rejects(verifier.collect({config,runId:'not-started-'+code,round:0,phase:'baseline',signal}),error=>error.code===(expected?'VERIFICATION_DENIED':'VERIFICATION_UNSETTLED'));
+  assert.deepEqual(explicit.poisons,expected?[]:['s']);assert.deepEqual(autoPoisons,expected?[]:['s']);
+  if(expected)assert.equal(verificationDiagnostic('baseline',result,undefined,'fixture').code,code);
+ }
 });

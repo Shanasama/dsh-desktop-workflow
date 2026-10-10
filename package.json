@@ -1,6 +1,6 @@
 {
   "name": "dsh-desktop-workflow",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "private": true,
   "description": "Native /team command, one-time role and Jev settings, and bounded multi-agent workflow for DSH 0.2.0-rc.2",
   "type": "module",
@@ -36,7 +36,8 @@
     "test:v04-host": "node --test test/v04-host-acceptance.test.mjs",
     "test:client-host": "node --expose-internals scripts/verify-client-host.mjs",
     "test:verifier-host": "node --expose-internals scripts/verify-verifier-host.mjs",
-    "test:verifier-windows": "node --expose-internals scripts/verify-verifier-windows.mjs"
+    "test:verifier-windows": "node --expose-internals scripts/verify-verifier-windows.mjs",
+    "test:verifier-pwsh": "node --expose-internals scripts/verify-verifier-pwsh.mjs"
   },
   "dsh": {
     "bundle": {

@@ -1,4 +1,4 @@
-# DSH 多模型团队 · v0.5
+# DSH 多模型团队 · v0.5.4
 
 **装一次、设置一次，以后直接在聊天框输入 `/team 任务正文`。**
 
@@ -6,7 +6,7 @@
 
 ## 开始使用
 
-1. 下载 `dist/dsh-desktop-workflow-0.5.3.tgz`，拖给 DSH，并明确说“请用官方插件管理器安装到当前配置”。详见 [安装说明](INSTALL-ME.md)。这使用 DSH 代理的官方安装工具，不是插件新增的自动拖拽导入器。
+1. 下载 `dist/dsh-desktop-workflow-0.5.4.tgz`，拖给 DSH，并明确说“请用官方插件管理器安装到当前配置”。详见 [安装说明](INSTALL-ME.md)。这使用 DSH 代理的官方安装工具，不是插件新增的自动拖拽导入器。
 2. 在 **设置 → 多模型团队** 选择六岗位模型，输入 Jev Key，阅读并自行启用 TypeSafe 数据许可，保存。
 3. 回到项目聊天，输入：
 
@@ -64,6 +64,8 @@ Jev key 通过 DSH 原生 write-only 凭据接口保存，插件配置、聊天�
 TypeSafe 会收到限长脱敏任务、差异统计、检查尾部摘要和审查摘要。设置页明确说明一次启用的范围；撤销后阻止后续请求。详见 [v0.4 架构与数据范围](docs/V04-ARCHITECTURE.md)。
 
 ## 验证与安装说明
+
+本版安装包、源码归档、增量补丁从同一最终源码生成并逐文件校验。真实 PowerShell 7.6.6 + 官方 rc.2 执行链已在 Linux 云端通过；Windows/Electron 原生与日常 `/team` 全流程尚未复验。旧 cleanup exit 3 仍是未确定原因的历史问题。见 [v0.5.4 验收与发布说明](docs/PWSH-RELEASE-054.md)。
 
 - [安装、一次设置与日常使用](docs/INSTALL.zh-CN.md)
 - [验证记录](docs/VERIFICATION.md)

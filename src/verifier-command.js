@@ -5,7 +5,8 @@ const entries=Object.freeze({project:new URL('./verification-project-runner.js',
 const shells=Object.freeze({bash:value=>"'"+value.replace(/'/g,"'\\''")+"'",pwsh:value=>"'"+value.replace(/'/g,"''")+"'"});
 export function verifierCommand(entry,payload,shell='bash'){
  if(typeof entry!=='string'||!Object.hasOwn(entries,entry))throw new TypeError('Expected a fixed verifier entry');
- const quote=shells[shell];if(!quote)throw new TypeError('Expected a fixed verifier shell');
+ if(typeof shell!=='string'||!Object.hasOwn(shells,shell))throw new TypeError('Expected a fixed verifier shell');
+ const quote=shells[shell];
  const data=Buffer.from(JSON.stringify(payload),'utf8').toString('base64');
  const argv=quote(process.execPath)+' '+quote(fileURLToPath(entries[entry]))+' '+quote(data);
  // The Electron binary only runs the entry as Node when the environment says so; every shell spells that differently.

@@ -1,3 +1,5 @@
+> v0.5.4 补充：实际 PowerShell 回归现由 `verify-verifier-pwsh.mjs` 执行；Windows 入口必须在 Windows + Electron 运行。官方未派发中止码的值为 `ABORTED_BEFORE_DISPATCH`（v0.5.3 误用了常量名），详见 [PWSH-RELEASE-054.md](PWSH-RELEASE-054.md)。
+
 # v0.5.3 修正：验证器为什么锁死项目（shell 工具名解析）
 
 ## 结论
