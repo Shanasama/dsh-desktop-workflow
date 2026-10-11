@@ -46,7 +46,7 @@ test('automatic verification builds its command for the shell the host mounts',a
 test('a check that provably never started is refused without quarantining the project',async()=>{
   const f=teamHost();
   f.parent.ctx.on=f.ctx.on;
-  const parentTools={guard(fn){f.parentGuards.push(fn);return()=>f.parentGuards.splice(f.parentGuards.indexOf(fn),1);},async execute(exec){await f.emit('tools/execute',exec,async()=>{});return {isError:true,error:{message:'unknown tool "bash"',info:{name:'ToolNotFoundError',code:'UNKNOWN_TOOL'}}};}};
+  const parentTools={guard(fn){f.parentGuards.push(fn);return()=>f.parentGuards.splice(f.parentGuards.indexOf(fn),1);},async execute(){return {isError:true,error:{message:'unknown tool "bash"',info:{name:'ToolNotFoundError',code:'UNKNOWN_TOOL'}}};}};
   f.parent.ctx.get=()=>parentTools;
   const dependencies=fixtureDependencies();delete dependencies.verifier;
   const runtime=createTeamRuntime(f.ctx,{},dependencies);
@@ -57,7 +57,7 @@ test('a check that provably never started is refused without quarantining the pr
     assert.equal(f.calls.length,0);
     assert.equal(state.context.canStart,true);
     assert.match(state.snapshot.message,/UNKNOWN_TOOL/);
-    assert.match(state.snapshot.message,/没有启动任何检查进程/);
+    assert.match(state.snapshot.message,/未派发检查工具|没有启动任何检查进程/);
     assert.doesNotMatch(state.snapshot.message,/清理未确认/);
     assert.equal(globalThis[Symbol.for('dsh-desktop-workflow:project-runs:v3')].sessions.get(f.parent.id),undefined);
   }finally{await runtime.dispose();reset();}
@@ -70,4 +70,11 @@ test('auto verifier retains quarantine for background, promoted, timed-out and u
     await assert.rejects(verifier.collect({config:{sessionId:'fixture'},runId:'fixture',round:0,phase:'baseline',signal:new AbortController().signal}),error=>error.code==='VERIFICATION_UNSETTLED');
     assert.deepEqual(poisoned,['fixture']);
   }
+});
+
+for(const code of ['UNKNOWN_TOOL','INVALID_ARGS','ABORTED_BEFORE_DISPATCH'])test(`returned ${code} after dispatch observation cannot clear pending artifact ownership`,async()=>{
+ const poisoned=[];
+ const verifier=createAutoVerifier({executeTool:async()=>({isError:true,verificationDispatchObserved:true,error:{info:{code}}}),poison:(_id,d)=>poisoned.push(d)});
+ await assert.rejects(verifier.collect({config:{sessionId:'ambiguous'},runId:'ambiguous-'+code,round:0,phase:'baseline',signal:new AbortController().signal}),error=>error.code==='VERIFICATION_UNSETTLED');
+ assert.equal((await verifier.release('ambiguous-'+code)).settled,false);assert.ok(poisoned.length>=1);
 });

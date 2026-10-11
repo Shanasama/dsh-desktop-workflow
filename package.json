@@ -1,6 +1,6 @@
 {
   "name": "dsh-desktop-workflow",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "private": true,
   "description": "Native DSH /team workflow with configurable token guard, explicit lane model routing, Jev versions and isolated shadow observation",
   "type": "module",

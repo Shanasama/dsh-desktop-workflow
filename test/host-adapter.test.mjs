@@ -51,3 +51,11 @@ test('a host without tool enumeration keeps the caller-provided shell name',asyn
   assert.equal(result.isError,false);assert.deepEqual(executed,['bash']);
  }finally{await a.dispose();}
 });
+
+test('an exception named CANCELLED after native verifier dispatch cannot impersonate a pre-dispatch cancellation',async()=>{
+ const f=fixture();f.parent.ctx.on=f.ctx.on;
+ f.parent.ctx.get=()=>({guard:()=>()=>{},async execute(exec){await f.emit('tools/execute',exec);throw Object.assign(new Error('SYNTHETIC_RAW_ERROR'),{code:'CANCELLED'});}});
+ const a=ready(f);
+ try{await assert.rejects(a.executeTool('session-a',{name:'bash',arguments:{command:'synthetic',description:'synthetic'}},new AbortController().signal),error=>error.code==='VERIFIER_DISPATCHED_FAILURE'&&!error.message.includes('SYNTHETIC_RAW'));}
+ finally{await a.dispose();}
+});

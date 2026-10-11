@@ -1,4 +1,4 @@
-# Current architecture: v0.6.0
+# Current architecture: v0.6.1
 
 See [PRODUCTION-ACCEPTANCE.md](PRODUCTION-ACCEPTANCE.md) for current acceptance and [V04-ARCHITECTURE.md](V04-ARCHITECTURE.md) for the inherited native /team entry,
 one-time Config settings, native write-only credentials, automatic verification,

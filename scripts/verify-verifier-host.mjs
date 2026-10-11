@@ -33,7 +33,7 @@ const shell={resolve:spec=>spec,async execute(spec){
   const payload=currentPayload;
   assert.ok(payload,'Only generated verification invocations may reach the inert shell');
   phases.push(payload.phase);
-  const data={runId:payload.runId,round:payload.round,nonce:payload.nonce,verified:true,clean:true,sealed:true,fingerprint:'fixture-fingerprint',project:{mode:'verified',root:'/fixture/project',checks:[]},baselineRef:{path:'/fixture/evidence/state.json',digest:'fixture-digest'}};
+  const data={runId:payload.runId,round:payload.round,nonce:payload.nonce,verified:true,clean:true,sealed:true,fingerprint:'fixture-fingerprint',project:{mode:'verified',root:'/fixture/project',checks:[],evidenceDirectory:payload.evidenceDirectory},baselineRef:{path:'/fixture/evidence/state.json',digest:'fixture-digest'}};
   return {result:async()=>({exitCode:0,signal:null,timedOut:false,aborted:false,timeoutMs:spec.timeoutMs,stdout:{text:JSON.stringify(data),truncated:false},stderr:{text:'',truncated:false}})};
 }};
 root.provide('shell',shell);

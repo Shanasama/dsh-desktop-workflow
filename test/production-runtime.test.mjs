@@ -100,7 +100,7 @@ test('official production /team acceptance uses native runtime and inert externa
  ])assert.ok(result.stdout.includes(finding),'Missing acceptance result: '+finding);
  const summary=JSON.parse(result.stdout.split('\n').find(line=>line.startsWith('PRODUCTION_HOST_RESULT ')).slice('PRODUCTION_HOST_RESULT '.length));
  if(process.env.DSH_PRODUCTION_BUNDLE){assert.equal(summary.installedBundle,true);assert.equal(summary.duplicatePeer,true);assert.match(summary.bundleSha256,/^[a-f0-9]{64}$/);}
- assert.equal(summary.packageVersion,'0.6.0');assert.equal(summary.dshVersion,'0.2.0-rc.2');assert.equal(summary.externalRequests,0);
+ assert.equal(summary.packageVersion,'0.6.1');assert.equal(summary.dshVersion,'0.2.0-rc.2');assert.equal(summary.externalRequests,0);
  assert.ok(summary.nativeChildren>=30);assert.ok(summary.realVerifierProcesses>=25);
  assert.ok(!result.stdout.includes('synthetic-production-fixture-'));assert.ok(!result.stderr.includes('synthetic-production-fixture-'));
 });

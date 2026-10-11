@@ -116,18 +116,18 @@ if(process.env.DSH_PRODUCTION_BUNDLE){
   const manifest=JSON.parse(await readFile(join(installDir,'package.json'),'utf8'));
   assert.ok(manifest.dependencies['dsh-desktop-workflow'],'Exact bundle must be installed into the isolated profile');
   packageRoot=join(installDir,'node_modules','dsh-desktop-workflow');
-  const installedManifest=JSON.parse(await readFile(join(packageRoot,'package.json'),'utf8'));assert.equal(installedManifest.version,'0.6.0');
+  const installedManifest=JSON.parse(await readFile(join(packageRoot,'package.json'),'utf8'));assert.equal(installedManifest.version,'0.6.1');
   assert.equal(installedManifest.dsh.bundle.patch,'./cordis.patch.yml');
   trustedVerifierCommand=(await import(pathToFileURL(join(packageRoot,'src/verifier-command.js')))).verifierCommand;
   await import(pathToFileURL(join(packageRoot,'src/index.js')));
   assert.equal(createHash('sha256').update(await readFile(archive)).digest('hex'),archiveHash,'Archive must not change during installation');
   const archivedEntry=spawnSync('tar',['-xOf',archive,'package/src/index.js'],{encoding:'utf8',env:cleanEnv});assert.equal(archivedEntry.status,0);assert.equal(await readFile(join(packageRoot,'src/index.js'),'utf8'),archivedEntry.stdout,'Installed entry must match the exact archive');
   installedArchive={path:archive,sha256:archiveHash};
-  pass('official PluginManager installs the exact 0.6.0 tgz offline with an independent byte-identical official LLM peer and no build scripts');
+  pass('official PluginManager installs the exact 0.6.1 tgz offline with an independent byte-identical official LLM peer and no build scripts');
  }finally{for(const fork of installForks.reverse())await fork.dispose();}
 }
 packageInfo=JSON.parse(await readFile(join(packageRoot,'package.json'),'utf8'));
-assert.equal(packageInfo.version,'0.6.0');
+assert.equal(packageInfo.version,'0.6.1');
 }catch(error){globalThis.fetch=realFetch;await rm(temp,{recursive:true,force:true});throw error;}
 let root,base,cookie,pluginEntry;
 const forks=[],disposers=[],parents=[];

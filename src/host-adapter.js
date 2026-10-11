@@ -12,6 +12,13 @@ const quarantineKey=Symbol.for('dsh-desktop-workflow:unconfirmed-model-children:
 const unconfirmedModelChildren=globalThis[quarantineKey]??(globalThis[quarantineKey]=new Set());
 const retiredChildrenKey=Symbol.for('dsh-desktop-workflow:retired-model-children:v1');
 const retiredBudgetChildren=globalThis[retiredChildrenKey]??(globalThis[retiredChildrenKey]=new Set());
+/** Pure comparison helper; Windows paths use case-insensitive filesystem names. */
+export function isEvidencePath(relative,evidence,pattern='',platform=process.platform){
+ if(typeof evidence!=='string'||!/^\.dsh-team-evidence-[a-f0-9]{32}$/.test(evidence))return false;
+ const normalize=value=>platform==='win32'?String(value).toLowerCase():String(value);
+ const exact=normalize(evidence),target=normalize(relative).replaceAll('\\','/');
+ return target===exact||target.startsWith(exact+'/')||normalize(pattern).split(/[\\/]/).includes(exact);
+}
 function tombstoneChildren(tag){for(const agent of tag.created)unconfirmedModelChildren.add(agent.id);}
 
 const readTools = new Set(['read', 'read_image', 'glob', 'grep', 'structured_output']);
@@ -201,6 +208,18 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
     try{
       const root=realpathSync(tag.project.root),candidate=path.resolve(root,raw);let relative=path.relative(root,candidate).replaceAll('\\','/');
       if(path.isAbsolute(relative)||relative==='..'||relative.startsWith('../'))return denied;
+      // The verifier owns this exact per-run workspace artifact. Normal globbing
+      // may list its filename, but no role can read/search/edit its contents.
+      const evidence=tag.project.evidenceDirectory;
+      if(typeof evidence==='string'&&/^\.dsh-team-evidence-[a-f0-9]{32}$/.test(evidence)){
+        if(isEvidencePath(relative,evidence,exec.name==='glob'?arg.pattern||'':''))return denied;
+        // An alternate hardlink name must not reveal the private manifest either.
+        const stateFile=path.join(root,evidence,'state.json');
+        if(existsSync(candidate)&&existsSync(stateFile)){
+          const target=lstatSync(candidate),state=lstatSync(stateFile);
+          if(target.isFile()&&state.isFile()&&target.dev===state.dev&&target.ino===state.ino)return denied;
+        }
+      }
       if(/(^|\/)(?:\.git|\.dsh|\.ssh|\.aws|node_modules|vendor|\.venv|venv|dist|build|coverage|\.cache|\.credentials(?:\.yaml)?|\.env(?:\..*)?|.*\.(?:pem|key)|id_rsa|credentials)(?:\/|$)/i.test(relative))return denied;
       let walk=root;for(const part of relative.split('/').filter(Boolean)){walk=path.join(walk,part);try{if(lstatSync(walk).isSymbolicLink())return denied;}catch(e){if(e.code!=='ENOENT')return denied;}}
       if(existsSync(candidate)){const stat=lstatSync(candidate);if(!['glob'].includes(exec.name)&&!stat.isFile())return denied;if(mutating&&stat.nlink>1)return denied;const actual=realpathSync(candidate),r=path.relative(root,actual);if(path.isAbsolute(r)||r==='..'||r.startsWith('..'+path.sep))return denied;}
@@ -236,7 +255,7 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
     let dispatched=false;
     const match=exec=>exec.agent===parent&&exec.name===resolved.name&&JSON.stringify(exec.arguments)===JSON.stringify(resolved.arguments);
     const offDispatch=parent.ctx.on('tools/execute',async(exec,next)=>{if(match(exec))dispatched=true;return next();});
-    try{const result=await verifierCalls.run({parent,name:resolved.name,args:JSON.stringify(resolved.arguments)},()=>tools.execute({callId:randomUUID(),...resolved,agent:parent,signal}));return !dispatched&&result?.isError?{...result,verificationNotDispatched:true}:result;}finally{offDispatch();dispose();}
+    try{const result=await verifierCalls.run({parent,name:resolved.name,args:JSON.stringify(resolved.arguments)},()=>tools.execute({callId:randomUUID(),...resolved,agent:parent,signal}));return result?.isError?{...result,verificationNotDispatched:!dispatched,verificationDispatchObserved:dispatched}:result;}catch(error){if(dispatched)throw new TeamHostError('VERIFIER_DISPATCHED_FAILURE','检查工具派发后发生异常，执行与证据清理未确认。');throw error;}finally{offDispatch();dispose();}
 
   }
   function poison(sessionId,diagnostic){quarantined.add(sessionId);onCleanupFailed(sessionId,'verification',diagnostic);}

@@ -193,7 +193,8 @@ export async function runPwshAcceptance({requireWindows=false}={}){
     assert.equal(ctx.tools.get('bash',parent),undefined,'No bash tool or fallback may be mounted');
     assert.ok(ctx.tools.get('pwsh',parent));assert.equal(shellName(parent.id),'pwsh');
     // These failures come from the real runtime, not hand-authored error DTOs.
-    // Each verifier must remain usable afterward, without poisoning cleanup.
+    // Error-code origin is not authenticated after the high-level dispatch
+    // observer; the auto verifier conservatively retains that baseline intent.
     for(const code of ['INVALID_ARGS','UNKNOWN_TOOL',TOOL_ABORTED_BEFORE_DISPATCH]){
       for(const kind of ['auto','legacy']){
         begin();const before=starts.length;
@@ -209,13 +210,16 @@ export async function runPwshAcceptance({requireWindows=false}={}){
           }
           assert.equal(result.isError,true);assert.equal(result.error?.code||result.error?.info?.code,code);return result;
         };
-        const verifier=kind==='auto'?createAutoVerifier({executeTool:rejectedExecution,shellName,poison}):createVerifier({profiles:[legacyProfile],executeTool:rejectedExecution,shellName,poison});
-        await assert.rejects(verifier.collect({config:kind==='auto'?config:legacyConfig,runId:'not-started-'+kind+'-'+code,round:0,phase:'baseline',signal}),error=>error.code==='VERIFICATION_DENIED');
+        const negativePoisons=[];
+        const verifier=kind==='auto'?createAutoVerifier({executeTool:rejectedExecution,shellName,poison:id=>negativePoisons.push(id)}):createVerifier({profiles:[legacyProfile],executeTool:rejectedExecution,shellName,poison});
+        await assert.rejects(verifier.collect({config:kind==='auto'?config:legacyConfig,runId:'not-started-'+kind+'-'+code,round:0,phase:'baseline',signal}),error=>error.code===(kind==='auto'&&code==='INVALID_ARGS'?'VERIFICATION_UNSETTLED':'VERIFICATION_DENIED'));
+        assert.equal(negativePoisons.length,kind==='auto'&&code==='INVALID_ARGS'?1:0);
+        if(kind==='auto'&&code==='INVALID_ARGS')assert.equal((await verifier.release('not-started-'+kind+'-'+code)).settled,false);
         assert.equal(starts.length,before,'A not-started failure must start zero PowerShell processes');assert.equal(poisons.length,0);
-        adapter.releaseSession(parent.id);notStarted.push({verifier:kind,code,processStarts:0});
+        adapter.releaseSession(parent.id);notStarted.push({verifier:kind,code,processStarts:0,conservativeQuarantine:kind==='auto'&&code==='INVALID_ARGS'});
       }
     }
-    console.log('PASS real rc.2 UNKNOWN_TOOL / INVALID_ARGS / ABORTED_BEFORE_DISPATCH for auto and legacy; zero shell starts, no poison, subsequent sessions admitted');
+    console.log('PASS real rc.2 error controls start zero shells; auto conservatively quarantines observed-dispatch INVALID_ARGS, explicit earlier denials remain reusable');
     if(notStartedOnly){
       console.log(JSON.stringify({mode:'not-started-only',runtime:runtimeVersion,platform:process.platform,notStarted,pwshProcesses:starts.length,modelCalls,jevCalls:0,profileLoaded:false},null,2));
       return;
@@ -261,9 +265,11 @@ export async function runPwshAcceptance({requireWindows=false}={}){
       assert.equal((await collect('isolation-b','check')).diffEmpty,true);
       assert.equal((await collect('isolation-a','seal')).sealed,true);await release('isolation-a');
       assert.equal(fs.existsSync(b.path),true,'Releasing A must preserve B evidence');
-      assert.equal((await collect('isolation-b','seal')).sealed,true);await release('isolation-b');
+      // A is not B's registered evidence: removing it changes B's observed workspace.
+      // Production project leases prohibit these overlapping same-project runs.
+      await assert.rejects(collect('isolation-b','seal'),error=>error.code==='VERIFICATION_INVALID');await release('isolation-b');
     }
-    console.log('PASS two same-project runs have separate snapshots; foreign evidence rejected and cleanup isolated');
+    console.log('PASS separate evidence, foreign reference rejection, isolated cleanup and stale seal on overlapping workspace mutation');
     adapter.releaseSession(parent.id);
     git('add','.');git('commit','-m','clean legacy fixture baseline');
     begin();
