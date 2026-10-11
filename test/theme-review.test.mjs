@@ -91,6 +91,7 @@ test('theme review: connected settings and workflow synchronize without RPCs, sa
     await click(settings.container.querySelectorAll('.tm-role-selector button')[4]);
     const consent = settings.container.querySelector('input[type=checkbox][aria-label]');
     await click(consent);
+    await click(workflow.container.querySelectorAll('[role=tab]')[0]);
     await click(workflow.container.querySelector('.tm-role-card--researcher'));
     await click(workflow.container.querySelector('.tm-control-details summary'));
     const root = workflow.container.querySelector('.tm-root');

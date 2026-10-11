@@ -1,0 +1,24 @@
+{
+  "candidate": "0.6.3-candidate.1",
+  "sourceCommit": "f9ed3214b285ad35c88e807a97f3f39a4767de8b",
+  "branch": "cloud/v063-design-and-runtime",
+  "published": false,
+  "installedToUserComputer": false,
+  "artifacts": [
+    {
+      "filename": "dsh-desktop-workflow-0.6.3-candidate.1.tgz",
+      "bytes": 1070479,
+      "sha256": "ad818c30b1ee67d5a2d8c682349a114e6a0974b8fa2c3731302731aa315d88df"
+    },
+    {
+      "filename": "dsh-workflow-preview-v0.6.3.html",
+      "bytes": 334700,
+      "sha256": "36c64eee2410db60734e4412f3194bc2d2556a3a12401f1fb84b373f4b1346e3"
+    },
+    {
+      "filename": "dsh-workflow-source-v0.6.3-candidate.1.zip",
+      "bytes": 1782464,
+      "sha256": "4bde27fc89d87fceacece6f8ee93b707ec98b778b7af83687ce80d20988abeda"
+    }
+  ]
+}

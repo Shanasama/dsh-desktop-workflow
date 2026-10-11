@@ -9,7 +9,9 @@ export function verifierCommand(entry,payload,shell='bash'){
  const quote=shells[shell];
  const data=Buffer.from(JSON.stringify(payload),'utf8').toString('base64');
  const argv=quote(process.execPath)+' '+quote(fileURLToPath(entries[entry]))+' '+quote(data);
+ // A downstream consumer forces Windows GUI-subsystem executables to wait and
+ // preserves text stdout. Explicit exit retains the native exit status instead of pwsh's 0/1 mapping.
  // The Electron binary only runs the entry as Node when the environment says so; every shell spells that differently.
- if(shell==='pwsh')return (process.versions.electron?"$env:ELECTRON_RUN_AS_NODE='1'; & ":'& ')+argv;
+ if(shell==='pwsh')return (process.versions.electron?"$env:ELECTRON_RUN_AS_NODE='1'; & ":'& ')+argv+' | ForEach-Object { $_ }; exit $LASTEXITCODE';
  return (process.versions.electron?'ELECTRON_RUN_AS_NODE=1 ':'')+argv;
 }

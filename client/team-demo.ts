@@ -66,3 +66,42 @@ export function createTeamDemo(): TeamSnapshot {
 }
 export const TEAM_DEMO = createTeamDemo();
 export const teamDemoSnapshot = createTeamDemo;
+
+/** A deterministic playing fixture. No request, tool dispatch or model execution occurs. */
+export function playingDemoSnapshot(step = 0, generation = 0): TeamSnapshot {
+  const frame = Math.min(8, Math.max(0, step));
+  const seed = createTeamDemo();
+  const at = (s: number) => new Date(Date.UTC(2026, 9, 11, 9, 30, s)).toISOString();
+  const specs = [
+    { id: 'classify', role: 'jev', kind: 'jev_classify', title: '判定任务分档', from: 0, to: 1 },
+    { id: 'plan', role: 'planner', kind: 'plan', title: '拆解购物车修复目标', from: 1, to: 2 },
+    { id: 'coordinate', role: 'coordinator', kind: 'coordination', title: '安排并行调查与验收', from: 2, to: 3 },
+    { id: 'research-fast', role: 'researcher', kind: 'task', title: '确认数量变更规则', from: 3, to: 4 },
+    { id: 'research-deep', role: 'researcher', kind: 'task', title: '调查库存边界条件', from: 3, to: 4 },
+    { id: 'explore', role: 'explorer', kind: 'task', title: '追踪状态更新路径', from: 3, to: 4 },
+    { id: 'implement', role: 'worker', kind: 'task', title: '统一修复状态与金额', from: 4, to: 5 },
+    { id: 'review', role: 'reviewer', kind: 'review', title: '检查改动与回归覆盖', from: 5, to: 6 },
+    { id: 'decide', role: 'jev', kind: 'jev_step', title: '决定下一步验证', from: 6, to: 7 },
+    { id: 'verify', role: 'jev', kind: 'verification', title: '宿主独立验证门禁', from: 7, to: 8 },
+  ] as const;
+  const relations: { from: string; to: string; kind: TeamSnapshot['edges'][number]['kind']; stage: number }[] = [
+    { from: 'classify', to: 'plan', kind: 'dispatch', stage: 1 },
+    { from: 'plan', to: 'coordinate', kind: 'dispatch', stage: 2 },
+    ...['research-fast', 'research-deep', 'explore'].map(to => ({ from: 'coordinate', to, kind: 'dispatch' as const, stage: 3 })),
+    ...['research-fast', 'research-deep', 'explore'].map(from => ({ from, to: 'implement', kind: 'dependency' as const, stage: 4 })),
+    { from: 'implement', to: 'review', kind: 'dispatch', stage: 5 },
+    { from: 'review', to: 'implement', kind: 'feedback', stage: 6 },
+    { from: 'review', to: 'decide', kind: 'dispatch', stage: 6 },
+    { from: 'decide', to: 'verify', kind: 'dispatch', stage: 7 },
+  ];
+  const nodes: TeamSnapshot['nodes'] = specs.filter(spec => spec.from <= frame).map(spec => ({ id: spec.id, taskId: spec.id, role: spec.role, kind: spec.kind, title: spec.title, status: frame >= spec.to ? 'completed' : 'running', attempt: 1, dependsOn: relations.filter(edge => edge.to === spec.id && edge.kind !== 'feedback').map(edge => edge.from), startedAt: at(spec.from * 8), ...(frame >= spec.to ? { finishedAt: at(spec.to * 8), output: '【合成演示】这个实例已经结束。此文本不是模型产出，没有读取或修改项目。' } : {}) }));
+  const edges = relations.filter(edge => edge.stage <= frame).map(edge => ({ id: `edge-${edge.from}-${edge.to}`, from: edge.from, to: edge.to, kind: edge.kind }));
+  const events: TeamSnapshot['events'] = [];
+  for (let stage = 0; stage <= frame; stage++) {
+    for (const spec of specs.filter(item => item.to === stage)) events.push({ seq: events.length + 1, at: at(stage * 8), type: 'node_completed', nodeId: spec.id, message: `【合成演示】${spec.title}完成` });
+    for (const edge of relations.filter(item => item.stage === stage)) events.push({ seq: events.length + 1, at: at(stage * 8), type: 'relation_activated', edgeId: `edge-${edge.from}-${edge.to}`, fromNodeId: edge.from, toNodeId: edge.to, kind: edge.kind, nodeId: edge.to, message: `【合成事件】${edge.kind === 'feedback' ? '审查反馈已交回' : edge.kind === 'dependency' ? '依赖证据交接' : '任务派发'}` });
+    for (const spec of specs.filter(item => item.from === stage)) events.push({ seq: events.length + 1, at: at(stage * 8), type: 'node_started', nodeId: spec.id, message: `【合成演示】${spec.title}开始` });
+  }
+  const decisions: NonNullable<TeamSnapshot['production']>['routing']['decisions'] = nodes.filter(node => node.role !== 'jev').map(node => ({ nodeId: node.id, role: node.role as TeamRole, lane: node.id === 'research-fast' ? 'small' : node.id === 'research-deep' ? 'high' : 'medium', tier: node.id === 'research-fast' ? 'weak' : node.id === 'research-deep' ? 'strong' : 'base', provider: 'preview-fixture', model: node.id === 'research-fast' ? '模拟·轻量研究模型' : node.id === 'research-deep' ? '模拟·深度研究模型' : `模拟·${node.role}基础模型`, reason: node.id === 'research-fast' ? '合成路由：规则查询使用 weak 候选' : node.id === 'research-deep' ? '合成路由：边界分析使用 strong 候选；同岗位不同实例' : '合成路由：标准任务使用启动基础模型' }));
+  return { ...seed, id: `playing-fixture-${generation}`, sessionId: 'preview-session', status: frame === 8 ? 'completed' : 'running', message: '播放中的合成工作流。每次前进追加事件；连线只在新增 relation_activated 事件时亮起一次。未运行模型、Jev 或检查。', nodes, edges, events, roles: Object.fromEntries(Object.keys(seed.roles).map(role => [role, { provider: 'preview-fixture', model: `模拟·${role}基础模型` }])) as TeamSnapshot['roles'], startedAt: at(0), observedAt: at(frame * 8), oldestSeq: 1, eventsTruncated: false, ...(frame === 8 ? { finishedAt: at(64) } : {}), limits: { ...seed.limits, concurrency: 3 }, jev: { mode: 'fixture', lane: 'medium', round: frame >= 6 ? 1 : 0, decisions: [...(frame >= 1 ? [{ phase: 'classify', action: 'classify', lane: 'medium' as const, confidence: .93, reason: '【合成演示】先并行调查，后串行编辑。', round: 0, at: at(8), nodeId: 'classify' }] : []), ...(frame >= 7 ? [{ phase: 'step', action: 'verify', lane: 'medium' as const, confidence: .9, reason: '【合成演示】交给独立宿主验证，不以 Jev 建议替代完成证据。', round: 1, at: at(56), nodeId: 'decide' }] : [])], evidence: { checksPassed: frame === 8, scopeOk: frame >= 7, diffAvailable: frame >= 7, verified: frame === 8, reason: frame === 8 ? '【合成证据】所有门禁通过；没有运行真实检查。' : '【合成证据】门禁尚未全部通过。Jev 状态与验证状态分别展示。' } }, production: { budget: { enabled: false, limit: 0, spent: 0, reserved: 0, remaining: null, halted: null, accounting: 'fixture', unknownUsageCalls: 0, physicalCalls: 0 }, routing: { enabled: true, decisions }, jev: { primary: { requestedModel: 'fixture-jev', responseModel: frame ? 'fixture-jev-v3' : undefined, calls: 0, status: 'fixture' }, shadow: { enabled: false, requestedModel: '', calls: 0 } }, trace: { enabled: false, eventCount: events.length, truncated: false } } };
+}

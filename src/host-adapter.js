@@ -27,6 +27,11 @@ const workerTools = new Set([...readTools, 'write', 'edit', 'bash', 'pwsh']);
 const clean = (value, length=500) => typeof value === 'string' ? value.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/g,'').slice(0,length) : '';
 export class TeamHostError extends Error { constructor(code,message){super(message);this.code=code;this.retryable=false;this.blocked=true;} }
 function need(condition,code,message){if(!condition)throw new TeamHostError(code,message);}
+// A safety/budget stop always takes precedence over a recoverable step limit.
+function stopChild(tag, code, message) {
+  if (!tag.failureCode || tag.failureCode === 'STEP_LIMIT') { tag.failureCode = code; tag.blockedReason = message; }
+  return message;
+}
 
 export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, onCleanupFailed = () => {}, guardProject = () => {}, onBudgetUpdate = () => {} } = {}) {
   const creation = new AsyncLocalStorage();
@@ -86,14 +91,15 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
     const tools=agent.ctx.get('tools');
     need(tools && typeof tools.guard==='function' && typeof tools.presentAs==='function','UNSAFE_TOOLS','无法安装子代理工具执行保护，已阻止执行。');
     const allowed=tag.role==='worker'?workerTools:tag.role==='researcher'?researchTools:readTools;
-    const guard=tools.guard(exec=>{if(tag.project){const issue=projectGuard(tag,exec);if(issue){tag.blockedReason=issue;return issue;}}if(allowed.has(exec.name))return;tag.blockedReason='岗位尝试了不允许的工具，已阻止执行；不会扩大权限或递归派发。';return tag.blockedReason;});
-    agent.ctx.on('tools/pre-execute',async (_exec,next)=>{const decision=await next();if(decision.kind==='ask'||decision.kind==='deny')tag.blockedReason='宿主权限拒绝或要求额外批准。子代理不能代替用户批准，请在主会话处理。';return decision;});
+    const guard=tools.guard(exec=>{if(tag.project){const issue=projectGuard(tag,exec);if(issue)return stopChild(tag,'TOOL_BOUNDARY',issue);}if(allowed.has(exec.name))return;return stopChild(tag,'TOOL_BOUNDARY','岗位尝试了不允许的工具，已阻止执行；不会扩大权限或递归派发。');});
+    agent.ctx.on('tools/pre-execute',async (_exec,next)=>{const decision=await next();if(decision.kind==='ask'||decision.kind==='deny')stopChild(tag,'PERMISSION_DENIED','宿主权限拒绝或要求额外批准。子代理不能代替用户批准，请在主会话处理。');return decision;});
     const presentation=tools.presentAs('native');
     let steps=0;
     const cap=agent.ctx.on('agent/pre-step', async (_payload,next)=>{
       if(tag.signal.aborted)return {kind:'reject'};
-      if(fingerprint(tag.parent)!==tag.fingerprint){tag.blockedReason='宿主权限已变化，已停止新的模型请求。';onParentUnavailable(tag.parent.id,tag.blockedReason);return {kind:'reject'};}
-      if(++steps>tag.limits.maxStepsPerAgent){tag.blockedReason='子代理达到模型请求步骤上限，已停止；不会继续重试。';return {kind:'reject'};}
+      if(fingerprint(tag.parent)!==tag.fingerprint){stopChild(tag,'PERMISSION_DENIED','宿主权限已变化，已停止新的模型请求。');onParentUnavailable(tag.parent.id,tag.blockedReason);return {kind:'reject'};}
+      if(tag.failureCode)return {kind:'reject'};
+      if(++steps>tag.limits.maxStepsPerAgent){stopChild(tag,'STEP_LIMIT','子代理达到模型请求步骤上限；当前任务未完成，仅可在剩余全局预算内进行一次有界恢复。');return {kind:'reject'};}
       return next();
     });
     tag.created.add(agent);owned.set(agent.id,{agent,tag,guard,presentation,cap});budgetChildren.set(agent.id,{agent,tag});
@@ -110,7 +116,7 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
     need(budget,'BUDGET_NOT_STARTED','运行的 Token 预算状态不可用，已阻止模型请求。');
     let bound;
     try{bound=nativeRequestBound(options,entry?.agent,tag.budgetContract);}catch{/* Unknown metadata fails closed only when enabled. */}
-    return budget.stream(options,next,{bound,signal:tag.signal,onBlocked:error=>{tag.blockedReason=error.message;tag.budgetError=error;}});
+    return budget.stream(options,next,{bound,signal:tag.signal,onBlocked:error=>{stopChild(tag,error.code,error.message);tag.budgetError=error;}});
   },{global:true}));
   disposers.push(ctx.on('agent/disposed',({agent})=>{
     owned.delete(agent.id);
@@ -188,13 +194,17 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
       need(run.localAgent && tag.created.has(run.localAgent),'GUARD_NOT_INSTALLED','子代理未通过执行保护验证，已取消。');
       spec.onChildStart?.(run.id);
       const result=await run.result;
-      return {stopReason:tag.blockedReason?'refusal':result.stopReason,structured:tag.blockedReason?undefined:result.structured,output:tag.blockedReason||(result.output||[]).filter(b=>b.type==='text').map(b=>clean(b.text,16000)).join('\n').slice(0,24000),childId:run.id};
+      const partial=(result.output||[]).filter(b=>b.type==='text').map(b=>clean(b.text,16000)).join('\n').slice(0,24000);
+      const failureCode=tag.failureCode||(result.stopReason==='refusal'?'EXECUTION_REFUSED':undefined);
+      const recoverable=failureCode==='STEP_LIMIT';
+      return {stopReason:tag.blockedReason?(recoverable?'error':'refusal'):result.stopReason,structured:tag.blockedReason?undefined:result.structured,output:tag.blockedReason?[tag.blockedReason,partial].filter(Boolean).join('\n').slice(0,24000):partial,childId:run.id,...(failureCode?{failureCode,error:tag.blockedReason||'执行被拒绝，具体原因未确认。',retryable:recoverable,blocked:!recoverable}:{})};
     }catch(error){
       if(error instanceof TeamHostError)throw error;
       if(error instanceof ProductionBudgetError)throw new TeamHostError(error.code,error.message);
       if(tag.budgetError)throw new TeamHostError(tag.budgetError.code,tag.budgetError.message);
+      if(tag.failureCode){const failure=new TeamHostError(tag.failureCode,tag.blockedReason);failure.retryable=tag.failureCode==='STEP_LIMIT';failure.blocked=!failure.retryable;throw failure;}
       throw new TeamHostError('CHILD_FAILED','子代理运行失败；请在宿主会话检查模型连接或权限。不会自动放宽权限。');
-    }finally{if(run){try{await run.dispose();tag.cleanupConfirmed=true;}catch{tombstoneChildren(tag);quarantined.add(spec.sessionId);onCleanupFailed(spec.sessionId);throw new TeamHostError('CLEANUP_FAILED','子代理未能确认清理完成，已停止继续派发；请检查宿主会话。');}}}
+    }finally{if(run){try{await run.dispose();tag.cleanupConfirmed=true;}catch{tombstoneChildren(tag);quarantined.add(spec.sessionId);onCleanupFailed(spec.sessionId);throw new TeamHostError('CLEANUP_UNCONFIRMED','子代理未能确认清理完成，已停止继续派发；请检查宿主会话。');}}}
   }
   function projectGuard(tag,exec){
     const denied='自动团队仅能访问当前项目的安全文件；写入、凭据或验收边界已阻止此操作。';

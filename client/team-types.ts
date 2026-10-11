@@ -68,6 +68,7 @@ export interface TeamNode {
   childId?: string;
   output?: string;
   error?: string;
+  failureCode?: string;
   startedAt?: string;
   finishedAt?: string;
 }
@@ -83,15 +84,23 @@ export interface TeamEvent {
   type: string;
   nodeId?: string;
   message: string;
+  failureCode?: string;
+  edgeId?: string;
+  fromNodeId?: string;
+  toNodeId?: string;
+  kind?: TeamEdge['kind'];
 }
 export interface JevState {
   lane: JevLane;
   round: number;
-  decisions: { phase: string; action: string; lane: JevLane; confidence: number; reason: string; round: number }[];
+  decisions: { phase: string; action: string; lane: JevLane; confidence: number; reason: string; round: number; at?: string; nodeId?: string; decisionId?: string; eventSeq?: number }[];
   evidence?: { checksPassed: boolean; scopeOk: boolean; diffAvailable: boolean; verified: boolean; reason: string };
   mode: 'live' | 'fixture';
 }
 export interface TeamRoutingDecision {
+  at?: string;
+  decisionId?: string;
+  eventSeq?: number;
   nodeId: string;
   role: TeamRole;
   lane: JevLane;
@@ -120,7 +129,13 @@ export interface TeamProductionState {
   trace: { enabled: boolean; eventCount: number; truncated: boolean };
 }
 export interface TeamSnapshot {
+  chatFeedback?: { status: 'pending' | 'recorded' | 'durable' | 'failed' | 'unavailable'; code?: string; message?: string };
   production?: TeamProductionState;
+  observedAt?: string;
+  currentTaskNodeIds?: string[];
+  eventsTruncated?: boolean;
+  oldestSeq?: number;
+  failureCode?: string;
   diagnostic?:TeamDiagnostic;
   lifecycle?:string;
   id: string;
@@ -174,7 +189,15 @@ export interface TeamSettingsViewProps {
   onClose: () => void;
   onRefresh: () => void;
 }
+export interface TeamFreshness {
+  stale: boolean;
+  observedAt?: string;
+  reason?: string;
+  /** Changes on explicit refresh/navigation; ordinary polls keep the same revision. */
+  revision?: number;
+}
 export interface TeamViewProps {
+  freshness?: TeamFreshness;
   catalog: TeamCatalog;
   history?:TeamHistory[];
   selectedRunId?:string;

@@ -182,7 +182,7 @@ function remountFixture(){
 test('runtime replacement rejects exact unconfirmed old child streams without blocking unrelated sessions',async()=>{
  const f=remountFixture(),old=f.mount();let replacement;
  try{
-  await assert.rejects(old.execute(f.spec('cleanup-failed-run')),{code:'CLEANUP_FAILED'});
+  await assert.rejects(old.execute(f.spec('cleanup-failed-run')),{code:'CLEANUP_UNCONFIRMED'});
   assert.throws(()=>f.ctx.llm.stream({sessionId:f.childId,purpose:'compaction'}),{code:'CLEANUP_UNCONFIRMED'});assert.equal(f.dispatches,0);
   await old.dispose();replacement=f.mount();
   assert.throws(()=>f.ctx.llm.stream({sessionId:f.childId,purpose:'compaction'}),{code:'CLEANUP_UNCONFIRMED'});

@@ -1,10 +1,11 @@
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
-import type { TeamCatalog, TeamEdge, TeamLimits, TeamModelSelection, TeamNode, TeamNodeStatus, TeamNodeRole, TeamRole, TeamSettings, TeamSnapshot, TeamSettingsViewProps, TeamViewProps } from './team-types';
+import type { TeamCatalog, TeamEdge, TeamEvent, TeamLimits, TeamModelSelection, TeamNode, TeamNodeStatus, TeamNodeRole, TeamRole, TeamSettings, TeamSnapshot, TeamSettingsViewProps, TeamViewProps } from './team-types';
 import teamCss from './team.css';
 import themeCss from './team-theme.css';
 import { TeamThemeSwitch, useTeamTheme } from './team-theme';
 import { ProductionSettings, ProductionStatus, productionDefaults, productionSettingsErrors } from './TeamProduction';
 export * from './team-types';
+import { advanceRelationCursor, resolveNodeModel, shouldAnimateNode } from './team-live';
 
 type IconName = 'team' | 'plan' | 'coordinate' | 'search' | 'explore' | 'code' | 'review' | 'route' | 'arrow' | 'check' | 'close' | 'refresh' | 'settings' | 'clock' | 'file' | 'chevron' | 'play' | 'stop' | 'lock' | 'activity' | 'branch' | 'alert';
 function Icon({ name, className = '' }: { name: IconName; className?: string }) {
@@ -77,6 +78,62 @@ function validateSettings(settings: TeamSettings, catalog: TeamCatalog) {
   });
 }
 
+/** Animation is a presentation of fresh events, never inferred from graph connectivity. */
+function useLiveWorkflow(snapshot: TeamSnapshot | null, freshness?: TeamViewProps['freshness']) {
+  const [visible, setVisible] = useState(() => typeof document === 'undefined' || document.visibilityState !== 'hidden');
+  const [pulses, setPulses] = useState<{ event: TeamEvent; key: string; expires: number }[]>([]);
+  const [notice, setNotice] = useState<string>();
+  const cursor = useRef<ReturnType<typeof advanceRelationCursor>['cursor']>(null);
+  const stale = !!freshness?.stale;
+  useEffect(() => {
+    const update = () => setVisible(document.visibilityState !== 'hidden');
+    document.addEventListener('visibilitychange', update);
+    return () => document.removeEventListener('visibilitychange', update);
+  }, []);
+  useEffect(() => {
+    const result = advanceRelationCursor(cursor.current, snapshot, { visible, stale, revision: freshness?.revision });
+    cursor.current = result.cursor;
+    setNotice(result.notice);
+    if (result.baseline || !snapshot || !ACTIVE.has(snapshot.status) || !visible || stale) { setPulses([]); return; }
+    if (result.events.length) setPulses(current => [...current, ...result.events.map(event => ({ event, key: `${snapshot.id}:${event.seq}`, expires: Date.now() + 800 }))]);
+  }, [snapshot, visible, stale, freshness?.revision]);
+  useEffect(() => {
+    if (!pulses.length) return;
+    const timer = setTimeout(() => setPulses(current => current.filter(pulse => pulse.expires > Date.now())), Math.max(0, Math.min(...pulses.map(pulse => pulse.expires)) - Date.now()) + 5);
+    return () => clearTimeout(timer);
+  }, [pulses]);
+  return { visible, stale, pulses, notice };
+}
+type LiveWorkflow = ReturnType<typeof useLiveWorkflow>;
+function NodeModel({ snapshot, node, catalog }: { snapshot: TeamSnapshot; node: TeamNode; catalog: TeamCatalog }) {
+  const model = resolveNodeModel(snapshot, node);
+  if (!model) return <span className="tm-instance-model">{node.kind === 'verification' ? '宿主验证 · 非模型节点' : 'TypeSafe · 独立决策'}</span>;
+  return <><span className="tm-instance-model" title={`${providerName(model.selection, catalog)} / ${modelName(model.selection, catalog)}`}>{modelName(model.selection, catalog)}</span><span className="tm-instance-source">{model.source === 'routing' ? `本节点选定模型 · ${model.decision!.lane} / ${model.decision!.tier}` : '启动时基础配置，未报告本节点选择'}</span></>;
+}
+function InstanceCards({ snapshot, catalog, selected, onSelect, live }: { snapshot: TeamSnapshot | null; catalog: TeamCatalog; selected?: string; onSelect: (node: TeamNode) => void; live: LiveWorkflow }) {
+  if (!snapshot?.nodes.length) return null;
+  const running = snapshot.nodes.filter(node => node.status === 'running');
+  const others = snapshot.nodes.filter(node => node.status !== 'running');
+  return <section className="tm-instances" aria-label="实际运行实例"><div className="tm-instances-heading"><div><span className="tm-section-eyebrow">EXECUTION INSTANCES</span><h3>每一次派发，独立保留</h3></div><span>{running.length} 个运行中 / {snapshot.nodes.length} 个实例</span></div><div className="tm-instance-grid">{[...running, ...others].map(node => {
+    const animate = shouldAnimateNode(node, snapshot.status, live);
+    return <button type="button" key={node.id} className={`tm-instance-card tm-instance-card--${node.status} ${selected === node.id ? 'is-selected' : ''}`} data-node-id={node.id} data-live={animate} onClick={() => onSelect(node)} aria-pressed={selected === node.id}>
+      <span className="tm-instance-top"><span><Icon name={node.kind === 'verification' ? 'review' : ROLE[node.role].icon}/>{node.kind === 'verification' ? '宿主验证' : ROLE[node.role].name}</span><Status status={node.status}/></span><strong>{node.title}</strong><NodeModel snapshot={snapshot} node={node} catalog={catalog}/><span className="tm-instance-meta"><span>{node.id}</span><span>第 {node.attempt} 次</span></span>{node.failureCode && <span className="tm-instance-failure">{node.failureCode}</span>}
+    </button>;
+  })}</div></section>;
+}
+function WorkflowSignals({ snapshot, live, freshness }: { snapshot: TeamSnapshot | null; live: LiveWorkflow; freshness?: TeamViewProps['freshness'] }) {
+  const jevNode = snapshot?.nodes.filter(node => node.kind === 'jev_classify' || node.kind === 'jev_step').at(-1);
+  const runningJev = snapshot?.nodes.find(node => (node.kind === 'jev_classify' || node.kind === 'jev_step') && node.status === 'running');
+  const decision = snapshot?.jev?.decisions.at(-1);
+  const evidence = snapshot?.jev?.evidence;
+  const verified = !!evidence && evidence.checksPassed && evidence.scopeOk && evidence.diffAvailable && evidence.verified;
+  return <section className="tm-workflow-signals" aria-label="工作流实时状态">
+    <div className={`tm-signal tm-signal--connection ${live.stale ? 'is-stale' : ''}`}><span><i/>{isFixture(snapshot) ? 'SYNTHETIC DEMO' : live.stale ? '数据已过期' : snapshot ? '快照已同步' : '等待任务'}</span><strong>{live.stale ? freshness?.reason || '连接中断，保留最后状态' : !live.visible ? '页面隐藏，动效已暂停' : snapshot ? `更新于 ${time(freshness?.observedAt || snapshot.observedAt)}` : '配置模型后使用 /team'}</strong></div>
+    <div className="tm-signal tm-signal--jev" data-live={!!runningJev && !!snapshot && shouldAnimateNode(runningJev, snapshot.status, live)}><span><Icon name="route"/>Jev 决策</span><strong>{runningJev ? runningJev.kind === 'jev_classify' ? '正在分类' : '正在逐轮决策' : decision ? `${decision.lane} · ${decision.action}` : '尚无决策'}</strong><small>{decision?.at ? time(decision.at) : jevNode ? `节点时间 ${time(jevNode.finishedAt || jevNode.startedAt)}` : '等待真实记录'}</small></div>
+    <div className="tm-signal tm-signal--gate"><span><Icon name="review"/>独立完成门禁</span><strong>{verified ? isFixture(snapshot) ? '合成门禁通过' : '全部验证通过' : '尚未全部通过'}</strong><small>检查 · 范围 · 差异 · 独立验证</small></div>
+  </section>;
+}
+
 const LANE: Record<string, string> = { small: '小型任务', medium: '标准任务', high: '高复杂度', escalate: '升级处理' };
 function JevPanel({ catalog, snapshot, settings, onSelectNode }: { catalog: TeamCatalog; snapshot: TeamSnapshot | null; settings: TeamSettings; onSelectNode: (node: TeamNode) => void }) {
   const state = snapshot?.jev;
@@ -97,27 +154,28 @@ function JevPanel({ catalog, snapshot, settings, onSelectNode }: { catalog: Team
     {!fixture && !ready && <p className="tm-jev-warning" role="status"><Icon name="alert"/>{catalog.jev?.reason || '尚未完成 Jev 设置。请打开团队设置，连接密钥并选择六个岗位模型。'}</p>}
     <div className="tm-jev-metrics"><div><span>当前分档</span><strong>{state ? `${state.lane} · ${LANE[state.lane] || state.lane}` : '等待 Jev 分类'}</strong></div><div><span>调度轮次</span><strong>{state?.round ?? 0} / {(snapshot?.limits || settings.limits).maxRounds}</strong></div><div><span>Jev 决策记录</span><strong>{state?.decisions.length ?? 0} 条 <small>调用上限 {(snapshot?.limits || settings.limits).maxJevCalls}</small></strong></div></div>
     {latestDecision && <div className="tm-jev-next"><strong>最新决策 · {latestDecision.action}</strong><p>{latestDecision.reason}</p></div>}
-    {!!state?.decisions.length && <details className="tm-jev-decisions"><summary>独立 Jev 决策历史 · {state.decisions.length} 条<Icon name="chevron"/></summary><ol>{state.decisions.map((decision, index) => <li key={index}><div><strong>{decision.phase} → {decision.action}</strong><span>第 {decision.round} 轮 · {decision.lane} · 置信度 {Number.isFinite(decision.confidence) ? `${Math.round(decision.confidence * 100)}%` : '未报告'}</span></div><p>{decision.reason}</p></li>)}</ol></details>}
+    {!!state?.decisions.length && <details className="tm-jev-decisions"><summary>独立 Jev 决策历史 · {state.decisions.length} 条<Icon name="chevron"/></summary><ol>{state.decisions.map((decision, index) => <li key={index}><div><strong>{decision.phase} → {decision.action}</strong><span>第 {decision.round} 轮 · {decision.lane} · 置信度 {Number.isFinite(decision.confidence) ? `${Math.round(decision.confidence * 100)}%` : '未报告'}</span></div><p>{decision.reason}</p><time dateTime={decision.at}>决策时间：{time(decision.at)}</time></li>)}</ol></details>}
     {jevNode && <button type="button" className="tm-jev-inspect" onClick={() => onSelectNode(jevNode)}>查看最新 Jev 节点<Icon name="arrow"/></button>}
     <div className="tm-gates"><div className="tm-gates-heading"><h4>硬性完成条件</h4><span className={passed ? 'is-passed' : ''}>{passed ? (fixture ? 'Fixture 条件通过' : '全部通过') : snapshot?.status === 'completed' ? '完成条件未满足' : '未全部通过'}</span></div><ul>{gates.map(gate => <li key={gate.label} className={gate.value === true ? 'is-passed' : gate.value === false ? 'is-failed' : 'is-pending'}><Icon name={gate.value === true ? 'check' : gate.value === false ? 'close' : 'clock'}/><span>{gate.label}</span><small>{gate.value === true ? '通过' : gate.value === false ? '未通过' : '待验证'}</small></li>)}</ul><p>{evidence?.reason || '服务端尚未提供完成证据。Jev 或审查者的完成建议不能跳过这些检查。'}</p></div>
     </details>
   </section>;
 }
 
-function Topology({ snapshot, settings, catalog, selected, onSelect }: { snapshot: TeamSnapshot | null; settings: TeamSettings; catalog: TeamCatalog; selected?: TeamNodeRole; onSelect: (role: TeamNodeRole) => void }) {
+function Topology({ snapshot, settings, catalog, selected, onSelect, live }: { snapshot: TeamSnapshot | null; settings: TeamSettings; catalog: TeamCatalog; selected?: TeamNodeRole; onSelect: (role: TeamNodeRole) => void; live: LiveWorkflow }) {
   const roles = snapshot?.roles || settings.roles;
+  const runningJev = snapshot?.nodes.find(node => (node.kind === 'jev_classify' || node.kind === 'jev_step') && node.status === 'running');
   return <div className="tm-topology">
     <div className="tm-topology-map">
       <svg className="tm-topology-wires tm-topology-wires--wide" viewBox="0 0 840 392" preserveAspectRatio="none" aria-hidden="true"><path d="M140 54H420M420 82V196M560 196H700V54M280 196H140V54M420 250V280H140V312M420 280V312M420 280H700V312"/><circle cx="420" cy="280" r="4"/></svg>
       <svg className="tm-topology-wires tm-topology-wires--narrow" viewBox="0 0 400 430" preserveAspectRatio="none" aria-hidden="true"><path d="M200 60V78H94V92M200 78H306V92M94 186V200H306V186M94 200V214M306 200V214M94 308V322H306V308M94 322V336M306 322V336"/><circle cx="200" cy="78" r="3"/></svg>
-      <button type="button" className={`tm-controller-node ${selected === 'jev' ? 'is-selected' : ''}`} onClick={() => onSelect('jev')} aria-pressed={selected === 'jev'} aria-label="查看 Jev 核心调度详情"><span className="tm-controller-symbol"><Icon name="route"/></span><div><strong>Jev</strong><span>独立调度控制面</span></div><Icon name="chevron"/></button>
+      <button type="button" data-live={!!runningJev && !!snapshot && shouldAnimateNode(runningJev, snapshot.status, live)} className={`tm-controller-node ${selected === 'jev' ? 'is-selected' : ''}`} onClick={() => onSelect('jev')} aria-pressed={selected === 'jev'} aria-label="查看 Jev 核心调度详情"><span className="tm-controller-symbol"><Icon name="route"/></span><div><strong>Jev</strong><span>独立调度控制面</span></div><Icon name="chevron"/></button>
       {(['planner', 'reviewer', 'coordinator', 'researcher', 'explorer', 'worker'] as TeamRole[]).map(role => {
         const nodes = snapshot?.nodes.filter(node => node.role === role) || [];
         const status = roleStatus(nodes);
-        return <button type="button" key={role} className={`tm-role-card tm-role-card--${role} ${selected === role ? 'is-selected' : ''} ${status === 'running' ? 'is-active' : ''}`} onClick={() => onSelect(role)} aria-pressed={selected === role}>
+        return <button type="button" key={role} className={`tm-role-card tm-role-card--${role} ${selected === role ? 'is-selected' : ''} `} onClick={() => onSelect(role)} aria-pressed={selected === role}>
           <div className="tm-role-top"><span className={`tm-role-icon tm-role-icon--${role}`}><Icon name={ROLE[role].icon}/></span><span className="tm-role-mode">{role === 'coordinator' ? '团队中枢' : role === 'worker' ? '串行编辑' : role === 'researcher' || role === 'explorer' ? '并行只读' : '按需参与'}</span></div>
           <div className="tm-role-title"><strong>{ROLE[role].name}</strong><span>{role.toUpperCase()}</span></div>
-          <span className="tm-role-model" title={modelName(roles[role], catalog, isFixture(snapshot))}>{modelName(roles[role], catalog, isFixture(snapshot))}</span>
+          <span className="tm-role-model" title={`启动基础配置 · ${modelName(roles[role], catalog, isFixture(snapshot))}`}>{modelName(roles[role], catalog, isFixture(snapshot))}</span><span className="tm-base-label">{snapshot ? '启动基础配置' : '岗位基础配置'}</span>
           <div className="tm-role-bottom"><Status status={status} count={nodes.filter(node => node.status === 'running').length}/><span>{nodes.length ? `${nodes.length} 个节点` : '岗位配置'}<Icon name="chevron"/></span></div>
         </button>;
       })}
@@ -144,16 +202,17 @@ function taskLayout(nodes: TeamNode[], edges: TeamEdge[], vertical: boolean) {
   nodes.forEach(node => { const depth = rank.get(node.id)!; columns.set(depth, [...columns.get(depth) || [], node]); });
   const rows = Math.max(1, ...Array.from(columns.values()).map(column => column.length));
   const ranks = Math.max(0, ...rank.values()) + 1;
-  const height = vertical ? Math.max(320, ranks * 146 + 32) : Math.max(320, rows * 156 + 68);
+  const height = vertical ? Math.max(320, ranks * 192 + 32) : Math.max(320, rows * 198 + 68);
   const positions = new Map<string, { x: number; y: number }>();
   const width = vertical ? Math.max(360, rows * 186 + 26) : Math.max(490, ranks * 236 + 24);
-  columns.forEach((column, depth) => column.forEach((node, index) => positions.set(node.id, vertical ? { x: (width - column.length * 186) / 2 + index * 186 + 13, y: 24 + depth * 146 } : { x: 24 + depth * 236, y: (height - column.length * 156) / 2 + index * 156 + 12 })));
+  columns.forEach((column, depth) => column.forEach((node, index) => positions.set(node.id, vertical ? { x: (width - column.length * 186) / 2 + index * 186 + 13, y: 24 + depth * 192 } : { x: 24 + depth * 236, y: (height - column.length * 198) / 2 + index * 198 + 12 })));
   return { positions, width, height };
 }
-function TaskGraph({ snapshot, selected, onSelect }: { snapshot: TeamSnapshot | null; selected?: string; onSelect: (node: TeamNode) => void }) {
+function TaskGraph({ snapshot, selected, onSelect, catalog, live }: { snapshot: TeamSnapshot | null; selected?: string; onSelect: (node: TeamNode) => void; catalog: TeamCatalog; live: LiveWorkflow }) {
   const [zoom, setZoom] = useState(1);
   const [viewportWidth, setViewportWidth] = useState(400);
   const graphRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const vertical = viewportWidth < 650;
   useEffect(() => {
     const element = graphRef.current;
@@ -166,21 +225,31 @@ function TaskGraph({ snapshot, selected, onSelect }: { snapshot: TeamSnapshot | 
   useEffect(() => { selectedRef.current?.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }, [selected]);
   const marker = useId().replace(/:/g, '');
   const layout = useMemo(() => taskLayout(snapshot?.nodes || [], snapshot?.edges || [], vertical), [snapshot?.nodes, snapshot?.edges, vertical]);
+  // Recenter only on first population, run/zoom changes, or viewport resizing.
+  // Ordinary polling can grow the graph without overwriting the user's pan position.
+  useEffect(() => {
+    const viewport = scrollRef.current;
+    const target = layout.positions.get(selected || '') || layout.positions.get(snapshot?.nodes[0]?.id || '');
+    if (!viewport || !target) return;
+    const cardWidth = vertical ? 160 : 192;
+    const center = (target.x + cardWidth / 2) * zoom;
+    viewport.scrollLeft = Math.max(0, Math.min(layout.width * zoom - viewportWidth, center - viewportWidth / 2));
+  }, [snapshot?.id, !!snapshot?.nodes.length, viewportWidth, vertical, zoom]);
   if (!snapshot?.nodes.length) return <div className="tm-empty-graph"><span className="tm-empty-icon"><Icon name="branch"/></span><strong>任务关系将在派发后出现</strong><p>发起 /team 后，已记录的派发、依赖与反馈会显示在这里。</p></div>;
   return <div className={`tm-task-graph ${vertical ? 'tm-task-graph--vertical' : ''}`} ref={graphRef}>
     <div className="tm-graph-tools"><span>{snapshot.nodes.length} 个节点 · {snapshot.edges.length} 条关系</span><div className="tm-graph-controls"><button type="button" className="tm-fit-button" onClick={() => setZoom(Math.min(1, Math.max(.5, Math.floor((viewportWidth - 12) / layout.width * 100) / 100)))}>适应</button><label>缩放<select aria-label="任务图缩放" value={zoom} onChange={e => setZoom(Number(e.target.value))}>{![.5, .75, 1].includes(zoom) && <option value={zoom}>{Math.round(zoom * 100)}%</option>}<option value={.5}>50%</option><option value={.75}>75%</option><option value={1}>100%</option></select></label></div></div>
-    <div className="tm-graph-scroll" tabIndex={0} role="region" aria-label="任务关系图，可横向滚动">
+    <div className="tm-graph-scroll" ref={scrollRef} tabIndex={0} role="region" aria-label="任务关系图，可横向滚动">
       <div style={{ width: layout.width * zoom, height: layout.height * zoom }}><div className="tm-task-canvas" style={{ width: layout.width, height: layout.height, transform: `scale(${zoom})` }}>
         <svg className="tm-task-wires" width={layout.width} height={layout.height} aria-hidden="true"><defs><marker id={marker} markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto-start-reverse"><path d="M0 0 6 3 0 6" fill="none" stroke="currentColor" strokeWidth="1"/></marker></defs>{snapshot.edges.map(edge => {
           const from = layout.positions.get(edge.from), to = layout.positions.get(edge.to);
           if (!from || !to) return null;
-          const sx = from.x + 192, sy = from.y + 61, tx = to.x - 4, ty = to.y + 61;
+          const sx = from.x + 192, sy = from.y + 82, tx = to.x - 4, ty = to.y + 82;
           const skip = tx - sx > 100 || tx < sx;
-          const verticalPath = `M${from.x + 80} ${from.y + 108} C${from.x + 80} ${from.y + 128}, ${to.x + 80} ${to.y - 20}, ${to.x + 80} ${to.y - 4}`;
+          const verticalPath = `M${from.x + 80} ${from.y + 158} C${from.x + 80} ${from.y + 178}, ${to.x + 80} ${to.y - 20}, ${to.x + 80} ${to.y - 4}`;
           const d = vertical ? verticalPath : skip ? `M${sx} ${sy} C${sx + 22} ${sy}, ${sx + 22} 24, ${sx + 46} 24 L${tx - 28} 24 Q${tx - 8} 24 ${tx - 8} ${ty - 18} L${tx - 8} ${ty - 8} Q${tx - 8} ${ty} ${tx} ${ty}` : `M${sx} ${sy} C${sx + 22} ${sy}, ${tx - 22} ${ty}, ${tx} ${ty}`;
-          return <g key={edge.id} className={`tm-edge tm-edge--${edge.kind}`}><title>{`${EDGE[edge.kind]}：${edge.from} → ${edge.to}`}</title><path d={d} markerEnd={`url(#${marker})`}/></g>;
+          return <g key={edge.id} className={`tm-edge tm-edge--${edge.kind}`}><title>{`${EDGE[edge.kind]}：${edge.from} → ${edge.to}`}</title><path d={d} markerEnd={`url(#${marker})`}/>{live.pulses.filter(pulse => pulse.event.edgeId === edge.id).map(pulse => <path key={pulse.key} className="tm-edge-pulse" data-event-key={pulse.key} d={d} pathLength="1"/>)}</g>;
         })}</svg>
-        {snapshot.nodes.map(node => { const position = layout.positions.get(node.id)!; return <button type="button" key={node.id} ref={selected === node.id ? selectedRef : undefined} className={`tm-task-node tm-task-node--${node.status} ${selected === node.id ? 'is-selected' : ''}`} style={{ left: position.x, top: position.y }} onClick={() => onSelect(node)} aria-pressed={selected === node.id}><span className="tm-task-role"><Icon name={node.kind === 'verification' ? 'review' : ROLE[node.role]?.icon || 'file'}/>{node.kind === 'verification' ? '宿主验证' : ROLE[node.role]?.name || node.role}<small>#{node.attempt}</small></span><strong>{node.title}</strong><span className="tm-task-foot"><Status status={node.status}/><span>{node.output ? <Icon name="file"/> : null}<Icon name="chevron"/></span></span></button>; })}
+        {snapshot.nodes.map(node => { const position = layout.positions.get(node.id)!; return <button type="button" key={node.id} ref={selected === node.id ? selectedRef : undefined} data-node-id={node.id} data-live={shouldAnimateNode(node, snapshot.status, live)} className={`tm-task-node tm-task-node--${node.status} ${selected === node.id ? 'is-selected' : ''}`} style={{ left: position.x, top: position.y }} onClick={() => onSelect(node)} aria-pressed={selected === node.id}><span className="tm-task-role"><Icon name={node.kind === 'verification' ? 'review' : ROLE[node.role]?.icon || 'file'}/>{node.kind === 'verification' ? '宿主验证' : ROLE[node.role]?.name || node.role}<small>#{node.attempt}</small></span><strong>{node.title}</strong><NodeModel snapshot={snapshot} node={node} catalog={catalog}/>{node.failureCode && <span className="tm-task-failure">{node.failureCode}</span>}<span className="tm-task-foot"><Status status={node.status}/><span>{node.output ? <Icon name="file"/> : null}<Icon name="chevron"/></span></span></button>; })}
       </div></div>
     </div>
     <div className="tm-map-footer"><span><i className="tm-solid-line"/>派发 / 依赖 / 汇总</span><span><i className="tm-feedback-line"/>反馈</span><span><i className="tm-retry-line"/>重试 · 独立节点</span></div>
@@ -199,7 +268,8 @@ function Inspector({ role, node, snapshot, settings, catalog, onSelectNode, onCo
     <div className="tm-section-eyebrow"><span>{node ? '节点详情' : '岗位详情'}</span><span>{node ? `第 ${node.attempt} 次执行` : 'ROLE PROFILE'}</span></div>
     <div className="tm-inspector-heading"><span className={`tm-role-icon tm-role-icon--${role}`}><Icon name={definition.icon}/></span><div><h3>{node?.title || definition.name}</h3><Status status={node?.status || roleStatus(nodes)}/></div></div>
     <p className="tm-role-description">{definition.description}</p>
-    <dl className="tm-facts"><div><dt>负责角色</dt><dd>{definition.name}</dd></div><div><dt>{role === 'jev' || verificationNode ? '执行方式' : '模型'}</dt><dd>{verificationNode ? '服务端验证检查' : role === 'jev' ? 'Jev · 独立服务' : modelName(selection, catalog, isFixture(snapshot))}</dd></div><div><dt>提供方</dt><dd>{verificationNode ? (isFixture(snapshot) || snapshot?.jev?.mode === 'fixture' ? 'Fixture · 合成验证' : '当前宿主') : role === 'jev' ? (isFixture(snapshot) || catalog.jev?.mode === 'fixture' ? 'Fixture · 未连接 TypeSafe' : catalog.jev?.configured && catalog.jev.available ? 'TypeSafe · 服务端已配置' : 'TypeSafe · 未连接服务') : isFixture(snapshot) && !selection?.provider ? '合成示例' : providerName(selection, catalog)}</dd></div>{selection?.reasoningEffort && <div><dt>思考强度</dt><dd>{catalog.providers.find(p => p.id === selection.provider)?.models.find(m => m.id === selection.model)?.efforts?.find(e => e.id === selection.reasoningEffort)?.name || selection.reasoningEffort}</dd></div>}<div><dt>工作方式</dt><dd>{definition.access}</dd></div>{node && <><div><dt>开始时间</dt><dd>{time(node.startedAt)}</dd></div><div><dt>结束时间</dt><dd>{time(node.finishedAt)}</dd></div></>}</dl>
+    <dl className="tm-facts"><div><dt>负责角色</dt><dd>{definition.name}</dd></div><div><dt>{role === 'jev' || verificationNode ? '执行方式' : route ? '本节点选定模型' : node ? '启动基础模型' : '岗位基础模型'}</dt><dd>{verificationNode ? '服务端验证检查' : role === 'jev' ? 'Jev · 独立服务' : modelName(selection, catalog, isFixture(snapshot))}</dd></div><div><dt>提供方</dt><dd>{verificationNode ? (isFixture(snapshot) || snapshot?.jev?.mode === 'fixture' ? 'Fixture · 合成验证' : '当前宿主') : role === 'jev' ? (isFixture(snapshot) || catalog.jev?.mode === 'fixture' ? 'Fixture · 未连接 TypeSafe' : catalog.jev?.configured && catalog.jev.available ? 'TypeSafe · 服务端已配置' : 'TypeSafe · 未连接服务') : isFixture(snapshot) && !selection?.provider ? '合成示例' : providerName(selection, catalog)}</dd></div>{selection?.reasoningEffort && <div><dt>思考强度</dt><dd>{catalog.providers.find(p => p.id === selection.provider)?.models.find(m => m.id === selection.model)?.efforts?.find(e => e.id === selection.reasoningEffort)?.name || selection.reasoningEffort}</dd></div>}<div><dt>工作方式</dt><dd>{definition.access}</dd></div>{node && <><div><dt>开始时间</dt><dd>{time(node.startedAt)}</dd></div><div><dt>结束时间</dt><dd>{time(node.finishedAt)}</dd></div></>}</dl>
+    {node && !route && role !== 'jev' && !verificationNode && <p className="tm-production-help tm-model-provenance">启动时基础配置，未报告本节点选择。此处不是实际响应模型信息。</p>}{node?.failureCode && <p className="tm-production-warning">失败分类：{node.failureCode}</p>}
     {route && <p className="tm-production-help">本节点路由：{route.lane} · {route.tier} · {route.reason}</p>}
     {!snapshot && <button type="button" className="tm-button tm-button--wide" onClick={onConfigure}><Icon name="settings"/>配置角色模型<Icon name="arrow"/></button>}
     {node ? <>
@@ -280,13 +350,15 @@ export function TeamSettingsView({ setup, catalog, credential, loading = false, 
   </section></div>;
 }
 
-export function TeamView({ catalog, history = [], selectedRunId, onSelectRun, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings, onLoadTrace }: TeamViewProps) {
+export function TeamView({ catalog, history = [], selectedRunId, onSelectRun, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings, onLoadTrace, freshness }: TeamViewProps) {
   const diagnostic=snapshot?.diagnostic||(!selectedRunId?sessionContext?.diagnostic:undefined);
   const theme = useTeamTheme();
-  const [graph, setGraph] = useState<'team' | 'tasks'>('team');
+  const [graph, setGraph] = useState<'team' | 'tasks'>(() => snapshot && ACTIVE.has(snapshot.status) ? 'tasks' : 'team');
   const [selectedRole, setSelectedRole] = useState<TeamNodeRole>('coordinator');
   const [selectedNodeId, setSelectedNodeId] = useState<string>();
   const [activityOpen, setActivityOpen] = useState(true);
+  const [layout, setLayout] = useState<'workflow' | 'classic'>('workflow');
+  const live = useLiveWorkflow(snapshot, freshness);
   const [cancelling, setCancelling] = useState(false);
   const [localError, setLocalError] = useState<string>();
   const cancelLock = useRef(false);
@@ -304,7 +376,7 @@ export function TeamView({ catalog, history = [], selectedRunId, onSelectRun, se
   const events = [...snapshot?.events || []].slice(-30).reverse();
   const runEvidence = snapshot?.jev?.evidence;
   const completionVerified = !!runEvidence && runEvidence.checksPassed && runEvidence.scopeOk && runEvidence.diffAvailable && runEvidence.verified;
-  useEffect(() => { cancelGeneration.current++; cancelLock.current = false; setSelectedNodeId(undefined); setLocalError(undefined); setCancelling(false); }, [snapshot?.id, sessionId]);
+  useEffect(() => { cancelGeneration.current++; cancelLock.current = false; setSelectedNodeId(undefined); setLocalError(undefined); setCancelling(false); setGraph(snapshot && ACTIVE.has(snapshot.status) ? 'tasks' : 'team'); }, [snapshot?.id, sessionId]);
   useEffect(() => () => { cancelGeneration.current++; }, []);
   const openSettings = onOpenSettings;
   function selectNode(node: TeamNode) { setSelectedNodeId(node.id); setSelectedRole(node.role); }
@@ -315,20 +387,21 @@ export function TeamView({ catalog, history = [], selectedRunId, onSelectRun, se
     cancelLock.current = true; setCancelling(true); setLocalError(undefined);
     try { await onCancel(); } catch (failure) { if (generation === cancelGeneration.current) setLocalError(failure instanceof Error ? failure.message : '无法停止，请刷新确认当前状态。'); } finally { if (generation === cancelGeneration.current) { setCancelling(false); cancelLock.current = false; } }
   }
-  return <div className="tm-root" data-theme={theme}><style>{teamCss}</style><style>{themeCss}</style><div className="tm-shell">
-    <header className="tm-header"><div className="tm-brand"><span className="tm-brand-mark"><Icon name="team"/></span><div><div className="tm-wordmark">DSH <span>/ WORKSPACE</span></div><h1>智能体团队</h1></div></div><div className="tm-header-actions"><button type="button" className={`tm-button tm-button--quiet ${demo ? 'is-demo' : ''}`} onClick={onDemo} disabled={active}><Icon name="play"/>演示</button><button type="button" className="tm-icon-button" onClick={() => void onRefresh()} disabled={loading} aria-label={demo ? '返回实时视图' : '刷新团队状态'} title={demo ? '返回实时视图' : '刷新团队状态'}><Icon name="refresh" className={loading ? 'is-spinning' : ''}/></button><TeamThemeSwitch theme={theme}/></div></header>
-    {demo && <div className="tm-demo-banner"><span>演示</span><p>合成数据 · 未调用真实模型或 TypeSafe，未修改项目。</p><button type="button" onClick={() => void onRefresh()}>返回实时<Icon name="arrow"/></button></div>}
+  return <div className={`tm-root tm-layout-${layout}`} data-theme={theme} data-stale={live.stale} data-live={live.visible && !live.stale && !!snapshot && ACTIVE.has(snapshot.status)}><style>{teamCss}</style><style>{themeCss}</style><div className="tm-shell">
+    <header className="tm-header"><div className="tm-brand"><span className="tm-brand-mark"><Icon name="team"/></span><div><div className="tm-wordmark">DSH <span>/ WORKSPACE</span></div><h1>智能体团队</h1></div></div><div className="tm-header-actions"><button type="button" className="tm-button tm-button--quiet tm-layout-switch" aria-label="切换工作流布局" aria-pressed={layout === 'classic'} onClick={() => setLayout(layout === 'workflow' ? 'classic' : 'workflow')}>{layout === 'workflow' ? '紧凑对照' : '工作流布局'}</button><button type="button" className={`tm-button tm-button--quiet ${demo ? 'is-demo' : ''}`} onClick={onDemo} disabled={active}><Icon name="play"/>演示</button><button type="button" className="tm-icon-button" onClick={() => void onRefresh()} disabled={loading} aria-label={demo ? '返回实时视图' : '刷新团队状态'} title={demo ? '返回实时视图' : '刷新团队状态'}><Icon name="refresh" className={loading ? 'is-spinning' : ''}/></button><TeamThemeSwitch theme={theme}/></div></header>
+    {demo && <div className="tm-demo-banner"><span>演示</span><p>合成数据 · 未调用真实模型或 TypeSafe。</p><button type="button" onClick={() => void onRefresh()}>返回实时<Icon name="arrow"/></button></div>}
     {(error || localError) && <div className="tm-notice tm-notice--error" role="alert"><Icon name="alert"/><span>{localError || error}</span></div>}
     <main className="tm-main">
       <section className="tm-overview"><div><div className="tm-section-eyebrow"><span>{snapshot ? '当前任务' : '工作台'}</span><span className="tm-session"><i/>{demo ? '示例会话' : sessionId ? '已连接当前会话' : '等待 Desktop 会话'}</span></div><h2>{snapshot?.goal || (configured ? '团队已就位' : '连接你的工作团队')}</h2>{snapshot ? <details className="tm-run-description"><summary>运行说明<Icon name="chevron"/></summary><p>{snapshot.message || '任务按实际需要派发，研究与探索并行，编辑工作串行。'}</p></details> : <p>在聊天中使用 /team 发起任务。</p>}</div>{snapshot && <div className="tm-run-state"><Status status={snapshot.status === 'completed' && !completionVerified ? 'completion_unverified' : snapshot.status}/><span>{snapshot.finishedAt ? duration(snapshot) : `开始于 ${time(snapshot.startedAt)}`}</span></div>}</section>
+      {snapshot && ['blocked', 'failed', 'unverified'].includes(snapshot.status) && <section className="tm-run-blocker" role="status" aria-label="当前运行受阻原因"><Icon name="alert"/><div><strong>{STATUS[snapshot.status]}{snapshot.failureCode ? ` · ${snapshot.failureCode}` : ''}</strong><p>{snapshot.message || '本次运行尚未满足完成条件，请查看节点详情与独立验证结果。'}</p></div></section>}
       <div className="tm-summary-strip"><div><Icon name="team"/><span>岗位</span><strong>6</strong></div><div><Icon name="branch"/><span>节点</span><strong>{nodes.length}</strong></div><div><Icon name="activity"/><span>执行中</span><strong>{running}<small> / {(snapshot?.limits || settings.limits).concurrency}</small></strong></div><div><Icon name="check"/><span>完成</span><strong>{completed}</strong></div></div>
-      <JevPanel catalog={catalog} snapshot={snapshot} settings={settings} onSelectNode={node => { setGraph('tasks'); selectNode(node); }}/>
-      <ProductionStatus key={`${sessionId || "none"}:${snapshot?.id || "idle"}`} snapshot={snapshot} settings={settings} onLoadTrace={onLoadTrace}/>
+      {live.stale && <p className="tm-notice tm-notice--warning tm-stale-notice" role="status">连接中断或快照已过期。保留最后报告的节点状态，所有执行与关系动效已暂停；恢复后从新快照继续。</p>}
       {history.length>1&&<label className="tm-notice">本会话运行 <select aria-label="本会话运行历史" value={selectedRunId||''} onChange={event=>onSelectRun?.(event.target.value||undefined)}><option value="">最新运行</option>{history.filter(row=>row.sessionId===sessionId).map(row=><option key={row.id} value={row.id}>{row.id} · {row.finishedAt?'历史':'进行中'} · {row.goal.slice(0,60)}</option>)}</select></label>}
       {diagnostic&&<p className="tm-notice" role="status">检查阶段：{diagnostic.phase}；原因：{diagnostic.reason}；宿主分类：{diagnostic.code} / {diagnostic.kind}{diagnostic.exitCode===undefined?'':' / exit '+diagnostic.exitCode}</p>}
       {sessionContext?.occupancy&&<p className="tm-notice" role="status">项目占用：会话 {sessionContext.occupancy.sessionId} · {sessionContext.occupancy.state}{sessionContext.occupancy.runId?' · '+sessionContext.occupancy.runId:''}</p>}
-      <div className="tm-workspace"><section className="tm-graph-panel" ref={canvasRef} aria-label="团队与任务可视化"><div className="tm-panel-header"><div className="tm-tabs" role="tablist" aria-label="图表视图"><button type="button" role="tab" id={`${prefix}-team-tab`} aria-controls={`${prefix}-graph`} aria-selected={graph === 'team'} tabIndex={graph === 'team' ? 0 : -1} onClick={() => setGraph('team')} onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setGraph('tasks'); (e.currentTarget.nextElementSibling as HTMLElement)?.focus(); } }}><Icon name="team"/>团队拓扑</button><button type="button" role="tab" id={`${prefix}-tasks-tab`} aria-controls={`${prefix}-graph`} aria-selected={graph === 'tasks'} tabIndex={graph === 'tasks' ? 0 : -1} onClick={() => setGraph('tasks')} onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setGraph('team'); (e.currentTarget.previousElementSibling as HTMLElement)?.focus(); } }}><Icon name="branch"/>任务关系{nodes.length > 0 && <span>{nodes.length}</span>}</button></div><button type="button" className="tm-button tm-button--quiet tm-config-trigger" aria-label="团队设置" onClick={openSettings}><Icon name="settings"/><span>团队设置</span></button></div><div className="tm-graph-caption"><span>{graph === 'team' ? '岗位配置' : '动态任务图'}</span><span className="tm-graph-context">{selectedNode ? selectedNode.title : ROLE[role].name}</span><button type="button" className="tm-inspect-jump" onClick={() => inspectorRef.current?.scrollIntoView({ block: 'start', behavior: 'auto' })}>查看详情<Icon name="arrow"/></button></div><div role="tabpanel" id={`${prefix}-graph`} aria-labelledby={`${prefix}-${graph}-tab`}>{graph === 'team' ? <Topology snapshot={snapshot} settings={settings} catalog={catalog} selected={!selectedNodeId ? role : undefined} onSelect={selectRole}/> : <TaskGraph snapshot={snapshot} selected={selectedNodeId} onSelect={selectNode}/>}</div></section><div className="tm-inspector-wrap" ref={inspectorRef}><Inspector role={role} node={selectedNode} snapshot={snapshot} settings={settings} catalog={catalog} onSelectNode={selectNode} onConfigure={openSettings} onBack={() => canvasRef.current?.scrollIntoView({ block: 'start', behavior: 'auto' })}/></div></div>
-      {snapshot && <section className="tm-activity"><button type="button" className="tm-activity-toggle" onClick={() => setActivityOpen(!activityOpen)} aria-expanded={activityOpen} aria-controls={`${prefix}-events`}><Icon name="activity"/><strong>团队动态</strong><span>{demo ? '合成事件' : '最近事件'} · {Math.min(snapshot.events.length, 30)} 条</span><Icon name="chevron"/></button>{activityOpen && <div id={`${prefix}-events`} className="tm-event-list" aria-label="最近团队事件">{events.length ? events.map(event => { const eventNode = nodes.find(node => node.id === event.nodeId); return <button type="button" key={event.seq} className={`tm-event ${/retry|feedback/.test(event.type) ? 'tm-event--feedback' : ''}`} disabled={!eventNode} onClick={() => eventNode && selectNode(eventNode)}><span className="tm-event-icon"><Icon name={/retry|feedback/.test(event.type) ? 'refresh' : eventNode ? eventNode.kind === 'verification' ? 'review' : ROLE[eventNode.role]?.icon || 'activity' : 'activity'}/></span><strong>{eventNode ? eventNode.kind === 'verification' ? '宿主验证' : ROLE[eventNode.role]?.name || eventNode.role : '团队'}</strong><span>{event.message}</span><time dateTime={event.at}>{time(event.at)}</time></button>; }) : <p className="tm-inline-empty">尚无事件记录</p>}{snapshot.events.length > 30 && <p className="tm-event-bound">显示最近 30 条事件，节点详情保留独立产出。</p>}</div>}</section>}
+      <div className="tm-workspace"><section className="tm-graph-panel" ref={canvasRef} aria-label="团队与任务可视化"><div className="tm-panel-header"><div className="tm-tabs" role="tablist" aria-label="图表视图"><button type="button" role="tab" id={`${prefix}-team-tab`} aria-controls={`${prefix}-graph`} aria-selected={graph === 'team'} tabIndex={graph === 'team' ? 0 : -1} onClick={() => setGraph('team')} onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setGraph('tasks'); (e.currentTarget.nextElementSibling as HTMLElement)?.focus(); } }}><Icon name="team"/>团队拓扑</button><button type="button" role="tab" id={`${prefix}-tasks-tab`} aria-controls={`${prefix}-graph`} aria-selected={graph === 'tasks'} tabIndex={graph === 'tasks' ? 0 : -1} onClick={() => setGraph('tasks')} onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setGraph('team'); (e.currentTarget.previousElementSibling as HTMLElement)?.focus(); } }}><Icon name="branch"/>任务关系{nodes.length > 0 && <span>{nodes.length}</span>}</button></div><button type="button" className="tm-button tm-button--quiet tm-config-trigger" aria-label="团队设置" onClick={openSettings}><Icon name="settings"/><span>团队设置</span></button></div><div className="tm-graph-caption"><span>{graph === 'team' ? '岗位配置' : '动态任务图'}</span><span className="tm-graph-context">{selectedNode ? selectedNode.title : ROLE[role].name}</span><button type="button" className="tm-inspect-jump" onClick={() => inspectorRef.current?.scrollIntoView({ block: 'start', behavior: 'auto' })}>查看详情<Icon name="arrow"/></button></div><div role="tabpanel" id={`${prefix}-graph`} aria-labelledby={`${prefix}-${graph}-tab`}>{graph === 'team' ? <><Topology snapshot={snapshot} settings={settings} catalog={catalog} selected={!selectedNodeId ? role : undefined} onSelect={selectRole} live={live}/><InstanceCards snapshot={snapshot} catalog={catalog} selected={selectedNodeId} onSelect={selectNode} live={live}/></> : <TaskGraph snapshot={snapshot} selected={selectedNodeId} onSelect={selectNode} catalog={catalog} live={live}/>}</div></section><div className="tm-inspector-wrap" ref={inspectorRef}><WorkflowSignals snapshot={snapshot} live={live} freshness={freshness}/><Inspector role={role} node={selectedNode} snapshot={snapshot} settings={settings} catalog={catalog} onSelectNode={selectNode} onConfigure={openSettings} onBack={() => canvasRef.current?.scrollIntoView({ block: 'start', behavior: 'auto' })}/><JevPanel catalog={catalog} snapshot={snapshot} settings={settings} onSelectNode={node => { setGraph('tasks'); selectNode(node); }}/></div></div>
+      {snapshot && <section className="tm-activity"><button type="button" className="tm-activity-toggle" onClick={() => setActivityOpen(!activityOpen)} aria-expanded={activityOpen} aria-controls={`${prefix}-events`}><Icon name="activity"/><strong>事件时间线</strong><span>{demo ? '合成事件' : '最近事件'} · {Math.min(snapshot.events.length, 30)} 条</span><Icon name="chevron"/></button>{(live.notice || (snapshot.events.length > 0 && !snapshot.events.some(event => event.type === 'relation_activated'))) && <p className="tm-event-bound tm-event-integrity" role="status">{live.notice || '当前记录未包含关系激活事件；仅展示静态关系，不推测历史传递。'}</p>}{activityOpen && <div id={`${prefix}-events`} className="tm-event-list" aria-label="最近团队事件">{events.length ? events.map(event => { const eventNode = nodes.find(node => node.id === (event.nodeId || event.toNodeId)); return <button type="button" key={event.seq} className={`tm-event ${/retry|feedback/.test(event.type) ? 'tm-event--feedback' : ''}`} disabled={!eventNode} onClick={() => eventNode && selectNode(eventNode)}><span className="tm-event-icon"><Icon name={/retry|feedback/.test(event.type) ? 'refresh' : eventNode ? eventNode.kind === 'verification' ? 'review' : ROLE[eventNode.role]?.icon || 'activity' : 'activity'}/></span><strong>{eventNode ? eventNode.kind === 'verification' ? '宿主验证' : ROLE[eventNode.role]?.name || eventNode.role : '团队'}</strong><span>{event.message}{event.type === 'relation_activated' && <small className="tm-event-route">{EDGE[event.kind!] || event.kind} · {event.fromNodeId} → {event.toNodeId}</small>}{event.failureCode && <small className="tm-event-route">{event.failureCode}</small>}</span><time dateTime={event.at}>{time(event.at)}</time></button>; }) : <p className="tm-inline-empty">尚无事件记录</p>}{snapshot.events.length > 30 && <p className="tm-event-bound">显示最近 30 条事件，节点详情保留独立产出。</p>}</div>}</section>}
+      <details className="tm-runtime-details"><summary>运行控制与生产记录<Icon name="chevron"/></summary><ProductionStatus key={`${sessionId || "none"}:${snapshot?.id || "idle"}`} snapshot={snapshot} settings={settings} onLoadTrace={onLoadTrace}/></details>
       {active ? <section className="tm-running-bar"><span className="tm-running-indicator"/><div><strong>团队正在处理当前任务</strong><p>停止只影响本次运行；不会回滚已经产生的文件修改。</p></div><button type="button" className="tm-button tm-button--danger" onClick={() => void cancel()} disabled={cancelling}><Icon name="stop"/>{cancelling ? '正在停止…' : '停止本次运行'}</button></section> : <section className="tm-command-guide" aria-label="使用 team 命令"><span className="tm-command-icon"><Icon name="team"/></span><div><h3>{configured ? '在聊天中给团队一个目标' : '先完成一次团队设置'}</h3><p>{configured ? '输入 /team 和任务目标，团队会自动开始，进展显示在这里。' : '选择六个岗位模型、保存 Jev 密钥后，以后直接在聊天中使用 /team。'}</p><code>/team 检查购物车数量更新问题，修复实现并验证</code>{sessionContext?.reason && <p className="tm-start-hint">{sessionContext.reason}</p>}{!sessionId && <p className="tm-start-hint">请先在 Desktop 打开一个项目会话。</p>}</div><button type="button" className="tm-button" onClick={openSettings}><Icon name="settings"/>{configured ? '团队设置' : '完成设置'}<Icon name="arrow"/></button></section>}
       <footer className="tm-footer"><span><Icon name="lock"/>{demo ? '全部为合成示例 · 未派发智能体' : '六岗位独立选型 · Jev 核心调度 · 硬性完成验证'}</span><span>DSH <i/> TEAM WORKFLOW</span></footer>
     </main>

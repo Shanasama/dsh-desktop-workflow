@@ -25,7 +25,7 @@ const cases = [];
 let suiteRoot;
 const summary = {
   boundary: 'production verifier unit integration with official native tools; not /team, model, Jev, or host-lease concurrency acceptance',
-  packageVersion: '0.6.1', officialVersion: '0.2.0-rc.2',
+  packageVersion: '0.6.3-candidate.1', officialVersion: '0.2.0-rc.2',
   defaultTempRoot: '/tmp', retainedEvidenceDirectories: [],
 };
 const emit = (value) => console.log(JSON.stringify(value));
@@ -57,7 +57,7 @@ async function createFixture(name, official) {
   runSetup(['tar', '-xzf', archive, '-C', packageDir, '--strip-components=1'], root);
   await mkdir(path.join(packageDir, 'node_modules'), { recursive: true });
   await symlink(path.join(modules, '@deepseek-ai'), path.join(packageDir, 'node_modules/@deepseek-ai'));
-  assert.equal(JSON.parse(await readFile(path.join(packageDir, 'package.json'), 'utf8')).version, '0.6.1');
+  assert.equal(JSON.parse(await readFile(path.join(packageDir, 'package.json'), 'utf8')).version, '0.6.3-candidate.1');
   const { createAutoVerifier } = await import(pathToFileURL(path.join(packageDir, 'src/auto-verification.js')));
   await writeFile(path.join(root, 'package.json'), JSON.stringify({ name: 'isolated-verifier-' + name, private: true, type: 'module', scripts: { test: 'node --test value.test.mjs' } }) + '\n');
   await writeFile(path.join(root, '.gitignore'), 'node_modules/\n');

@@ -1,0 +1,36 @@
+{
+  "candidate": "0.6.3-candidate.1",
+  "date": "2026-10-11",
+  "build": "passed",
+  "typecheck": "passed",
+  "mainTests": {
+    "passed": 413,
+    "skipped": 8,
+    "failed": 0
+  },
+  "evaluationTests": {
+    "passed": 123,
+    "skipped": 0,
+    "failed": 0
+  },
+  "productionHost": {
+    "dshVersion": "0.2.0-rc.2",
+    "nativeChildren": 39,
+    "modelFixtureCalls": 52,
+    "jevFixtureCalls": 30,
+    "realVerifierProcesses": 30,
+    "externalRequests": 0,
+    "installedBundle": false
+  },
+  "feedbackHost": "official exact-session flush and cold JSONL reload passed; no main-model wake",
+  "browser": "cloud Chromium actual screenshot/animation inspection; synthetic fixtures only",
+  "standalone": "file:// JSDOM and cloud Chromium passed; inline production bundle; network denied by CSP",
+  "limits": [
+    "No paid/live model or TypeSafe calls",
+    "No real credentials read",
+    "No user-machine install",
+    "No GitHub publication",
+    "No Windows or Electron end-to-end execution",
+    "Full native frontend factory dependencies clsx/zustand absent; official conversation assembly used inert presentation/store seams"
+  ]
+}

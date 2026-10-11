@@ -38,7 +38,7 @@ test('trace disabled by default and no shadow creates no observer calls or chang
 test('shadow disagreement is recorded without changing main lane, branches, role calls or model choices',async()=>{
  const reference=harness(),shadow=harness({shadowJev:{mode:'fixture',async decide({phase}){return parseJevResponse(response(phase,{lane:'escalate',next:'needs_person',model:'jev-2.0.0'}),phase,{requestedModel:'jev-2.0.0'});}}});
  try{const baseline=await reference.run(),observed=await shadow.run();await shadow.controller.waitForShadow(observed.result.id);
- assert.equal(observed.result.status,baseline.result.status);assert.equal(observed.result.jev.lane,baseline.result.jev.lane);assert.deepEqual(observed.result.jev.decisions,baseline.result.jev.decisions);assert.deepEqual(shadow.calls,reference.calls);
+ assert.equal(observed.result.status,baseline.result.status);assert.equal(observed.result.jev.lane,baseline.result.jev.lane);assert.deepEqual(observed.result.jev.decisions.map(({at,...decision})=>decision),baseline.result.jev.decisions.map(({at,...decision})=>decision));assert.deepEqual(shadow.calls,reference.calls);
  const replay=replayExecutionTrace(observed.trace());assert.equal(replay.matches,true);assert.equal(replay.decisions.filter(x=>x.source==='shadow').length,2);assert.equal(replay.decisions.find(x=>x.source==='shadow'&&x.phase==='step').decision.needsPerson,true);
  }finally{await reference.controller.dispose();await shadow.controller.dispose();}
 });

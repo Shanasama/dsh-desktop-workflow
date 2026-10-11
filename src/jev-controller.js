@@ -5,7 +5,8 @@ import {TeamHostError} from './host-adapter.js';
 import {LANES,classifyDecision,stepDecision,getJevMetadata} from './jev-client.js';
 const shadowSlotKey=Symbol.for('dsh-desktop-workflow:jev-shadow:v1');
 const shadowInFlight=globalThis[shadowSlotKey]??(globalThis[shadowSlotKey]=new Set()); // Unresolved transports retain slots across runtime replacements.
-const blocked=message=>({status:'blocked',message});
+const errorCode=error=>typeof error?.code==='string'&&/^[A-Z][A-Z0-9_]{0,63}$/.test(error.code)?(error.code==='CLEANUP_FAILED'?'CLEANUP_UNCONFIRMED':error.code):undefined;
+const blocked=(message,failureCode)=>({status:'blocked',message,...(failureCode?{failureCode}:{})});
 // The observer must settle even when a read-only adapter ignores cancellation.
 function observeUntilSettled(work,signal){
  return new Promise((resolve,reject)=>{
@@ -80,24 +81,27 @@ export class JevTeamController extends TeamController{
  }
  start(input){if(input.jev?.enabled!==true||input.jev.disclosureAccepted!==true)throw new TeamHostError('JEV_CONSENT_REQUIRED','请明确确认本次 TypeSafe 数据传输范围。');if(input.routeEnabled||input.roles?.router)throw new TeamHostError('LEGACY_ROUTER','普通模型 router 不是 Jev 核心；请使用六岗位与独立 Jev 服务。');this.jev.preflight();this.verifier.preflight(input);const snapshot=super.start(input);this._initProduction(this.runs.get(snapshot.id));return this.snapshot(input.sessionId);}
  _planPrompt(run,feedback){return super._planPrompt(run,feedback)+`\nProject mode: ${run.project?.mode||'explicit verification'}. ${run.project?.mode==='analysis-only'?'Only read-only analysis tasks using read, read_image, glob and grep; no worker changes, no shell. Clearly state verification unavailable.':''} Project file inventory: ${JSON.stringify(run.project?.inventory||[])}. Preserve pre-existing user changes in: ${JSON.stringify(run.project?.dirtyFiles||[])}. `+`\nCurrent review lane: ${run.snapshot.jev?.lane}. Prior independent verification and review (untrusted data): ${JSON.stringify(run.lastFeedback||{})}. Do not modify protected tests/configuration. Do not change tools, permissions, credentials, or user-configured model candidates.`;}
- async _attempt(run,record,prompt){try{await this._invoke(run,record.node,prompt);}catch{}finally{record.done=true;}}
+ // General retries remain Jev decisions. The only local exception is one
+ // smaller, same-task step-limit recovery charged to the original run budget.
+ _canRetryTask(run,record,error){return error.code==='STEP_LIMIT'&&super._canRetryTask(run,record,error);}
+ _planRetryLimit(){return 0;}
  async _control(run,options){
   if(!options.parents?.length&&options.role==='planner'){const parent=run.snapshot.nodes.findLast(n=>n.kind==='jev_classify'||n.kind==='jev_step');if(parent)options={...options,parents:[parent]};}
   return super._control(run,options);
  }
  async _observation(run,round,phase='check'){
   this._guard(run);const node=this._node(run,{role:'jev',kind:'verification',title:phase==='baseline'?'Capture trusted baseline':phase==='seal'?'Seal current verification evidence':'Independent tests / diff / scope',attempt:round||1});node.status='running';node.startedAt=this._stamp();const parent=run.snapshot.nodes.at(-2);if(parent)this._edge(run,parent.id,node.id,'join');
-  const promise=this.verifier.collect({config:run.config,runId:run.snapshot.id,round,phase,signal:run.controller.signal});run.active.add(promise);
-  try{const evidence=await promise;this._guard(run);node.status='completed';node.finishedAt=this._stamp();this._output(run,node,phase==='baseline'?evidence.reason:JSON.stringify({checksPassed:evidence.checksPassed,scopeOk:evidence.scopeOk,diffAvailable:evidence.diffAvailable,protectedOk:evidence.protectedOk,verified:evidence.verified,reason:evidence.reason}));this._event(run,'verification_collected',evidence.reason,node);this._trace(run,'verification',{phase,round:round||0,evidence,checks:(evidence.checks||[]).map((check,index)=>({check:index+1,passed:check.passed,exitCode:check.exitCode}))});return evidence;}catch(error){node.status='blocked';node.error=error.message;throw error;}finally{run.active.delete(promise);}
+  const promise=Promise.resolve().then(()=>{this._guard(run);this._activateIncoming(run,node);return this.verifier.collect({config:run.config,runId:run.snapshot.id,round,phase,signal:run.controller.signal});});run.active.add(promise);
+  try{const evidence=await promise;this._guard(run);node.status='completed';node.finishedAt=this._stamp();this._output(run,node,phase==='baseline'?evidence.reason:JSON.stringify({checksPassed:evidence.checksPassed,scopeOk:evidence.scopeOk,diffAvailable:evidence.diffAvailable,protectedOk:evidence.protectedOk,verified:evidence.verified,reason:evidence.reason}));this._event(run,'verification_collected',evidence.reason,node);this._trace(run,'verification',{phase,round:round||0,evidence,checks:(evidence.checks||[]).map((check,index)=>({check:index+1,passed:check.passed,exitCode:check.exitCode}))});return evidence;}catch(error){node.status='blocked';node.error=error.message;node.failureCode=run.stop==='deadline'?'DEADLINE':errorCode(error);node.finishedAt=this._stamp();this._event(run,'node_blocked',node.error,node);throw error;}finally{run.active.delete(promise);}
  }
  async _decide(run,phase,evidence,notes){
   this._guard(run);if(run.jevCalls>=run.config.limits.maxJevCalls)throw new TeamHostError('JEV_CALL_LIMIT','Jev 调用上限已到，需要人工检查。');run.jevCalls++;
   const node=this._node(run,{role:'jev',kind:phase==='classify'?'jev_classify':'jev_step',title:phase==='classify'?'Jev lane classify':'Jev lane step',attempt:run.snapshot.jev.round||1});node.status='running';node.startedAt=this._stamp();const parent=run.snapshot.nodes.at(-2);if(parent)this._edge(run,parent.id,node.id,'dispatch');
   this._trace(run,'jev',{phase,round:run.snapshot.jev.round,source:'primary',mode:this.jev.mode==='fixture'?'fixture':'live',status:'started',metadata:{requestedModel:this._requestedModel(run)}});
-  const promise=Promise.resolve().then(()=>this.jev.decide({phase,goal:run.config.goal,evidence,notes,signal:run.controller.signal,jevModel:this._requestedModel(run),runId:run.snapshot.id}));run.active.add(promise);
-  try{const answers=await promise;this._guard(run);node.status='completed';node.finishedAt=this._stamp();return {answers,node};}catch(error){node.status='blocked';node.error=error.message;this._trace(run,'jev',{phase,round:run.snapshot.jev.round,source:'primary',mode:this.jev.mode==='fixture'?'fixture':'live',status:run.controller.signal.aborted?'cancelled':'error'});throw error;}finally{run.active.delete(promise);}
+  const promise=Promise.resolve().then(()=>{this._guard(run);this._activateIncoming(run,node);return this.jev.decide({phase,goal:run.config.goal,evidence,notes,signal:run.controller.signal,jevModel:this._requestedModel(run),runId:run.snapshot.id});});run.active.add(promise);
+  try{const answers=await promise;this._guard(run);node.status='completed';node.finishedAt=this._stamp();return {answers,node};}catch(error){node.status='blocked';node.error=error.message;node.failureCode=run.stop==='deadline'?'DEADLINE':errorCode(error);node.finishedAt=this._stamp();this._event(run,'node_blocked',node.error,node);this._trace(run,'jev',{phase,round:run.snapshot.jev.round,source:'primary',mode:this.jev.mode==='fixture'?'fixture':'live',status:run.controller.signal.aborted?'cancelled':'error'});throw error;}finally{run.active.delete(promise);}
  }
- _recordDecision(run,decision,node,phase){if(phase==='classify'&&run.config.routing.enabled)decision={...decision,reason:'Jev 评估任务级别；宿主仅在用户明确配置的岗位候选间路由。'};const record={...decision,phase,round:run.snapshot.jev.round};run.snapshot.jev.decisions.push(record);this._output(run,node,JSON.stringify(record));this._event(run,'jev_decision',`${decision.action}: ${decision.reason}`,node);}
+ _recordDecision(run,decision,node,phase){if(phase==='classify'&&run.config.routing.enabled)decision={...decision,reason:'Jev 评估任务级别；宿主仅在用户明确配置的岗位候选间路由。'};const event=this._event(run,'jev_decision',`${decision.action}: ${decision.reason}`,node);const record={...decision,phase,round:run.snapshot.jev.round,decisionId:`${node.id}:decision`,nodeId:node.id,at:event.at,eventSeq:event.seq};run.snapshot.jev.decisions.push(record);this._output(run,node,JSON.stringify(record));}
  _initProduction(run){run.snapshot.production.jev={primary:{requestedModel:traceModel(this._requestedModel(run))||'',calls:0,status:'idle'},shadow:{enabled:this.perRunJev?run.config.jev.shadow.enabled:!!this.shadowJev,requestedModel:traceModel(this._requestedModel(run,'shadow'))||'',calls:0,status:this.perRunJev?run.config.jev.shadow.enabled?'idle':'disabled':this.shadowJev?'idle':'disabled'}};}
  async _executeRun(run){
 
@@ -111,8 +115,7 @@ export class JevTeamController extends TeamController{
     this._guard(run);run.snapshot.jev.round=round;
     if(previousAction!=='verify'){
      attempts++;run.snapshot.status='running';
-     const originalRetries=run.config.limits.maxRetries;run.config.limits.maxRetries=0;
-     try{cycle=await super._executeRun(run);}finally{run.config.limits.maxRetries=originalRetries;}
+     cycle=await super._executeRun(run);
     }
     this._guard(run);run.snapshot.status='reviewing';
     const evidence=await this._observation(run,round);run.snapshot.jev.evidence={checksPassed:evidence.checksPassed,scopeOk:evidence.scopeOk,diffAvailable:evidence.diffAvailable,protectedOk:evidence.protectedOk,verified:evidence.verified,reason:evidence.reason};
@@ -121,8 +124,20 @@ export class JevTeamController extends TeamController{
     const decisionContext={lane:run.snapshot.jev.lane,attempts,sameFailureRepeated:!!failure&&failure===lastFailure};
     const decision=stepDecision(response.answers,evidence,decisionContext);lastFailure=failure;
     this._recordDecision(run,decision,response.node,'step');this._judgment(run,'step',response.answers,decision,evidence,decisionContext);this._scheduleShadow(run,'step',evidence,cycle?.message||'',decisionContext);
-    if(run.snapshot.nodes.some(n=>n.status==='blocked'&&n.kind==='task')){this._branch(run,'task_blocked');return blocked('岗位被宿主权限或执行保护阻止，需要人工检查。');}
-    if(run.project?.mode==='analysis-only'||run.project?.mode==='unverified-editable'||evidence.needsVerification){this._branch(run,'unverified');return {status:'unverified',message:(run.project?.mode==='analysis-only'?'只读分析结果已就绪；':'改动或分析结果已生成，待验证；')+(evidence.reason||run.project.reason)+' 未通过独立代码验收，不标记完成。'};}
+    // Only effective task revisions in this execution cycle determine its
+    // outcome. Superseded failures remain in history without poisoning it.
+    const current=this._currentTasks(run);
+    const taskFailure=current.find(n=>n.status==='blocked'&&n.failureCode!=='DEPENDENCY_FAILED')||current.find(n=>n.status!=='completed'&&n.failureCode==='STEP_LIMIT');
+    if(taskFailure){this._branch(run,'task_blocked');return blocked(taskFailure.error||'当前任务未完成，需要检查。',taskFailure.failureCode);}
+    if(run.project?.mode==='analysis-only'||run.project?.mode==='unverified-editable'||evidence.needsVerification){
+     // Verification limitations do not turn failed execution into ready work.
+     // Keep generic failures in verified projects eligible for Jev replanning.
+     if(cycle?.status!=='completed'){
+      const incomplete=current.find(n=>n.status!=='completed'&&n.failureCode!=='DEPENDENCY_FAILED')||current.find(n=>n.status!=='completed');
+      this._branch(run,'task_blocked');return blocked(incomplete?.error||cycle?.message||'当前任务未完成，需要检查。',incomplete?.failureCode||cycle?.failureCode);
+     }
+     this._branch(run,'unverified');return {status:'unverified',message:(run.project?.mode==='analysis-only'?'只读分析结果已就绪；':'改动或分析结果已生成，待验证；')+(evidence.reason||run.project?.reason||'验证证据不完整。')+' 未通过独立代码验收，不标记完成。'};
+    }
     if(decision.needsPerson){this._branch(run,'needs_person');return blocked(decision.reason);}
     if(decision.action==='complete'){
      if(cycle?.status!=='completed'||!evidence.verified||!evidence.checksPassed||!evidence.scopeOk||!evidence.diffAvailable||!evidence.protectedOk||(evidence.expectsChanges&&evidence.diffEmpty)){this._branch(run,'completion_gate_rejected');return blocked('Jev 完成候选未通过本地硬门禁：任务、独立检查、范围与保护证据必须全部通过。');}

@@ -104,6 +104,10 @@ export function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSe
   const [demo, setDemo] = useState(false);
   const [history,setHistory]=useState<TeamHistory[]>([]);
   const [selectedRunId,setSelectedRunId]=useState<string>();
+  const [freshness, setFreshness] = useState<{ stale: boolean; observedAt?: string; reason?: string; revision: number }>({ stale: true, reason: '正在连接', revision: 0 });
+  const lastObserved = useRef(0);
+  const wasStale = useRef(true);
+  const cancelLock = useRef(false);
   const generation = useRef(0);
   const current = useRef(sessionId); current.current = sessionId;
   useEffect(() => {
@@ -122,27 +126,55 @@ export function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSe
   useEffect(() => {
     const token = ++generation.current;
     const abort = new AbortController(); let timer: ReturnType<typeof setTimeout>;
+    lastObserved.current = 0; wasStale.current = true; cancelLock.current = false;
+    setFreshness(value => ({ stale: true, reason: '正在连接', revision: value.revision + 1 }));
     setSnapshot(null); setHistory([]); setSessionContext(undefined); setError(undefined); setLoading(true);
-    if (demo) { setSnapshot(teamDemoSnapshot()); setLoading(false); return () => abort.abort(); }
+    if (demo) { setSnapshot(teamDemoSnapshot()); setFreshness(value => ({ stale: false, reason: '合成演示', revision: value.revision })); setLoading(false); return () => abort.abort(); }
     if (!sessionId) { setLoading(false); return () => abort.abort(); }
+    // A request can hang without rejecting. Old running snapshots must not keep
+    // animating indefinitely while the connection is unconfirmed.
+    const staleTimer = setInterval(() => {
+      if (!lastObserved.current || Date.now() - lastObserved.current <= 5000 || wasStale.current) return;
+      wasStale.current = true;
+      setFreshness(value => ({ ...value, stale: true, reason: '快照超过 5 秒未更新，运行状态未确认' }));
+    }, 500);
     const bound = sessionId;
     async function refresh() {
       try {
         const state = await teamCall<StateResponse>(ctx, 'snapshot', { sessionId: bound,...selectedRunId?{runId:selectedRunId}:{} }, abort.signal);
         if (abort.signal.aborted || current.current !== bound || token !== generation.current) return;
         if(state.context.sessionId!==bound||state.snapshot&&state.snapshot.sessionId!==bound||selectedRunId&&state.snapshot?.id!==selectedRunId)throw new Error('宿主返回了其它会话的运行，已拒绝显示。');
+        const resumed = wasStale.current;
+        lastObserved.current = Date.now(); wasStale.current = false;
+        setFreshness(value => ({ stale: false, observedAt: new Date(lastObserved.current).toISOString(), revision: value.revision + (resumed ? 1 : 0) }));
         setSnapshot(state.snapshot); setHistory((state.history||[]).filter(row=>row.sessionId===bound));setSessionContext(state.context); setError(undefined);
-      } catch (failure) { if (!abort.signal.aborted && token === generation.current) setError(failure instanceof Error ? failure.message : '无法读取团队运行。'); }
+      } catch (failure) { if (!abort.signal.aborted && token === generation.current) {
+        wasStale.current = true;
+        setFreshness(value => ({ ...value, stale: true, reason: '连接中断，保留上次快照；运行状态未确认' }));
+        setError(failure instanceof Error ? failure.message : '无法读取团队运行。');
+      } }
       finally { if (!abort.signal.aborted && token === generation.current) { setLoading(false); timer = setTimeout(refresh, 1500); } }
     }
-    void refresh(); return () => { abort.abort(); clearTimeout(timer); };
+    void refresh(); return () => { abort.abort(); clearTimeout(timer); clearInterval(staleTimer); };
   }, [ctx, sessionId, selectedRunId, demo, revision, navigationRevision]);
   useEffect(() => { setDemo(false);setSelectedRunId(undefined); }, [sessionId, navigationRevision]);
   async function cancel() {
-    if (!sessionId || !snapshot || snapshot.demo || snapshot.sessionId !== sessionId) return;
-    const bound = sessionId; const token = generation.current;
-    const state = await teamCall<StateResponse>(ctx, 'cancel', { sessionId, runId: snapshot.id }, new AbortController().signal);
-    if (current.current === bound && token === generation.current) setSnapshot(state.snapshot);
+    if (cancelLock.current || !sessionId || !snapshot || snapshot.demo || snapshot.sessionId !== sessionId) return;
+    const bound = sessionId; const token = generation.current; const runId = snapshot.id;
+    cancelLock.current = true;
+    try {
+      const state = await teamCall<StateResponse>(ctx, 'cancel', { sessionId: bound, runId }, new AbortController().signal);
+      if (current.current === bound && token === generation.current) {
+        if (state.context.sessionId !== bound || state.snapshot && (state.snapshot.sessionId !== bound || state.snapshot.id !== runId)) throw new Error('取消响应与当前运行不匹配，已拒绝显示。');
+        setSnapshot(state.snapshot);
+      }
+    } catch (failure) {
+      if (current.current === bound && token === generation.current) {
+        wasStale.current = true;
+        setFreshness(value => ({ ...value, stale: true, reason: '取消结果未确认，请等待快照更新' }));
+        setError(failure instanceof Error ? failure.message : '取消结果未确认。');
+      }
+    } finally { if (token === generation.current) cancelLock.current = false; }
   }
   async function loadTrace(runId: string, signal: AbortSignal): Promise<unknown> {
     if (!sessionId || !snapshot || snapshot.demo || snapshot.sessionId !== sessionId || snapshot.id !== runId) throw new Error('当前会话与记录不匹配。');
@@ -151,5 +183,5 @@ export function ConnectedTeam({ ctx, sessionId, navigationRevision = 0, onOpenSe
     if (signal.aborted || current.current !== bound) throw new Error('记录请求已取消。');
     return result;
   }
-  return <TeamView onLoadTrace={loadTrace} catalog={catalog} history={history.filter(row=>row.sessionId===sessionId)} selectedRunId={selectedRunId} onSelectRun={setSelectedRunId} sessionId={sessionId} sessionContext={sessionContext} snapshot={snapshot?.demo||snapshot?.sessionId===sessionId?snapshot:null} settings={setup.settings} configured={setup.configured} loading={loading} error={error || (sessionContext?.lastCommand?.kind === 'blocked' ? sessionContext.lastCommand.message : undefined)} onOpenSettings={onOpenSettings} onCancel={cancel} onDemo={() => setDemo(value => !value)} onRefresh={() => { setDemo(false); setRevision(value => value + 1); }}/>;
+  return <TeamView freshness={freshness} onLoadTrace={loadTrace} catalog={catalog} history={history.filter(row=>row.sessionId===sessionId)} selectedRunId={selectedRunId} onSelectRun={setSelectedRunId} sessionId={sessionId} sessionContext={sessionContext} snapshot={snapshot?.demo||snapshot?.sessionId===sessionId?snapshot:null} settings={setup.settings} configured={setup.configured} loading={loading} error={error || (sessionContext?.lastCommand?.kind === 'blocked' ? sessionContext.lastCommand.message : undefined)} onOpenSettings={onOpenSettings} onCancel={cancel} onDemo={() => setDemo(value => !value)} onRefresh={() => { setDemo(false); setRevision(value => value + 1); }}/>;
 }

@@ -50,7 +50,7 @@ const signal=new AbortController().signal;
 const captured=root.tools.resolveExecution("bash",parent,false);
 const legacyProfile={id:'fixture',checks:[{id:'test',argv:['node','--test','fixture.test.mjs'],timeoutMs:1000}],protectedPaths:['fixture.test.mjs']};
 const setPayload=command=>{
- const encoded=command.match(/'([A-Za-z0-9+/=]+)'$/)?.[1];
+ const encoded=command.match(/'([A-Za-z0-9+/=]+)'(?: \| ForEach-Object \{ \$_ \}; exit \$LASTEXITCODE)?$/)?.[1];
  assert.ok(encoded);
  currentPayload=JSON.parse(Buffer.from(encoded,'base64').toString('utf8'));
 };

@@ -97,7 +97,7 @@ export async function runPwshAcceptance({requireWindows=false}={}){
   fs.symlinkSync(modules,path.join(plugin,'node_modules'),process.platform==='win32'?'junction':'dir');
   // Import a byte-identical copy so the production runner entry itself has
   // spaces, non-ASCII characters and an apostrophe in its absolute path.
-  for(const name of ['auto-verification.js','verification.js','host-adapter.js','production-budget.js','verification-diagnostics.js','verifier-command.js','verification-project-runner.js','verification-host-runner.js']){
+  for(const name of ['auto-verification.js','verification.js','host-adapter.js','production-budget.js','verification-diagnostics.js','verifier-command.js','verification-project-runner.js','verification-host-runner.js','verification-process.js','verification-windows-job.js']){
     fs.copyFileSync(path.join(source,name),path.join(plugin,'src',name));
     assert.deepEqual(fs.readFileSync(path.join(source,name)),fs.readFileSync(path.join(plugin,'src',name)));
   }
@@ -148,7 +148,7 @@ export async function runPwshAcceptance({requireWindows=false}={}){
   };
   const baselineRefs=new Map();
   const payloadOf=command=>{
-    const encoded=command.match(/'([A-Za-z0-9+/=]+)'$/)?.[1];assert.ok(encoded,'Generated verifier payload');
+    const encoded=command.match(/'([A-Za-z0-9+/=]+)'(?: \| ForEach-Object \{ \$_ \}; exit \$LASTEXITCODE)?$/)?.[1];assert.ok(encoded,'Generated verifier payload');
     return JSON.parse(Buffer.from(encoded,'base64').toString('utf8'));
   };
   const executeTool=async(id,spec,signal,options)=>{
