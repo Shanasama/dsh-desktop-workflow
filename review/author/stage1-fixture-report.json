@@ -1,0 +1,670 @@
+{
+  "provenance": "synthetic-offline-fixture",
+  "realModelCalls": 0,
+  "routingEnabled": false,
+  "observedProductionAccuracy": null,
+  "fixtureChecks": 6,
+  "fixtureChecksPassed": 6,
+  "cases": [
+    {
+      "case": "complete-candidate",
+      "expectedAction": "complete",
+      "actualAction": "complete",
+      "fixturePassed": true,
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "unverified",
+        "decisions": [
+          {
+            "seq": 1,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "complete",
+              "lane": "medium",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": null,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "medium",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "complete",
+                "lane": "medium",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 2,
+            "type": "terminal",
+            "data": {
+              "status": "unverified"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "failed-check-overrides-confidence",
+      "expectedAction": "retry",
+      "actualAction": "retry",
+      "fixturePassed": true,
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "unverified",
+        "decisions": [
+          {
+            "seq": 1,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "retry",
+              "lane": "medium",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": null,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 1
+              },
+              "context": {
+                "lane": "medium",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "retry",
+                "lane": "medium",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 2,
+            "type": "terminal",
+            "data": {
+              "status": "unverified"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "scope-overrides-complete",
+      "expectedAction": "retry",
+      "actualAction": "retry",
+      "fixturePassed": true,
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "unverified",
+        "decisions": [
+          {
+            "seq": 1,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "retry",
+              "lane": "medium",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": true,
+                "scopeOk": false,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": null,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "medium",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "retry",
+                "lane": "medium",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 2,
+            "type": "terminal",
+            "data": {
+              "status": "unverified"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "human-needed",
+      "expectedAction": "escalate",
+      "actualAction": "escalate",
+      "fixturePassed": true,
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "unverified",
+        "decisions": [
+          {
+            "seq": 1,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "escalate",
+              "lane": "medium",
+              "confidence": 1,
+              "needsPerson": true
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "needs_person",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 0,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 1,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": null,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "medium",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "escalate",
+                "lane": "medium",
+                "confidence": 1,
+                "needsPerson": true
+              }
+            }
+          },
+          {
+            "seq": 2,
+            "type": "terminal",
+            "data": {
+              "status": "unverified"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "incomplete-work",
+      "expectedAction": "continue",
+      "actualAction": "continue",
+      "fixturePassed": true,
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "unverified",
+        "decisions": [
+          {
+            "seq": 1,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "continue",
+              "lane": "medium",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "continue",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 0,
+                    "continue": 1,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 0.2
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": null,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "medium",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "continue",
+                "lane": "medium",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 2,
+            "type": "terminal",
+            "data": {
+              "status": "unverified"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "unclear-next",
+      "expectedAction": "verify",
+      "actualAction": "verify",
+      "fixturePassed": true,
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "unverified",
+        "decisions": [
+          {
+            "seq": 1,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "verify",
+              "lane": "medium",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "other",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 0,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 1
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": null,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "medium",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "verify",
+                "lane": "medium",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 2,
+            "type": "terminal",
+            "data": {
+              "status": "unverified"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

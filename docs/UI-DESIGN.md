@@ -22,11 +22,11 @@ The new skin is an operations terminal and dossier treatment, rather than a pale
 
 ### Switching and migration
 
-Both the team workflow header and native team settings have a top-right **风格** selector, with **明日方舟** and **原版 UI** options. It is a labelled native select with keyboard focus treatment, not a hover-only menu. Narrow headers wrap without dropping actions.
+Both the team workflow header and native team settings have a top-right **风格** selector, with **泰拉** and **原版 UI** options. It is a labelled native select with keyboard focus treatment, not a hover-only menu. Narrow headers wrap without dropping actions.
 
 The visual preference uses a separate scalar-only browser key, `dsh-desktop-workflow:ui-theme:v1`, accepting only `arknights` or `classic`. An initial render never writes storage. No task text, model selection, consent, key entry, credential, project path, or run data is placed in it. Selecting a style changes no backend or native settings and makes no RPC.
 
-When there is no valid saved style preference, the new **明日方舟** style is the default. This applies to both new installations and upgrades with no saved preference: v0.4 had no theme preference marker, so the plugin does not pretend it can distinguish those cases or mine older settings. Choosing **原版 UI** once explicitly preserves that choice across normal reloads. Missing, invalid, or cleared preferences use the new default; invalid values are not interpreted or rewritten merely by rendering.
+When there is no valid saved style preference, the new **泰拉** style is the default. This applies to both new installations and upgrades with no saved preference: v0.4 had no theme preference marker, so the plugin does not pretend it can distinguish those cases or mine older settings. Choosing **原版 UI** once explicitly preserves that choice across normal reloads. Missing, invalid, or cleared preferences use the new default; invalid values are not interpreted or rewritten merely by rendering.
 
 A shared React external store synchronizes mounted workflow and settings surfaces immediately. Browser storage events synchronize other same-origin windows; unrelated or session-storage events are ignored. Events received while no surface is open are reconciled on reopening. The storage subscription is cleaned up when the last surface unmounts. If storage access is unavailable or writes are denied, switching still works for the current loaded plugin and newly reopened surfaces in that plugin; persistence across a full reload cannot be guaranteed in that environment.
 

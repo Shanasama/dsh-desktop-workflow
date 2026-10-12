@@ -1,0 +1,17 @@
+{
+  "name": "dsh-jev-budgeted-evaluation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs transport/test/*.test.mjs",
+    "preflight": "node scripts/preflight.mjs",
+    "check": "npm test && npm run preflight && npm run pilot:offline && npm run pilot:integrated && npm run transport:offline",
+    "pilot:offline": "node scripts/pilot-offline.mjs",
+    "pilot:integrated": "node scripts/integrated-offline.mjs",
+    "transport:offline": "node transport/run.mjs"
+  }
+}

@@ -1,0 +1,60 @@
+独立验收结论：有条件通过，可交付离线源码评估候选。不能宣称为可直接安装的新版 DSH 插件，也不能把 liveReady=false 判为真实调用已通过。
+
+验收对象
+- ZIP：/workspace/shared/dsh-jev-integrated-offline-final.zip
+- SHA-256：5d7f7e9d1129fa29c9635cfa05b638ed05528902cfda544140318354c3183a05
+- 独立解压目录：/tmp/jev-independent-acceptance-JZpKQo
+- 原 ZIP、冻结源码、既有安装包均未修改；未操作用户本机、GitHub、真实凭据或真实供应商 HTTP。
+
+实际执行结果
+- 包级 147 项、源码级 136 项 SHA 全部在构建前通过。
+- 从冻结 0.5.4 源码应用补丁，137 个文件摘要与最终 source manifest 一致。
+- 按中文快速开始实际执行 npm run check:integration：构建、类型检查通过；插件 206 通过/0 失败/4 跳过，评估 123 通过/0 失败。
+- 另外补跑两个不发网络、不安装的官方 rc.2 惰性接口测试，2/2 通过。包内独立测试累计 331 通过，0 失败；2 项未覆盖：真实 localhost HTTP/安装综合项主动未启用；非仓库目录场景受外层 Git 标记限制。
+- 另编写并实际执行 independent-gates.mjs，10/10 通过。
+
+关键门禁
+1. 交付测试配置为 gpt6-luna、项目 1000 万、首批 10 万、每任务 2 万 token、并发 1。它是本次测试预算，不是用户产品永久运行限额。
+2. 预算不足时 transport dispatch 为 0；跨岗位共享任务预算。
+3. 未知 usage 仅发 1 次，保留 2560 token 预留和持久锁；重新打开被阻断，不自动退款。
+4. 主与 shadow 最大并发 1；实际顺序为 main classify → main step → shadow classify → shadow step，shadow 反向判断不能改变主结果。
+5. 正常场景实际 Node 检查退出 0、seal 成功，最终 completed。
+6. 故意失败场景实际 Node 检查退出 1，最终 blocked，未进入 seal。
+7. 检查成功后篡改文件，seal runner 退出 1，最终 blocked。
+8. HTTP adapter 使用注入模拟 fetch：5 次模型、4 次 Jev，双持久账本、900 模拟 token、真实本地检查和 seal 联动；未执行模型生成代码。
+9. 默认 node evaluation/transport/run.mjs 运行 2 次模拟 POST，网络守卫无触发。模板真实入口在询问凭据/写账本/HTTP 前被阻断。
+
+必要阻塞与安装边界
+- liveReady=false；供应商对应模型的 usage、reasoning、全部计费输出限制和最终序列化输入硬上界证据未核验。
+- 安全凭据交接及真实供应商/用户项目任务验收未完成。诊断进程退出 0 不代表可真实开跑。
+- ZIP 无新的 .tgz；旧 INSTALL-ME.md 指向冻结 0.5.4。不能将本 ZIP 直接拖入 DSH 当新版插件安装。
+- npm pack --dry-run 确认当前 files 白名单不包含 evaluation/，生产 src/ 未接预算控制器。这是已声明的离线源码范围边界；后续产品接线应另行约定可配置策略，不能把本次预算强行固化成永久限额。
+- 没有真实费用/金额封顶、动态成本路由、Windows/Electron 或生产效果结论。
+
+依赖与复现
+- 云端 Linux，Node v24.19.0、npm 11.9.0。
+- 未安装依赖；只在验收副本将 source/node_modules 链接到 /workspace/scratch/d2a8bd896b86/dsh-desktop-workflow/node_modules。
+- 惰性官方测试使用 DSH_NODE_MODULES=/workspace/scratch/d2a8bd896b86/dsh-workflow-plugin/.lab/node_modules，核对官方版本 0.2.0-rc.2。
+- 每次验收进程使用 env -i 清空继承环境，并用新 HOME/DSH_HOME、禁用 Git 全局配置；网络守卫拦截 fetch/http/https/net/tls。
+
+准确主要命令（D 为上述独立目录）
+cd "$D/source"
+env -i PATH="$PATH" HOME="$D/home" TMPDIR="$D" LANG=C.UTF-8 DSH_HOME="$D/dsh-home" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_TERMINAL_PROMPT=0 npm_config_update_notifier=false npm_config_offline=true NODE_OPTIONS="--require=$D/block-network.cjs" ACCEPTANCE_NETWORK_LOG="$D/logs/network-controlled.jsonl" npm run check:integration
+
+env -i PATH="$PATH" HOME="$D/home" TMPDIR="$D" LANG=C.UTF-8 DSH_NODE_MODULES=/workspace/scratch/d2a8bd896b86/dsh-workflow-plugin/.lab/node_modules NODE_OPTIONS="--require=$D/block-network.cjs" ACCEPTANCE_NETWORK_LOG="$D/logs/official-inert-network.jsonl" node --expose-internals --test test/client-host.test.mjs test/verifier-host.test.mjs
+
+cd "$D"
+env -i PATH="$PATH" HOME="$D/home" TMPDIR="$D" LANG=C.UTF-8 GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 NODE_OPTIONS="--require=$D/block-network.cjs" ACCEPTANCE_NETWORK_LOG="$D/logs/independent-network.jsonl" node independent-gates.mjs
+
+主要日志/结果
+- $D/logs/check-integration-controlled.log（exit 0）
+- $D/logs/official-inert.log（exit 0）
+- $D/logs/independent-gates.log（exit 0）
+- $D/reports/independent-gates.json（10 项详情，含真实检查结果与 trace）
+- $D/reports/preflight.json、default-transport.json、offline-config.json
+- $D/reports/patch-replay.json、pack-boundary.json、pack-dry-run.json
+- $D/reports/acceptance-summary.json
+
+复现注意
+- 第一次直接 npm 运行被守卫拦截 1 次 HTTPS 尝试，未记录来源；没有发生真实请求。开启 npm offline 并关闭更新通知后重跑为 0 次守卫触发。直接 Node 离线入口也是 0 次。
+- build 重建 preview/app.js 时写入与依赖位置相关的模块标签，因此验收副本该生成文件的摘要变化；lib/client.js 不变。此现象不等同于交付包被篡改，验收以构建前完整 SHA 和未改动原 ZIP 为准。

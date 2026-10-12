@@ -1,0 +1,93 @@
+{
+  "version": "0.6.3-candidate.3",
+  "date": "2026-10-11",
+  "commit": "b1805ea037936fe8a8c45f763b9a47fba01ac5e8",
+  "branch": "candidate3-team-topology",
+  "baseCommit": "2e48303973a5d4adbd9391574896da4fa736a73f",
+  "packageFilesVerifiedAgainstWorkingTree": 65,
+  "published": false,
+  "userComputerChanged": false,
+  "paidApiCalls": 0,
+  "backendSrcFilesByteIdentical": 24,
+  "protectedFilesByteIdentical": 61,
+  "protectedFileCountIncludesSrc": true,
+  "checks": {
+    "build": "passed",
+    "typecheck": "passed",
+    "checkIntegrationWithExactBundle": {
+      "tests": 456,
+      "passed": 454,
+      "failed": 0,
+      "skipped": 2
+    },
+    "evaluation": {
+      "tests": 123,
+      "passed": 123,
+      "failed": 0
+    },
+    "topologyTests": 18,
+    "toolContractHost": {
+      "passed": 43,
+      "modelFixtureCalls": 77,
+      "realReadSuccesses": 9,
+      "realGlobSuccesses": 9
+    },
+    "feedbackHost": "passed",
+    "teamHost": "passed",
+    "clientHost": "passed",
+    "exactBundleOfficialHost": {
+      "installedBundle": true,
+      "dshVersion": "0.2.0-rc.2",
+      "duplicateOfficialLlmPeer": true,
+      "nativeChildren": 39,
+      "modelFixtureCalls": 52,
+      "jevFixtureCalls": 30,
+      "realVerifierProcesses": 30,
+      "externalRequests": 0
+    }
+  },
+  "limits": [
+    "PowerShell output test skipped: no DSH_PWSH_PATH.",
+    "Non-repository fixture test skipped: enclosing Git marker.",
+    "Cloud browser always reported visible even while backgrounded/minimized; true browser visibilitychange is not claimed. Component hidden/resume protections passed.",
+    "System-level reduced-motion media setting was not toggled; media CSS checked and equivalent preview control tested in browser.",
+    "Synthetic providers/Jev and cloud browser only; no user Windows/Electron or paid API acceptance."
+  ],
+  "files": [
+    {
+      "name": "dsh-desktop-workflow-0.6.3-candidate.3.tgz",
+      "bytes": 1293602,
+      "sha256": "a21902128289cabfd499ba95134ddd3cdbcdfa44d974f3c7d1968e14f2f46f41"
+    },
+    {
+      "name": "dsh-desktop-workflow-0.6.3-candidate.3-source.zip",
+      "bytes": 2078000,
+      "sha256": "935d63f2c2dff7025acc95a5b3a11d22a32c27bad8a460a13caefb2d0a88a17d"
+    },
+    {
+      "name": "dsh-desktop-workflow-0.6.3-candidate.3-preview.html",
+      "bytes": 364011,
+      "sha256": "d2e2885af51bf91a6e1510c7c1171854dc211b5f6fe2cccdf4fbe2b2e5fe301b"
+    },
+    {
+      "name": "candidate2-to-candidate3.patch",
+      "bytes": 1352373,
+      "sha256": "da32d01525020f9a8791489cb1777f2489d2658520a7a5dc94edbcbbb3ba4358"
+    },
+    {
+      "name": "topology-full.jpg",
+      "bytes": 106175,
+      "sha256": "aaab401d962fa371628f3e5725d974d6bf7f49326d4d3a57b0a1e8ea77ec3a7b"
+    },
+    {
+      "name": "topology-420.jpg",
+      "bytes": 57099,
+      "sha256": "ae6ec7c3750d2d707e2fd6b72b17bfeda316dae856fc90c15c0bf5addae0ca53"
+    },
+    {
+      "name": "topology-event.jpg",
+      "bytes": 149583,
+      "sha256": "a31a63c61fa072f93db53d73e41e248e04daf83dae4c6508c9f3bb71a3d8de9d"
+    }
+  ]
+}

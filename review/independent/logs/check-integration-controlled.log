@@ -1,0 +1,3271 @@
+
+> dsh-desktop-workflow@0.5.4 check:integration
+> npm run check && npm run check:evaluation
+
+
+> dsh-desktop-workflow@0.5.4 check
+> npm run build && npm run typecheck && npm test
+
+
+> dsh-desktop-workflow@0.5.4 build
+> node scripts/build.mjs
+
+Built host client factory and isolated component preview.
+
+> dsh-desktop-workflow@0.5.4 typecheck
+> tsc --noEmit
+
+
+> dsh-desktop-workflow@0.5.4 test
+> node --test test/*.test.mjs
+
+✔ handler never accepts browser-selected paths (1.217749ms)
+✔ state failures redact paths and raw errors (0.592605ms)
+✔ stale requires running dated source, not completed (0.646997ms)
+✔ RPC envelope is correlated, valid and read-only (34.336837ms)
+✔ owns exact shared fetch route and lifecycle; no interceptor collision (1.048794ms)
+﹣ rc.2 client settings callbacks honor real Cordis Remote injection (0.929404ms) # SKIP
+✔ host factory registers native tab, renders states, selection, keyboard and cleanup (243.549742ms)
+✔ leaving demo into a bridge failure never retains synthetic results (106.446752ms)
+✔ unmount aborts pending RPC (22.521209ms)
+✔ newer demo navigation wins over a late live response (48.389214ms)
+✔ producer text is never rendered as HTML (50.965695ms)
+✔ request deadline recovers from an unresponsive bridge without cancelling future reads (6.13699ms)
+✔ inspect and failed-routing source semantics survive the rendered host factory (61.450484ms)
+✔ opt-in trace records structural plan, role metadata, Jev versions, gates and actual check booleans without content (14.674115ms)
+✔ trace disabled by default and no shadow creates no observer calls or changed primary results (4.214095ms)
+✔ shadow disagreement is recorded without changing main lane, branches, role calls or model choices (11.645661ms)
+✔ shadow errors and independent call caps never fail or spend the primary budget (4.186384ms)
+✔ slow shadow does not delay primary completion; replay stays incomplete until observer settles (7.082559ms)
+✔ failed checks remain non-complete despite primary and shadow high confidence (4.097159ms)
+✔ replay detects changed decision, unsupported policy, raw fields, truncation and missing metadata inputs (2.861883ms)
+✔ Jev model defaults stay legacy-compatible; explicit version and resolved model survive native adapter (34.034461ms)
+✔ legacy response without model remains valid and unknown model telemetry is explicit rather than invented (0.312322ms)
+✔ runtime exposes session-scoped opt-in traces and rejects shadow config before installing guards (20.983226ms)
+✔ synthetic reference labels exercise six replay outcomes without implying measured accuracy (12.960838ms)
+✔ shadow timeout includes refresh and ignored cancellation, and late results never rewrite trace (52.226089ms)
+✔ dispose cancels observers of already completed runs even when adapter never settles (7.289021ms)
+✔ shadow concurrency is bounded across repeated completed sessions (12.26054ms)
+✔ long pinned shadow IDs fail before runtime guard installation, and empty replay never claims agreement (0.392754ms)
+✔ replay rejects duplicate and nonterminal terminal markers (0.383149ms)
+✔ timed-out underlying requests retain global slots until settled, including controller replacement (21.72747ms)
+✔ failed primary Jev attempt is counted without exporting raw failure text (1.33742ms)
+✔ adapter mounting/catalog/context never starts a model and offers only configured IDs (4.801052ms)
+✔ exact role model options bind to native spawn with parent, schema, depth and cleanup (2.208917ms)
+✔ readonly scoped guard denies mutation and recursive delegation before execution (0.719136ms)
+✔ worker guard permits native edit tools but not security/delegation tool names (0.614118ms)
+✔ step cap and host ask decision become blocked refusal, never fabricated completion (1.320865ms)
+✔ missing guard service and counterfeit child fail closed; accepted child is disposed (0.756422ms)
+✔ session generation changes invalidate previous explicit-start context (0.484682ms)
+✔ main-session new work cancels owning team rather than overlap writes (0.624053ms)
+✔ concurrent adapter disposal shares its pending cleanup and repeats a failure without replaying disposers (6.057781ms)
+✔ verifier asks the host which shell tool exists instead of assuming bash (0.955363ms)
+✔ a host without tool enumeration keeps the caller-provided shell name (0.420886ms)
+✔ profile helper validates target and forwards reversible scoped commands (404.805606ms)
+✔ production missing key blocks preflight without model calls, never demo or regular router fallback (7.908596ms)
+✔ TypeSafe credential only in fixed Authorization transport, bounded state, no redirect or fallback (47.780724ms)
+✔ Jev rejects malformed distributions, wrong noul types, unavailable service and cancellation (0.920941ms)
+✔ Jev can complete only after independent checks and exact pinned six role models (11.275978ms)
+✔ worker and reviewer claims cannot override failed or absent independent evidence (12.135441ms)
+✔ verify repeats trusted checks without redispatching implementation (1.434748ms)
+✔ escalation is one lane per decision, preserves models and top lane blocks for person (3.403171ms)
+✔ needs_person and Jev outage do not dispatch another cycle (2.068014ms)
+✔ loop pre-rules enforce failing checks repeated-attempt escalation and completion thresholds (0.302066ms)
+✔ all bounded rounds and Jev call caps stop without a false completion (3.133163ms)
+✔ continue and retry make bounded new cycles; no local worker retry bypasses Jev (3.924728ms)
+✔ cancellation during independent Jev waits for settle and never begins a role model (10.709998ms)
+✔ step uses upstream typed questions and only bounded evidence projection (19.692717ms)
+✔ no execution at construction or before start returns; role models are exact and snapshots detached (12.010152ms)
+✔ config preflight rejects unsafe or unsupported values and returns detached data (2.456651ms)
+✔ strict DAG rejects cycles, unknown roles/dependencies, duplicates, extra fields, and oversized tasks (0.785918ms)
+✔ missing planner structured output fails closed; text is never parsed as a plan (1.015454ms)
+✔ invalid coordinator DAG is rejected atomically before task graph mutation (1.367506ms)
+✔ read tasks run concurrently, total concurrency is bounded, and only one writer runs (15.443487ms)
+✔ dependency failures block descendants while independent work completes and reviewer diagnoses (2.200464ms)
+✔ retry creates a distinct revision node and dependants join successful revision (1.640614ms)
+✔ repeated failure stops at maxRetries and diagnostic approval cannot fabricate success (1.312833ms)
+✔ permission refusal and agent abort are not automatically retried (2.100683ms)
+✔ malformed review fails closed at both review checkpoints (3.610764ms)
+✔ plan review revise is bounded and invokes the configured planner again (1.255456ms)
+✔ final review revise or blocked returns actionable feedback without claiming completion (1.007842ms)
+✔ optional router clarification blocks before any planner or task execution (0.430981ms)
+✔ maxAgents accounts for planner, review, coordinator, tasks and retries (2.66141ms)
+✔ cancellation aborts every active child, prevents retries, and waits for actual cleanup (14.280351ms)
+✔ deadline aborts running children and terminal status waits for them to settle (1.974402ms)
+✔ wall clock deadline fires even when no execute call completes (1001.573842ms)
+✔ sessions are isolated, duplicate starts are rejected, and disposal drains all sessions (1.876194ms)
+✔ cancellation before runner starts never calls execute (0.97299ms)
+✔ retained runs, output, graph data and displayed strings are bounded (89.743742ms)
+✔ missing role token ceilings normalize to 4096 and defaults remain conservative (0.453335ms)
+✔ nonretryable host guard errors never retry and remain blocked (1.789453ms)
+✔ plan revision budget and explicit blocked plan verdict stop before task dispatch (1.717445ms)
+✔ invalid router response fails closed (0.508208ms)
+✔ validation never invokes custom methods attached to untrusted arrays (0.366023ms)
+✔ active sessions are bounded and invalid starts never invoke the adapter (3.588291ms)
+✔ non-Error adapter throws are handled without orphaning a run (0.543291ms)
+✔ host child binding is visible during execution and late callbacks cannot mutate terminal snapshots (8.820513ms)
+✔ plan reviewer sees the coordinator final DAG and blocks introduced work before any dispatch (1.578714ms)
+✔ every task and task retry receives the original goal verbatim (1.428158ms)
+✔ planning and task prompts state the enforced tool boundary so no task waits on a shell command (1.049525ms)
+✔ package exposes desktop-only lazy module and no production execution hooks (15.318124ms)
+✔ package inventory excludes dependencies, previews, credentials and runtime state (564.899808ms)
+✔ canonical identity binds nested directories to their repository and Windows casing to one project (3.95932ms)
+✔ linked Git worktrees share a common project lock even when their working directories differ (1.617814ms)
+﹣ non-repository directories overlap by path boundary but separate sibling projects do not (0.574568ms) # Temporary directory is inside an enclosing Git marker; a non-repository filesystem fixture is unavailable
+✔ directory identity overlap is symmetric and respects separator boundaries (0.275346ms)
+✔ unreadable or malformed project identity fails closed without accepting a client-selected key (0.926249ms)
+✔ settings role navigation exposes exactly one role while preserving independent edits (292.185868ms)
+✔ hidden invalid role still blocks save and can be located in role navigation (76.274306ms)
+✔ graph tabs support roving focus, arrow activation, and correctly labelled panel (117.575531ms)
+✔ compact control details preserve fixture and unverified disclosures (49.752979ms)
+✔ stale cancellation rejection cannot leak into or unlock a newer run cancellation (111.808126ms)
+✔ new run in the same session releases the previous cancel guard without stale error leakage (94.187869ms)
+✔ dark interface text tokens maintain AA contrast on raised and selected cards (4.853351ms)
+✔ Jev canvas hub selects an independently labelled controller without adding a model role (58.50204ms)
+✔ first reported nodes activate responsive graph observation within the same run (92.029724ms)
+✔ Jev hub inspector never presents unavailable or fixture service as connected (47.670127ms)
+✔ explicit detail and return controls scroll only on request and reflect selected role (39.118741ms)
+✔ independent auto audit: native worker edits source and config while secret/dependency/shell paths remain denied (6.903328ms)
+✔ independent auto audit: dangling links and hardlinks cannot bypass dependency isolation (1.070097ms)
+✔ independent auto audit: analysis-only mode is actually read-only (0.765336ms)
+✔ independent auto audit: a project without a supported test runner can still receive safe edits (0.815061ms)
+✔ independent auto audit: credential provider diagnostics never become public errors or model requests (1.298121ms)
+✔ independent auto audit: no runner or changed acceptance ends after one editable cycle as unverified (10.690399ms)
+✔ independent audit: ambiguous native tool exceptions quarantine the run (4.304602ms)
+✔ independent audit: native missing/error/promoted/aborted results never release uncertain execution (1.610283ms)
+✔ independent audit: profile catalog is complete and detached from trusted configuration (0.262957ms)
+✔ independent audit: check profiles reject traversal and unbounded execution (0.239421ms)
+✔ independent audit: stale completion seal overrides passing models and prior checks (20.085821ms)
+✔ independent audit: cancel during final seal waits for verifier settlement and cannot complete (20.652065ms)
+✔ two sessions in independent projects run concurrently; cancellation and snapshots stay session bound (35.562469ms)
+✔ same project reserves before metadata preflight and reports owner; switching session cannot bypass (18.323628ms)
+✔ cancellation holds project until verifier cleanup acknowledges; independent project continues (23.377573ms)
+✔ settled baseline failure releases only its project and does not cancel another session (9.292637ms)
+✔ failed child cleanup quarantines its project across runtime replacement; another project stays usable (11.56478ms)
+✔ unknown native tool result keeps project quarantine and exposes only allowlisted error diagnostics (18.827043ms)
+✔ duplicate command IDs are independent per session and replays never dispatch twice (11.158541ms)
+✔ session history and request recovery cannot route to another run; verified disposal releases occupancy (19.439599ms)
+✔ parent disposal cancels only its own session; host runtime disposal drains its own leases (14.176995ms)
+✔ legacy poisoned lease is retained and scoped when its project can be verified (1.364421ms)
+✔ legacy lease with unavailable owner keeps unknown scope protected without clearing or reassigning it (0.683683ms)
+✔ settled diagnostic is retained with its own historical run after a later run clears current diagnostics (19.481137ms)
+✔ repeated runtime disposal waits for one cleanup while independent runtime stays usable (12.699002ms)
+✔ cross-session mutation guard checks actual targets and sandbox bounds, including active independent owners (9.982834ms)
+✔ cross-session shell guard requires enforcing backend, covers shared temp roots, and rejects wider per-call grants (4.456451ms)
+✔ repeated disposal waits for reserved metadata preflight without dispatching children (5.8978ms)
+✔ legacy unknown scope also protects mutations with an unavailable session cwd (0.813989ms)
+✔ normalizes only whitelisted producer state (3.171551ms)
+✔ validates status/confidence and limits text/evidence (2.137619ms)
+✔ explicit bounded regular-file input only (27.201068ms)
+✔ unconfigured remains waiting (0.274044ms)
+✔ latest event timestamp survives out-of-order stage updates; mode and run preserved (0.261655ms)
+✔ strips control and bidi instructions from displayed evidence (0.295566ms)
+✔ failed routing remains a failed routing phase, without exposing producer error (0.140673ms)
+✔ explicit start binds session and stable request identity; mounting never executes (21.793755ms)
+✔ project lease blocks another session in the same project before providers start (10.746814ms)
+✔ context key rejects widened permissions before explicit start (1.468749ms)
+✔ permission change during a run cancels children, retains parent mutation guard until cleanup (13.884818ms)
+✔ metadata preflight reserves project lease without inference (17.699056ms)
+✔ cleanup failure quarantines the project across runtime replacement and never claims stopped (8.363723ms)
+✔ a failed worker cleanup cancels the current run before any independent next worker starts (29.028624ms)
+✔ native credential and stored consent are rechecked per Jev operation; revocation blocks next request (30.058866ms)
+✔ unverified-editable projects produce bounded work but never a false complete (8.127026ms)
+✔ tactical dark-surface text, selection, and semantic statuses meet normal-text AA contrast (1.866229ms)
+✔ both light dossier surfaces provide dark status colors and readable evidence (0.562169ms)
+✔ new appearance is opt-in scoped CSS with no hosted assets, font dependency, or decorative animations (3.109768ms)
+✔ classic base remains graphite and the theme selector is separate from host settings (0.674419ms)
+✔ preview exposes explicit 320px and 420px container fixtures independently of visual theme (0.249196ms)
+✔ normal team view has six roles and native /team guidance, never per-run forms (124.038725ms)
+✔ missing setup and missing automatic verification stay actionable without per-run forms (58.465986ms)
+✔ setup exposes exactly six native model choices and a masked native credential field (66.538324ms)
+✔ once-only consent is required before saving and first setup never inherits browser storage (56.485854ms)
+✔ unavailable saved model identifiers are visible and never replaced automatically (31.913011ms)
+✔ saving clears user-entered key immediately and repeated clicks do not repeat submission (46.769958ms)
+✔ unwritable credentials cannot accept a key or silently start a task (29.486355ms)
+✔ connected save uses only native credential namespace; configure stores metadata with revision (89.109183ms)
+✔ native credential exceptions cannot echo entered keys or retry writes (59.966431ms)
+✔ partial save reports key saved and settings conflict, without re-sending the key (78.155447ms)
+✔ connected normal view only reads settings/catalog/snapshot and never starts from render or text (32.150855ms)
+✔ session changes discard a late snapshot and abort old polling (42.19696ms)
+✔ live running results retain cancellation and prevent demo replacement or duplicate cancellation (57.131429ms)
+✔ fixture graph renders exactly recorded nodes and edges with escaped public output (49.94895ms)
+✔ Jev lane changes never replace roles and historical decisions default collapsed (56.250338ms)
+✔ completion requires all independent gates, and fixture evidence remains visibly synthetic (78.414809ms)
+✔ only official /team execution in the currently mounted session opens results (2.573157ms)
+✔ native command settings-required opens dedicated setup and blocked commands open results (3.067023ms)
+✔ late native command responses cannot open after A to B to A navigation or cleanup (3.233946ms)
+✔ native plugin registers team panel and global settings section with lifecycle cleanup (8.234459ms)
+✔ saved TypeSafe consent can be explicitly revoked without re-entering a key (37.812447ms)
+✔ read-only host settings disable key edits and save, while retaining explicit refresh (23.099092ms)
+✔ selecting a different role model requests its actual host capabilities without saving (39.101039ms)
+✔ settings disclose native plaintext credential storage and missing-runner pending verification (19.299904ms)
+✔ icon-only narrow team settings control retains an explicit accessible name (15.083975ms)
+✔ pending verification is a distinct terminal result, with no active cancel or false success (18.156627ms)
+✔ session switch rejects a late reply and history selection sends the current session and exact run ID (78.280791ms)
+✔ foreign session response is refused and diagnostic UI never inserts HTML (38.133562ms)
+✔ theme review: connected settings and workflow synchronize without RPCs, saving credentials, or resetting drafts (351.496314ms)
+✔ theme review: pending cancel retains run, selected node, zoom, disclosure, and duplicate guard (176.763087ms)
+✔ theme review: pending save remains single-shot through repeated switches (69.327332ms)
+✔ theme review: blocked, missing, and null storage keep the switch and multiple mounts usable (265.034569ms)
+✔ theme review: quota-denied writes retain in-memory choice after every surface unmounts (56.221716ms)
+✔ theme review: invalid saved values safely default without rewriting or interpreting old settings (160.244016ms)
+✔ theme review: cross-window preference updates synchronize but unrelated/session storage events do not (66.47346ms)
+✔ theme review: persisted choice survives a fresh bundle instance without writing on initial mount (46.730543ms)
+﹣ v0.4 isolated official host acceptance (0.932789ms) # SKIP
+✔ scope and fixed server profiles reject traversal, executable payloads and missing check protection (2.348007ms)
+✔ trusted checker calls native bash with original session and fixed foreground args only (1.644514ms)
+✔ background promotion, timeout, aborted result and unknown dispatch all poison lease (1.938719ms)
+✔ foreign run/round/nonce, malformed output and truncated logs never become evidence (0.878006ms)
+✔ catalog exposes detached actual argv, timeouts and protected paths (0.332493ms)
+✔ host failure codes come from error.info; a check that never started is refused without locking (1.252682ms)
+✔ explicit verification builds its command for the resolved shell (0.549901ms)
+✔ official not-started wire codes release both verifier kinds; invented symbolic names remain fail-closed (2.426956ms)
+✔ cleanup foreground failure still quarantines the project and reports cleanup, without retaining raw output (5.814623ms)
+✔ known not-dispatched tool denial reports its phase without quarantining execution that never started (0.683653ms)
+✔ native verifier invocation admits only fixed package entry names and keeps payload as data (2.887968ms)
+✔ verifier commands are built for the shell the host actually mounts (0.837716ms)
+﹣ verification invocations satisfy official rc.2 tool schemas and safely release the run (1.022003ms) # SKIP
+✔ unknown baseline tool result still locks the lease before any child, with project-check provenance (15.591001ms)
+✔ automatic verification builds its command for the shell the host mounts (8.657267ms)
+✔ a check that provably never started is refused without quarantining the project (9.220703ms)
+✔ auto verifier retains quarantine for background, promoted, timed-out and unknown execution outcomes (3.83935ms)
+ℹ tests 210
+ℹ suites 0
+ℹ pass 206
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 4
+ℹ todo 0
+ℹ duration_ms 2463.488225
+
+> dsh-desktop-workflow@0.5.4 check:evaluation
+> npm --prefix evaluation run check
+
+
+> dsh-jev-budgeted-evaluation@0.1.0 check
+> npm test && npm run preflight && npm run pilot:offline && npm run pilot:integrated && npm run transport:offline
+
+
+> dsh-jev-budgeted-evaluation@0.1.0 test
+> node --test test/*.test.mjs transport/test/*.test.mjs
+
+✔ input/output, reasoning and cached details are each counted once (3.438885ms)
+✔ Responses API fields use the same no-double-count rule (0.256577ms)
+✔ explicit provider contract can include additional billable reasoning exactly once (0.230999ms)
+✔ reject missing usage (0.374005ms)
+✔ reject missing output (0.146481ms)
+✔ reject negative (0.17176ms)
+✔ reject fraction (0.141283ms)
+✔ reject unsafe integer (0.179311ms)
+✔ reject inconsistent total (0.188154ms)
+✔ reject reasoning exceeds output (0.299502ms)
+✔ reject cached exceeds input (0.160833ms)
+✔ reject additional reasoning absent (0.14586ms)
+✔ reject unknown accounting (0.094814ms)
+✔ reserve whole input and output before sending, release only known unused balance (2.079331ms)
+✔ no transport call when project budget cannot reserve the full output (0.71456ms)
+✔ concurrent reservations cannot oversubscribe remaining project tokens (0.546185ms)
+✔ configured concurrency prevents an extra physical request (0.413835ms)
+✔ task and batch budgets span attempts (0.528949ms)
+✔ model repair attempt cap is separate from disabled transport retries (2.545425ms)
+✔ unknown usage halts all further calls and retains full reservation (0.599676ms)
+✔ network errors are not retried, and errors never leak transport text (0.382228ms)
+✔ provider errors with known usage are counted, then halt (0.341976ms)
+✔ provider-bound breach records actual tokens and stops rather than hiding overrun (0.336639ms)
+✔ invalid/unverified contract cannot send (0.373905ms)
+✔ global hard cap cannot be raised (0.39112ms)
+✔ ledger write failure blocks transport (0.345282ms)
+✔ durable totals survive a later batch and second process is locked out (2.120172ms)
+✔ unresolved prior reservation never becomes free budget after restart (0.348086ms)
+✔ corrupt ledger is rejected rather than reset to zero (0.451202ms)
+✔ stored negative or inconsistent totals fail closed (0.375457ms)
+✔ Jev usage is separate, two attempts maximum, retry counts physical calls (0.822112ms)
+✔ Jev call cap and concurrency are enforced even though its tokens are uncapped (0.37084ms)
+✔ closed handle cannot bypass project lock or send after a new process opens it (1.004868ms)
+✔ stop cannot erase a halt and attempt limits cannot grow after a task starts (0.480736ms)
+✔ multi-completion and server-side tool/background features cannot exceed a single-call reservation (0.438122ms)
+✔ accounting overflow fails closed and does not free an uncertain reservation (0.631173ms)
+✔ asynchronous save callback is rejected because it cannot guarantee durable reservation (0.320544ms)
+✔ HTTP adapters connect through controller, task budget, both Jev lanes, independent verifier and replay (50.678763ms)
+✔ HTTP model mismatch with known usage is charged once then blocks controller (2.317911ms)
+✔ unsettled timed-out Jev HTTP keeps persistent active marker and lock; never overlaps another call (13.080008ms)
+✔ timed-out body cancellation never certifies cleanup from local read completion (11.369514ms)
+✔ HTTP rejection before reader acquisition aborts and requests body cleanup without freeing Jev slot (1.413064ms)
+✔ real controller uses shared model ledger, independent verifier, trace, replay and separate shadow meter (23.121446ms)
+✔ optional shadow runs after primary completion and cannot spend tokens or overwrite primary decision (5.660891ms)
+✔ missing model usage halts before decoder and does not release the full reservation (1.730554ms)
+✔ failed independent checks cannot be accepted by confident primary or shadow Jev (4.336531ms)
+✔ one task token cap spans all roles and stops before an over-budget request (3.921935ms)
+✔ default trace and shadow remain disabled when not explicitly selected (2.288727ms)
+✔ logical attempts and total team requests have separate persisted bounds (1.532124ms)
+✔ model and Jev single-writer locks exclude separate operating-system processes (100.004711ms)
+✔ Jev totals and retries survive reopen; stale holders cannot spend after close (1.852538ms)
+✔ Jev persists active marker before transport and crash state remains fail-closed (0.544823ms)
+✔ Jev disk failure cannot dispatch; raw provider errors do not enter stored state (0.348496ms)
+✔ directory aliases share a lock and symlink ledger files are refused (0.54312ms)
+✔ hard-linked model and Jev ledgers cannot create alternate budget locks (0.614999ms)
+✔ slow primary does not spend queued shadow physical-request timeout (155.436543ms)
+✔ each serial shadow receives its own physical request timeout after acquiring the slot (34.724883ms)
+✔ cancelling primary cancels queued observers without extra physical Jev calls (2.343701ms)
+✔ default is correct external model ID, accepted budget, no assumed credentials or live readiness (2.280324ms)
+✔ even complete contract cannot claim actual API integration or model accuracy (0.376378ms)
+✔ budget overrun and implicit model upgrades are blocked (0.239602ms)
+✔ combined flow completes only after actual independent test subprocess and final seal (333.493365ms)
+✔ actual nonzero check exit defeats confident primary and opposing shadow judgments (247.690005ms)
+✔ changing the synthetic project after checks makes final seal reject completion (303.432241ms)
+✔ full mock HTTP flow uses persistent budgets, real independent subprocess checks and final seal (328.574465ms)
+✔ offline entry performs two mocked posts without network or credentials (46.630366ms)
+✔ template blocks live before credentials, prompts, HTTP or durable writes (2.136548ms)
+✔ input-bound attestation is tied to exact final request digest (0.625665ms)
+✔ ambiguous modes and key-like CLI flags fail without echoing arguments (0.45646ms)
+✔ credential prompt refuses pipes, no echo fallback (0.433495ms)
+✔ hidden TTY entry never echoes input, restores raw state, removes listeners (1.117788ms)
+✔ backspace works without echo and Ctrl-C rejects safely (0.437101ms)
+✔ multiline paste cannot answer later confirmation or partially transmit a key (1.01948ms)
+✔ fully simulated user-entry path requires SEND before two bounded posts and returns no key/output (3.643845ms)
+✔ user cancellation never transmits either synthetic credential (0.967422ms)
+✔ mocked preflight unknown usage retains reservation and halt; no automatic retry (3.631105ms)
+✔ error constructor never accepts untrusted error text as a public code (0.14551ms)
+✔ interrupt while entering a key restores terminal and removes listeners (1.513166ms)
+✔ missing pinned fields are not filled silently in a live configuration (1.313384ms)
+✔ exhausted preflight attempt cap blocks before asking for keys or a TypeSafe call (1.652306ms)
+✔ chat exact URL, pinned model, cap and no retries; reasoning/cache counted once (35.239771ms)
+✔ Responses wire uses exact max_output_tokens; reasoning output is not returned as commands (1.723273ms)
+✔ HTTP failure with valid contracted usage settles charge then halts; raw error removed (1.797355ms)
+✔ model mismatch with known usage settles charge and never returns model-selected text (0.939169ms)
+✔ unknown usage is fail-closed: missing (1.164539ms)
+✔ unknown usage is fail-closed: negative (0.758376ms)
+✔ unknown usage is fail-closed: string count (0.81466ms)
+✔ unknown usage is fail-closed: fraction (0.727008ms)
+✔ unknown usage is fail-closed: inconsistent total (0.884837ms)
+✔ unknown usage is fail-closed: cache larger than input (1.431663ms)
+✔ unknown usage is fail-closed: reasoning larger than output (0.611744ms)
+✔ unknown usage is fail-closed: additional unknown top-level usage (0.507416ms)
+✔ unknown usage is fail-closed: unsafe number (0.504021ms)
+✔ transport exception cannot leak credential, raw error or cause and does not retry (2.300996ms)
+✔ redirect rejected with one fetch: cross-origin 302 (1.320155ms)
+✔ redirect rejected with one fetch: same-origin 307 (0.495188ms)
+✔ redirect rejected with one fetch: followed cross-origin (0.597853ms)
+✔ redirect rejected with one fetch: unexpected final URL (0.353704ms)
+✔ hanging fetch is bounded even when injected fetch ignores abort (15.691272ms)
+✔ hanging response body is bounded and cancelled by deadline (15.823762ms)
+✔ pre-aborted signal never reads credential or performs HTTP (0.6355ms)
+✔ caller cancellation is propagated while fetching; abort reason is not reflected (0.332843ms)
+✔ response bytes rather than characters bounded; UTF-8 split across chunks accepted (4.762885ms)
+✔ bounded parse rejects content length (0.3972ms)
+✔ bounded parse rejects non JSON (0.297179ms)
+✔ bounded parse rejects invalid JSON (0.296178ms)
+✔ bounded parse rejects no body (0.225691ms)
+✔ oversized request rejected before credentials or fetch (0.194864ms)
+✔ unknown or unbounded request features fail before HTTP (0.389489ms)
+✔ contract must explicitly pin origin, path, model and standard output semantics (0.224249ms)
+✔ Responses queued retains full reservation even with numerical usage (0.386244ms)
+✔ Responses in_progress retains full reservation even with numerical usage (0.293243ms)
+✔ Responses future-unknown-status retains full reservation even with numerical usage (0.273943ms)
+✔ terminal but incomplete response accounts usage and blocks output acceptance (1.410731ms)
+✔ chat length finish accounts usage but decoder refuses incomplete acceptance (0.453976ms)
+✔ official TypeSafe request and all three typed answer forms (1.015174ms)
+✔ TypeSafe malformed answer, unknown usage, and pinned-model drift fail closed (1.081614ms)
+✔ TypeSafe 429 never automatically retries or exposes response text (0.409098ms)
+✔ TypeSafe controller adapter preserves weak-map usage metadata without resolving environment (1.157258ms)
+✔ transport output cap is independently bounded to configured maximum (0.175546ms)
+✔ an injected error cannot mutate a public error into a credential leak (0.235156ms)
+✔ chat nonterminal finish null retains reservation (0.43011ms)
+✔ chat nonterminal finish future-unknown retains reservation (0.320695ms)
+ℹ tests 123
+ℹ suites 0
+ℹ pass 123
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1327.784511
+
+> dsh-jev-budgeted-evaluation@0.1.0 preflight
+> node scripts/preflight.mjs
+
+{
+  "mode": "offline-preflight",
+  "realModelCalls": 0,
+  "realJevCalls": 0,
+  "configurationReady": false,
+  "liveTransportImplemented": true,
+  "liveReady": false,
+  "independentVerifierIntegrationImplemented": true,
+  "persistentJevMeterImplemented": true,
+  "realTaskAdapterVerified": false,
+  "costRoutingImplemented": false,
+  "modelId": "gpt6-luna",
+  "preferredModelFamily": "Luna",
+  "projectTokenLimit": 10000000,
+  "pilotTokenLimit": 100000,
+  "taskTokenLimit": 20000,
+  "moneyLimit": null,
+  "priceKnown": false,
+  "blockers": [
+    "User must securely configure a fresh credential; this tool never checks or reads it.",
+    "Provider usage format is unverified.",
+    "Provider reasoning accounting is unverified.",
+    "A verified bound for the full serialized input is required.",
+    "Provider must enforce an output cap including all billable reasoning.",
+    "Model-specific provider-contract evidence is required.",
+    "Real provider accounting, safe user-controlled credential entry, and an authorized task adapter must be verified before live acceptance."
+  ],
+  "evidence": {
+    "fixtureProvenance": "synthetic-offline-fixture",
+    "referenceCases": 6,
+    "syntheticReferenceAgreement": null,
+    "replayAgreement": null,
+    "actualVerification": "not-run",
+    "observedProductionAccuracy": null,
+    "effectiveCompletionRate": null,
+    "failureRecoveryRate": null,
+    "falseAcceptRate": null,
+    "unnecessaryReworkRate": null
+  }
+}
+
+> dsh-jev-budgeted-evaluation@0.1.0 pilot:offline
+> node scripts/pilot-offline.mjs
+
+{
+  "mode": "scripted-offline-pilot",
+  "realModelCalls": 0,
+  "realJevCalls": 0,
+  "fixtureSha256": "fc8ad538906ba51be5f2926e46d7239883631614014b7a7acea285c5de546574",
+  "syntheticReferenceChecks": 6,
+  "syntheticReferenceMatches": 6,
+  "simulatedBudget": {
+    "spentTokens": 1536,
+    "reservedTokens": 0,
+    "remainingTokens": 98464
+  },
+  "simulatedJev": {
+    "calls": 6,
+    "failures": 0,
+    "retries": 0,
+    "inputTokens": 768,
+    "outputTokens": 384,
+    "unknownUsageCalls": 0,
+    "active": 0
+  },
+  "actualVerification": "not-run",
+  "observedProductionAccuracy": null,
+  "effectiveCompletionRate": null,
+  "failureRecoveryRate": null,
+  "falseAcceptRate": null,
+  "unnecessaryReworkRate": null,
+  "cases": [
+    {
+      "case": "complete-candidate",
+      "source": "authored-synthetic-reference",
+      "expectedAction": "complete",
+      "actualCodeAction": "complete",
+      "referenceMatched": true,
+      "simulatedBillableTokens": 256,
+      "actualVerification": "not-run"
+    },
+    {
+      "case": "failed-check-overrides-confidence",
+      "source": "authored-synthetic-reference",
+      "expectedAction": "retry",
+      "actualCodeAction": "retry",
+      "referenceMatched": true,
+      "simulatedBillableTokens": 256,
+      "actualVerification": "not-run"
+    },
+    {
+      "case": "scope-overrides-complete",
+      "source": "authored-synthetic-reference",
+      "expectedAction": "retry",
+      "actualCodeAction": "retry",
+      "referenceMatched": true,
+      "simulatedBillableTokens": 256,
+      "actualVerification": "not-run"
+    },
+    {
+      "case": "human-needed",
+      "source": "authored-synthetic-reference",
+      "expectedAction": "escalate",
+      "actualCodeAction": "escalate",
+      "referenceMatched": true,
+      "simulatedBillableTokens": 256,
+      "actualVerification": "not-run"
+    },
+    {
+      "case": "incomplete-work",
+      "source": "authored-synthetic-reference",
+      "expectedAction": "continue",
+      "actualCodeAction": "continue",
+      "referenceMatched": true,
+      "simulatedBillableTokens": 256,
+      "actualVerification": "not-run"
+    },
+    {
+      "case": "unclear-next",
+      "source": "authored-synthetic-reference",
+      "expectedAction": "verify",
+      "actualCodeAction": "verify",
+      "referenceMatched": true,
+      "simulatedBillableTokens": 256,
+      "actualVerification": "not-run"
+    }
+  ]
+}
+
+> dsh-jev-budgeted-evaluation@0.1.0 pilot:integrated
+> node scripts/integrated-offline.mjs
+
+{
+  "mode": "integrated-offline-synthetic",
+  "fixtureDefinitionSha256": "9479ed9397bf6af564a39be3190161863d886a626228c01aa217d3d1ee36e920",
+  "realModelCalls": 0,
+  "realJevCalls": 0,
+  "costRoutingImplemented": false,
+  "actualTaskAcceptance": "not-run",
+  "observedProductionAccuracy": null,
+  "cases": 4,
+  "passed": true,
+  "reports": [
+    {
+      "case": "passes-independent-check",
+      "mode": "offline-scripted-controller-with-real-local-tests",
+      "realModelCalls": 0,
+      "realJevCalls": 0,
+      "modelOutputsExecuted": false,
+      "actualTaskAcceptance": "not-run",
+      "observedProductionAccuracy": null,
+      "persistentLedgersUsed": true,
+      "mockHttpPosts": null,
+      "status": "completed",
+      "observations": [
+        {
+          "phase": "baseline",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": null,
+          "checkExitCodes": []
+        },
+        {
+          "phase": "check",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": true,
+          "sealed": null,
+          "checkExitCodes": [
+            0
+          ]
+        },
+        {
+          "phase": "seal",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": true,
+          "checkExitCodes": []
+        }
+      ],
+      "summary": {
+        "mode": "injected-evaluation",
+        "costRoutingImplemented": false,
+        "spentTokens": 900,
+        "reservedTokens": 0,
+        "remainingTokens": 9999100,
+        "halted": null,
+        "modelPhysicalCalls": 5,
+        "jev": {
+          "calls": 4,
+          "failures": 0,
+          "retries": 0,
+          "inputTokens": 124,
+          "outputTokens": 28,
+          "unknownUsageCalls": 0,
+          "active": 0
+        }
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "verification",
+            "data": {
+              "phase": "baseline",
+              "round": 0,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 2,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 3,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "small",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 1,
+                    "medium": 0,
+                    "high": 0,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 4,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 5,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 6,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 7,
+            "type": "plan",
+            "data": {
+              "node": 3,
+              "kind": "plan",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 8,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 9,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 10,
+            "type": "plan",
+            "data": {
+              "node": 4,
+              "kind": "coordination",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 11,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 12,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 13,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 14,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 15,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 16,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 17,
+            "type": "verification",
+            "data": {
+              "phase": "check",
+              "round": 1,
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "checks": [
+                {
+                  "check": 1,
+                  "passed": true,
+                  "exitCode": 0
+                }
+              ]
+            }
+          },
+          {
+            "seq": 18,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 19,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "complete",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 20,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 21,
+            "type": "verification",
+            "data": {
+              "phase": "seal",
+              "round": 1,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": true,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 22,
+            "type": "branch",
+            "data": {
+              "code": "completed",
+              "round": 1,
+              "lane": "small"
+            }
+          },
+          {
+            "seq": 23,
+            "type": "terminal",
+            "data": {
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 24,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "high",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 0,
+                    "medium": 0,
+                    "high": 1,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "high",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 25,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "needs_person",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 0,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 1,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "escalate",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": true
+              }
+            }
+          }
+        ]
+      },
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "completed",
+        "decisions": [
+          {
+            "seq": 3,
+            "source": "primary",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 19,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "complete",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          },
+          {
+            "seq": 24,
+            "source": "shadow",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "high",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 25,
+            "source": "shadow",
+            "phase": "step",
+            "decision": {
+              "action": "escalate",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": true
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      }
+    },
+    {
+      "case": "test-failure",
+      "mode": "offline-scripted-controller-with-real-local-tests",
+      "realModelCalls": 0,
+      "realJevCalls": 0,
+      "modelOutputsExecuted": false,
+      "actualTaskAcceptance": "not-run",
+      "observedProductionAccuracy": null,
+      "persistentLedgersUsed": true,
+      "mockHttpPosts": null,
+      "status": "blocked",
+      "observations": [
+        {
+          "phase": "baseline",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": null,
+          "checkExitCodes": []
+        },
+        {
+          "phase": "check",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": false,
+          "sealed": null,
+          "checkExitCodes": [
+            1
+          ]
+        }
+      ],
+      "summary": {
+        "mode": "injected-evaluation",
+        "costRoutingImplemented": false,
+        "spentTokens": 900,
+        "reservedTokens": 0,
+        "remainingTokens": 9999100,
+        "halted": null,
+        "modelPhysicalCalls": 5,
+        "jev": {
+          "calls": 4,
+          "failures": 0,
+          "retries": 0,
+          "inputTokens": 124,
+          "outputTokens": 28,
+          "unknownUsageCalls": 0,
+          "active": 0
+        }
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "verification",
+            "data": {
+              "phase": "baseline",
+              "round": 0,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 2,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 3,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "small",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 1,
+                    "medium": 0,
+                    "high": 0,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 4,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 5,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 6,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 7,
+            "type": "plan",
+            "data": {
+              "node": 3,
+              "kind": "plan",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 8,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 9,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 10,
+            "type": "plan",
+            "data": {
+              "node": 4,
+              "kind": "coordination",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 11,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 12,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 13,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 14,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 15,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 16,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 17,
+            "type": "verification",
+            "data": {
+              "phase": "check",
+              "round": 1,
+              "evidence": {
+                "checksPassed": false,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 1
+              },
+              "checks": [
+                {
+                  "check": 1,
+                  "passed": false,
+                  "exitCode": 1
+                }
+              ]
+            }
+          },
+          {
+            "seq": 18,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 19,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": false,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 1
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "retry",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 20,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 21,
+            "type": "branch",
+            "data": {
+              "code": "retry_exhausted",
+              "round": 1,
+              "lane": "small"
+            }
+          },
+          {
+            "seq": 22,
+            "type": "terminal",
+            "data": {
+              "status": "blocked"
+            }
+          },
+          {
+            "seq": 23,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "high",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 0,
+                    "medium": 0,
+                    "high": 1,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "high",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 24,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "needs_person",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 0,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 1,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": false,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 1
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "retry",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": true
+              }
+            }
+          }
+        ]
+      },
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "blocked",
+        "decisions": [
+          {
+            "seq": 3,
+            "source": "primary",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 19,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "retry",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          },
+          {
+            "seq": 23,
+            "source": "shadow",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "high",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 24,
+            "source": "shadow",
+            "phase": "step",
+            "decision": {
+              "action": "retry",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": true
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      }
+    },
+    {
+      "case": "seal-tampering",
+      "mode": "offline-scripted-controller-with-real-local-tests",
+      "realModelCalls": 0,
+      "realJevCalls": 0,
+      "modelOutputsExecuted": false,
+      "actualTaskAcceptance": "not-run",
+      "observedProductionAccuracy": null,
+      "persistentLedgersUsed": true,
+      "mockHttpPosts": null,
+      "status": "blocked",
+      "observations": [
+        {
+          "phase": "baseline",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": null,
+          "checkExitCodes": []
+        },
+        {
+          "phase": "check",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": true,
+          "sealed": null,
+          "checkExitCodes": [
+            0
+          ]
+        },
+        {
+          "phase": "seal",
+          "runnerExit": 1,
+          "verified": false,
+          "checksPassed": null,
+          "sealed": null,
+          "checkExitCodes": []
+        }
+      ],
+      "summary": {
+        "mode": "injected-evaluation",
+        "costRoutingImplemented": false,
+        "spentTokens": 900,
+        "reservedTokens": 0,
+        "remainingTokens": 9999100,
+        "halted": null,
+        "modelPhysicalCalls": 5,
+        "jev": {
+          "calls": 4,
+          "failures": 0,
+          "retries": 0,
+          "inputTokens": 124,
+          "outputTokens": 28,
+          "unknownUsageCalls": 0,
+          "active": 0
+        }
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "verification",
+            "data": {
+              "phase": "baseline",
+              "round": 0,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 2,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 3,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "small",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 1,
+                    "medium": 0,
+                    "high": 0,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 4,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 5,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 6,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 7,
+            "type": "plan",
+            "data": {
+              "node": 3,
+              "kind": "plan",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 8,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 9,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 10,
+            "type": "plan",
+            "data": {
+              "node": 4,
+              "kind": "coordination",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 11,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 12,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 13,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 14,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 15,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 16,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 17,
+            "type": "verification",
+            "data": {
+              "phase": "check",
+              "round": 1,
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "checks": [
+                {
+                  "check": 1,
+                  "passed": true,
+                  "exitCode": 0
+                }
+              ]
+            }
+          },
+          {
+            "seq": 18,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 19,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "complete",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 20,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 21,
+            "type": "terminal",
+            "data": {
+              "status": "blocked"
+            }
+          },
+          {
+            "seq": 22,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "high",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 0,
+                    "medium": 0,
+                    "high": 1,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "high",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 23,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "needs_person",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 0,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 1,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "escalate",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": true
+              }
+            }
+          }
+        ]
+      },
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "blocked",
+        "decisions": [
+          {
+            "seq": 3,
+            "source": "primary",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 19,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "complete",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          },
+          {
+            "seq": 22,
+            "source": "shadow",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "high",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 23,
+            "source": "shadow",
+            "phase": "step",
+            "decision": {
+              "action": "escalate",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": true
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      }
+    },
+    {
+      "case": "mock-http-with-independent-check",
+      "mode": "offline-scripted-controller-with-real-local-tests",
+      "realModelCalls": 0,
+      "realJevCalls": 0,
+      "modelOutputsExecuted": false,
+      "actualTaskAcceptance": "not-run",
+      "observedProductionAccuracy": null,
+      "persistentLedgersUsed": true,
+      "mockHttpPosts": {
+        "model": 5,
+        "jev": 4
+      },
+      "status": "completed",
+      "observations": [
+        {
+          "phase": "baseline",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": null,
+          "checkExitCodes": []
+        },
+        {
+          "phase": "check",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": true,
+          "sealed": null,
+          "checkExitCodes": [
+            0
+          ]
+        },
+        {
+          "phase": "seal",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": true,
+          "checkExitCodes": []
+        }
+      ],
+      "summary": {
+        "mode": "injected-evaluation",
+        "costRoutingImplemented": false,
+        "spentTokens": 900,
+        "reservedTokens": 0,
+        "remainingTokens": 9999100,
+        "halted": null,
+        "modelPhysicalCalls": 5,
+        "jev": {
+          "calls": 4,
+          "failures": 0,
+          "retries": 0,
+          "inputTokens": 44,
+          "outputTokens": 12,
+          "unknownUsageCalls": 0,
+          "active": 0
+        }
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "verification",
+            "data": {
+              "phase": "baseline",
+              "round": 0,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 2,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.13.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 3,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.13.0",
+                "responseModel": "jev-1.13.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 11,
+                  "outputTokens": 3
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "small",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 1,
+                    "medium": 0,
+                    "high": 0,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 4,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.12.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 5,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 6,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 7,
+            "type": "plan",
+            "data": {
+              "node": 3,
+              "kind": "plan",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 8,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 9,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 10,
+            "type": "plan",
+            "data": {
+              "node": 4,
+              "kind": "coordination",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 11,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 12,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 13,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 14,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 15,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 16,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 17,
+            "type": "verification",
+            "data": {
+              "phase": "check",
+              "round": 1,
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "checks": [
+                {
+                  "check": 1,
+                  "passed": true,
+                  "exitCode": 0
+                }
+              ]
+            }
+          },
+          {
+            "seq": 18,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.13.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 19,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.13.0",
+                "responseModel": "jev-1.13.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 11,
+                  "outputTokens": 3
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "complete",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 20,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.12.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 21,
+            "type": "verification",
+            "data": {
+              "phase": "seal",
+              "round": 1,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": true,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 22,
+            "type": "branch",
+            "data": {
+              "code": "completed",
+              "round": 1,
+              "lane": "small"
+            }
+          },
+          {
+            "seq": 23,
+            "type": "terminal",
+            "data": {
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 24,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.12.0",
+                "responseModel": "jev-1.12.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 11,
+                  "outputTokens": 3
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "small",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 1,
+                    "medium": 0,
+                    "high": 0,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 25,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.12.0",
+                "responseModel": "jev-1.12.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 11,
+                  "outputTokens": 3
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "complete",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          }
+        ]
+      },
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "completed",
+        "decisions": [
+          {
+            "seq": 3,
+            "source": "primary",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 19,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "complete",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          },
+          {
+            "seq": 24,
+            "source": "shadow",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 25,
+            "source": "shadow",
+            "phase": "step",
+            "decision": {
+              "action": "complete",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      }
+    }
+  ]
+}
+
+> dsh-jev-budgeted-evaluation@0.1.0 transport:offline
+> node transport/run.mjs
+
+{
+  "mode": "offline",
+  "networkRequests": 0,
+  "simulatedHttpPosts": 2,
+  "modelId": "gpt6-luna",
+  "simulatedModelUsage": {
+    "input": 20,
+    "output": 8,
+    "reasoning": 3,
+    "billedOutput": 8,
+    "total": 28
+  },
+  "simulatedJev": {
+    "calls": 1,
+    "failures": 0,
+    "retries": 0,
+    "inputTokens": 20,
+    "outputTokens": 2,
+    "unknownUsageCalls": 0,
+    "active": 0
+  },
+  "decodedFixturePassed": true,
+  "liveReady": false
+}

@@ -1,0 +1,22 @@
+{
+  "source": "Parent performed actual cloud desktop Terminal/CUA run and reported result at 2026-10-11T08:14:05Z",
+  "archiveSHA256": "fdbb46851fe29d7709f3af6549f06514c314b3fbccb45656dfd7d13dd7940969",
+  "officialVersion": "0.2.0-rc.2",
+  "runner": "bwrap",
+  "policy": "workspace-write",
+  "enforcement": "full",
+  "defaultTempRoot": "/tmp",
+  "passed": true,
+  "cases": [
+    "baseline/check/seal/cleanup all successful, evidence removed",
+    "tamper rejected, original bytes restored only for cleanup",
+    "lost acknowledgement blocks continuation, keeps quarantine and evidence",
+    "independent native context project completes sequentially"
+  ],
+  "notCovered": [
+    "real model/Jev",
+    "complete /team under default sandbox",
+    "concurrent host leases",
+    "Windows/Electron GUI"
+  ]
+}

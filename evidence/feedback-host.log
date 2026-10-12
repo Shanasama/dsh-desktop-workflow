@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> dsh-desktop-workflow@0.6.3-candidate.1 test:feedback-host
+> node --expose-internals scripts/verify-team-feedback-host.mjs
+
+PASS official rc.2 /team immediate acknowledgment; real native child completion; one original-session attributed notice; no parent model/turn; no cross-session delivery; JSONL cold reload; no network or credentials.

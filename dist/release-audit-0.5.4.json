@@ -1,0 +1,37 @@
+{
+  "version": "0.5.4",
+  "baseCommit": "6069f73b98b922d9db151e2b8637e250c33bbd4c",
+  "sourceFiles": 102,
+  "installationFiles": 44,
+  "sourceArchiveByteAudit": "pass",
+  "installationByteAudit": "pass",
+  "patchReplayByteAndModeAudit": "pass",
+  "reviewerBoundaryPreserved": true,
+  "excluded": [
+    "node_modules",
+    "dist historical bundles",
+    ".git",
+    "credentials",
+    "runtime state",
+    "test logs"
+  ],
+  "sourceTreeSha256": "077c3f95a27a442c9b00be6a6528c09a2551dfb26b79ffd342a8b8f7e803b8ea",
+  "artifacts": {
+    "dsh-desktop-workflow-0.5.4.tgz": {
+      "sha256": "9fb5f59d9ee1d149387eea0e76ddf84a71bf6b1275c8ad471c7fbbf1e050bc12",
+      "bytes": 579460
+    },
+    "dsh-desktop-workflow-0.5.4-source.tar.gz": {
+      "sha256": "12e9aeda97ce2f63c57c8ccc3aadf0bc20ae913fd8b613c7743c1d5220216f92",
+      "bytes": 920320
+    },
+    "dsh-desktop-workflow-0.5.3-to-0.5.4.patch": {
+      "sha256": "cfddf733cc3783e11a5c45f51575880ecc8f01a524b54a6e1d634f01e304609e",
+      "bytes": 383261
+    },
+    "source-manifest-0.5.4.json": {
+      "sha256": "1b8714015d6646b5f4badadb0768b97eb0ea40834eb32eda9a7efc41559b9e4e",
+      "bytes": 17520
+    }
+  }
+}

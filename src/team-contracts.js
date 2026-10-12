@@ -32,22 +32,32 @@ function identifier(value, label) {
   if (typeof value !== 'string' || !ID.test(value)) throw new TypeError(`${label} is not a valid task identifier`);
   return value;
 }
+export const DEFAULT_PRODUCTION = Object.freeze({budget:{enabled:false,tokenLimit:0},routing:{enabled:false,roles:{}},jev:{model:'jev-latest',trace:true,shadow:{enabled:false,model:'',maxCalls:2}}});
+export function validateModelSelection(value,label='model') {
+  const model=record(value,['provider','model','reasoningEffort','maxTokens'],label,['provider','model']);
+  const entry={provider:string(model.provider,1,120,`${label}.provider`),model:string(model.model,1,160,`${label}.model`),maxTokens:4096};
+  if(Object.hasOwn(model,'reasoningEffort'))entry.reasoningEffort=string(model.reasoningEffort,1,32,`${label}.reasoningEffort`);
+  if(Object.hasOwn(model,'maxTokens')){if(!Number.isInteger(model.maxTokens)||model.maxTokens<1||model.maxTokens>32768)throw new TypeError(`${label}.maxTokens must be an integer from 1 to 32768`);entry.maxTokens=model.maxTokens;}
+  return entry;
+}
+export function validateProduction(value={}) {
+  const budget=structuredClone(DEFAULT_PRODUCTION.budget),routing=structuredClone(DEFAULT_PRODUCTION.routing),jev=structuredClone(DEFAULT_PRODUCTION.jev);
+  if(value.budget!==undefined){record(value.budget,['enabled','tokenLimit'],'budget');if(typeof value.budget.enabled!=='boolean'||!Number.isSafeInteger(value.budget.tokenLimit)||value.budget.tokenLimit<0||value.budget.tokenLimit>1_000_000_000||value.budget.enabled&&value.budget.tokenLimit===0)throw new TypeError('budget requires an explicit positive token limit when enabled');Object.assign(budget,value.budget);}
+  if(value.routing!==undefined){record(value.routing,['enabled','roles'],'routing');if(typeof value.routing.enabled!=='boolean')throw new TypeError('routing.enabled must be boolean');record(value.routing.roles,TEAM_ROLES,'routing.roles',[]);routing.enabled=value.routing.enabled;for(const[role,candidates]of Object.entries(value.routing.roles)){record(candidates,['weak','strong'],`routing.${role}`,[]);routing.roles[role]={};for(const[tier,model]of Object.entries(candidates))routing.roles[role][tier]=validateModelSelection(model,`routing.${role}.${tier}`);}}
+  if(value.jev!==undefined){record(value.jev,['enabled','disclosureAccepted','model','trace','shadow'],'jev',[]);if(value.jev.model!==undefined){if(typeof value.jev.model!=='string'||value.jev.model.length>64||!/^(?:jev-latest|jev-preview|jev-\d+\.\d+\.\d+(?:-[a-z0-9.]+)?)$/.test(value.jev.model))throw new TypeError('jev.model must be a supported alias or an explicit pinned version');jev.model=value.jev.model;}if(value.jev.trace!==undefined){if(typeof value.jev.trace!=='boolean')throw new TypeError('jev.trace must be boolean');jev.trace=value.jev.trace;}if(value.jev.shadow!==undefined){record(value.jev.shadow,['enabled','model','maxCalls'],'jev.shadow');const shadow=value.jev.shadow;if(typeof shadow.enabled!=='boolean'||typeof shadow.model!=='string'||shadow.model.length>64||(shadow.enabled||shadow.model!=='')&&!/^jev-\d+\.\d+\.\d+(?:-[a-z0-9.]+)?$/.test(shadow.model)||!Number.isInteger(shadow.maxCalls)||shadow.maxCalls<0||shadow.maxCalls>20)throw new TypeError('shadow requires an explicit pinned Jev version and 0–20 calls');jev.shadow={...shadow};}}
+  return {budget,routing,jev};
+}
+export function configuredModels(config){const selected={...config.roles};for(const[role,candidates]of Object.entries(config.routing?.roles||{}))for(const[tier,model]of Object.entries(candidates))selected[`${role}.${tier}`]=model;return selected;}
+export function selectRoleModel(config,role,lane){const tier=config.routing?.enabled?(lane==='small'?'weak':['high','escalate'].includes(lane)?'strong':'base'):'base';const chosen=config.routing?.roles?.[role]?.[tier];return {model:structuredClone(chosen||config.roles[role]),tier:chosen?tier:'base',reason:!config.routing?.enabled?'routing_disabled':tier==='base'?'medium_lane_base':chosen?'configured_lane_candidate':'candidate_absent_base'};}
 export function validateConfig(value) {
-  record(value, ['sessionId', 'goal', 'roles', 'limits', 'reviewPlan', 'routeEnabled', 'jev', 'verification'], 'config', ['sessionId', 'goal', 'roles']);
+  record(value, ['sessionId', 'goal', 'roles', 'limits', 'reviewPlan', 'routeEnabled', 'jev', 'verification', 'budget', 'routing'], 'config', ['sessionId', 'goal', 'roles']);
   const sessionId = string(value.sessionId, 1, 160, 'sessionId');
   const goal = string(value.goal, 1, 8000, 'goal');
   record(value.roles, [...TEAM_ROLES, 'router'], 'roles', TEAM_ROLES);
   const roles = {};
   for (const role of [...TEAM_ROLES, 'router']) {
     if (!Object.hasOwn(value.roles, role)) continue;
-    const model = record(value.roles[role], ['provider', 'model', 'reasoningEffort', 'maxTokens'], `roles.${role}`, ['provider', 'model']);
-    const entry = {provider: string(model.provider, 1, 120, `${role}.provider`), model: string(model.model, 1, 160, `${role}.model`), maxTokens: 4096};
-    if (Object.hasOwn(model, 'reasoningEffort')) entry.reasoningEffort = string(model.reasoningEffort, 1, 32, `${role}.reasoningEffort`);
-    if (Object.hasOwn(model, 'maxTokens')) {
-      if (!Number.isInteger(model.maxTokens) || model.maxTokens < 1 || model.maxTokens > 32768) throw new TypeError(`${role}.maxTokens must be an integer from 1 to 32768`);
-      entry.maxTokens = model.maxTokens;
-    }
-    roles[role] = entry;
+    roles[role] = validateModelSelection(value.roles[role], `roles.${role}`);
   }
   const limits = {...DEFAULT_LIMITS};
   if (value.limits !== undefined) {
@@ -61,9 +71,9 @@ export function validateConfig(value) {
   const routeEnabled = value.routeEnabled ?? false;
   if (routeEnabled && !roles.router) throw new TypeError('roles.router is required when routing is enabled');
   let jev, verification;
-  if(value.jev!==undefined){record(value.jev,['enabled','disclosureAccepted'],'jev');if(value.jev.enabled!==true||typeof value.jev.disclosureAccepted!=='boolean')throw new TypeError('Jev must be explicitly enabled');jev={enabled:true,disclosureAccepted:value.jev.disclosureAccepted};}
+  if(value.jev!==undefined){if(value.jev.enabled!==true||typeof value.jev.disclosureAccepted!=='boolean')throw new TypeError('Jev must be explicitly enabled');jev={...validateProduction({jev:value.jev}).jev,enabled:true,disclosureAccepted:value.jev.disclosureAccepted};}
   if(value.verification!==undefined){record(value.verification,['profileId','scope'],'verification');const scope=array(value.verification.scope,16,'scope');if(!scope.length||!scope.every(safeRelative)||new Set(scope).size!==scope.length)throw new TypeError('Scope must contain unique safe relative paths');verification={profileId:identifier(value.verification.profileId,'verification.profileId'),scope:[...scope]};}
-  return {sessionId, goal, roles, limits, reviewPlan: value.reviewPlan ?? true, routeEnabled, ...(jev?{jev}:{}), ...(verification?{verification}:{})};
+  return {sessionId, goal, roles, limits, ...Object.fromEntries(Object.entries(validateProduction(value)).filter(([key])=>key!=='jev')), reviewPlan: value.reviewPlan ?? true, routeEnabled, ...(jev?{jev}:{}), ...(verification?{verification}:{})};
 }
 
 export function validatePlan(value, maxTasks = 12) {

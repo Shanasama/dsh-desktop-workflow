@@ -1,0 +1,10 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> dsh-desktop-workflow@0.6.3-candidate.1 test:client-host
+> node --expose-internals scripts/verify-client-host.mjs
+
+PASS negative control: rc.2 sibling fibers reject missing remote injection with the exact Windows error
+PASS actual client settings callback: six roles, native credential describe and completed empty catalog
+PASS failed catalog leaves loading state and refresh recovers through the actual settings callback
+PASS native command acknowledgment opens setup and sidebar callback retains Remote injection
+Client host contract regression passed. Actual rc.2 Cordis/Typert/Remote; synthetic read-only transport and JSDOM, no Electron visual assertion, credentials, model or Jev calls.

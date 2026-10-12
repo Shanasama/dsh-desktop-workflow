@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "projectId": "dsh-jev-project-acceptance",
+  "baseUrl": "https://api.aiuzh.icu",
+  "endpointPath": null,
+  "modelId": "gpt6-luna",
+  "jevModelId": "jev-1.13.0",
+  "maxOutputTokens": 128,
+  "inputUpperBoundTokens": null,
+  "requestSha256": null,
+  "providerContract": {
+    "usageFormat": null,
+    "reasoningAccounting": null,
+    "inputUpperBoundMethod": null,
+    "outputLimitParameter": null,
+    "outputLimitIncludesAllBillableOutput": false,
+    "verifiedForModelId": null,
+    "evidence": null
+  }
+}

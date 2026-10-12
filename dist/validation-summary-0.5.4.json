@@ -1,0 +1,71 @@
+{
+  "release": "0.5.4",
+  "baselineCommit": "6069f73b98b922d9db151e2b8637e250c33bbd4c",
+  "environment": {
+    "platform": "linux",
+    "architecture": "x64",
+    "node": "24.19.0",
+    "officialHost": "0.2.0-rc.2",
+    "powershell": "7.6.6"
+  },
+  "checks": {
+    "build": "pass",
+    "typecheck": "pass",
+    "fullSuite": {
+      "tests": 192,
+      "pass": 191,
+      "fail": 0,
+      "skip": 1,
+      "skipReason": "/tmp enclosing protected .git marker prevents a true non-repository filesystem fixture; pure overlap and independent Git fixtures pass"
+    },
+    "officialHost": [
+      "host",
+      "team-host",
+      "client-host",
+      "verifier-host"
+    ],
+    "realPowerShell": {
+      "pass": true,
+      "verifierProcessCalls": 33,
+      "notStartedControls": 6,
+      "notStartedProcessCalls": 0,
+      "poisons": 0,
+      "modelCalls": 0,
+      "jevCalls": 0
+    },
+    "exactFinalArchiveIsolatedCliInstallRegisterRemove": "pass",
+    "artifactByteAudit": "pass",
+    "patchReplayByteAndModeAudit": "pass",
+    "repeatPackagingIdenticalHashes": "pass"
+  },
+  "notRun": [
+    "native Windows",
+    "Electron Node mode",
+    "Windows sandbox",
+    "daily profile /team GUI",
+    "real role model and Jev service calls"
+  ],
+  "unresolved": [
+    "Historical intermittent Windows cleanup exit 3 remains unexplained; no claim of cure."
+  ],
+  "recoveredFailures": [
+    "Baseline: 187 pass / 3 fail before fixture corrections",
+    "First full pwsh harness expected only one fail-closed shape for changed package.json; now accepts VERIFICATION_INVALID or explicit protectedOk:false",
+    "Isolated CLI initial environment stripped proxy / inherited CA path; restored executor network route and existing trust, never disabled TLS verification"
+  ],
+  "evidence": [
+    "final-check.log",
+    "pwsh-full.log",
+    "pwsh-provenance.json",
+    "release-profile.log",
+    "host-host.log",
+    "host-team-host.log",
+    "host-client-host.log",
+    "host-verifier-host.log",
+    "windows-guard-negative.log",
+    "source-checksums.log",
+    "release-build.log",
+    "release-build-repeat.log",
+    "patch-numstat.txt"
+  ]
+}

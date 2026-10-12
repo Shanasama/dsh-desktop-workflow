@@ -1,0 +1,21 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> dsh-desktop-workflow@0.6.3-candidate.1 test:production-host
+> node --expose-internals scripts/verify-production-host.mjs
+
+PASS native /team requires setup; real SettingsForms and ConfigEditor persist budget and weak/base/strong routes without credentials
+PASS native Loader remount restores production controls and consent from the persisted settings entry
+PASS all production HTTP routes enforce real BrowserAuth, Origin, RPC envelope and no-store responses
+PASS actual native /team reaches AgentLoop, native spawn, official filesystem edit tools and real verifier subprocess completion
+PASS pinned shadow disagreements remain observational; primary alias/resolved version metadata is retained without changing the run
+PASS real failing independent tests override optimistic fixture review and Jev complete proposals
+PASS native children follow small weak, medium base and high strong routing after live lane escalation
+PASS cancellation reaches the real native provider signal, drains children and removes verifier evidence
+PASS production deadline aborts native model work and confirms cleanup before releasing the project
+PASS enabled budget observes actual official llm/stream calls and usage; shadow/Jev requests consume no role token budget
+PASS insufficient production budget refuses the native request before the inert provider receives any call
+PASS missing native usage retains the full reservation and blocks all subsequent provider calls
+PASS lost verifier acknowledgement quarantines only the known project; a distinct project completes through native /team
+PASS official child publication and disposal are balanced, with no fake credential in public snapshots or traces
+PRODUCTION_HOST_RESULT {"packageVersion":"0.6.3-candidate.1","installedBundle":false,"bundleSha256":null,"duplicatePeer":false,"dshVersion":"0.2.0-rc.2","nativeChildren":39,"modelFixtureCalls":52,"jevFixtureCalls":30,"realVerifierProcesses":30,"externalRequests":0}
+LIMITS: deterministic provider and Jev replies, fixed-command shell backend, and synthetic projects only. Actual rc.2 core, settings, credentials, HTTP, AgentLoop, spawn, filesystem tools and verifier processes run. No real API credentials, model/API network, Electron visual QA or Windows execution.

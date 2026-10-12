@@ -149,7 +149,7 @@ try{
   const {createTeamRuntime,registerTeamCommand,registerTeamRoutes}=await import('../src/team-runtime.js');
   const {ToolRuntime}=await official('dsh-tools');
   const {default:SystemPrompt}=await official('dsh-system-prompt');
-  const fixture=teamHost({sessionId:'session-a',hold:true});let runtime;
+  const fixture=teamHost({sessionId:'session-a',sessionIds:['session-b'],hold:true});let runtime;
   try{
     forks.push(root.plugin(LocalCredentialProvider,{path:join(temp,'http-credentials.yaml'),watch:false}));
     forks.push(root.plugin(WebServer,{host:'127.0.0.1',port:0}));forks.push(root.plugin(connection));
@@ -158,7 +158,7 @@ try{
     disposers.push(root.typert.register(commandTypes));disposers.push(root.typert.register(settingsTypes));
     const agents=[];
     for(const id of ['session-a','session-b']){
-      const agent=id==='session-a'?fixture.parent:{id,status:'idle',session:{id,header:{cwd:temp}}};
+      const agent=fixture.parents.get(id);
       agent.session.append=(type,data)=>{events.push({id,type,data});return events.length;};
       const scope=createScope(root,agent);agent.ctx=scope.ctx;agents.push(agent);disposers.push(()=>scope.dispose());disposers.push(root.agents.enter(agent));
     }
@@ -216,12 +216,12 @@ try{
     const gate=new Promise(r=>{release=r;});
     fixture.ctx.llm.resolveCallConfig=async selection=>{enteredPreflight=true;await gate;return selection;};
     runtime=createTeamRuntime(fixture.ctx,{}, {...fixtureDependencies(),setup});
-    const before=fixture.calls.length,cancelSignal=new AbortController();
+    const before=fixture.calls.length,previousRun=runtime.snapshot('session-a').snapshot?.id,cancelSignal=new AbortController();
     const pendingCommand=root.commands.execute(agents[0],'/team Abort during model metadata lookup',[],cancelSignal.signal).catch(()=>undefined);
     await wait(()=>enteredPreflight);cancelSignal.abort();release();await pendingCommand;
     await new Promise(r=>setTimeout(r,30));
     assert.equal(fixture.calls.length,before,'Cancelled command must not dispatch a model after metadata preflight resumes');
-    assert.equal(runtime.snapshot('session-a').snapshot,null,'Cancelled pending command must not create a team');
+    assert.equal(runtime.snapshot('session-a').snapshot?.id,previousRun,'Cancelled pending command must not create a new team or discard existing history');
     pass('cancellation during metadata preflight prevents later command execution');
 
 

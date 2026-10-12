@@ -1,0 +1,94 @@
+{
+  "verdict": "conditional-offline-source-acceptance",
+  "scope": "Independent acceptance of the frozen final ZIP as an offline evaluation source candidate, not an installable DSH release or live provider acceptance.",
+  "inputZip": "/workspace/shared/dsh-jev-integrated-offline-final.zip",
+  "inputSha256": "5d7f7e9d1129fa29c9635cfa05b638ed05528902cfda544140318354c3183a05",
+  "acceptanceRoot": "/tmp/jev-independent-acceptance-JZpKQo",
+  "integrity": {
+    "outerChecksumEntriesPassed": 147,
+    "sourceChecksumEntriesPassedBeforeBuild": 136,
+    "sourceManifestFilesMatchedByPatchReplay": 137,
+    "frozenZipChanged": false
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "platform": "Linux cloud",
+    "dependenciesReused": "/workspace/scratch/d2a8bd896b86/dsh-desktop-workflow/node_modules",
+    "officialHostModules": "/workspace/scratch/d2a8bd896b86/dsh-workflow-plugin/.lab/node_modules",
+    "officialHostVersion": "0.2.0-rc.2",
+    "dependencyInstallPerformed": false
+  },
+  "tests": {
+    "build": "passed",
+    "typecheck": "passed",
+    "coreInitial": {
+      "pass": 206,
+      "fail": 0,
+      "skip": 4
+    },
+    "evaluation": {
+      "pass": 123,
+      "fail": 0,
+      "skip": 0
+    },
+    "officialInertAdditional": {
+      "pass": 2,
+      "fail": 0
+    },
+    "uniquePackagedTests": {
+      "pass": 331,
+      "fail": 0,
+      "notRunOrSkipped": 2
+    },
+    "independentGateScenarios": {
+      "pass": 10,
+      "fail": 0
+    },
+    "remainingSkips": [
+      "Official-host integrated installation/localhost HTTP suite deliberately not enabled because no real HTTP was authorized.",
+      "Non-repository filesystem fixture skipped because temporary directory has an enclosing Git marker."
+    ]
+  },
+  "confirmedTestConfiguration": {
+    "modelId": "gpt6-luna",
+    "projectTokens": 10000000,
+    "pilotTokens": 100000,
+    "taskTokens": 20000,
+    "concurrency": 1,
+    "scope": "This test run configuration only; not a permanent product runtime policy."
+  },
+  "liveReady": false,
+  "blockers": [
+    "Provider/model-specific usage, reasoning, all-billable-output cap and serialized-input hard-bound evidence remain unverified.",
+    "Safe user-controlled credential submission and live supplier/task acceptance have not occurred.",
+    "The real user-project task adapter is not accepted; synthetic edits are fixed fixture actions."
+  ],
+  "installationBoundary": {
+    "newTgzIncluded": false,
+    "npmPackDryRunOnly": true,
+    "evaluationIncludedByCurrentFilesAllowlist": false,
+    "installedAnywhere": false,
+    "productionBudgetAdapterWired": false,
+    "meaning": "Expected source-review scope boundary, not a failure against the offline evaluation request. Any production integration requires a separately agreed configurable policy."
+  },
+  "network": {
+    "realProviderRequests": 0,
+    "realCredentialOperations": 0,
+    "defaultNodeEntryGuardTriggers": 0,
+    "controlledFullRunGuardTriggers": 0,
+    "initialNpmRunBlockedHttpsAttempt": 1,
+    "note": "The initial npm-driven run attempted one HTTPS request, denied by the guard before transport; the origin was not recorded. A rerun with npm update notifications disabled and npm offline mode set had zero guard triggers."
+  },
+  "caveats": [
+    "Build regenerates preview/app.js with dependency-location-specific module labels, changing that generated artifact checksum in the acceptance copy. lib/client.js stayed byte-identical. The original ZIP and pre-build checksums remain intact.",
+    "Linux only; no Windows/Electron or real supplier quality/cost acceptance; no amount cap or dynamic cost-routing result."
+  ],
+  "evidence": {
+    "report": "/workspace/shared/jev-independent-acceptance-report.txt",
+    "archive": "/workspace/shared/jev-independent-acceptance-evidence.zip",
+    "runner": "/tmp/jev-independent-acceptance-JZpKQo/independent-gates.mjs",
+    "detailedGates": "/tmp/jev-independent-acceptance-JZpKQo/reports/independent-gates.json",
+    "fullRunLog": "/tmp/jev-independent-acceptance-JZpKQo/logs/check-integration-controlled.log"
+  }
+}

@@ -65,5 +65,5 @@ export function useTeamTheme() {
   return useSyncExternalStore(subscribe, getSnapshot, () => DEFAULT_THEME);
 }
 export function TeamThemeSwitch({ theme }: { theme: TeamTheme }) {
-  return <label className="tm-theme-switch"><span>风格</span><select aria-label="界面风格" value={theme} onChange={event => setTeamTheme(event.target.value as TeamTheme)}><option value="arknights">明日方舟</option><option value="classic">原版 UI</option></select></label>;
+  return <label className="tm-theme-switch"><span>风格</span><select aria-label="界面风格" value={theme} onChange={event => setTeamTheme(event.target.value as TeamTheme)}><option value="arknights">泰拉</option><option value="classic">原版 UI</option></select></label>;
 }

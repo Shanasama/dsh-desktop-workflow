@@ -1,0 +1,162 @@
+{
+  "baseCommit": "e1539a05abb35c9cc622a02f68a7b3fcca45ada0",
+  "targetBranch": "review/jev-evaluation-stage1",
+  "sourceFilesByteIdentical": 150,
+  "packageFilesByteIdentical": 50,
+  "bundleSha256": "fdbb46851fe29d7709f3af6549f06514c314b3fbccb45656dfd7d13dd7940969",
+  "allPreexistingDistFilesPreserved": true,
+  "files": {
+    ".github/README.md": {
+      "bytes": 3683,
+      "sha256": "b078d63ddffaa864d185443cdb4bff9af1931eb0329b31b2f030aff8464bfe45"
+    },
+    "DSH-ACCEPTANCE.zh-CN.md": {
+      "bytes": 8951,
+      "sha256": "640db297143add2153197eac25221a08afc8a6aab9cf1c1084517de292375f82"
+    },
+    "INSTALL-ME.md": {
+      "bytes": 2333,
+      "sha256": "55da4ba218765d60117049bb48e2cd28668d923b15c20bf3dc0be009b985e4c8"
+    },
+    "README.md": {
+      "bytes": 8114,
+      "sha256": "6ac86128f7336ea48dad635cfb9070420bc20d7caffe1f38cbb7b4bdd2922c4b"
+    },
+    "SHA256SUMS": {
+      "bytes": 13857,
+      "sha256": "e589d5851b5008d458cbf9a23ffc00c23ac15a7063c1beec2cfa429e7ee0cf67"
+    },
+    "dist/dsh-desktop-workflow-0.6.1.tgz": {
+      "bytes": 617766,
+      "sha256": "fdbb46851fe29d7709f3af6549f06514c314b3fbccb45656dfd7d13dd7940969"
+    },
+    "dist/v0.6.1/0.6.0-to-0.6.1.patch": {
+      "bytes": 103190,
+      "sha256": "4c8e2e972f6bfa2f6ce5004ceeb504f768a525334ca9f3ce60c760d5b1ad3995"
+    },
+    "dist/v0.6.1/RELEASE-STATUS.zh-CN.md": {
+      "bytes": 2151,
+      "sha256": "3381c05c7f43bbc6a3cdf61933ab1212b70daa12bb02f8e3adb4992265393001"
+    },
+    "dist/v0.6.1/SHA256SUMS": {
+      "bytes": 860,
+      "sha256": "1386f8add5a44ed13f16d0072198a49e9acaeb9ed8bcab7fd576ca34a00dbea1"
+    },
+    "dist/v0.6.1/dsh-desktop-workflow-0.6.1-source.zip": {
+      "bytes": 1143466,
+      "sha256": "413f9cf6e51ba3964408f3d4a320502cb7bf662901ea4586157655587c747911"
+    },
+    "dist/v0.6.1/dsh-desktop-workflow-0.6.1.tgz": {
+      "bytes": 617766,
+      "sha256": "fdbb46851fe29d7709f3af6549f06514c314b3fbccb45656dfd7d13dd7940969"
+    },
+    "dist/v0.6.1/package-manifest-0.6.1.json": {
+      "bytes": 8024,
+      "sha256": "0c1230202024fb203100bc019620d3822daddb55f3d3a827c5e8f88b2f8e827b"
+    },
+    "dist/v0.6.1/parent-desktop-acceptance-0.6.1.json": {
+      "bytes": 803,
+      "sha256": "9ad5a87815af53c9f743b9ecd5505122c18eb9365cfc222b5039f9046886250c"
+    },
+    "dist/v0.6.1/source-manifest-0.6.1.json": {
+      "bytes": 24205,
+      "sha256": "bbc64213e0164401db00d175ad8edd88dbf4765eb843d72987c00d06150693e1"
+    },
+    "dist/v0.6.1/validation-evidence-0.6.1.zip": {
+      "bytes": 41079,
+      "sha256": "ed01d7ffbd8d8a51e34fdaea0f7d3cff5f230624095a5b2508bda4cd5793921a"
+    },
+    "dist/v0.6.1/validation-summary-0.6.1.json": {
+      "bytes": 3340,
+      "sha256": "530aca487251593400d9df6f7594122afc6be1ae6637424cbfa5c8a13d01ff8b"
+    },
+    "docs/ARCHITECTURE.md": {
+      "bytes": 2753,
+      "sha256": "dc5a6e92e9becb95b86030ab6aeb67ea7de9d7c5079294867473d5717f179275"
+    },
+    "docs/INSTALL.zh-CN.md": {
+      "bytes": 3640,
+      "sha256": "7380dc49f100426dee4a484c80668dbfbe98fd0df566e813b74433a6da52ebd7"
+    },
+    "docs/SANDBOX-FIX-0.6.1.md": {
+      "bytes": 1890,
+      "sha256": "b987f5c9057d93ad6845e39e85441c3e8ab200efebd11e07b8e204a51f0e8a61"
+    },
+    "package-lock.json": {
+      "bytes": 42427,
+      "sha256": "c0b36f729947c0f098f0e3415c94c61ed8eb41e86132e674d920eb1c9c13fc15"
+    },
+    "package.json": {
+      "bytes": 2481,
+      "sha256": "e8d1ab78d9ce8d01cea4961592ed488ddb88f7e96c789135baa214cba1cacdfd"
+    },
+    "review/DSH-ACCEPTANCE-0.6.0-historical.zh-CN.md": {
+      "bytes": 8126,
+      "sha256": "e3ca47f57ed72f789b3c7fe2a65dc9f35696971c3dce384200c663a00d700b1d"
+    },
+    "review/README-0.6.0-historical.zh-CN.md": {
+      "bytes": 2819,
+      "sha256": "841fd7017bf7c9b03f4650660ab8fe8c452357c20732c798eefbd950341c1985"
+    },
+    "scripts/README-default-sandbox.md": {
+      "bytes": 2907,
+      "sha256": "3c0e100d5fdba4c513997813cee76237637db0b2cf028425b3efb8e2a3db4904"
+    },
+    "scripts/verify-default-sandbox.mjs": {
+      "bytes": 15224,
+      "sha256": "cab05e6927a8d4376f024409bc5f7923aa82c855aaf11e26393967d59c8efa61"
+    },
+    "scripts/verify-production-host.mjs": {
+      "bytes": 34060,
+      "sha256": "b4938674db54345682acdf6f6af61636f84b4beb16cb3efcb6a51bab221e7a3c"
+    },
+    "scripts/verify-verifier-host.mjs": {
+      "bytes": 6826,
+      "sha256": "3db866d5899dba10cea90f9964f50f1848b52f376a334d08a66b32a57311fb80"
+    },
+    "scripts/verify-verifier-pwsh.mjs": {
+      "bytes": 22983,
+      "sha256": "f1bacdcfa07033bcefef986d04644a8812d4c5ab727d2a468d9b0ae5dc6257d4"
+    },
+    "src/auto-verification.js": {
+      "bytes": 5673,
+      "sha256": "29eb26aead26349b92e4fffa6f2feb7a8dccefdfb20274f9317e93b8b77228ce"
+    },
+    "src/host-adapter.js": {
+      "bytes": 26007,
+      "sha256": "d815f7fb3e797b3c5627fd72a8296c1d0b4e5499a8f9588325213adfc254b374"
+    },
+    "src/verification-project-runner.js": {
+      "bytes": 17412,
+      "sha256": "5e5a7627cf5eb31c25ae3e89196a2efd86cc6387b320637c10b7ee2688a8a1af"
+    },
+    "test/host-adapter.test.mjs": {
+      "bytes": 9806,
+      "sha256": "8c101cd7bd6551a8a3f049a9389c3815ab9e6efe95cc4011213d213ae3295b14"
+    },
+    "test/production-runtime.test.mjs": {
+      "bytes": 8298,
+      "sha256": "2dcd1ba35ea5142b1c2a14a78afd75434b6711e8a5881f6a3031568ba6df51c5"
+    },
+    "test/review-auto-safety.test.mjs": {
+      "bytes": 8570,
+      "sha256": "6762ee654122271d3365b66d2014f5735542f7d88e991b7aead3c76a00bf6872"
+    },
+    "test/session-isolation.test.mjs": {
+      "bytes": 18175,
+      "sha256": "a5449f629229e323b3a2a981fc29c9e997478c114224bf6d61e1e0c34ac65c84"
+    },
+    "test/verifier-cleanup.test.mjs": {
+      "bytes": 3847,
+      "sha256": "9699317ba3f8d1f2efc8f5cd7c66c133fa27d4ccdb7f53c1725a258ce0f12159"
+    },
+    "test/verifier-quarantine.test.mjs": {
+      "bytes": 5982,
+      "sha256": "ac801e3ffc56757194f68b09c37da6c01189a7e7020b2fa33d2c095c4cd06a31"
+    },
+    "test/verifier-workspace-evidence.test.mjs": {
+      "bytes": 15534,
+      "sha256": "a862cceacf2af18bc8db72e36c035def12548755bfefddf25a97b15a6d6b2437"
+    }
+  }
+}

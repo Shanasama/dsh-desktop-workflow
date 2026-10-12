@@ -1,0 +1,1110 @@
+--- a/INSTALL-ME.md
++++ b/INSTALL-ME.md
+@@ -4,7 +4,7 @@
+ 
+ ## 用户怎么做
+ 
+-1. 从仓库 `dist/` 下载 `dsh-desktop-workflow-0.6.0.tgz`。不要下载旧版，也不要把 GitHub 的源码 ZIP 当成插件包。
++1. 从仓库 `dist/` 下载 `dsh-desktop-workflow-0.6.1.tgz`。不要下载旧版，也不要把 GitHub 的源码 ZIP 当成插件包。
+ 2. 把 `.tgz` 拖到 DSH 聊天框，发送：
+ 
+    **请使用官方插件管理器把这个附件安装到当前 DSH 配置中。安装后告诉我怎么打开多模型团队设置。不要修改我的模型提供方、凭据或安全权限。**
+@@ -19,7 +19,7 @@
+ - 从当前附件元数据取宿主提供的真实绝对路径，不要猜路径，不要把文件名当命令，不要读取附件以外的私密文件。
+ - 优先使用官方 `plugin_manager`，参数 `action: "install_bundle"`，`target` 为该 `.tgz` 的绝对路径。这会使用宿主的实际插件管理配置。保留原有安装确认流程。
+ - 如果工具没有启用、附件没有有效本地路径或安装失败，准确说明原因。不要擅自安装其他软件、扩大权限、切换 profile、改写全局配置或解包运行未知脚本。
+-- 安装后核对插件名 `dsh-desktop-workflow` 和版本 `0.6.0`，说明是否需要重新加载/重启。无法核实时不要说安装成功。
++- 安装后核对插件名 `dsh-desktop-workflow` 和版本 `0.6.1`，说明是否需要重新加载/重启。无法核实时不要说安装成功。
+ - Jev Key 由用户自己在插件设置的专用密钥表单输入，不能通过聊天、普通配置示例或环境诊断收集。
+ 
+ ## 已知边界
+--- a/README.md
++++ b/README.md
+@@ -1,4 +1,4 @@
+-# DSH 多模型团队 · v0.6.0
++# DSH 多模型团队 · v0.6.1
+ 
+ **装一次、设置一次，以后直接在聊天框输入 `/team 任务正文`。**
+ 
+@@ -6,7 +6,7 @@
+ 
+ ## 开始使用
+ 
+-1. 下载 `dist/dsh-desktop-workflow-0.6.0.tgz`，拖给 DSH，并明确说“请用官方插件管理器安装到当前配置”。详见 [安装说明](INSTALL-ME.md)。这使用 DSH 代理的官方安装工具，不是插件新增的自动拖拽导入器。
++1. 下载 `dist/dsh-desktop-workflow-0.6.1.tgz`，拖给 DSH，并明确说“请用官方插件管理器安装到当前配置”。详见 [安装说明](INSTALL-ME.md)。这使用 DSH 代理的官方安装工具，不是插件新增的自动拖拽导入器。
+ 2. 在 **设置 → 多模型团队** 选择六岗位模型，输入 Jev Key，阅读并自行启用 TypeSafe 数据许可，保存。
+ 3. 回到项目聊天，输入：
+ 
+@@ -67,7 +67,7 @@
+ 
+ ## 验证与安装说明
+ 
+-本版是 0.6.0 功能闭环候选。原生 /team、设置、真实子代理、官方文件工具、独立验证子进程在官方 rc.2 Linux 云环境中运行；模型与 Jev transport 使用明确的惰性 fixture，没有读取真实凭据或发送付费 API 请求。Windows/Electron 原生与供应商实际模型能力仍需在对应环境验证。旧 cleanup exit 3 根因未确认；保留局部项目隔离，不把修复兼容性描述成根治。详见 [0.6.0 原生验收](docs/PRODUCTION-ACCEPTANCE.md)。
++本版是 0.6.1 工作区证据修复候选。0.6.0 在 Linux 默认 bwrap 下存在跨调用 /tmp 证据丢失问题；修复及验收边界见 [0.6.1 修复说明](docs/SANDBOX-FIX-0.6.1.md)。原生 /team、设置、真实子代理、官方文件工具、独立验证子进程在官方 rc.2 Linux 云环境中运行；模型与 Jev transport 使用明确的惰性 fixture，没有读取真实凭据或发送付费 API 请求。Windows/Electron 原生与供应商实际模型能力仍需在对应环境验证。旧 cleanup exit 3 根因未确认；保留局部项目隔离，不把修复兼容性描述成根治。详见 [0.6.0 原生验收](docs/PRODUCTION-ACCEPTANCE.md)。
+ 
+ - [安装、一次设置与日常使用](docs/INSTALL.zh-CN.md)
+ - [验证记录](docs/VERIFICATION.md)
+--- a/SHA256SUMS
++++ b/SHA256SUMS
+@@ -1,8 +1,8 @@
+ 6a229facc6b6dc218f3c9c677b9bb2aebdd8f7730e0f182904304776800f1a4a  .gitignore
+-408eeac8f7b5751e0d5bb36275cffff8039df30f5cc2d64053b1c65d7cebb29c  INSTALL-ME.md
++55da4ba218765d60117049bb48e2cd28668d923b15c20bf3dc0be009b985e4c8  INSTALL-ME.md
+ 5653fa4befc4ae510f334d8aaf1c96581a0adc94456fe6c775d1a0865e717544  LICENSE
+ 27a33179407cbc9a9a0e3ce7d19e78a0986321c613d196138258ce026dcfd242  NOTICE
+-4485e3386762ad0b50a03b4cd0ddf235305fecc3a25827dacc26ea9abdd0d30e  README.md
++6ac86128f7336ea48dad635cfb9070420bc20d7caffe1f38cbb7b4bdd2922c4b  README.md
+ 32a8e0064497801371e705932c44dd12e681cf8711b4b2ff683900f46c8e8f10  client/ConnectedTeam.tsx
+ 7e4f038ddccb04a4e87e28d7bf344ab77c4ab167fe06da7d3d9272acdbc05c75  client/TeamProduction.tsx
+ 91094c86a04191b5ec7926b550b4fd41d0a171c216052ce49fc2c701998e8d9f  client/TeamView.tsx
+@@ -18,14 +18,15 @@
+ b73974e31a696953ebd99035baad0e743d637ba960767564a7adfc0824342fd7  client/team.css
+ ce25a56c3d6a4490943ffae2a22f97a4d3e501326d2a7410d945928ea76e7a19  client/workflow.css
+ 28910ae0160f520bf1bbf68b4073f9aee0c80c301fd1ffa9d77affebdafeae53  cordis.patch.yml
+-587425dbcb9ee6ca99b3dfa1ac8313709ceae2157ea598bd297e23e4fde3d080  docs/ARCHITECTURE.md
++dc5a6e92e9becb95b86030ab6aeb67ea7de9d7c5079294867473d5717f179275  docs/ARCHITECTURE.md
+ 5c788d6d11fd4fbffacb2e195b53319ab97c52ae694d0d9230afe51df2ca84cd  docs/CLOUD-HOST-QA.zh-CN.md
+-db791d3d956fec83a00c9ccbe3f704953d39db9d7c1dad260676b942547a41ca  docs/INSTALL.zh-CN.md
++7380dc49f100426dee4a484c80668dbfbe98fd0df566e813b74433a6da52ebd7  docs/INSTALL.zh-CN.md
+ 15243c709c96551f12c56ac6eac1582b418eb28ab541e5f1b22babbc69bb3bab  docs/JEV-EVALUATION-ROADMAP.zh-CN.md
+ cdf055c0373a83aa1c932b3d7c45785a42217fc34352d80316b333871a6db5b3  docs/JEV-V03.md
+ ecf7d02d9c04c36d7c6f4abe05db7b6509df97420745339f0b49d9d6ad258e3c  docs/PRODUCTION-ACCEPTANCE.md
+ 08034fe1dc8a7217f351c093d02ae878574546c78b994faface4358d5ac3ea9e  docs/PRODUCTION-BUDGET.md
+ bc421ffab671b2d7474435e0793cc3b9092f867a7cb6b3e50a305766e48ab532  docs/PWSH-RELEASE-054.md
++b987f5c9057d93ad6845e39e85441c3e8ab200efebd11e07b8e204a51f0e8a61  docs/SANDBOX-FIX-0.6.1.md
+ 82e999b237b6afaa41bcd44e442711749215b0808c8621f124ce81d1b056c8a6  docs/SESSION-ISOLATION-053.md
+ 84f88bf81f08eee16660ff67e8f6e0d2b0e2ee9ffd40acc7fc7b8c2718baae4a  docs/SHELL-TOOL-053.md
+ 54ecaf6fd440be7a067c5e0dca862ceabcb7746e753abd3fb955f4affb7f5834  docs/UI-DESIGN.md
+@@ -68,12 +69,13 @@
+ f8afcbbde2c6de72ef1bb63f067b869c9acbebad5bb11a480eb8c052c5001fa5  evaluation/transport/test/transport.test.mjs
+ 63d0283d5c1d681f0ead405deab7ba8702b1d662a302d353d47c59a388eea2c1  evaluation/transport/typesafe.mjs
+ 8582521a4de734eb74382dadf139a388dc4df2ae145508edbcf927298fc1dab4  lib/client.js
+-3e3df9811f5a58c107f2c79f577328288c2dd518577fb8530b9c2d9f990ee490  package-lock.json
+-d8e1409d28bb004775ffc86784541040f90c66410400d7b7c9a795e61f26f0a1  package.json
++c0b36f729947c0f098f0e3415c94c61ed8eb41e86132e674d920eb1c9c13fc15  package-lock.json
++e8d1ab78d9ce8d01cea4961592ed488ddb88f7e96c789135baa214cba1cacdfd  package.json
+ f011b94b3387c41f4d4e6b5f84ee174c365c0f129196a7ca70df584c1d89c491  preview/app.js
+ bf3bd674d1fb5498a2415cc86528e660efc54b72a43104e879d2b1f3272333a2  preview/index.html
+ cf3646bc2218276ed1f9796bfc63b7f68da9c2d1f745407060cbc6dc1c3c608c  preview/legacy.tsx
+ a4819a749b4b3ecd5fb131997382e8d5c97dfcb467d46784c85aa100d80380d0  preview/main.tsx
++3c0e100d5fdba4c513997813cee76237637db0b2cf028425b3efb8e2a3db4904  scripts/README-default-sandbox.md
+ 96da1328aa7f3cdfc598f08c7ccefc1b3b5f1fdd3e55486f0b6367545a6b78b0  scripts/build.mjs
+ 673ed3dbd03de9c9ace67507d0c8c98d133b4a20596c9b7ff8d683e1e106982f  scripts/evaluate-jev-fixtures.mjs
+ 4b4677712f3863009139cf30e329d4b438b88df839bed8e0a0068996459b9016  scripts/prepare-verifier-fixture.mjs
+@@ -81,17 +83,18 @@
+ f652d722eda019dc9416ca1e088cfa4118de633b02ffc45f7078dc1f45d5aabe  scripts/profile-install.mjs
+ 769a1f5fb2a30634c5c3ea62fccb2edf2d79b52a46aa4c1a01a21af227abb39f  scripts/replay-evaluation-trace.mjs
+ ce8011bc548f75b37814e93af338bd0a51c4c380fc03979a245ed56288cc0e2b  scripts/verify-client-host.mjs
++cab05e6927a8d4376f024409bc5f7923aa82c855aaf11e26393967d59c8efa61  scripts/verify-default-sandbox.mjs
+ 8cc5b010441e112ce54447afc26d81acffefceadae3ea91dbd573ee429c788ea  scripts/verify-host.mjs
+-a680c0768552cbb4f36520701bd453c8c89918972553dab1c79674fcb0b72af4  scripts/verify-production-host.mjs
++b4938674db54345682acdf6f6af61636f84b4beb16cb3efcb6a51bab221e7a3c  scripts/verify-production-host.mjs
+ e5840a142a37a599eb3928d76b415774ef9efa5c608ed57ecad64a302d43ac06  scripts/verify-profile.mjs
+ 371d85d85e6d5f0abf79aa06d7d14e62648ae1f68779901cb4ef8b53df6c180b  scripts/verify-team-host.mjs
+ 2fcb8427bf767b1c63360b3261d7d8d8fe1e214c19a80b8f8bc0e1f72546579d  scripts/verify-v04-host.mjs
+-b435459c0070b3d2d3c896b4d4d00ef1f4d4939655d96f0e0f8d6d3cdb25ecdd  scripts/verify-verifier-host.mjs
+-8359778970e4fd220c8175b0ff255cb4033c0f8f18acdd8acd1d0e30ba5f4a4a  scripts/verify-verifier-pwsh.mjs
++3db866d5899dba10cea90f9964f50f1848b52f376a334d08a66b32a57311fb80  scripts/verify-verifier-host.mjs
++f1bacdcfa07033bcefef986d04644a8812d4c5ab727d2a468d9b0ae5dc6257d4  scripts/verify-verifier-pwsh.mjs
+ 9d4328536a6eed73fb62edb14e2290666c2d96b5a8c53f45729dbe66ad3ce9c7  scripts/verify-verifier-windows.mjs
+-8d1a52ed1ab92c985c2a854aba7f278d88dd19e5f81319b676479c5450bc8178  src/auto-verification.js
++29eb26aead26349b92e4fffa6f2feb7a8dccefdfb20274f9317e93b8b77228ce  src/auto-verification.js
+ 4e9e70777d1117d14ea6f4b8249154653a56e56e67bc6765d5eeb6c5524c7cb3  src/execution-trace.js
+-a37aacb49328c2b5a75e7beae4b47a80b38f3e4ab765f5435726648430928be2  src/host-adapter.js
++d815f7fb3e797b3c5627fd72a8296c1d0b4e5499a8f9588325213adfc254b374  src/host-adapter.js
+ bc97f726be3fe38134108f0cffa426bfbd8c109d859441a386fff36c28c21a9b  src/index.js
+ b80c4488020cc360919213179dd3a38e8b68cffc753a92143d127f038bf248c2  src/jev-client.js
+ 1381a29d2228a251277bc64f006761a442e8f9025232c158b986e75aede8a1ae  src/jev-controller.js
+@@ -107,7 +110,7 @@
+ c655b15fef7159bb600b8f0656e062ca1ef466611b4cc5d289236250970000ab  src/vendor/loop-step.json
+ 65db9a403d1dbea2bb80cc795961a69ecefa1e1070b091df6da57a06ffae18ee  src/verification-diagnostics.js
+ f0763b99f59611d2d2a94a817a20a4f742677f825162fc67f27352b49b322115  src/verification-host-runner.js
+-6358daebea21ae740cce6be2e792cd281e5002b91e8cc3859b83dd3baad455cf  src/verification-project-runner.js
++5e5a7627cf5eb31c25ae3e89196a2efd86cc6387b320637c10b7ee2688a8a1af  src/verification-project-runner.js
+ 1851f4bd24a7b982bb3e35e6007f31b990f64408e309dee33d7e52712856ed01  src/verification.js
+ 1935c8864e633cd5059a644e73aab3c19dd0f0ea595405c3589f70beb4063385  src/verifier-command.js
+ 2fe1daf7e866d79d08cb59397837f7020f9216cf6eb2e8ee40a09a4e23a77c4f  test/bridge.test.mjs
+@@ -116,20 +119,20 @@
+ d43bffd01c076e440cd261e7da46407c5048142bcc64ce39fd176a15ef1c2c84  test/evaluation-trace.test.mjs
+ fc8ad538906ba51be5f2926e46d7239883631614014b7a7acea285c5de546574  test/fixtures/jev-evaluation-cases.json
+ aeafeb4f098a1e3f285186604bce105c7b289eb7b612c55c72a6c8b0e8525294  test/helpers/team-host.mjs
+-accb38f85d9e4137a6763882636d88a892056da60c35c884b9c4abcf7e4f5818  test/host-adapter.test.mjs
++8c101cd7bd6551a8a3f049a9389c3815ab9e6efe95cc4011213d213ae3295b14  test/host-adapter.test.mjs
+ e338383c59ca537bbbe2c504e021c8ed30418befcd0c5ef17b398f1a9b04c58f  test/install.test.mjs
+ 088a3ff7a09123a07e4d0ac262e102d693e0e0f779913b2b07614250bf3c4506  test/jev.test.mjs
+ a69ba0989bfc9c82d26badf28ceb05126765b428c283fea1303c0b0964c17881  test/orchestrator.test.mjs
+ 0ae1d3a7c76ba48b626650cadb88a1668174796a187384c05e43d93a9c24f238  test/package.test.mjs
+ 57f78bf3a4a4b5bb83dfa096ce18060c49e90a8edec1d00c0ebef983f3584b4d  test/production-budget.test.mjs
+ fb530b9b5111e85700e133f51b59edc57bb448eb81e94ec594acae9c83facb40  test/production-contracts.test.mjs
+-9490593327efa43cc47fb5666ffd79707ea26accf6b7f3b1e07a3b10b400e3c3  test/production-runtime.test.mjs
++2dcd1ba35ea5142b1c2a14a78afd75434b6711e8a5881f6a3031568ba6df51c5  test/production-runtime.test.mjs
+ ba5f1dfecd4d586bf849387c9ef4356d6ba9c8a09b2b798ef7e3f935a6868bfd  test/production-ui.test.mjs
+ 6796a9c109ceea55e5ed9e4ab855987fad9760872c19ef007da797a78adefd91  test/project-identity.test.mjs
+ cf8e1b5eaf8a4dd3e2fe79262680e05e1ac28a78f7334c58dae6e531778ade54  test/redesigned-ui.test.mjs
+-e42384a7df50cd0317c00b5de300faf542857656021ea7da7e30b87b29d6bb55  test/review-auto-safety.test.mjs
++6762ee654122271d3365b66d2014f5735542f7d88e991b7aead3c76a00bf6872  test/review-auto-safety.test.mjs
+ be51677f9d13aeacd8202a6fc3cc26a673299cace6d2c6bcbe49547772c4e06f  test/review-safety.test.mjs
+-c674dee16db4ff893da98f9be4615d9d0391a347d93615786802d77e6393cc64  test/session-isolation.test.mjs
++a5449f629229e323b3a2a981fc29c9e997478c114224bf6d61e1e0c34ac65c84  test/session-isolation.test.mjs
+ 271cb303f34d0056ad8073c0b92be73b45babe52ca91953b061633f4ecc30a77  test/state.test.mjs
+ b5856aa6bc6005eefab9204913f66cdee661e631e2840ef181d14e05fab797dd  test/team-runtime.test.mjs
+ 077546b4c9d4843a5ed87776bc169ce914c9763b6a6c123f73a058620a0ed281  test/team-setup.test.mjs
+@@ -138,8 +141,9 @@
+ 753dd14f1c010b45705a3f5e7be9b628ed7db21d299253bb5984f61f7106a9b2  test/theme-review.test.mjs
+ 8a5080ff76c3e0b214aaa7013d624c74c0e73ca45b8a6ad5db06bd5f6f35dfaf  test/v04-host-acceptance.test.mjs
+ 90cfa20d53f2bbe8e82f5560660e48d328f2b603cbe06fea10b0c15c9dae373a  test/verification.test.mjs
+-d6ed0c49bfa30fbce0aa59e1ef1e6f3eb374691c1bd6595f81822f2a59e41f68  test/verifier-cleanup.test.mjs
++9699317ba3f8d1f2efc8f5cd7c66c133fa27d4ccdb7f53c1725a258ce0f12159  test/verifier-cleanup.test.mjs
+ 97e18cfcb19561c8db1a33da99635a190f49c71c57e4b16fb1c45f8b0ba815d5  test/verifier-command.test.mjs
+ 245e9ec7bff112d67b7e165a2dd963f6ae2d62b9c460711ee4617941daaa3e77  test/verifier-host.test.mjs
+-47dcf0d875adfbf609bda24bc5fbc00761f97e1a017bd1c1519a4f28825277ff  test/verifier-quarantine.test.mjs
++ac801e3ffc56757194f68b09c37da6c01189a7e7020b2fa33d2c095c4cd06a31  test/verifier-quarantine.test.mjs
++a862cceacf2af18bc8db72e36c035def12548755bfefddf25a97b15a6d6b2437  test/verifier-workspace-evidence.test.mjs
+ 136a20c43d13b0d2247fbcbca069340e7f66841a0a86aded592b9b11a4112771  tsconfig.json
+--- a/docs/ARCHITECTURE.md
++++ b/docs/ARCHITECTURE.md
+@@ -1,4 +1,4 @@
+-# Current architecture: v0.6.0
++# Current architecture: v0.6.1
+ 
+ See [PRODUCTION-ACCEPTANCE.md](PRODUCTION-ACCEPTANCE.md) for current acceptance and [V04-ARCHITECTURE.md](V04-ARCHITECTURE.md) for the inherited native /team entry,
+ one-time Config settings, native write-only credentials, automatic verification,
+--- a/docs/INSTALL.zh-CN.md
++++ b/docs/INSTALL.zh-CN.md
+@@ -4,7 +4,7 @@
+ 
+ ## 推荐：把安装包拖给 DSH
+ 
+-1. 在 GitHub 仓库 `dist/` 下载 **dsh-desktop-workflow-0.6.0.tgz**。
++1. 在 GitHub 仓库 `dist/` 下载 **dsh-desktop-workflow-0.6.1.tgz**。
+ 2. 拖到 DSH 聊天框，发送：
+ 
+    > 请用官方插件管理器安装这个附件到当前 DSH 配置。不要修改我的提供方、凭据或安全权限。
+@@ -51,7 +51,7 @@
+ 只在知道实际 Desktop profile 时使用。不要把测试 profile 覆盖到日常配置。
+ 
+ ```bash
+-dsh plugin --profile YOUR_DESKTOP_PROFILE add /absolute/path/dsh-desktop-workflow-0.6.0.tgz --ignore-scripts
++dsh plugin --profile YOUR_DESKTOP_PROFILE add /absolute/path/dsh-desktop-workflow-0.6.1.tgz --ignore-scripts
+ ```
+ 
+ Windows 使用安装包对应的绝对路径。卸载：
+--- /dev/null
++++ b/docs/SANDBOX-FIX-0.6.1.md
+@@ -0,0 +1,13 @@
++# 0.6.1 候选：默认沙箱的跨调用验收证据
++
++0.6.0 的自动验证器把基线写在 `os.tmpdir()`。官方 rc.2 Linux bwrap 每次 `workspace-write` 工具调用都会建立新的 `/tmp`，因此 baseline 成功后 check 和 cleanup 找不到证据。原 tgz 与失败复现保留，不覆写。
++
++修复不改变宿主沙箱或权限。验证器在实际项目根目录创建随机 `.dsh-team-evidence-<32hex>/state.json`；宿主保存最初的 SHA-256 锚点，后续核验原样验证。该文件只含清单哈希和固定检查元数据，不含源码或凭据。目录名可能被正常 glob 列出；六岗位不能读取、搜索或修改其内容，硬链接别名也被拒绝。源文件、测试与 Git 元数据的基线保护保持启用。
++
++仅当目录、文件、身份、链接数量、run/root 与原摘要全部验证通过，才从项目清单中排除这个确切的 state 文件。额外文件、同前缀的其它目录、状态删改或替换不能被静默忽略。清理只删除这个已确认文件及其空目录，不递归删除。
++
++宿主在派发 baseline 前保留随机目录意图。已派发后确认丢失、输出截断或未知终态会维持项目隔离，不会因缺少已接纳 baselineRef 就宣布清理成功。明确未派发则不隔离；其它独立项目仍可运行。
++
++只读工作区无法创建持久证据时会降为只读分析/待验证，不请求放宽权限。这是相较旧临时文件实现的明确能力边界。Windows 仍使用相同源码与既有 PowerShell 引号处理；Linux 上的真实 PowerShell 兼容测试不等同于 Windows/Electron 原生验收。
++
++真实供应商模型与 Jev 尚未验收。官方 Web 在云桌面已安装并启动，但该环境 Chromium 阻止本地页面，未进行密钥接手。没有修改浏览器安全设置，也没有用终端普通文本任务冒充 `/team`。
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "dsh-desktop-workflow",
+-  "version": "0.6.0",
++  "version": "0.6.1",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "dsh-desktop-workflow",
+-      "version": "0.6.0",
++      "version": "0.6.1",
+       "dependencies": {
+         "@deepseek-ai/schemastery": "3.18.4"
+       },
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "dsh-desktop-workflow",
+-  "version": "0.6.0",
++  "version": "0.6.1",
+   "private": true,
+   "description": "Native DSH /team workflow with configurable token guard, explicit lane model routing, Jev versions and isolated shadow observation",
+   "type": "module",
+--- /dev/null
++++ b/scripts/README-default-sandbox.md
+@@ -0,0 +1,32 @@
++# Real default-sandbox verifier regression
++
++Run `scripts/verify-default-sandbox.mjs` against the **exact packed candidate** before release. This is separate from `verify-production-host.mjs`, which uses a fixed-command test shell backend with real subprocesses and inert model/Jev transports. Neither suite establishes paid provider/model/Jev support.
++
++The default-sandbox suite mounts the official rc.2 ToolRuntime, bash tool, SandboxBashExecutor, LocalSandboxProvider and LocalSubprocessRuntime. It must use `workspace-write` and the actual bwrap runner, with no runner override. Each verifier invocation gets the normal fresh `/tmp`; do not set TMPDIR, TEMP or TMP to make the test pass.
++
++Prerequisites: already-approved official DSH 0.2.0-rc.2 node_modules, Node 24, bash, git, tar and the normal bwrap environment. No profile, credentials or network are required. Do not relax OS sandbox settings when unavailable.
++
++Example (replace only the approved local paths):
++
++```sh
++suite_home=$(mktemp -d /tmp/dsh-default-sandbox-check.XXXXXXXX)
++mkdir -p "$suite_home/home" "$suite_home/dsh-home"
++env -i \
++  HOME="$suite_home/home" DSH_HOME="$suite_home/dsh-home" \
++  PATH="/approved/node/bin:/usr/local/bin:/usr/bin:/bin" LANG=C.UTF-8 \
++  DSH_NODE_MODULES=/approved/dsh/node_modules \
++  DSH_VERIFIER_TGZ=/approved/dsh-desktop-workflow-0.6.1.tgz \
++  DSH_VERIFIER_SHA256=fdbb46851fe29d7709f3af6549f06514c314b3fbccb45656dfd7d13dd7940969 \
++  node scripts/verify-default-sandbox.mjs
++```
++
++A release must record the observed archive hash and summary, not reuse an earlier candidate's result. Expected cases:
++
++1. Real baseline → source edit → independent Node test → seal → cleanup. All four tool exits are 0 and the evidence directory is actually gone.
++2. Corrupt the recorded state bytes. Check must reject; original bytes are restored only so the test can clean its own artifact.
++3. Execute a real baseline, then inject only `stdout.truncated=true` in its returned result. The host must quarantine, refuse further checking and report `settled:false`; it must not blindly delete unacknowledged evidence.
++4. While that independent native context retains lost-ack evidence, another project's separate native context completes successfully. This is sequential context isolation, not concurrent host-lease acceptance.
++
++The lost-ack synthetic fixture is deliberately retained and its location is printed. Do not copy its `.dsh-team-evidence-*` contents into a commit or release. Unit tests separately cover hostile paths, hardlinks, symlinks, extra files, cancellation/error boundaries and multi-session project leases. A 0.6.0 package should fail after baseline under default bwrap; retain that failure as the regression's provenance.
++
++PowerShell compatibility is tested separately with `scripts/verify-verifier-pwsh.mjs`. Linux PowerShell results do not establish Windows/Electron UI or Windows sandbox support.
+--- /dev/null
++++ b/scripts/verify-default-sandbox.mjs
+@@ -0,0 +1,259 @@
++#!/usr/bin/env node
++/** Linux verifier integration against an explicitly hash-approved package.
++ * Run in env -i with HOME, DSH_HOME, PATH, LANG, DSH_NODE_MODULES,
++ * DSH_VERIFIER_TGZ and DSH_VERIFIER_SHA256. TMPDIR/TEMP/TMP stay unset.
++ * All shell/subprocess/sandbox services are the official rc.2 implementations.
++ * Only the lost-ack case changes a returned stdout.truncated flag, after a
++ * real baseline process completed. It never replaces a shell or verifier.
++ */
++import assert from 'node:assert/strict';
++import { createRequire } from 'node:module';
++import { readFile, writeFile, mkdir, symlink, mkdtemp } from 'node:fs/promises';
++import { existsSync } from 'node:fs';
++import { pathToFileURL } from 'node:url';
++import { createHash, randomUUID } from 'node:crypto';
++import { spawnSync } from 'node:child_process';
++import { tmpdir } from 'node:os';
++import path from 'node:path';
++
++const hash = (data) => createHash('sha256').update(data).digest('hex');
++const modules = process.env.DSH_NODE_MODULES;
++const archive = process.env.DSH_VERIFIER_TGZ;
++const archiveHash = process.env.DSH_VERIFIER_SHA256;
++const contexts = [];
++const cases = [];
++let suiteRoot;
++const summary = {
++  boundary: 'production verifier unit integration with official native tools; not /team, model, Jev, or host-lease concurrency acceptance',
++  packageVersion: '0.6.1', officialVersion: '0.2.0-rc.2',
++  defaultTempRoot: '/tmp', retainedEvidenceDirectories: [],
++};
++const emit = (value) => console.log(JSON.stringify(value));
++
++function runSetup(argv, cwd) {
++  const result = spawnSync(argv[0], argv.slice(1), {
++    cwd, encoding: 'utf8', timeout: 10000,
++    env: { ...process.env, GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_TERMINAL_PROMPT: '0' },
++  });
++  if (result.error || result.status !== 0) throw new Error('Fixture setup failed: ' + argv[0] + ': ' + String(result.error?.message ?? result.stderr).slice(0, 800));
++}
++
++function dataSummary(data) {
++  if (!data) return null;
++  return {
++    verified: data.verified, mode: data.project?.mode,
++    checks: data.checks?.map(({ id, exitCode, passed, unsettled }) => ({ id, exitCode, passed, unsettled })) ?? data.project?.checks?.map(({ id, kind }) => ({ id, kind })),
++    checksPassed: data.checksPassed, checksRun: data.checksRun,
++    protectedOk: data.protectedOk, scopeOk: data.scopeOk,
++    sealed: data.sealed, unsettled: data.unsettled,
++    observation: data.observation,
++  };
++}
++
++async function createFixture(name, official) {
++  const root = path.join(suiteRoot, name);
++  const packageDir = path.join(root, 'node_modules/dsh-desktop-workflow');
++  await mkdir(packageDir, { recursive: true });
++  runSetup(['tar', '-xzf', archive, '-C', packageDir, '--strip-components=1'], root);
++  await mkdir(path.join(packageDir, 'node_modules'), { recursive: true });
++  await symlink(path.join(modules, '@deepseek-ai'), path.join(packageDir, 'node_modules/@deepseek-ai'));
++  assert.equal(JSON.parse(await readFile(path.join(packageDir, 'package.json'), 'utf8')).version, '0.6.1');
++  const { createAutoVerifier } = await import(pathToFileURL(path.join(packageDir, 'src/auto-verification.js')));
++  await writeFile(path.join(root, 'package.json'), JSON.stringify({ name: 'isolated-verifier-' + name, private: true, type: 'module', scripts: { test: 'node --test value.test.mjs' } }) + '\n');
++  await writeFile(path.join(root, '.gitignore'), 'node_modules/\n');
++  await writeFile(path.join(root, 'value.mjs'), 'export const answer = 41;\n');
++  await writeFile(path.join(root, 'value.test.mjs'), "import test from 'node:test';\nimport assert from 'node:assert/strict';\nimport { answer } from './value.mjs';\ntest('answer is forty-two', () => assert.equal(answer, 42));\n");
++  runSetup(['git', 'init', '--quiet'], root);
++  runSetup(['git', '-c', 'core.hooksPath=/dev/null', 'add', '--', '.gitignore', 'package.json', 'value.mjs', 'value.test.mjs'], root);
++  runSetup(['git', '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgsign=false', '-c', 'user.name=Sandbox Probe', '-c', 'user.email=probe@example.invalid', 'commit', '--quiet', '-m', 'Initialize isolated native verifier integration'], root);
++
++  const { Context } = await official('cordis');
++  const ctx = new Context();
++  const forks = [];
++  contexts.push({ name, forks });
++  async function add(packageName, config) {
++    const mod = await official(packageName);
++    const fork = ctx.plugin(mod.default ?? mod, config);
++    forks.push(fork);
++    await fork;
++  }
++  await add('dsh-system-prompt');
++  await add('dsh-session-projection');
++  await add('dsh-sandbox-policy', { mode: 'workspace-write', workspaceRoot: root });
++  await add('dsh-subprocess-local');
++  await add('dsh-sandbox-local');
++  await add('dsh-bash-sandbox', { timeoutMs: 60000 });
++  await add('dsh-shell-env');
++  await add('dsh-tools', { mode: 'native' });
++  await add('dsh-tool-bash');
++  assert.equal(ctx.shell.constructor.name, 'SandboxBashExecutor');
++  assert.deepEqual(ctx.sandbox.internals, {});
++  assert.deepEqual(ctx.subprocess.internals, {});
++  assert.equal(ctx.sandbox.runnerCommand, undefined);
++  const fixture = {
++    name, root, ctx, phase: 'setup', rows: [], poisonSignals: [],
++    baselineRef: null, lostAck: false,
++    runId: name + '-' + randomUUID(),
++    config: { sessionId: 'native-' + name, verification: { profileId: 'auto', scope: ['workspace'] } },
++    protectedTestHash: hash(await readFile(path.join(root, 'value.test.mjs'))),
++  };
++  fixture.verifier = createAutoVerifier({
++    shellName: () => 'bash',
++    poison: (sessionId, diagnostic) => { fixture.poisonSignals.push({ sessionId, phase: diagnostic?.phase, code: diagnostic?.code }); },
++    onDiagnostic: (_id, diagnostic) => emit({ case: name, diagnostic: { phase: diagnostic.phase, code: diagnostic.code, exitCode: diagnostic.exitCode } }),
++    executeTool: async (_id, spec, signal) => {
++      // No rewritten command, custom execution backend, or sandbox override.
++      const result = await ctx.tools.execute({ name: spec.name, arguments: spec.arguments, callId: fixture.runId + '-' + fixture.phase, signal });
++      let data;
++      try { data = JSON.parse(result.value?.stdout?.text ?? ''); } catch {}
++      if (data?.baselineRef) fixture.baselineRef = data.baselineRef;
++      const row = { case: name, phase: fixture.phase, isError: result.isError, exitCode: result.value?.exitCode, sandbox: result.value?.sandbox, selectedRunner: ctx.sandbox.selectedRunner, evidence: dataSummary(data) };
++      if (result.isError || result.value?.stderr?.text) row.error = result.error?.message ?? result.value?.stderr?.text?.slice(0, 1000);
++      fixture.rows.push(row);
++      emit(row);
++      assert.equal(result.isError, false, name + ': native tool infrastructure failure');
++      assert.equal(result.value?.sandbox?.mode, 'workspace-write');
++      assert.equal(result.value?.sandbox?.denied, false);
++      assert.deepEqual(ctx.sandbox.selectedRunner, { runner: 'bwrap', enforcement: 'full' });
++      if (fixture.lostAck && fixture.phase === 'baseline') {
++        assert.equal(result.value?.exitCode, 0);
++        assert.equal(data?.verified, true);
++        assert.equal(data?.project?.mode, 'verified');
++        assert.ok(fixture.baselineRef && existsSync(fixture.baselineRef.path));
++        const changed = structuredClone(result);
++        changed.value.stdout.truncated = true;
++        emit({ case: name, injection: 'Only value.stdout.truncated=true after successful real baseline execution', evidenceExists: true });
++        return changed;
++      }
++      return result;
++    },
++  });
++  return fixture;
++}
++
++async function collect(fixture, phase, round) {
++  fixture.phase = phase;
++  return fixture.verifier.collect({ config: fixture.config, runId: fixture.runId, round, phase, signal: AbortSignal.timeout(100000) });
++}
++
++async function baseline(fixture) {
++  const result = await collect(fixture, 'baseline', 0);
++  assert.equal(result.project?.mode, 'verified');
++  assert.ok(fixture.baselineRef);
++  const evidenceDir = path.dirname(fixture.baselineRef.path);
++  assert.equal(path.dirname(evidenceDir), fixture.root);
++  assert.match(path.basename(evidenceDir), /^\.dsh-team-evidence-[a-f0-9]{32}$/);
++  assert.equal(hash(await readFile(fixture.baselineRef.path)), fixture.baselineRef.digest);
++  return result;
++}
++
++async function cleanup(fixture) {
++  fixture.phase = 'cleanup';
++  const released = await fixture.verifier.release(fixture.runId);
++  return released;
++}
++
++async function successfulCycle(fixture) {
++  await baseline(fixture);
++  await writeFile(path.join(fixture.root, 'value.mjs'), 'export const answer = 42;\n');
++  assert.equal(hash(await readFile(path.join(fixture.root, 'value.test.mjs'))), fixture.protectedTestHash);
++  const check = await collect(fixture, 'check', 1);
++  assert.equal(check.checksRun, true);
++  assert.equal(check.checksPassed, true);
++  assert.equal(check.protectedOk, true);
++  assert.equal(check.scopeOk, true);
++  assert.ok(check.checks.length > 0 && check.checks.every(item => item.exitCode === 0 && item.passed && !item.unsettled));
++  const seal = await collect(fixture, 'seal', 1);
++  assert.equal(seal.sealed, true);
++  const released = await cleanup(fixture);
++  assert.equal(released.settled, true);
++  const evidenceRemoved = !existsSync(path.dirname(fixture.baselineRef.path));
++  assert.equal(evidenceRemoved, true);
++  assert.equal(fixture.poisonSignals.length, 0);
++  const result = { case: fixture.name, passed: true, checksPassed: true, protectedOk: true, scopeOk: true, sealed: true, settled: true, evidenceDirectoryRemoved: evidenceRemoved };
++  cases.push(result); emit(result);
++}
++
++try {
++  assert.equal(process.platform, 'linux', 'This acceptance script is specifically for official Linux bwrap');
++  const allowed = new Set(['HOME', 'DSH_HOME', 'PATH', 'LANG', 'DSH_NODE_MODULES', 'DSH_VERIFIER_TGZ', 'DSH_VERIFIER_SHA256']);
++  assert.ok(Object.keys(process.env).every(key => allowed.has(key)), 'Use the documented clean env; no inherited profile, credentials, or TMPDIR/TEMP/TMP');
++  assert.equal(tmpdir(), '/tmp');
++  for (const value of [modules, archive]) assert.ok(typeof value === 'string' && path.isAbsolute(value), 'An approved absolute modules/archive path is required');
++  assert.match(archiveHash ?? '', /^[a-f0-9]{64}$/, 'A separately approved artifact SHA256 is required');
++  assert.equal(hash(await readFile(archive)), archiveHash, 'Candidate archive hash differs from the approved pin');
++  summary.archiveSHA256 = archiveHash;
++  const req = createRequire(path.join(modules, '..', 'package.json'));
++  const official = async (name) => import(pathToFileURL(req.resolve('@deepseek-ai/' + name)));
++  for (const name of ['dsh', 'dsh-tools', 'dsh-tool-bash', 'dsh-bash-sandbox', 'dsh-sandbox-local', 'dsh-sandbox-policy', 'dsh-subprocess-local']) {
++    assert.equal(JSON.parse(await readFile(path.join(modules, '@deepseek-ai', name, 'package.json'), 'utf8')).version, '0.2.0-rc.2');
++  }
++  suiteRoot = await mkdtemp('/tmp/dsh-v061-native-suite-');
++  emit({ stage: 'ready', ...summary, node: process.version });
++  const success = await createFixture('successful-cycle', official);
++  await successfulCycle(success);
++
++  const tamper = await createFixture('tampered-evidence', official);
++  await baseline(tamper);
++  const original = await readFile(tamper.baselineRef.path);
++  await writeFile(tamper.baselineRef.path, Buffer.concat([original, Buffer.from('\n')]));
++  await assert.rejects(collect(tamper, 'check', 1), error => error.code === 'VERIFICATION_INVALID');
++  const rejected = tamper.rows.at(-1);
++  assert.equal(rejected.exitCode, 1);
++  assert.equal(rejected.evidence?.verified, false);
++  assert.equal(existsSync(tamper.baselineRef.path), true);
++  // Restore only this controlled fixture's exact original bytes for cleanup.
++  // A tampered state never passed verification and is not being accepted.
++  await writeFile(tamper.baselineRef.path, original);
++  assert.equal(hash(await readFile(tamper.baselineRef.path)), tamper.baselineRef.digest);
++  assert.equal((await cleanup(tamper)).settled, true);
++  assert.equal(existsSync(path.dirname(tamper.baselineRef.path)), false);
++  const tamperResult = { case: tamper.name, passed: true, tamperingRejected: true, originalBytesRestoredForCleanupOnly: true, settled: true, evidenceDirectoryRemoved: true };
++  cases.push(tamperResult); emit(tamperResult);
++
++  const lost = await createFixture('lost-acknowledgement', official);
++  lost.lostAck = true;
++  await assert.rejects(collect(lost, 'baseline', 0), error => error.code === 'VERIFICATION_BLOCKED');
++  assert.ok(lost.baselineRef && existsSync(lost.baselineRef.path));
++  assert.ok(lost.poisonSignals.length > 0, 'Baseline uncertainty must signal host quarantine');
++  const originalLostDigest = hash(await readFile(lost.baselineRef.path));
++  const callsBeforeRejectedContinuation = lost.rows.length;
++  await assert.rejects(collect(lost, 'check', 1), error => error.code === 'BASELINE_UNACKNOWLEDGED');
++  assert.equal(lost.rows.length, callsBeforeRejectedContinuation, 'Unacknowledged baseline must block check before native dispatch');
++  assert.equal((await cleanup(lost)).settled, false);
++  assert.equal(lost.rows.length, callsBeforeRejectedContinuation, 'Unacknowledged baseline must not blindly dispatch deletion');
++  assert.equal(hash(await readFile(lost.baselineRef.path)), originalLostDigest);
++  assert.equal(existsSync(path.dirname(lost.baselineRef.path)), true);
++  summary.retainedEvidenceDirectories.push(path.dirname(lost.baselineRef.path));
++  const lostResult = { case: lost.name, passed: true, injectedReturnTruncationOnly: true, realBaselineSucceeded: true, quarantineSignal: true, continuationDispatchBlocked: true, settled: false, noBlindDeletion: true, evidenceRetained: true };
++  cases.push(lostResult); emit(lostResult);
++
++  // Keep the lost-ack context and its orphan alive while an independent
++  // project's actual native context completes. This is sequential project
++  // isolation, not an assertion about the full host's lease scheduler.
++  const independent = await createFixture('independent-project', official);
++  assert.notEqual(independent.ctx, lost.ctx);
++  await successfulCycle(independent);
++  assert.equal(hash(await readFile(lost.baselineRef.path)), originalLostDigest);
++  const isolation = { case: 'independent-project-isolation', passed: true, distinctNativeContexts: true, sequential: true, otherProjectFinishedDespiteRetainedLostAckEvidence: true, concurrentHostLeaseAcceptance: 'not run' };
++  cases.push(isolation); emit(isolation);
++  summary.passed = true;
++} catch (error) {
++  summary.passed = false;
++  summary.error = { name: error?.name, code: error?.code, message: String(error?.message ?? error).slice(0, 1800) };
++  process.exitCode = 1;
++  emit({ stage: 'blocked', ...summary.error });
++} finally {
++  for (const context of contexts.reverse()) {
++    for (const fork of context.forks.reverse()) {
++      try { await fork.dispose(); }
++      catch (error) { summary.passed = false; process.exitCode = 1; emit({ case: context.name, stage: 'runtime-disposal-failed', message: String(error?.message ?? error).slice(0, 800) }); }
++    }
++  }
++  summary.cases = cases;
++  if (suiteRoot) {
++    summary.suiteRoot = suiteRoot;
++    await writeFile(path.join(suiteRoot, 'summary.json'), JSON.stringify(summary, null, 2) + '\n');
++  }
++  emit({ summary });
++}
+--- a/scripts/verify-production-host.mjs
++++ b/scripts/verify-production-host.mjs
+@@ -116,18 +116,18 @@
+   const manifest=JSON.parse(await readFile(join(installDir,'package.json'),'utf8'));
+   assert.ok(manifest.dependencies['dsh-desktop-workflow'],'Exact bundle must be installed into the isolated profile');
+   packageRoot=join(installDir,'node_modules','dsh-desktop-workflow');
+-  const installedManifest=JSON.parse(await readFile(join(packageRoot,'package.json'),'utf8'));assert.equal(installedManifest.version,'0.6.0');
++  const installedManifest=JSON.parse(await readFile(join(packageRoot,'package.json'),'utf8'));assert.equal(installedManifest.version,'0.6.1');
+   assert.equal(installedManifest.dsh.bundle.patch,'./cordis.patch.yml');
+   trustedVerifierCommand=(await import(pathToFileURL(join(packageRoot,'src/verifier-command.js')))).verifierCommand;
+   await import(pathToFileURL(join(packageRoot,'src/index.js')));
+   assert.equal(createHash('sha256').update(await readFile(archive)).digest('hex'),archiveHash,'Archive must not change during installation');
+   const archivedEntry=spawnSync('tar',['-xOf',archive,'package/src/index.js'],{encoding:'utf8',env:cleanEnv});assert.equal(archivedEntry.status,0);assert.equal(await readFile(join(packageRoot,'src/index.js'),'utf8'),archivedEntry.stdout,'Installed entry must match the exact archive');
+   installedArchive={path:archive,sha256:archiveHash};
+-  pass('official PluginManager installs the exact 0.6.0 tgz offline with an independent byte-identical official LLM peer and no build scripts');
++  pass('official PluginManager installs the exact 0.6.1 tgz offline with an independent byte-identical official LLM peer and no build scripts');
+  }finally{for(const fork of installForks.reverse())await fork.dispose();}
+ }
+ packageInfo=JSON.parse(await readFile(join(packageRoot,'package.json'),'utf8'));
+-assert.equal(packageInfo.version,'0.6.0');
++assert.equal(packageInfo.version,'0.6.1');
+ }catch(error){globalThis.fetch=realFetch;await rm(temp,{recursive:true,force:true});throw error;}
+ let root,base,cookie,pluginEntry;
+ const forks=[],disposers=[],parents=[];
+--- a/scripts/verify-verifier-host.mjs
++++ b/scripts/verify-verifier-host.mjs
+@@ -33,7 +33,7 @@
+   const payload=currentPayload;
+   assert.ok(payload,'Only generated verification invocations may reach the inert shell');
+   phases.push(payload.phase);
+-  const data={runId:payload.runId,round:payload.round,nonce:payload.nonce,verified:true,clean:true,sealed:true,fingerprint:'fixture-fingerprint',project:{mode:'verified',root:'/fixture/project',checks:[]},baselineRef:{path:'/fixture/evidence/state.json',digest:'fixture-digest'}};
++  const data={runId:payload.runId,round:payload.round,nonce:payload.nonce,verified:true,clean:true,sealed:true,fingerprint:'fixture-fingerprint',project:{mode:'verified',root:'/fixture/project',checks:[],evidenceDirectory:payload.evidenceDirectory},baselineRef:{path:'/fixture/evidence/state.json',digest:'fixture-digest'}};
+   return {result:async()=>({exitCode:0,signal:null,timedOut:false,aborted:false,timeoutMs:spec.timeoutMs,stdout:{text:JSON.stringify(data),truncated:false},stderr:{text:'',truncated:false}})};
+ }};
+ root.provide('shell',shell);
+--- a/scripts/verify-verifier-pwsh.mjs
++++ b/scripts/verify-verifier-pwsh.mjs
+@@ -193,7 +193,8 @@
+     assert.equal(ctx.tools.get('bash',parent),undefined,'No bash tool or fallback may be mounted');
+     assert.ok(ctx.tools.get('pwsh',parent));assert.equal(shellName(parent.id),'pwsh');
+     // These failures come from the real runtime, not hand-authored error DTOs.
+-    // Each verifier must remain usable afterward, without poisoning cleanup.
++    // Error-code origin is not authenticated after the high-level dispatch
++    // observer; the auto verifier conservatively retains that baseline intent.
+     for(const code of ['INVALID_ARGS','UNKNOWN_TOOL',TOOL_ABORTED_BEFORE_DISPATCH]){
+       for(const kind of ['auto','legacy']){
+         begin();const before=starts.length;
+@@ -209,13 +210,16 @@
+           }
+           assert.equal(result.isError,true);assert.equal(result.error?.code||result.error?.info?.code,code);return result;
+         };
+-        const verifier=kind==='auto'?createAutoVerifier({executeTool:rejectedExecution,shellName,poison}):createVerifier({profiles:[legacyProfile],executeTool:rejectedExecution,shellName,poison});
+-        await assert.rejects(verifier.collect({config:kind==='auto'?config:legacyConfig,runId:'not-started-'+kind+'-'+code,round:0,phase:'baseline',signal}),error=>error.code==='VERIFICATION_DENIED');
++        const negativePoisons=[];
++        const verifier=kind==='auto'?createAutoVerifier({executeTool:rejectedExecution,shellName,poison:id=>negativePoisons.push(id)}):createVerifier({profiles:[legacyProfile],executeTool:rejectedExecution,shellName,poison});
++        await assert.rejects(verifier.collect({config:kind==='auto'?config:legacyConfig,runId:'not-started-'+kind+'-'+code,round:0,phase:'baseline',signal}),error=>error.code===(kind==='auto'&&code==='INVALID_ARGS'?'VERIFICATION_UNSETTLED':'VERIFICATION_DENIED'));
++        assert.equal(negativePoisons.length,kind==='auto'&&code==='INVALID_ARGS'?1:0);
++        if(kind==='auto'&&code==='INVALID_ARGS')assert.equal((await verifier.release('not-started-'+kind+'-'+code)).settled,false);
+         assert.equal(starts.length,before,'A not-started failure must start zero PowerShell processes');assert.equal(poisons.length,0);
+-        adapter.releaseSession(parent.id);notStarted.push({verifier:kind,code,processStarts:0});
++        adapter.releaseSession(parent.id);notStarted.push({verifier:kind,code,processStarts:0,conservativeQuarantine:kind==='auto'&&code==='INVALID_ARGS'});
+       }
+     }
+-    console.log('PASS real rc.2 UNKNOWN_TOOL / INVALID_ARGS / ABORTED_BEFORE_DISPATCH for auto and legacy; zero shell starts, no poison, subsequent sessions admitted');
++    console.log('PASS real rc.2 error controls start zero shells; auto conservatively quarantines observed-dispatch INVALID_ARGS, explicit earlier denials remain reusable');
+     if(notStartedOnly){
+       console.log(JSON.stringify({mode:'not-started-only',runtime:runtimeVersion,platform:process.platform,notStarted,pwshProcesses:starts.length,modelCalls,jevCalls:0,profileLoaded:false},null,2));
+       return;
+@@ -261,9 +265,11 @@
+       assert.equal((await collect('isolation-b','check')).diffEmpty,true);
+       assert.equal((await collect('isolation-a','seal')).sealed,true);await release('isolation-a');
+       assert.equal(fs.existsSync(b.path),true,'Releasing A must preserve B evidence');
+-      assert.equal((await collect('isolation-b','seal')).sealed,true);await release('isolation-b');
+-    }
+-    console.log('PASS two same-project runs have separate snapshots; foreign evidence rejected and cleanup isolated');
++      // A is not B's registered evidence: removing it changes B's observed workspace.
++      // Production project leases prohibit these overlapping same-project runs.
++      await assert.rejects(collect('isolation-b','seal'),error=>error.code==='VERIFICATION_INVALID');await release('isolation-b');
++    }
++    console.log('PASS separate evidence, foreign reference rejection, isolated cleanup and stale seal on overlapping workspace mutation');
+     adapter.releaseSession(parent.id);
+     git('add','.');git('commit','-m','clean legacy fixture baseline');
+     begin();
+--- a/src/auto-verification.js
++++ b/src/auto-verification.js
+@@ -8,28 +8,36 @@
+  return {profiles:[],automatic:true,
+  preflight(config){if(config.verification?.profileId!=='auto')throw new TeamHostError('AUTO_PROJECT_REQUIRED','请使用 /team 自动探测当前项目。');},
+  async collect({config,runId,round,signal,phase='check'}){
+-  const fail=(code,reason,result,error,unsettled=false)=>{const diagnostic={...verificationDiagnostic(phase,result,error,reason),runId};onDiagnostic(config.sessionId,diagnostic);if(unsettled)poison(config.sessionId,diagnostic);const failure=new TeamHostError(code,verificationFailureText(diagnostic));failure.diagnostic=diagnostic;throw failure;};
+-  const state=states.get(runId);if(phase!=='baseline'&&!state)fail('BASELINE_REQUIRED','缺少项目启动快照');
++  const fail=(code,reason,result,error,unsettled=false,notDispatched=false)=>{const pending=states.get(runId);if(phase==='baseline'&&pending?.pending){if(notDispatched)states.delete(runId);else{pending.uncertain=true;unsettled=true;}}const diagnostic={...verificationDiagnostic(phase,result,error,reason),runId};onDiagnostic(config.sessionId,diagnostic);if(unsettled)poison(config.sessionId,diagnostic);const failure=new TeamHostError(code,verificationFailureText(diagnostic));failure.diagnostic=diagnostic;throw failure;};
++  let state=states.get(runId);if(phase!=='baseline'&&!state)fail('BASELINE_REQUIRED','缺少项目启动快照');
++  if(phase!=='baseline'&&state?.pending)fail('BASELINE_UNACKNOWLEDGED','基线确认丢失，禁止继续执行验证');
+   if(phase==='check'&&state.project.mode==='analysis-only'&&!state.baselineRef)return {verified:false,analysisOnly:true,checksPassed:false,checksFailed:0,checksRun:false,diffAvailable:false,scopeOk:false,protectedOk:false,reason:state.project.reason,diffStat:'Unavailable',checkSummary:'No independent checks'};
+-  const nonce=randomUUID(),payload={runId,round,nonce,phase,baselineRef:state?.baselineRef,expectedFingerprint:state?.round===round?state.fingerprint:undefined};
++  if(phase==='baseline'){
++   if(state)fail('BASELINE_ALREADY_STARTED','本次运行的基线已经启动，不能覆盖原始完整性锚点');
++   // Retain intent before dispatch: a lost acknowledgement must not silently
++   // release a project with an orphaned workspace evidence artifact.
++   state={config,pending:true,evidenceDirectory:'.dsh-team-evidence-'+randomUUID().replaceAll('-','')};states.set(runId,state);
++  }
++  const nonce=randomUUID(),payload={runId,round,nonce,phase,...(phase==='baseline'?{evidenceDirectory:state.evidenceDirectory}:{}),baselineRef:state?.baselineRef,expectedFingerprint:state?.round===round?state.fingerprint:undefined};
+   let result;
+   try{result=await executeTool(config.sessionId,{name:'bash',arguments:{description:'Verify project evidence within the current workspace',command:verifierCommand('project',payload,shellName(config.sessionId)),timeoutMs:90000,run_in_background:false}},signal,{allowUserApproval:true});}
+-  catch(error){fail('VERIFICATION_TOOL_FAILURE','宿主工具抛出异常',undefined,error,!['CANCELLED','CONTEXT_CHANGED','VERIFIER_UNAVAILABLE','VERIFIER_SCOPE_UNSAFE'].includes(error?.code));}
+-  if(result?.verificationNotDispatched)fail('VERIFICATION_DENIED','宿主未派发检查工具',result);
++  catch(error){fail('VERIFICATION_TOOL_FAILURE','宿主工具抛出异常',undefined,error,!['CANCELLED','CONTEXT_CHANGED','VERIFIER_UNAVAILABLE','VERIFIER_SCOPE_UNSAFE'].includes(error?.code),['CANCELLED','CONTEXT_CHANGED','VERIFIER_UNAVAILABLE','VERIFIER_SCOPE_UNSAFE'].includes(error?.code));}
++  if(result?.verificationNotDispatched)fail('VERIFICATION_DENIED','宿主未派发检查工具',result,undefined,false,true);
+   const v=result?.value;
+-  if(result?.isError){const code=result?.error?.code||result?.error?.info?.code;if(notStartedCodes.has(code))fail('VERIFICATION_DENIED',`宿主未执行检查工具（${code}）；没有启动任何检查进程，因此不存在待确认的清理。`,result);fail('VERIFICATION_UNSETTLED','宿主工具返回错误，执行终态未确认',result,undefined,true);}
++  if(result?.isError){const code=result?.error?.code||result?.error?.info?.code;if(notStartedCodes.has(code)&&result.verificationDispatchObserved!==true)fail('VERIFICATION_DENIED',`宿主未执行检查工具（${code}）；没有启动任何检查进程，因此不存在待确认的清理。`,result,undefined,false,true);fail('VERIFICATION_UNSETTLED','宿主工具返回错误，执行终态未确认',result,undefined,true);}
+   if(!v||v.kind!=='foreground'||v.timedOut||v.aborted||v.signal||v.stopped||!Number.isInteger(v.exitCode)||!v.stdout||!v.stderr)fail('VERIFICATION_UNSETTLED','前台结束或完整输出未确认',result,undefined,true);
+   if(v.stdout.truncated||v.stderr.truncated||v.sandbox?.denied||v.sandbox?.runnerFailed)fail('VERIFICATION_BLOCKED','宿主限制或输出截断',result);
+   let data;try{data=JSON.parse(v.stdout.text);}catch{fail('VERIFICATION_INVALID','检查输出不是完整 JSON',result);}
+   if(data.unsettled||data.checks?.some(c=>c.unsettled))fail('VERIFICATION_UNSETTLED','检查进程超时或收到信号',result,undefined,true);
+   if(data.runId!==runId||data.round!==round||data.nonce!==nonce||v.exitCode!==0||!data.verified)fail('VERIFICATION_INVALID','项目证据校验未通过',result);
+-  if(phase==='baseline'){states.set(runId,{project:data.project,baselineRef:data.baselineRef,config});onPolicy(runId,data.project);return {verified:true,reason:data.project.reason,project:data.project,analysisOnly:data.project.mode==='analysis-only',observation:data.observation};}
++  if(phase==='baseline'){if(data.baselineRef?data.project?.evidenceDirectory!==state.evidenceDirectory:data.project?.mode!=='analysis-only')fail('VERIFICATION_INVALID','基线证据目录与宿主启动意图不符',result);states.set(runId,{project:data.project,baselineRef:data.baselineRef,config});onPolicy(runId,data.project);return {verified:true,reason:data.project.reason,project:data.project,analysisOnly:data.project.mode==='analysis-only',observation:data.observation};}
+   if(phase==='check'){state.round=round;state.fingerprint=data.fingerprint;}
+   return data;
+  },
+  async release(runId){
+   const state=states.get(runId);let settled=true;
+-  if(state?.baselineRef){try{await this.collect({config:state.config,runId,round:state.round||0,phase:'cleanup',signal:new AbortController().signal});}catch(error){settled=false;poison(state.config.sessionId,error.diagnostic||verificationDiagnostic('cleanup',undefined,error,'证据清理未确认'));}}
++  if(state?.pending){settled=false;poison(state.config.sessionId,verificationDiagnostic('cleanup',undefined,undefined,'基线确认丢失，工作区证据清理未确认'));}
++  else if(state?.baselineRef){try{await this.collect({config:state.config,runId,round:state.round||0,phase:'cleanup',signal:new AbortController().signal});}catch(error){settled=false;poison(state.config.sessionId,error.diagnostic||verificationDiagnostic('cleanup',undefined,error,'证据清理未确认'));}}
+   if(settled)states.delete(runId);onPolicy(runId,null);return {settled};
+  }};
+ }
+--- a/src/host-adapter.js
++++ b/src/host-adapter.js
+@@ -12,6 +12,13 @@
+ const unconfirmedModelChildren=globalThis[quarantineKey]??(globalThis[quarantineKey]=new Set());
+ const retiredChildrenKey=Symbol.for('dsh-desktop-workflow:retired-model-children:v1');
+ const retiredBudgetChildren=globalThis[retiredChildrenKey]??(globalThis[retiredChildrenKey]=new Set());
++/** Pure comparison helper; Windows paths use case-insensitive filesystem names. */
++export function isEvidencePath(relative,evidence,pattern='',platform=process.platform){
++ if(typeof evidence!=='string'||!/^\.dsh-team-evidence-[a-f0-9]{32}$/.test(evidence))return false;
++ const normalize=value=>platform==='win32'?String(value).toLowerCase():String(value);
++ const exact=normalize(evidence),target=normalize(relative).replaceAll('\\','/');
++ return target===exact||target.startsWith(exact+'/')||normalize(pattern).split(/[\\/]/).includes(exact);
++}
+ function tombstoneChildren(tag){for(const agent of tag.created)unconfirmedModelChildren.add(agent.id);}
+ 
+ const readTools = new Set(['read', 'read_image', 'glob', 'grep', 'structured_output']);
+@@ -201,6 +208,18 @@
+     try{
+       const root=realpathSync(tag.project.root),candidate=path.resolve(root,raw);let relative=path.relative(root,candidate).replaceAll('\\','/');
+       if(path.isAbsolute(relative)||relative==='..'||relative.startsWith('../'))return denied;
++      // The verifier owns this exact per-run workspace artifact. Normal globbing
++      // may list its filename, but no role can read/search/edit its contents.
++      const evidence=tag.project.evidenceDirectory;
++      if(typeof evidence==='string'&&/^\.dsh-team-evidence-[a-f0-9]{32}$/.test(evidence)){
++        if(isEvidencePath(relative,evidence,exec.name==='glob'?arg.pattern||'':''))return denied;
++        // An alternate hardlink name must not reveal the private manifest either.
++        const stateFile=path.join(root,evidence,'state.json');
++        if(existsSync(candidate)&&existsSync(stateFile)){
++          const target=lstatSync(candidate),state=lstatSync(stateFile);
++          if(target.isFile()&&state.isFile()&&target.dev===state.dev&&target.ino===state.ino)return denied;
++        }
++      }
+       if(/(^|\/)(?:\.git|\.dsh|\.ssh|\.aws|node_modules|vendor|\.venv|venv|dist|build|coverage|\.cache|\.credentials(?:\.yaml)?|\.env(?:\..*)?|.*\.(?:pem|key)|id_rsa|credentials)(?:\/|$)/i.test(relative))return denied;
+       let walk=root;for(const part of relative.split('/').filter(Boolean)){walk=path.join(walk,part);try{if(lstatSync(walk).isSymbolicLink())return denied;}catch(e){if(e.code!=='ENOENT')return denied;}}
+       if(existsSync(candidate)){const stat=lstatSync(candidate);if(!['glob'].includes(exec.name)&&!stat.isFile())return denied;if(mutating&&stat.nlink>1)return denied;const actual=realpathSync(candidate),r=path.relative(root,actual);if(path.isAbsolute(r)||r==='..'||r.startsWith('..'+path.sep))return denied;}
+@@ -236,7 +255,7 @@
+     let dispatched=false;
+     const match=exec=>exec.agent===parent&&exec.name===resolved.name&&JSON.stringify(exec.arguments)===JSON.stringify(resolved.arguments);
+     const offDispatch=parent.ctx.on('tools/execute',async(exec,next)=>{if(match(exec))dispatched=true;return next();});
+-    try{const result=await verifierCalls.run({parent,name:resolved.name,args:JSON.stringify(resolved.arguments)},()=>tools.execute({callId:randomUUID(),...resolved,agent:parent,signal}));return !dispatched&&result?.isError?{...result,verificationNotDispatched:true}:result;}finally{offDispatch();dispose();}
++    try{const result=await verifierCalls.run({parent,name:resolved.name,args:JSON.stringify(resolved.arguments)},()=>tools.execute({callId:randomUUID(),...resolved,agent:parent,signal}));return result?.isError?{...result,verificationNotDispatched:!dispatched,verificationDispatchObserved:dispatched}:result;}catch(error){if(dispatched)throw new TeamHostError('VERIFIER_DISPATCHED_FAILURE','检查工具派发后发生异常，执行与证据清理未确认。');throw error;}finally{offDispatch();dispose();}
+ 
+   }
+   function poison(sessionId,diagnostic){quarantined.add(sessionId);onCleanupFailed(sessionId,'verification',diagnostic);}
+--- a/src/verification-project-runner.js
++++ b/src/verification-project-runner.js
+@@ -1,6 +1,6 @@
+ /** Fixed native-tool verifier entry point. Payload is data; no user executable input. */
+ async function projectRunner(p){
+- const fs=await import('node:fs'),path=await import('node:path'),crypto=await import('node:crypto'),cp=await import('node:child_process'),os=await import('node:os');
++ const fs=await import('node:fs'),path=await import('node:path'),crypto=await import('node:crypto'),cp=await import('node:child_process');
+  const root=fs.realpathSync(process.cwd()),hash=x=>crypto.createHash('sha256').update(x).digest('hex');let unsettled=false;const safeRoot=root!==path.resolve(process.env.HOME||'/impossible')&&!/(^|\/)(?:\.dsh|\.ssh|\.aws|profiles)(?:\/|$)/i.test(root.replaceAll('\\','/'));
+  const secret=/(^|\/)(?:\.git|\.dsh|\.ssh|\.aws|\.credentials(?:\.yaml)?|\.env(?:\..*)?|.*\.(?:pem|key)|id_rsa|credentials)(?:\/|$)/i;
+  const dependency=/(^|\/)(?:node_modules|vendor|\.venv|venv|\.cache|dist|build|coverage)(?:\/|$)/i;
+@@ -10,16 +10,49 @@
+  const git=(...a)=>{const r=run(['git','--no-optional-locks','-c','core.fsmonitor=false','-c','core.hooksPath=/dev/null',...a],10000);if(!r.ok)throw Error('Git observation unavailable');return r.text;};
+  const safePath=n=>{if(!n||path.isAbsolute(n)||n.split(/[\\/]/).some(s=>s==='..'||s==='.')||secret.test(n)||dependency.test(n))throw Error('Restricted path');let cur=root;for(const part of n.split('/')){cur=path.join(cur,part);try{if(fs.lstatSync(cur).isSymbolicLink())throw Error('Symlink path');}catch(e){if(e.code!=='ENOENT')throw e;}}return cur;};
+  const output=x=>process.stdout.write(JSON.stringify({runId:p.runId,round:p.round,nonce:p.nonce,...x}));
++ // Native sandboxes may replace /tmp for every invocation. Keep only hash evidence
++ // in one registered workspace directory; the host retains its original digest.
++ const evidenceLimit=16777216,sameObject=(a,b)=>a.dev===b.dev&&a.ino===b.ino&&a.nlink===b.nlink;
++ let evidence,createdEvidence;
++ const validateEvidence=(ref,previous)=>{
++  if(!ref||typeof ref.path!=='string'||typeof ref.digest!=='string'||!/^[a-f0-9]{64}$/.test(ref.digest)||!path.isAbsolute(ref.path)||path.normalize(ref.path)!==ref.path)throw Error('Invalid evidence reference');
++  const file=ref.path,dir=path.dirname(file),name=path.basename(dir);
++  if(path.basename(file)!=='state.json'||!/^\.dsh-team-evidence-[a-f0-9]{32}$/.test(name)||path.relative(root,dir)!==name)throw Error('Invalid evidence reference');
++  const dirStat=fs.lstatSync(dir),fileStat=fs.lstatSync(file);
++  if(dirStat.isSymbolicLink()||!dirStat.isDirectory()||fileStat.isSymbolicLink()||!fileStat.isFile()||fileStat.nlink!==1||path.relative(root,fs.realpathSync(dir))!==name||path.relative(dir,fs.realpathSync(file))!=='state.json')throw Error('Invalid evidence object');
++  if(process.platform!=='win32'&&((dirStat.mode&0o777)!==0o700||(fileStat.mode&0o777)!==0o600))throw Error('Invalid evidence permissions');
++  if(previous&&(!sameObject(previous.dirStat,dirStat)||!sameObject(previous.fileStat,fileStat)))throw Error('Evidence object changed');
++  if(JSON.stringify(fs.readdirSync(dir))!==JSON.stringify(['state.json']))throw Error('Unexpected evidence directory contents');
++  const fd=fs.openSync(file,fs.constants.O_RDONLY|(fs.constants.O_NOFOLLOW||0));let raw;
++  try{const opened=fs.fstatSync(fd);if(!opened.isFile()||opened.nlink!==1||!sameObject(opened,fileStat))throw Error('Evidence object changed');if(opened.size>evidenceLimit)throw Error('Evidence state too large');const buffer=Buffer.alloc(opened.size+1);let bytes=0;while(bytes<buffer.length){const count=fs.readSync(fd,buffer,bytes,buffer.length-bytes,null);if(!count)break;bytes+=count;}raw=buffer.subarray(0,bytes);const after=fs.fstatSync(fd);if(raw.length!==opened.size||after.size!==opened.size||after.mtimeMs!==opened.mtimeMs||after.ctimeMs!==opened.ctimeMs||!sameObject(after,opened))throw Error('Evidence changed during read');}finally{fs.closeSync(fd);}
++  const currentDir=fs.lstatSync(dir),currentFile=fs.lstatSync(file);
++  if(currentDir.isSymbolicLink()||currentFile.isSymbolicLink()||!sameObject(dirStat,currentDir)||!sameObject(fileStat,currentFile)||JSON.stringify(fs.readdirSync(dir))!==JSON.stringify(['state.json']))throw Error('Evidence object changed');
++  if(hash(raw)!==ref.digest)throw Error('Evidence reference changed');
++  const stored=JSON.parse(raw);
++  if(stored.runId!==p.runId||stored.project?.root!==root||stored.project?.evidenceDirectory!==name)throw Error('Evidence run mismatch');
++  return {file,dir,name,relative:name+'/state.json',fileStat:currentFile,dirStat:currentDir,stored};
++ };
++ const removeCreatedEvidence=()=>{
++  if(!createdEvidence)return;
++  const {dir,file,dirStat,fileStat}=createdEvidence,currentDir=fs.lstatSync(dir);
++  if(!dirStat||currentDir.isSymbolicLink()||!currentDir.isDirectory()||!sameObject(dirStat,currentDir)||path.relative(root,fs.realpathSync(dir))!==path.basename(dir))throw Error('Evidence creation cleanup unavailable');
++  const names=fs.readdirSync(dir);
++  if(fileStat){const currentFile=fs.lstatSync(file);if(names.length!==1||names[0]!=='state.json'||currentFile.isSymbolicLink()||!currentFile.isFile()||currentFile.nlink!==1||!sameObject(fileStat,currentFile))throw Error('Evidence creation cleanup unavailable');fs.unlinkSync(file);}
++  else if(names.length)throw Error('Evidence creation cleanup unavailable');
++  const emptyDir=fs.lstatSync(dir);if(emptyDir.isSymbolicLink()||!sameObject(dirStat,emptyDir)||fs.readdirSync(dir).length)throw Error('Evidence creation cleanup unavailable');fs.rmdirSync(dir);createdEvidence=undefined;
++ };
+  const manifest=()=>{
+-  const names=[...new Set([...git('ls-files','-z').split('\0'),...git('ls-files','--others','--exclude-standard','-z').split('\0')].filter(Boolean))].filter(n=>!secret.test(n)&&!dependency.test(n)).sort();
++  if(evidence)evidence=validateEvidence(p.baselineRef,evidence);
++  const names=[...new Set([...git('ls-files','-z').split('\0'),...git('ls-files','--others','--exclude-standard','-z').split('\0')].filter(Boolean))].filter(n=>!secret.test(n)&&!dependency.test(n)&&n!==evidence?.relative).sort();
+   if(names.length>10000)throw Error('Project evidence file limit');let bytes=0;const entries={};for(const n of names){const f=safePath(n);try{const st=fs.lstatSync(f);if(!st.isFile())throw Error('Non-file entry');bytes+=st.size;if(bytes>134217728)throw Error('Project evidence byte limit');entries[n]=st.mode+':'+hash(fs.readFileSync(f));}catch(e){if(e.code==='ENOENT')entries[n]='MISSING';else throw e;}}
+   const metadata=[];const gd=path.join(root,'.git');if(!fs.existsSync(gd)||!fs.lstatSync(gd).isDirectory()||fs.lstatSync(gd).isSymbolicLink())throw Error('Linked Git worktree not supported');
+   const visit=(d,rel='')=>{for(const n of fs.readdirSync(d).sort()){const name=rel?rel+'/'+n:n;if(name==='objects'||name==='logs')continue;const f=path.join(d,n),s=fs.lstatSync(f);if(s.isSymbolicLink())throw Error('Git metadata symlink');if(s.isDirectory())visit(f,name);else {if(s.size>8388608)throw Error('Git metadata too large');metadata.push([name,s.mode,hash(fs.readFileSync(f))]);}}};visit(gd);
+-  return {entries,gitHash:hash(JSON.stringify(metadata)),head:git('rev-parse','HEAD').trim()};
++  const head=git('rev-parse','HEAD').trim();if(evidence)evidence=validateEvidence(p.baselineRef,evidence);
++  return {entries,gitHash:hash(JSON.stringify(metadata)),head};
+  };
+  try{
+-  if(p.baselineRef){const ref=p.baselineRef;const file=ref.path,dir=path.dirname(file);if(path.basename(file)!=='state.json'||!path.basename(dir).startsWith('dsh-team-evidence-')||path.dirname(dir)!==fs.realpathSync(os.tmpdir())||fs.lstatSync(file).isSymbolicLink()||fs.lstatSync(dir).isSymbolicLink())throw Error('Invalid evidence reference');const raw=fs.readFileSync(file);if(hash(raw)!==ref.digest)throw Error('Evidence reference changed');const stored=JSON.parse(raw);if(stored.runId!==p.runId||stored.project?.root!==root)throw Error('Evidence run mismatch');if(p.phase==='cleanup'){fs.unlinkSync(file);fs.rmdirSync(dir);output({verified:true,reason:'Temporary evidence removed'});return;}p.baseline=stored.baseline;p.project=stored.project;}
+   if(!safeRoot||root===path.resolve(env.HOME||'/impossible')||secret.test(root.replaceAll('\\','/')))throw Error('Home/profile workspace refused');
++  if(p.baselineRef){evidence=validateEvidence(p.baselineRef);if(p.phase==='cleanup'){evidence=validateEvidence(p.baselineRef,evidence);fs.unlinkSync(evidence.file);const currentDir=fs.lstatSync(evidence.dir);if(currentDir.isSymbolicLink()||!sameObject(evidence.dirStat,currentDir)||fs.readdirSync(evidence.dir).length)throw Error('Evidence cleanup changed');fs.rmdirSync(evidence.dir);output({verified:true,reason:'Temporary evidence removed'});return;}p.baseline=evidence.stored.baseline;p.project=evidence.stored.project;}
+   if(fs.realpathSync(git('rev-parse','--show-toplevel').trim())!==root)throw Error('Project root must be repository root');
+   if(git('ls-files','-v').split('\n').some(l=>l&&/^[a-zS]/.test(l)))throw Error('Hidden index entries');
+   const m=manifest();
+@@ -39,8 +72,13 @@
+    const protectedDirectories=[...new Set(explicitEntries.map(n=>path.posix.dirname(n)).filter(n=>n!=='.'))];
+    const protectedFiles=Object.keys(m.entries).filter(n=>protectedName.test(n)||explicitEntries.includes(n)||protectedDirectories.some(d=>n.startsWith(d+'/')));
+    const project={safeRoot,mode:check?'verified':'unverified-editable',reason:check?'已自动识别项目检查，无需填写路径表单。':'未识别可自动运行的验收命令；可以生成项目改动，但结果将标为待验证。',checks:check?[check]:[],protectedFiles,dirtyFiles:[...new Set([...git('diff','--name-only','HEAD').split('\n'),...git('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))].slice(0,100),inventory:Object.keys(m.entries).slice(0,160),root};
+-   const dir=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'dsh-team-evidence-'));fs.chmodSync(dir,0o700);const file=path.join(dir,'state.json'),raw=JSON.stringify({runId:p.runId,baseline:m,project});fs.writeFileSync(file,raw,{mode:0o600,flag:'wx'});
+-   output({verified:true,project:{...project,protectedFiles:explicitEntries,protectedDirectories,protectedPattern:true},baselineRef:{path:file,digest:hash(raw)}});return;
++   const name=p.evidenceDirectory===undefined?'.dsh-team-evidence-'+crypto.randomBytes(16).toString('hex'):p.evidenceDirectory;
++   if(typeof name!=='string'||!/^\.dsh-team-evidence-[a-f0-9]{32}$/.test(name))throw Error('Invalid evidence directory');
++   const dir=path.join(root,name);project.evidenceDirectory=name;
++   const file=path.join(dir,'state.json'),raw=JSON.stringify({runId:p.runId,baseline:m,project});if(Buffer.byteLength(raw)>evidenceLimit)throw Error('Evidence state too large');fs.mkdirSync(dir,{mode:0o700});createdEvidence={dir,file};createdEvidence.dirStat=fs.lstatSync(dir);fs.chmodSync(dir,0o700);
++   const fd=fs.openSync(file,'wx',0o600);try{createdEvidence.fileStat=fs.fstatSync(fd);fs.fchmodSync(fd,0o600);fs.writeFileSync(fd,raw);}finally{fs.closeSync(fd);}
++   const baselineRef={path:file,digest:hash(raw)};validateEvidence(baselineRef,createdEvidence);
++   output({verified:true,project:{...project,protectedFiles:explicitEntries,protectedDirectories,protectedPattern:true},baselineRef});return;
+   }
+   const baseline=p.baseline,project=p.project;
+   if(!baseline||m.head!==baseline.head||m.gitHash!==baseline.gitHash)throw Error('Git baseline changed');
+@@ -54,6 +92,7 @@
+   const after=manifest();if(JSON.stringify(after.entries)!==JSON.stringify(m.entries))throw Error('Checks modified project inputs');if(after.head!==baseline.head||after.gitHash!==baseline.gitHash||project.protectedFiles.some(n=>after.entries[n]!==baseline.entries[n]))throw Error('Checks changed protected evidence');
+   output({verified:true,checksPassed:checks.length>0&&checks.every(c=>c.passed),checksFailed:checks.filter(c=>!c.passed).length,checksRun:true,needsVerification:checks.some(c=>c.infrastructure),diffAvailable:true,scopeOk:true,protectedOk:true,diffEmpty:changed.length===0,expectsChanges:true,checks,checkSummary:checks.map(c=>c.id+': exit '+c.exitCode+'\n'+c.tail).join('\n').slice(-2500),diffStat:changed.map(n=>n+' changed since task start').join('\n').slice(0,1500),fingerprint:hash(JSON.stringify(after)),securityChanged:changed.some(f=>/(^|\/)(?:auth|permission|credential|secret|payment|migration)/i.test(f)),reason:'基于本次启动快照独立检查；既有未提交变更未计入本次贡献。'});
+  }catch(error){
++  if(createdEvidence){try{removeCreatedEvidence();}catch{unsettled=true;}}
+   const text=String(error?.message||''),reason=['EPERM','EACCES','ENOENT'].includes(error?.code)?'FILE_ACCESS_UNAVAILABLE':text==='Git observation unavailable'?'GIT_UNAVAILABLE':text==='Project root must be repository root'?'NOT_REPOSITORY_ROOT':/limit|too large/.test(text)?'EVIDENCE_LIMIT':text==='Hidden index entries'?'HIDDEN_INDEX':text==='Non-file entry'?'NON_FILE_INPUT':text==='Symlink path'?'SYMLINK_INPUT':text==='Git metadata symlink'?'GIT_METADATA_SYMLINK':text==='Linked Git worktree not supported'?'LINKED_WORKTREE':text.includes('Home/profile')?'UNSAFE_PROJECT_ROOT':'EVIDENCE_INVALID';
+   if(p.phase==='baseline'&&!unsettled){output({verified:true,project:{safeRoot,mode:'analysis-only',reason:'当前项目无法建立可靠自动验收（'+reason+'）；先只读分析，不会宣称代码任务完成。',checks:[],protectedFiles:[],inventory:[],root},baseline:null,observation:{phase:p.phase,reason}});return;}
+   output({verified:false,unsettled,observation:{phase:p.phase,reason},reason:'项目证据不完整或验收文件发生变化（'+reason+'），结果待验证。'});process.exitCode=1;
+--- a/test/host-adapter.test.mjs
++++ b/test/host-adapter.test.mjs
+@@ -51,3 +51,11 @@
+   assert.equal(result.isError,false);assert.deepEqual(executed,['bash']);
+  }finally{await a.dispose();}
+ });
++
++test('an exception named CANCELLED after native verifier dispatch cannot impersonate a pre-dispatch cancellation',async()=>{
++ const f=fixture();f.parent.ctx.on=f.ctx.on;
++ f.parent.ctx.get=()=>({guard:()=>()=>{},async execute(exec){await f.emit('tools/execute',exec);throw Object.assign(new Error('SYNTHETIC_RAW_ERROR'),{code:'CANCELLED'});}});
++ const a=ready(f);
++ try{await assert.rejects(a.executeTool('session-a',{name:'bash',arguments:{command:'synthetic',description:'synthetic'}},new AbortController().signal),error=>error.code==='VERIFIER_DISPATCHED_FAILURE'&&!error.message.includes('SYNTHETIC_RAW'));}
++ finally{await a.dispose();}
++});
+--- a/test/production-runtime.test.mjs
++++ b/test/production-runtime.test.mjs
+@@ -100,7 +100,7 @@
+  ])assert.ok(result.stdout.includes(finding),'Missing acceptance result: '+finding);
+  const summary=JSON.parse(result.stdout.split('\n').find(line=>line.startsWith('PRODUCTION_HOST_RESULT ')).slice('PRODUCTION_HOST_RESULT '.length));
+  if(process.env.DSH_PRODUCTION_BUNDLE){assert.equal(summary.installedBundle,true);assert.equal(summary.duplicatePeer,true);assert.match(summary.bundleSha256,/^[a-f0-9]{64}$/);}
+- assert.equal(summary.packageVersion,'0.6.0');assert.equal(summary.dshVersion,'0.2.0-rc.2');assert.equal(summary.externalRequests,0);
++ assert.equal(summary.packageVersion,'0.6.1');assert.equal(summary.dshVersion,'0.2.0-rc.2');assert.equal(summary.externalRequests,0);
+  assert.ok(summary.nativeChildren>=30);assert.ok(summary.realVerifierProcesses>=25);
+  assert.ok(!result.stdout.includes('synthetic-production-fixture-'));assert.ok(!result.stderr.includes('synthetic-production-fixture-'));
+ });
+--- a/test/review-auto-safety.test.mjs
++++ b/test/review-auto-safety.test.mjs
+@@ -1,14 +1,14 @@
+ import {test} from 'node:test';
+ import assert from 'node:assert/strict';
+-import {mkdtempSync,mkdirSync,writeFileSync,symlinkSync,linkSync} from 'node:fs';
++import {mkdtempSync,mkdirSync,writeFileSync,symlinkSync,linkSync,rmSync} from 'node:fs';
+ import {tmpdir} from 'node:os';
+ import path from 'node:path';
+-import {createExecutionAdapter} from '../src/host-adapter.js';
++import {createExecutionAdapter,isEvidencePath} from '../src/host-adapter.js';
+ import {createHostJevClient} from '../src/team-setup.js';
+ import {JevTeamController} from '../src/jev-controller.js';
+ import {fixtureDependencies,settings} from './helpers/team-host.mjs';
+ 
+-async function guardedProject(mode='verified'){
++async function guardedProject(mode='verified',options={}){
+  const root=mkdtempSync(path.join(tmpdir(),'dsh-auto-guard-audit-'));mkdirSync(path.join(root,'src'));mkdirSync(path.join(root,'node_modules'));
+  writeFileSync(path.join(root,'src/existing.js'),'export const a=1;');writeFileSync(path.join(root,'package.json'),'{}');
+  const listeners=new Map();let guard;
+@@ -18,8 +18,8 @@
+   for(const fn of listeners.get('agent/created')||[])await fn({agent});
+   return {id:agent.id,localAgent:agent,result:Promise.resolve({stopReason:'completed',output:[]}),dispose:async()=>{}};
+  }}};
+- const adapter=createExecutionAdapter(ctx);adapter.beginSession(parent.id,adapter.context(parent.id).contextKey);adapter.setProjectPolicy('audit-run',{mode,root,protectedFiles:['package.json']});
+- await adapter.execute({sessionId:parent.id,runId:'audit-run',nodeId:'audit-node',role:'worker',model:{provider:'fixture',model:'fixture'},prompt:'Fixture only',signal:new AbortController().signal,limits:{maxStepsPerAgent:2}});
++ const adapter=createExecutionAdapter(ctx);adapter.beginSession(parent.id,adapter.context(parent.id).contextKey);adapter.setProjectPolicy('audit-run',{mode,root,protectedFiles:['package.json'],...options.policy});
++ await adapter.execute({sessionId:parent.id,runId:'audit-run',nodeId:'audit-node',role:options.role||'worker',model:{provider:'fixture',model:'fixture'},prompt:'Fixture only',signal:new AbortController().signal,limits:{maxStepsPerAgent:2}});
+  return {root,adapter,check:(name,args)=>guard({name,arguments:args})};
+ }
+ 
+@@ -63,3 +63,33 @@
+   try{const started=controller.start({sessionId:'audit',goal:'Fixture only',...settings()});const result=await controller.wait(started.id);assert.equal(result.status,'unverified');assert.equal(workerCalls,1);assert.equal(checks,1);assert.equal(seals,0);}finally{await controller.dispose();}
+  }
+ });
++
++// The fixture models native guard dispatch, not a real LLM or sandbox.
++for(const role of ['planner','coordinator','researcher','explorer','worker','reviewer'])test(`workspace evidence contents are inaccessible to ${role} without blocking unrelated source`,async()=>{
++ const evidenceDirectory='.dsh-team-evidence-'+ 'a'.repeat(32);
++ const f=await guardedProject('verified',{role,policy:{evidenceDirectory}});
++ try{
++  mkdirSync(path.join(f.root,evidenceDirectory));
++  const state=path.join(f.root,evidenceDirectory,'state.json');writeFileSync(state,'SYNTHETIC_PRIVATE_MANIFEST');
++  for(const name of ['read','read_image','write','edit'])for(const file_path of [evidenceDirectory+'/state.json',state,evidenceDirectory+'/new.js'])assert.ok(f.check(name,{file_path}),name+' '+file_path);
++  assert.ok(f.check('grep',{path:state,pattern:'PRIVATE'}));
++  assert.ok(f.check('glob',{path:path.join(f.root,evidenceDirectory),pattern:'**/*'}));
++  assert.ok(f.check('glob',{path:f.root,pattern:evidenceDirectory+'/**'}));
++  linkSync(state,path.join(f.root,'src/alias.json'));
++  assert.ok(f.check('read',{file_path:'src/alias.json'}));
++  assert.ok(f.check('grep',{path:'src/alias.json',pattern:'PRIVATE'}));
++  assert.equal(f.check('read',{file_path:'src/existing.js'}),undefined);
++  assert.equal(f.check('glob',{path:f.root,pattern:'**/*'}),undefined);
++  const other=evidenceDirectory+'-not-owned';mkdirSync(path.join(f.root,other));writeFileSync(path.join(f.root,other,'ordinary.json'),'{}');
++  assert.equal(f.check('read',{file_path:other+'/ordinary.json'}),undefined);
++ }finally{await f.adapter.dispose();rmSync(f.root,{recursive:true,force:true});}
++});
++
++test('evidence path comparison handles Windows case folding without weakening POSIX names',()=>{
++ const evidence='.dsh-team-evidence-'+ 'a'.repeat(32),upper=evidence.toUpperCase();
++ assert.equal(isEvidencePath(upper+'/new.txt',evidence,'','win32'),true);
++ assert.equal(isEvidencePath('src',evidence,upper+'\\**','win32'),true);
++ assert.equal(isEvidencePath(upper+'/new.txt',evidence,'','linux'),false);
++ assert.equal(isEvidencePath(evidence+'-other/new.txt',evidence,'','win32'),false);
++ assert.equal(isEvidencePath('src/value.js',evidence,'**/*','win32'),false);
++});
+--- a/test/session-isolation.test.mjs
++++ b/test/session-isolation.test.mjs
+@@ -78,7 +78,7 @@
+ 
+ test('legacy lease with unavailable owner keeps unknown scope protected without clearing or reassigning it',async()=>{const old=globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')]??(globalThis[Symbol.for('dsh-desktop-workflow:exclusive-run:v2')]={current:null});const previous=old.current,unknown={sessionId:'unavailable-owner',poisoned:true};old.current=unknown;const f=multi(),r=fixtureRuntime(f.ctx);try{assert.equal(r.snapshot('a').context.canStart,false);assert.equal(r.snapshot('b').context.canStart,false);assert.equal(r.snapshot('b').context.occupancy.scopeKnown,false);assert.equal(old.current,unknown);await assert.rejects(r.start(input(r,'b','request-b')),/项目范围尚未确认/);}finally{await r.dispose();old.current=previous;reset();}});
+ 
+-test('settled diagnostic is retained with its own historical run after a later run clears current diagnostics',async()=>{const f=teamHost({sessionId:'a'});let first=true;f.parent.ctx.on=f.ctx.on;f.parent.ctx.get=()=>({guard:()=>()=>{},async execute(exec){await f.emit('tools/execute',exec,async()=>{});const p=JSON.parse(Buffer.from(exec.arguments.command.match(/'([A-Za-z0-9+/=]+)'$/)[1],'base64').toString('utf8'));const value={kind:'foreground',exitCode:first?1:0,signal:null,timedOut:false,aborted:false,stdout:{text:first?'not json':JSON.stringify({...p,verified:true,project:{mode:'analysis-only',reason:'Fixture analysis',root:'/fixture/shared-project'}})},stderr:{text:''}};first=false;return {isError:false,value};}});const deps=fixtureDependencies();delete deps.verifier;const r=createTeamRuntime(f.ctx,{},deps);const request=id=>{const v=input(r,'a',id);v.settings.verification={profileId:'auto',scope:['workspace']};return v;};try{const a=await r.start(request('first-request'));await waitFor(()=>r.snapshot('a').context.canStart);const b=await r.start(request('second-request'));await waitFor(()=>r.snapshot('a').snapshot.finishedAt);assert.notEqual(a.snapshot.id,b.snapshot.id);assert.equal(r.snapshot('a').context.diagnostic,undefined);assert.equal(r.snapshot('a',a.snapshot.id).snapshot.diagnostic.runId,a.snapshot.id);assert.equal(r.snapshot('a',a.snapshot.id).snapshot.diagnostic.phase,'baseline');}finally{await r.dispose();reset();}});
++test('settled diagnostic is retained with its own historical run after a later run clears current diagnostics',async()=>{const f=teamHost({sessionId:'a'});let first=true;f.parent.ctx.on=f.ctx.on;f.parent.ctx.get=()=>({guard:()=>()=>{},async execute(exec){if(first){first=false;return {isError:true,error:{code:'UNKNOWN_TOOL'}};}await f.emit('tools/execute',exec,async()=>{});const p=JSON.parse(Buffer.from(exec.arguments.command.match(/'([A-Za-z0-9+/=]+)'$/)[1],'base64').toString('utf8'));const value={kind:'foreground',exitCode:0,signal:null,timedOut:false,aborted:false,stdout:{text:JSON.stringify({...p,verified:true,project:{mode:'analysis-only',reason:'Fixture analysis',root:'/fixture/shared-project'}})},stderr:{text:''}};return {isError:false,value};}});const deps=fixtureDependencies();delete deps.verifier;const r=createTeamRuntime(f.ctx,{},deps);const request=id=>{const v=input(r,'a',id);v.settings.verification={profileId:'auto',scope:['workspace']};return v;};try{const a=await r.start(request('first-request'));await waitFor(()=>r.snapshot('a').context.canStart);const b=await r.start(request('second-request'));await waitFor(()=>r.snapshot('a').snapshot.finishedAt);assert.notEqual(a.snapshot.id,b.snapshot.id);assert.equal(r.snapshot('a').context.diagnostic,undefined);assert.equal(r.snapshot('a',a.snapshot.id).snapshot.diagnostic.runId,a.snapshot.id);assert.equal(r.snapshot('a',a.snapshot.id).snapshot.diagnostic.phase,'baseline');}finally{await r.dispose();reset();}});
+ 
+ 
+ test('repeated runtime disposal waits for one cleanup while independent runtime stays usable',async()=>{const f=multi({hold:true}),deps=fixtureDependencies();let release,cleaning=false,releases=0;deps.verifier.release=async()=>{releases++;cleaning=true;await new Promise(r=>release=r);};const a=createTeamRuntime(f.ctx,{},deps),b=fixtureRuntime(f.ctx);try{await a.start(input(a,'a'));await waitFor(()=>f.calls.length);const closing=a.dispose();await waitFor(()=>cleaning);const again=a.dispose();assert.equal(again,closing);let completed=false;again.then(()=>completed=true);await new Promise(setImmediate);assert.equal(completed,false);assert.equal(releases,1);assert.equal(b.snapshot('c').context.occupancy.state,'cancelling');assert.equal(b.snapshot('b').context.canStart,true);await b.start(input(b,'b','request-b'));release();await Promise.all([closing,again]);assert.equal(b.snapshot('c').context.canStart,true);assert.equal(a.dispose(),closing);assert.equal(releases,1);}finally{release?.();await a.dispose();await b.dispose();reset();}});
+--- a/test/verifier-cleanup.test.mjs
++++ b/test/verifier-cleanup.test.mjs
+@@ -1,5 +1,26 @@
+ import {test} from 'node:test';import assert from 'node:assert/strict';import {createAutoVerifier} from '../src/auto-verification.js';
+-const result=payload=>({isError:false,value:{kind:'foreground',exitCode:0,signal:null,timedOut:false,aborted:false,stdout:{text:JSON.stringify({...payload,verified:true,project:{mode:'verified',reason:'Fixture'},baselineRef:{path:'fixture-only',digest:'fixture'}})},stderr:{text:''}}});
++const result=payload=>({isError:false,value:{kind:'foreground',exitCode:0,signal:null,timedOut:false,aborted:false,stdout:{text:JSON.stringify({...payload,verified:true,project:{mode:'verified',reason:'Fixture',evidenceDirectory:payload.evidenceDirectory},baselineRef:{path:'fixture-only',digest:'fixture'}})},stderr:{text:''}}});
+ const payload=spec=>JSON.parse(Buffer.from(spec.arguments.command.match(/'([A-Za-z0-9+/=]+)'$/)[1],'base64').toString('utf8'));
+ test('cleanup foreground failure still quarantines the project and reports cleanup, without retaining raw output',async()=>{const poisoned=[],diagnostics=[];const verifier=createAutoVerifier({poison:(id,d)=>poisoned.push({id,d}),onDiagnostic:(_id,d)=>diagnostics.push(d),executeTool:async(_id,spec)=>{const p=payload(spec),r=result(p);if(p.phase==='cleanup'){r.value.exitCode=1;r.value.stdout.text=JSON.stringify({...p,verified:false,reason:'FAKE_PRIVATE_PROJECT_BODY'});}return r;}});await verifier.collect({config:{sessionId:'fixture'},runId:'fixture',round:0,phase:'baseline',signal:new AbortController().signal});assert.equal((await verifier.release('fixture')).settled,false);assert.equal(poisoned.length,1);assert.equal(poisoned[0].d.phase,'cleanup');assert.equal(diagnostics[0].exitCode,1);assert.equal(JSON.stringify({poisoned,diagnostics}).includes('FAKE_PRIVATE'),false);});
+ test('known not-dispatched tool denial reports its phase without quarantining execution that never started',async()=>{const poisoned=[],diagnostics=[];const verifier=createAutoVerifier({poison:id=>poisoned.push(id),onDiagnostic:(_id,d)=>diagnostics.push(d),executeTool:async()=>({isError:true,verificationNotDispatched:true,error:{code:'UNKNOWN_TOOL',message:'FAKE_SECRET'}})});await assert.rejects(verifier.collect({config:{sessionId:'fixture'},runId:'fixture',round:0,phase:'baseline',signal:new AbortController().signal}),e=>e.code==='VERIFICATION_DENIED');assert.equal(poisoned.length,0);assert.equal(diagnostics[0].notDispatched,true);assert.equal(diagnostics[0].code,'UNKNOWN_TOOL');assert.equal(JSON.stringify(diagnostics).includes('FAKE_SECRET'),false);});
++
++for(const failure of ['truncated','malformed','wrong-nonce','cancelled-result'])test(`unacknowledged persistent baseline ${failure} remains unsettled`,async()=>{
++ const poisoned=[],calls=[];
++ const verifier=createAutoVerifier({poison:(_id,d)=>poisoned.push(d),executeTool:async(_id,spec)=>{
++  const p=payload(spec);calls.push(p);const r=result(p);
++  if(failure==='truncated')r.value.stdout.truncated=true;
++  if(failure==='malformed')r.value.stdout.text='not JSON';
++  if(failure==='wrong-nonce')r.value.stdout.text=JSON.stringify({...p,nonce:'other',verified:true});
++  if(failure==='cancelled-result')r.value.aborted=true;
++  return r;
++ }});
++ await assert.rejects(verifier.collect({config:{sessionId:'fixture'},runId:failure,round:0,phase:'baseline',signal:new AbortController().signal}));
++ assert.match(calls[0].evidenceDirectory,/^\.dsh-team-evidence-[a-f0-9]{32}$/);
++ assert.ok(poisoned.length>0);assert.equal((await verifier.release(failure)).settled,false);
++ assert.equal(calls.length,1,'no cleanup command is fabricated without an acknowledged digest');
++});
++test('known baseline pre-dispatch cancellation retains no artifact intent',async()=>{
++ const poisoned=[];const verifier=createAutoVerifier({poison:id=>poisoned.push(id),executeTool:async()=>{throw Object.assign(new Error('cancelled before dispatch'),{code:'CANCELLED'});}});
++ await assert.rejects(verifier.collect({config:{sessionId:'fixture'},runId:'not-dispatched',round:0,phase:'baseline',signal:new AbortController().signal}));
++ assert.equal((await verifier.release('not-dispatched')).settled,true);assert.equal(poisoned.length,0);
++});
+--- a/test/verifier-quarantine.test.mjs
++++ b/test/verifier-quarantine.test.mjs
+@@ -46,7 +46,7 @@
+ test('a check that provably never started is refused without quarantining the project',async()=>{
+   const f=teamHost();
+   f.parent.ctx.on=f.ctx.on;
+-  const parentTools={guard(fn){f.parentGuards.push(fn);return()=>f.parentGuards.splice(f.parentGuards.indexOf(fn),1);},async execute(exec){await f.emit('tools/execute',exec,async()=>{});return {isError:true,error:{message:'unknown tool "bash"',info:{name:'ToolNotFoundError',code:'UNKNOWN_TOOL'}}};}};
++  const parentTools={guard(fn){f.parentGuards.push(fn);return()=>f.parentGuards.splice(f.parentGuards.indexOf(fn),1);},async execute(){return {isError:true,error:{message:'unknown tool "bash"',info:{name:'ToolNotFoundError',code:'UNKNOWN_TOOL'}}};}};
+   f.parent.ctx.get=()=>parentTools;
+   const dependencies=fixtureDependencies();delete dependencies.verifier;
+   const runtime=createTeamRuntime(f.ctx,{},dependencies);
+@@ -57,7 +57,7 @@
+     assert.equal(f.calls.length,0);
+     assert.equal(state.context.canStart,true);
+     assert.match(state.snapshot.message,/UNKNOWN_TOOL/);
+-    assert.match(state.snapshot.message,/没有启动任何检查进程/);
++    assert.match(state.snapshot.message,/未派发检查工具|没有启动任何检查进程/);
+     assert.doesNotMatch(state.snapshot.message,/清理未确认/);
+     assert.equal(globalThis[Symbol.for('dsh-desktop-workflow:project-runs:v3')].sessions.get(f.parent.id),undefined);
+   }finally{await runtime.dispose();reset();}
+@@ -71,3 +71,10 @@
+     assert.deepEqual(poisoned,['fixture']);
+   }
+ });
++
++for(const code of ['UNKNOWN_TOOL','INVALID_ARGS','ABORTED_BEFORE_DISPATCH'])test(`returned ${code} after dispatch observation cannot clear pending artifact ownership`,async()=>{
++ const poisoned=[];
++ const verifier=createAutoVerifier({executeTool:async()=>({isError:true,verificationDispatchObserved:true,error:{info:{code}}}),poison:(_id,d)=>poisoned.push(d)});
++ await assert.rejects(verifier.collect({config:{sessionId:'ambiguous'},runId:'ambiguous-'+code,round:0,phase:'baseline',signal:new AbortController().signal}),error=>error.code==='VERIFICATION_UNSETTLED');
++ assert.equal((await verifier.release('ambiguous-'+code)).settled,false);assert.ok(poisoned.length>=1);
++});
+--- /dev/null
++++ b/test/verifier-workspace-evidence.test.mjs
+@@ -0,0 +1,153 @@
++import {test} from 'node:test';
++import assert from 'node:assert/strict';
++import * as fs from 'node:fs';
++import os from 'node:os';
++import path from 'node:path';
++import {fileURLToPath} from 'node:url';
++import {createHash,randomUUID} from 'node:crypto';
++import {spawnSync} from 'node:child_process';
++import {verifierCommand} from '../src/verifier-command.js';
++
++const runner=fileURLToPath(new URL('../src/verification-project-runner.js',import.meta.url));
++const digest=raw=>createHash('sha256').update(raw).digest('hex');
++const evidenceName=/^\.dsh-team-evidence-[a-f0-9]{32}$/;
++
++function fixture(t,{testBody='',beforeCommit=()=>{}}={}){
++ const parent=fs.mkdtempSync(path.join(os.tmpdir(),'dsh-evidence-regression-'));
++ const root=path.join(parent,"project space 项目 'quoted'");fs.mkdirSync(root);
++ t.after(()=>fs.rmSync(parent,{recursive:true,force:true}));
++ const git=(...args)=>{
++  const r=spawnSync('git',['-c','core.hooksPath=/dev/null','-c','commit.gpgsign=false','-c','user.name=Evidence Fixture','-c','user.email=evidence@example.invalid',...args],{cwd:root,encoding:'utf8',env:{...process.env,GIT_CONFIG_NOSYSTEM:'1',GIT_CONFIG_GLOBAL:'/dev/null'}});
++  assert.equal(r.status,0,r.stderr);return r.stdout;
++ };
++ fs.writeFileSync(path.join(root,'package.json'),JSON.stringify({private:true,type:'module',scripts:{test:'node --test value.test.mjs'}}));
++ fs.writeFileSync(path.join(root,'value.mjs'),'export const answer = 41; // SOURCE_BODY_CANARY\n');
++ fs.writeFileSync(path.join(root,'value.test.mjs'),`import test from 'node:test';import assert from 'node:assert/strict';import * as fs from 'node:fs';import path from 'node:path';import {answer} from './value.mjs';test('value is independently accepted',()=>{assert.equal(answer,42);${testBody}});\n`);
++ beforeCommit(root);git('init','--quiet');git('add','.');git('commit','--quiet','-m','Initialize independent acceptance fixture');
++ const runId=randomUUID();let ref,baseline;
++ const invoke=(phase,overrides={},preload)=>{
++  // Simulate native sandbox invocations having unrelated ephemeral temp roots.
++  const temp=fs.mkdtempSync(path.join(parent,'invocation-tmp-'));
++  const payload={phase,runId,round:phase==='baseline'?0:1,nonce:randomUUID(),baselineRef:ref,...overrides};
++  const result=spawnSync(process.execPath,[...(preload?['--import',preload]:[]),runner,Buffer.from(JSON.stringify(payload)).toString('base64')],{cwd:root,encoding:'utf8',timeout:10000,maxBuffer:1048576,env:{...process.env,TMPDIR:temp,TEMP:temp,TMP:temp}});
++  fs.rmSync(temp,{recursive:true,force:true});
++  assert.equal(result.error,undefined,result.error?.message);assert.equal(result.stderr,'');
++  const data=JSON.parse(result.stdout);assert.equal(data.nonce,payload.nonce);assert.equal(data.runId,payload.runId);assert.equal(data.round,payload.round);
++  return {status:result.status,data,stdout:result.stdout,payload};
++ };
++ const start=()=>{const result=invoke('baseline');assert.equal(result.status,0);assert.equal(result.data.verified,true);assert.equal(result.data.project.mode,'verified');baseline=result.data;ref=baseline.baselineRef;return baseline;};
++ const edit=()=>fs.writeFileSync(path.join(root,'value.mjs'),'export const answer = 42; // SOURCE_BODY_CANARY\n');
++ return {parent,root,git,invoke,start,edit,get ref(){return ref;},get baseline(){return baseline;},get dir(){return path.dirname(ref.path);}};
++}
++function rejected(result){assert.equal(result.status,1);assert.equal(result.data.verified,false);assert.equal(result.data.checksPassed,undefined);assert.equal(result.data.sealed,undefined);assert.ok(result.data.observation.reason);}
++
++test('workspace evidence survives ephemeral temp roots through baseline, edit, check, seal and exact cleanup',t=>{
++ const f=fixture(t),b=f.start();
++ assert.match(b.project.evidenceDirectory,evidenceName);
++ assert.equal(path.relative(fs.realpathSync(f.root),f.dir),b.project.evidenceDirectory);
++ assert.deepEqual(fs.readdirSync(f.dir),['state.json']);
++ const raw=fs.readFileSync(f.ref.path);assert.equal(digest(raw),f.ref.digest);assert.ok(!raw.includes('SOURCE_BODY_CANARY'));
++ assert.equal(b.baseline,undefined);assert.ok(!JSON.stringify(b).includes('gitHash'));
++ assert.equal(b.project.inventory.some(name=>name.startsWith(b.project.evidenceDirectory+'/')),false);
++ if(process.platform!=='win32'){assert.equal(fs.statSync(f.dir).mode&0o777,0o700);assert.equal(fs.statSync(f.ref.path).mode&0o777,0o600);}
++ const command=verifierCommand('project',{phase:'check',runId:'fixture',nonce:'fixture',baselineRef:f.ref},'pwsh');
++ assert.ok(command.length<4096);assert.ok(!command.includes('SOURCE_BODY_CANARY'));
++ f.edit();const check=f.invoke('check');assert.equal(check.status,0);assert.equal(check.data.checksPassed,true);assert.equal(check.data.protectedOk,true);assert.equal(check.data.diffEmpty,false);assert.match(check.data.diffStat,/value\.mjs changed/);assert.ok(!check.data.diffStat.includes('evidence'));
++ const seal=f.invoke('seal',{expectedFingerprint:check.data.fingerprint});assert.equal(seal.status,0);assert.equal(seal.data.sealed,true);
++ const cleanup=f.invoke('cleanup');assert.equal(cleanup.status,0);assert.equal(cleanup.data.verified,true);assert.equal(fs.existsSync(f.dir),false);
++ rejected(f.invoke('cleanup'));
++});
++
++test('evidence does not create a source diff; a later source edit invalidates the seal',t=>{
++ const f=fixture(t);f.edit();f.start();const check=f.invoke('check');assert.equal(check.data.checksPassed,true);assert.equal(check.data.diffEmpty,true);
++ fs.appendFileSync(path.join(f.root,'value.mjs'),'// after check\n');rejected(f.invoke('seal',{expectedFingerprint:check.data.fingerprint}));assert.equal(f.invoke('cleanup').status,0);
++});
++
++test('host-selected evidence directory is exact, validated, and exclusively created',t=>{
++ const f=fixture(t),name='.dsh-team-evidence-'+randomUUID().replaceAll('-','');
++ const result=f.invoke('baseline',{evidenceDirectory:name});assert.equal(result.status,0);assert.equal(result.data.project.evidenceDirectory,name);assert.equal(path.dirname(result.data.baselineRef.path),path.join(fs.realpathSync(f.root),name));
++ const original=fs.readFileSync(result.data.baselineRef.path);
++ const collision=f.invoke('baseline',{evidenceDirectory:name});assert.equal(collision.data.project.mode,'analysis-only');assert.deepEqual(fs.readFileSync(result.data.baselineRef.path),original);
++ for(const invalid of ['../'+name,name+'/nested','.dsh-team-evidence-short',path.join(f.root,name),null,{}]){const invalidResult=f.invoke('baseline',{evidenceDirectory:invalid});assert.equal(invalidResult.data.project.mode,'analysis-only');assert.equal(invalidResult.data.baselineRef,undefined);}
++ assert.deepEqual(fs.readdirSync(f.root).filter(n=>evidenceName.test(n)),[name]);
++ assert.equal(f.invoke('cleanup',{baselineRef:result.data.baselineRef}).status,0);
++});
++
++for(const fault of ['partial-write','hardlink-after-write','extra-file-after-write'])test(`baseline ${fault} handles only its own artifact and reports uncertain cleanup`,t=>{
++ const f=fixture(t),name='.dsh-team-evidence-'+randomUUID().replaceAll('-',''),preload=path.join(f.parent,'fault-injection.mjs');
++ const mutation=fault==='partial-write'?'':fault==='hardlink-after-write'?"fs.linkSync(file,path.join(process.cwd(),'evidence-alias.json'));":"fs.writeFileSync(path.join(dir,'other.txt'),'must survive');";
++ fs.writeFileSync(preload,`import fs from 'node:fs';import path from 'node:path';import {syncBuiltinESMExports} from 'node:module';const write=fs.writeFileSync;fs.writeFileSync=function(target,data,...rest){if(typeof target==='number'){const stored=JSON.parse(data),dir=path.join(process.cwd(),stored.project.evidenceDirectory),file=path.join(dir,'state.json');write.call(fs,target,${fault==='partial-write'?'data.slice(0,20)':'data'},...rest);${mutation}throw Object.assign(Error('Synthetic write failure'),{code:'EIO'});}return write.call(fs,target,data,...rest);};syncBuiltinESMExports();`);
++ const result=f.invoke('baseline',{evidenceDirectory:name},preload);
++ if(fault==='partial-write'){assert.equal(result.status,0);assert.equal(result.data.project.mode,'analysis-only');assert.equal(result.data.baselineRef,undefined);assert.equal(fs.existsSync(path.join(f.root,name)),false);}
++ else{rejected(result);assert.equal(result.data.unsettled,true);assert.equal(fs.existsSync(path.join(f.root,name,'state.json')),true);if(fault==='extra-file-after-write')assert.equal(fs.readFileSync(path.join(f.root,name,'other.txt'),'utf8'),'must survive');}
++});
++
++test('only the registered state is excluded; preexisting and new same-prefix paths remain project inputs',t=>{
++ const sibling='.dsh-team-evidence-'+ 'a'.repeat(32),f=fixture(t,{beforeCommit(root){fs.mkdirSync(path.join(root,sibling));fs.writeFileSync(path.join(root,sibling,'state.json'),'unrelated project input');}});
++ f.edit();const b=f.start();assert.ok(b.project.inventory.includes(sibling+'/state.json'));
++ fs.appendFileSync(path.join(f.root,sibling,'state.json'),' changed');
++ const extra='.dsh-team-evidence-'+ 'b'.repeat(32);fs.mkdirSync(path.join(f.root,extra));fs.writeFileSync(path.join(f.root,extra,'state.json'),'new unrelated input');
++ const check=f.invoke('check');assert.equal(check.data.checksPassed,true);assert.match(check.data.diffStat,new RegExp(sibling.replaceAll('.','\\.')+'/state\\.json'));assert.ok(check.data.diffStat.includes(extra+'/state.json'));
++ assert.equal(f.invoke('cleanup').status,0);assert.equal(fs.existsSync(path.join(f.root,sibling,'state.json')),true);assert.equal(fs.existsSync(path.join(f.root,extra,'state.json')),true);
++});
++
++for(const mutation of ['bytes','run','root','registered-directory'])test(`evidence ${mutation} tampering rejects checks and cleanup without deleting state`,t=>{
++ const f=fixture(t);f.start();f.edit();const original=fs.readFileSync(f.ref.path),stored=JSON.parse(original);
++ if(mutation==='bytes')fs.appendFileSync(f.ref.path,' ');
++ else{if(mutation==='run')stored.runId='another-run';if(mutation==='root')stored.project.root=f.parent;if(mutation==='registered-directory')stored.project.evidenceDirectory='.dsh-team-evidence-'+'c'.repeat(32);fs.writeFileSync(f.ref.path,JSON.stringify(stored));}
++ rejected(f.invoke('check'));rejected(f.invoke('cleanup'));assert.equal(fs.existsSync(f.ref.path),true);
++ // Even a separately recomputed digest cannot waive run/root/directory validation.
++ if(mutation!=='bytes'){const forged={...f.ref,digest:digest(fs.readFileSync(f.ref.path))};rejected(f.invoke('check',{baselineRef:forged}));rejected(f.invoke('cleanup',{baselineRef:forged}));}
++ fs.writeFileSync(f.ref.path,original);assert.equal(f.invoke('cleanup').status,0);
++});
++
++test('foreign runs, invalid ref shape, and evidence outside the canonical root are refused',t=>{
++ const f=fixture(t);f.start();f.edit();
++ rejected(f.invoke('check',{runId:'foreign-run'}));
++ for(const baselineRef of [{...f.ref,digest:'0'.repeat(64)},{...f.ref,digest:'bad'},{...f.ref,path:path.relative(f.root,f.ref.path)},{...f.ref,path:path.join(f.parent,path.basename(f.dir),'state.json')},{...f.ref,path:path.join(f.dir,'other.json')},{...f.ref,path:path.join(f.root,'.dsh-team-evidence-invalid','state.json')}])rejected(f.invoke('check',{baselineRef}));
++ const moved=path.join(f.parent,path.basename(f.dir));fs.renameSync(f.dir,moved);
++ const escaped={...f.ref,path:path.join(moved,'state.json')};rejected(f.invoke('check',{baselineRef:escaped}));rejected(f.invoke('cleanup',{baselineRef:escaped}));assert.equal(fs.existsSync(escaped.path),true);
++});
++
++test('a valid digest cannot move evidence into another workspace',t=>{
++ const a=fixture(t),b=fixture(t);a.start();b.start();const target=path.join(b.root,path.basename(a.dir));fs.cpSync(a.dir,target,{recursive:true});
++ const ref={...a.ref,path:path.join(target,'state.json')};rejected(b.invoke('check',{runId:a.baseline.runId,baselineRef:ref}));rejected(b.invoke('cleanup',{runId:a.baseline.runId,baselineRef:ref}));assert.equal(fs.existsSync(ref.path),true);
++});
++
++for(const kind of ['file-symlink','directory-symlink','hardlink'])test(`evidence ${kind} rejects check, seal and cleanup`,t=>{
++ const f=fixture(t);f.edit();f.start();const check=f.invoke('check');assert.equal(check.data.checksPassed,true);
++ const target=path.join(f.parent,'preserved-evidence');
++ if(kind==='directory-symlink'){fs.renameSync(f.dir,target);fs.symlinkSync(target,f.dir,process.platform==='win32'?'junction':'dir');}
++ else if(kind==='file-symlink'){fs.renameSync(f.ref.path,target);fs.symlinkSync(target,f.ref.path,'file');}
++ else fs.linkSync(f.ref.path,target);
++ rejected(f.invoke('check'));rejected(f.invoke('seal',{expectedFingerprint:check.data.fingerprint}));rejected(f.invoke('cleanup'));assert.equal(fs.existsSync(target),true);assert.equal(fs.lstatSync(f.dir).isDirectory()||fs.lstatSync(f.dir).isSymbolicLink(),true);
++});
++
++for(const kind of ['extra-file','extra-directory','deleted-state','deleted-directory','oversized-state'])test(`evidence ${kind} remains fail-closed and cleanup never removes other content`,t=>{
++ const f=fixture(t);f.start();f.edit();
++ if(kind==='extra-file')fs.writeFileSync(path.join(f.dir,'keep.txt'),'must survive');
++ if(kind==='extra-directory')fs.mkdirSync(path.join(f.dir,'keep'));
++ if(kind==='deleted-state')fs.unlinkSync(f.ref.path);
++ if(kind==='deleted-directory')fs.rmSync(f.dir,{recursive:true});
++ if(kind==='oversized-state')fs.truncateSync(f.ref.path,16777217);
++ rejected(f.invoke('check'));rejected(f.invoke('cleanup'));
++ if(kind==='extra-file')assert.equal(fs.readFileSync(path.join(f.dir,'keep.txt'),'utf8'),'must survive');
++ if(kind==='extra-directory')assert.equal(fs.statSync(path.join(f.dir,'keep')).isDirectory(),true);
++ if(kind!=='deleted-directory')assert.equal(fs.existsSync(f.dir),true);
++});
++
++test('evidence permissions cannot silently become broadly readable', {skip:process.platform==='win32'},t=>{
++ const f=fixture(t);f.start();fs.chmodSync(f.ref.path,0o644);rejected(f.invoke('check'));rejected(f.invoke('cleanup'));fs.chmodSync(f.ref.path,0o600);fs.chmodSync(f.dir,0o755);rejected(f.invoke('check'));rejected(f.invoke('cleanup'));fs.chmodSync(f.dir,0o700);assert.equal(f.invoke('cleanup').status,0);
++});
++
++for(const kind of ['bytes','extra','delete','hardlink'])test(`tests that mutate evidence (${kind}) cannot yield passing evidence`,t=>{
++ const actions={bytes:"fs.appendFileSync(file,' ');",extra:"fs.writeFileSync(path.join(dir,'extra'),'must survive');",delete:'fs.unlinkSync(file);',hardlink:"fs.linkSync(file,path.join(process.cwd(),'evidence-alias.json'));"};
++ const testBody=`const dir=fs.readdirSync(process.cwd()).find(n=>/^\\.dsh-team-evidence-[a-f0-9]{32}$/.test(n));assert.ok(dir);const file=path.join(dir,'state.json');${actions[kind]}`;
++ const f=fixture(t,{testBody});f.start();f.edit();const result=f.invoke('check');rejected(result);assert.ok(!result.stdout.includes('SOURCE_BODY_CANARY'));rejected(f.invoke('cleanup'));
++});
++
++test('tests and configuration remain protected, and Git metadata changes invalidate evidence',t=>{
++ const f=fixture(t);f.start();f.edit();const testFile=path.join(f.root,'value.test.mjs'),original=fs.readFileSync(testFile);fs.appendFileSync(testFile,'// changed acceptance\n');
++ const changedTest=f.invoke('check');assert.equal(changedTest.status,0);assert.equal(changedTest.data.protectedOk,false);assert.equal(changedTest.data.checksPassed,false);assert.equal(changedTest.data.checksRun,false);
++ fs.writeFileSync(testFile,original);fs.appendFileSync(path.join(f.root,'.git','config'),'\n[fixture]\n\tchanged = true\n');rejected(f.invoke('check'));assert.equal(f.invoke('cleanup').status,0);
++});

@@ -13,7 +13,7 @@
 
 /* Arknights-inspired terminal. Original CSS geometry, no game art or remote fonts.
    Visual grammar: hard corners, technical grids, black/white dossiers and one
-   yellow selection accent. Cyan is reserved for live execution, never animation. */
+   yellow selection accent. Cyan is reserved for fresh execution and one-shot relation events. */
 .tm-root[data-theme=arknights]{
   --tm-bg:#191b1f;--tm-panel:#25282d;--tm-raised:#2d3035;--tm-subtle:#202226;
   --tm-border:#454a50;--tm-line:#727981;--tm-text:#f2f2ed;--tm-muted:#c7cac9;--tm-soft:#b3b8bb;
@@ -190,3 +190,50 @@
   .tm-root[data-theme=arknights] .tm-header-actions{gap:3px}
 }
 @media(prefers-reduced-motion:reduce){.tm-root[data-theme=arknights] *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* Production controls keep Terra's hard-edged terminal treatment. */
+.tm-root[data-theme=arknights] :is(.tm-production-settings,.tm-production-status,.tm-routing-candidate,.tm-production-errors){border-radius:0}
+.tm-root[data-theme=arknights] .tm-production-settings :is(select,input:not([type=checkbox])){border-radius:0}
+.tm-root[data-theme=arknights] .tm-production-status{border-left:3px solid var(--tm-accent)}
+
+/* Terra live workflow: cyan describes observed execution; yellow marks selection. */
+.tm-root[data-theme=arknights] :is(.tm-instance-card,.tm-workflow-signals,.tm-runtime-details){border-radius:0}
+.tm-root[data-theme=arknights] .tm-instance-card{background:#23262b;border-top-width:2px}
+.tm-root[data-theme=arknights] .tm-instance-card:hover{background:#2b3035}
+.tm-root[data-theme=arknights] .tm-instance-card.is-selected{outline-color:var(--tm-accent);border-color:var(--tm-accent)}
+.tm-root[data-theme=arknights] .tm-instances-heading{border-left:3px solid var(--tm-accent);padding-left:10px}
+.tm-root[data-theme=arknights] .tm-instances{background:#1b1e22}
+.tm-root[data-theme=arknights] .tm-instance-model{color:#e6e9e7}
+.tm-root[data-theme=arknights] .tm-workflow-signals .tm-signal--jev{border-top:2px solid #617b7e}
+.tm-root[data-theme=arknights] .tm-workflow-signals .tm-signal--gate{border-top:2px solid #777867}
+.tm-root[data-theme=arknights] :is(.tm-instance-card,.tm-task-node,.tm-controller-node,.tm-signal--jev)[data-live=true]{border-color:var(--tm-live);box-shadow:inset 0 0 0 1px #72dfe91a}
+.tm-root[data-theme=arknights] .tm-base-label{color:var(--tm-soft);font:8px/1.6 var(--tm-mono)}
+.tm-root[data-theme=arknights] .tm-task-node{height:164px}
+.tm-root[data-theme=arknights] .tm-task-graph--vertical .tm-task-node{height:158px}
+@container team (max-width:650px){.tm-root[data-theme=arknights] .tm-topology-map{grid-template-rows:64px 114px 114px 114px}.tm-root[data-theme=arknights] .tm-role-card{min-height:114px}}
+/* Compact mission header in the workflow layout; the comparison keeps prior spacing. */
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-header{padding:9px 14px;border-bottom-width:2px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-brand-mark{width:32px;height:32px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-wordmark{font-size:20px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-brand h1{font-size:10px;margin-top:2px;letter-spacing:2px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-overview{padding:10px 14px;border-left-width:3px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-overview h2{font-size:18px;margin-top:4px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip{margin:0 0 12px;gap:0}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip>div{padding:6px 12px;font-size:10px;gap:6px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip strong{font-size:14px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip small{font-size:9px}
+@container team (max-width:650px){.tm-root[data-theme=arknights].tm-layout-workflow .tm-header{padding:8px 10px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-overview{padding:9px 10px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-overview h2{font-size:15px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip{margin-bottom:10px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip>div{padding:6px 7px;gap:4px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip strong{font-size:12px}}
+
+/* Live role cards retain Terra's hard edges; event colors are independent of selection. */
+.tm-root[data-theme=arknights] .tm-topology-card{border-radius:0;background:#292d32;border-color:#687379;box-shadow:inset 2px 0 #687379}
+.tm-root[data-theme=arknights] .tm-topology-card.is-selected{border-color:var(--tm-accent);box-shadow:inset 3px 0 var(--tm-accent),0 0 0 1px var(--tm-accent)}
+.tm-root[data-theme=arknights] .tm-topology-card[data-live=true]{border-color:var(--tm-live)}
+.tm-root[data-theme=arknights] .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node){min-height:0;height:auto;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--tm-text)}
+.tm-root[data-theme=arknights] .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node):hover{background:#353b40}
+.tm-root[data-theme=arknights] .tm-topology-card .tm-role-icon{border-radius:0;background:var(--tm-paper);color:var(--tm-ink)}
+.tm-root[data-theme=arknights] .tm-topology-card--jev{border-top:3px solid var(--tm-paper);background:#222b30}
+.tm-root[data-theme=arknights] .tm-topology-card--jev .tm-controller-node strong{font-size:15px;font-family:var(--tm-mono)}
+.tm-root[data-theme=arknights] .tm-topology-card--verification{border-style:dashed;background:#252924}
+.tm-root[data-theme=arknights] .tm-topology-card .tm-role-count{background:#1a20244d}
+.tm-root[data-theme=arknights] .tm-topology-self-event{border-radius:0}
+.tm-root[data-theme=arknights] .tm-topology-org-relations{opacity:.35}
+@container team (max-width:650px){.tm-root[data-theme=arknights] .tm-topology-map{grid-template-rows:none}.tm-root[data-theme=arknights] .tm-topology-card .tm-role-card{min-height:0}}

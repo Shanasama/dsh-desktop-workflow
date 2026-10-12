@@ -1,0 +1,19 @@
+PASS negative control: rc.2 sibling fibers reject missing remote injection with the exact Windows error
+PASS actual client settings callback: six roles, native credential describe and completed empty catalog
+PASS failed catalog leaves loading state and refresh recovers through the actual settings callback
+PASS native command acknowledgment opens setup and sidebar callback retains Remote injection
+Client host contract regression passed. Actual rc.2 Cordis/Typert/Remote; synthetic read-only transport and JSDOM, no Electron visual assertion, credentials, model or Jev calls.
+✔ rc.2 client settings callbacks honor real Cordis Remote injection (708.651074ms)
+PASS old invocation: real ToolArgsError INVALID_ARGS after dispatch observer; zero shell starts
+PASS actual auto verifier baseline/check/seal/cleanup twice through rc.2 ToolRuntime; eight inert calls, no poison, second run admitted
+PASS legacy verifier baseline/check/seal through real rc.2 schema; three inert calls
+Verifier host regression passed: 11 inert shell-provider calls, 12 native dispatches including one rejected negative control; zero OS shell/model/Jev calls.
+✔ verification invocations satisfy official rc.2 tool schemas and safely release the run (88.821159ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 787.372202

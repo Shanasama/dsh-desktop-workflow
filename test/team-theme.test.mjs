@@ -65,7 +65,7 @@ test('classic base remains graphite and the theme selector is separate from host
   assert.equal((source.match(/<TeamThemeSwitch theme=\{theme\}\/>/g) || []).length, 2);
   assert.doesNotMatch(source, /key=\{theme\}|key=\{`[^`]*theme/);
   assert.match(store, /select aria-label="界面风格"/);
-  assert.match(store, /<option value="arknights">明日方舟<\/option><option value="classic">原版 UI<\/option>/);
+  assert.match(store, /<option value="arknights">泰拉<\/option><option value="classic">原版 UI<\/option>/);
   assert.doesNotMatch(store, /document\.(body|documentElement)|rpc|fetch\(|window\.sessionStorage/);
 });
 

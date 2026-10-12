@@ -30,9 +30,9 @@
     mod
   ));
 
-  // node_modules/react/cjs/react.development.js
+  // ../dsh-desktop-workflow/node_modules/react/cjs/react.development.js
   var require_react_development = __commonJS({
-    "node_modules/react/cjs/react.development.js"(exports, module) {
+    "../dsh-desktop-workflow/node_modules/react/cjs/react.development.js"(exports, module) {
       "use strict";
       if (true) {
         (function() {
@@ -1089,7 +1089,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState3(initialState) {
+          function useState4(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1097,11 +1097,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef2(initialValue) {
+          function useRef3(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect2(create, deps) {
+          function useEffect4(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1109,7 +1109,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useInsertionEffect(create, deps);
           }
-          function useLayoutEffect(create, deps) {
+          function useLayoutEffect2(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
@@ -1117,7 +1117,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
-          function useMemo2(create, deps) {
+          function useMemo3(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useMemo(create, deps);
           }
@@ -1884,15 +1884,15 @@
           exports.useContext = useContext;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect2;
+          exports.useEffect = useEffect4;
           exports.useId = useId2;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect;
-          exports.useLayoutEffect = useLayoutEffect;
-          exports.useMemo = useMemo2;
+          exports.useLayoutEffect = useLayoutEffect2;
+          exports.useMemo = useMemo3;
           exports.useReducer = useReducer;
-          exports.useRef = useRef2;
-          exports.useState = useState3;
+          exports.useRef = useRef3;
+          exports.useState = useState4;
           exports.useSyncExternalStore = useSyncExternalStore2;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -1904,9 +1904,9 @@
     }
   });
 
-  // node_modules/react/index.js
+  // ../dsh-desktop-workflow/node_modules/react/index.js
   var require_react = __commonJS({
-    "node_modules/react/index.js"(exports, module) {
+    "../dsh-desktop-workflow/node_modules/react/index.js"(exports, module) {
       "use strict";
       if (false) {
         module.exports = null;
@@ -1916,9 +1916,9 @@
     }
   });
 
-  // node_modules/scheduler/cjs/scheduler.development.js
+  // ../dsh-desktop-workflow/node_modules/scheduler/cjs/scheduler.development.js
   var require_scheduler_development = __commonJS({
-    "node_modules/scheduler/cjs/scheduler.development.js"(exports) {
+    "../dsh-desktop-workflow/node_modules/scheduler/cjs/scheduler.development.js"(exports) {
       "use strict";
       if (true) {
         (function() {
@@ -2366,9 +2366,9 @@
     }
   });
 
-  // node_modules/scheduler/index.js
+  // ../dsh-desktop-workflow/node_modules/scheduler/index.js
   var require_scheduler = __commonJS({
-    "node_modules/scheduler/index.js"(exports, module) {
+    "../dsh-desktop-workflow/node_modules/scheduler/index.js"(exports, module) {
       "use strict";
       if (false) {
         module.exports = null;
@@ -2378,9 +2378,9 @@
     }
   });
 
-  // node_modules/react-dom/cjs/react-dom.development.js
+  // ../dsh-desktop-workflow/node_modules/react-dom/cjs/react-dom.development.js
   var require_react_dom_development = __commonJS({
-    "node_modules/react-dom/cjs/react-dom.development.js"(exports) {
+    "../dsh-desktop-workflow/node_modules/react-dom/cjs/react-dom.development.js"(exports) {
       "use strict";
       if (true) {
         (function() {
@@ -2388,9 +2388,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React4 = require_react();
+          var React5 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React4.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React5.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -3997,7 +3997,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React4.Children.forEach(props.children, function(child) {
+                  React5.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -9309,11 +9309,11 @@
                 return;
               }
               didWarnInvalidHydration = true;
-              var names2 = [];
+              var names = [];
               attributeNames.forEach(function(name) {
-                names2.push(name);
+                names.push(name);
               });
-              error("Extra attributes from the server: %s", names2);
+              error("Extra attributes from the server: %s", names);
             };
             warnForInvalidEventListener = function(registrationName, listener) {
               if (listener === false) {
@@ -11164,8 +11164,8 @@
               pushTreeId(workInProgress2, numberOfForks, slotIndex);
             }
           }
-          function getBitLength(number) {
-            return 32 - clz32(number);
+          function getBitLength(number2) {
+            return 32 - clz32(number2);
           }
           function getLeadingBit(id) {
             return 1 << getBitLength(id) - 1;
@@ -23542,9 +23542,9 @@
     }
   });
 
-  // node_modules/react-dom/index.js
+  // ../dsh-desktop-workflow/node_modules/react-dom/index.js
   var require_react_dom = __commonJS({
-    "node_modules/react-dom/index.js"(exports, module) {
+    "../dsh-desktop-workflow/node_modules/react-dom/index.js"(exports, module) {
       "use strict";
       if (false) {
         checkDCE();
@@ -23555,9 +23555,9 @@
     }
   });
 
-  // node_modules/react-dom/client.js
+  // ../dsh-desktop-workflow/node_modules/react-dom/client.js
   var require_client = __commonJS({
-    "node_modules/react-dom/client.js"(exports) {
+    "../dsh-desktop-workflow/node_modules/react-dom/client.js"(exports) {
       "use strict";
       var m = require_react_dom();
       if (false) {
@@ -23586,14 +23586,14 @@
     }
   });
 
-  // node_modules/react/cjs/react-jsx-runtime.development.js
+  // ../dsh-desktop-workflow/node_modules/react/cjs/react-jsx-runtime.development.js
   var require_react_jsx_runtime_development = __commonJS({
-    "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
+    "../dsh-desktop-workflow/node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
       "use strict";
       if (true) {
         (function() {
           "use strict";
-          var React4 = require_react();
+          var React5 = require_react();
           var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element");
           var REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment");
@@ -23619,7 +23619,7 @@
             }
             return null;
           }
-          var ReactSharedInternals = React4.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React5.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -24469,19 +24469,19 @@
               return jsxWithValidation(type, props, key, false);
             }
           }
-          var jsx4 = jsxWithValidationDynamic;
-          var jsxs4 = jsxWithValidationStatic;
+          var jsx5 = jsxWithValidationDynamic;
+          var jsxs5 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx4;
-          exports.jsxs = jsxs4;
+          exports.jsx = jsx5;
+          exports.jsxs = jsxs5;
         })();
       }
     }
   });
 
-  // node_modules/react/jsx-runtime.js
+  // ../dsh-desktop-workflow/node_modules/react/jsx-runtime.js
   var require_jsx_runtime = __commonJS({
-    "node_modules/react/jsx-runtime.js"(exports, module) {
+    "../dsh-desktop-workflow/node_modules/react/jsx-runtime.js"(exports, module) {
       "use strict";
       if (false) {
         module.exports = null;
@@ -24492,17 +24492,256 @@
   });
 
   // preview/main.tsx
-  var import_react3 = __toESM(require_react(), 1);
+  var import_react4 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
 
   // client/TeamView.tsx
-  var import_react2 = __toESM(require_react(), 1);
+  var import_react3 = __toESM(require_react(), 1);
 
   // client/team.css
-  var team_default = '/* Original control-surface design. Component scoped; never changes the host theme. */\n.tm-root{--tm-bg:#0d1117;--tm-panel:#121820;--tm-raised:#19212b;--tm-subtle:#0f151d;--tm-border:#28323e;--tm-line:#435365;--tm-text:#e6edf5;--tm-muted:#9aa9ba;--tm-soft:#8a9aab;--tm-accent:#69d4df;--tm-green:#91c8b0;--tm-green-bg:#142b28;--tm-indigo:#69d4df;--tm-indigo-bg:#183038;--tm-amber:#e8bd7a;--tm-amber-bg:#2b241b;--tm-red:#efa19b;--tm-red-bg:#302022;--tm-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;container:team / inline-size;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:13px;line-height:1.55;color:var(--tm-text);color-scheme:dark;background:var(--tm-bg);width:100%;min-width:0;min-height:0;overflow:auto;isolation:isolate}\n.tm-root{box-sizing:border-box}.tm-root *{box-sizing:border-box}.tm-root h1,.tm-root h2,.tm-root h3,.tm-root h4,.tm-root p{margin:0}.tm-root button,.tm-root input,.tm-root select,.tm-root textarea{font:inherit;color:inherit}.tm-root button{cursor:pointer}.tm-root button:disabled{cursor:not-allowed;opacity:.5}.tm-root button:focus-visible,.tm-root input:focus-visible,.tm-root select:focus-visible,.tm-root textarea:focus-visible,.tm-root summary:focus-visible,.tm-root [tabindex]:focus-visible{outline:2px solid var(--tm-accent);outline-offset:3px}.tm-root button,.tm-root select,.tm-root input{-webkit-tap-highlight-color:transparent}.tm-root .tm-icon{flex:none;vertical-align:middle;width:16px;height:16px}.tm-root summary{cursor:pointer;list-style:none}.tm-root summary::-webkit-details-marker{display:none}.tm-root details>summary>.tm-icon:last-child{width:13px;transition:transform .15s}.tm-root details[open]>summary>.tm-icon:last-child{transform:rotate(90deg)}.tm-root [hidden]{display:none!important}.tm-shell{min-width:0;min-height:0;display:flex;flex-direction:column}.tm-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--tm-border);background:var(--tm-panel)}.tm-brand{display:flex;align-items:center;gap:10px;min-width:0}.tm-brand-mark{display:grid;place-items:center;width:32px;height:32px;color:var(--tm-accent);border:1px solid var(--tm-line);border-radius:7px;background:var(--tm-subtle)}.tm-brand-mark svg{width:19px!important;height:19px!important}.tm-wordmark{font-family:var(--tm-mono);font-size:10px;color:var(--tm-muted);letter-spacing:.2px}.tm-wordmark>span{color:var(--tm-soft)}.tm-brand h1{font-size:16px;line-height:1.45;font-weight:600;letter-spacing:.2px}.tm-header-actions{display:flex;align-items:center;gap:5px}.tm-button,.tm-icon-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:32px;border:1px solid var(--tm-border);border-radius:6px;background:var(--tm-raised);padding:6px 11px;font-size:12px;line-height:1.4;white-space:nowrap;transition:background .15s,border-color .15s}.tm-button:hover:not(:disabled),.tm-icon-button:hover:not(:disabled){background:#22303c;border-color:var(--tm-line)}.tm-icon-button{width:32px;padding:7px}.tm-button--quiet{background:transparent;border-color:transparent;color:var(--tm-muted)!important}.tm-button--primary{background:var(--tm-accent);border-color:var(--tm-accent);color:#0b2025!important;font-weight:600}.tm-button--primary:hover:not(:disabled){background:#94e3eb;border-color:#94e3eb}.tm-button--danger{border-color:#714640;color:var(--tm-red)!important;background:var(--tm-red-bg)}.tm-button--wide{width:100%;justify-content:flex-start}.tm-button--wide>.tm-icon:last-child{margin-left:auto}.tm-button.is-demo{color:var(--tm-amber)!important}.tm-demo-banner{display:flex;gap:9px;align-items:center;padding:8px 20px;background:var(--tm-amber-bg);border-bottom:1px solid #584532;color:var(--tm-amber);font-size:11px}.tm-demo-banner>span{font-family:var(--tm-mono);font-weight:600;flex:none;border:1px solid #655039;padding:1px 5px;border-radius:3px}.tm-demo-banner p{flex:1;line-height:1.6}.tm-demo-banner button{display:flex;gap:4px;align-items:center;border:0;background:transparent;padding:2px;color:var(--tm-amber);white-space:nowrap;font-size:11px}.tm-demo-banner button svg{width:13px}.tm-main{padding:18px 20px 10px;min-width:0}.tm-overview{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.tm-overview>div:first-child{min-width:0;flex:1}.tm-section-eyebrow{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11px;color:var(--tm-muted)}.tm-session{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--tm-muted);font-weight:400}.tm-session i{width:5px;height:5px;background:var(--tm-soft);border-radius:50%}.tm-overview h2{font-size:20px;font-weight:550;line-height:1.55;letter-spacing:-.3px;margin-top:8px;overflow-wrap:anywhere}.tm-overview p{font-size:12px;color:var(--tm-muted);line-height:1.7;margin-top:5px;max-width:980px}.tm-run-state{display:flex;align-items:flex-end;flex-direction:column;gap:7px;flex:none;padding-top:3px}.tm-run-state>span:last-child{font-family:var(--tm-mono);font-size:11px;color:var(--tm-muted)}.tm-status{display:inline-flex;gap:5px;align-items:center;font-size:11px;font-weight:500;white-space:nowrap;color:var(--tm-muted)}.tm-status i{width:5px;height:5px;background:currentColor;border-radius:50%;flex:none}.tm-status .tm-icon{width:12px;height:12px}.tm-status--completed{color:var(--tm-green)}.tm-status--running,.tm-status--planning,.tm-status--reviewing{color:var(--tm-accent)}.tm-status--failed,.tm-status--blocked{color:var(--tm-red)}.tm-status--unverified,.tm-status--completion_unverified{color:var(--tm-amber)}.tm-summary-strip{display:flex;align-items:center;gap:22px;margin:14px 0 16px;font-size:12px;color:var(--tm-muted)}.tm-summary-strip>div{display:flex;align-items:center;gap:7px;min-width:0}.tm-summary-strip .tm-icon{width:14px;height:14px;color:var(--tm-soft)}.tm-summary-strip strong{font:12px var(--tm-mono);color:var(--tm-text)}.tm-summary-strip small{font:11px var(--tm-mono);color:var(--tm-soft)}\n/* Control plane: always-visible connection state, progressively disclosed evidence. */\n.tm-jev-panel{border:1px solid var(--tm-border);border-radius:7px;background:var(--tm-panel);margin-bottom:14px;min-width:0;overflow:hidden}.tm-jev-panel>header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px}.tm-jev-panel h3{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}.tm-jev-panel h3>.tm-icon{color:var(--tm-accent)}.tm-jev-connection{font-size:11px;color:var(--tm-muted);text-align:right}.tm-jev-connection.is-fixture,.tm-jev-connection.is-blocked{color:var(--tm-amber)}.tm-jev-connection.is-ready{color:var(--tm-green)}.tm-control-details>summary{display:flex;justify-content:space-between;gap:12px;padding:7px 13px;background:var(--tm-subtle);border-top:1px solid var(--tm-border);font-size:11px;color:var(--tm-muted)}.tm-control-details>summary>span{display:flex;align-items:center;gap:7px}.tm-control-details>summary .tm-icon{width:13px;height:13px}.tm-control-details[open]>summary>span:last-child>.tm-icon{transform:rotate(90deg)}.tm-jev-description,.tm-jev-warning,.tm-jev-metrics,.tm-jev-next,.tm-jev-decisions,.tm-jev-inspect,.tm-gates{margin:13px!important}.tm-jev-description{font-size:12px;color:var(--tm-muted);line-height:1.8}.tm-jev-warning{display:flex;gap:8px;padding:10px;background:var(--tm-amber-bg);border:1px solid #59452d;border-radius:5px;color:var(--tm-amber);font-size:12px}.tm-jev-warning svg{margin-top:2px}.tm-jev-metrics{display:grid;grid-template-columns:1.1fr 1fr 1.2fr;gap:12px;border-block:1px solid var(--tm-border);padding:12px 0}.tm-jev-metrics>div{display:flex;flex-direction:column;gap:4px;min-width:0}.tm-jev-metrics>div>span{font-size:11px;color:var(--tm-muted)}.tm-jev-metrics strong{font:12px var(--tm-mono);overflow-wrap:anywhere}.tm-jev-metrics small{font-size:10px;display:block;color:var(--tm-muted);margin-top:5px}.tm-jev-next{display:flex;flex-direction:column;gap:5px;font-size:12px}.tm-jev-next strong{font-weight:500;color:var(--tm-accent)}.tm-jev-next p{color:var(--tm-muted);overflow-wrap:anywhere}.tm-jev-decisions>summary{display:flex;justify-content:space-between;align-items:center;font-size:12px}.tm-jev-decisions ol{list-style:none;padding:0;max-height:250px;overflow:auto;scrollbar-width:thin}.tm-jev-decisions li{border-left:1px solid var(--tm-line);padding:0 0 13px 12px;margin:0 0 8px}.tm-jev-decisions li>div{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.tm-jev-decisions li strong{font:12px var(--tm-mono)}.tm-jev-decisions li span{font-size:11px;color:var(--tm-muted)}.tm-jev-decisions li p{font-size:12px;color:var(--tm-muted);margin-top:5px;overflow-wrap:anywhere}.tm-jev-inspect{display:flex;align-items:center;gap:6px;border:0;background:transparent;padding:0;color:var(--tm-accent)!important;font-size:12px!important}.tm-gates{padding:12px;border:1px solid var(--tm-border);border-radius:5px;background:var(--tm-subtle)}.tm-gates-heading{display:flex;justify-content:space-between;align-items:center;gap:10px}.tm-gates-heading h4{font-size:12px;font-weight:500}.tm-gates-heading>span{font-size:11px;color:var(--tm-amber)}.tm-gates .is-passed{color:var(--tm-green)}.tm-gates .is-failed{color:var(--tm-red)}.tm-gates .is-pending{color:var(--tm-muted)}.tm-gates ul{list-style:none;margin:12px 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.tm-gates li{display:flex;align-items:center;gap:6px;font-size:11px;flex-wrap:wrap}.tm-gates li .tm-icon{width:13px;height:13px}.tm-gates li small{font-size:10px;margin-left:auto}.tm-gates>p{font-size:11px;color:var(--tm-muted);line-height:1.8;overflow-wrap:anywhere}\n/* Workspace and original, non-editable SVG routing schematic. */\n.tm-workspace{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;border:1px solid var(--tm-border);border-radius:7px;overflow:hidden;background:var(--tm-panel)}.tm-graph-panel{min-width:0}.tm-panel-header{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid var(--tm-border);padding:0 12px;min-height:45px}.tm-tabs{display:flex;align-items:stretch;gap:16px;align-self:stretch}.tm-tabs button{display:flex;align-items:center;gap:7px;position:relative;border:0;padding:11px 1px;background:none;color:var(--tm-muted);font-size:12px;white-space:nowrap}.tm-tabs button[aria-selected=true]{color:var(--tm-text)}.tm-tabs button[aria-selected=true]:after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--tm-accent)}.tm-tabs button>span{font:10px var(--tm-mono);border:1px solid var(--tm-border);padding:0 4px;border-radius:3px;color:var(--tm-muted)}.tm-config-trigger{padding:6px}.tm-graph-caption{display:flex;align-items:center;gap:9px;padding:8px 13px;border-bottom:1px solid var(--tm-border);font-size:11px;color:var(--tm-muted)}.tm-graph-caption>span{font-family:var(--tm-mono);color:var(--tm-soft);font-size:10px;flex:none}.tm-topology,.tm-graph-scroll{background-color:#0d141c;background-image:radial-gradient(#2a3948 .75px,transparent .75px);background-size:18px 18px}.tm-topology-map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:94px 94px 94px;gap:36px 24px;padding:24px;position:relative}.tm-topology-wires{position:absolute;inset:24px;width:calc(100% - 48px);height:calc(100% - 48px);pointer-events:none;overflow:visible;color:var(--tm-line)}.tm-topology-wires path{fill:none;stroke:currentColor;stroke-width:1.3;stroke-dasharray:4 4;vector-effect:non-scaling-stroke}.tm-topology-wires circle{fill:var(--tm-bg);stroke:currentColor;stroke-width:1.5}.tm-topology-wires--narrow{display:none}.tm-controller-node{grid-column:2;grid-row:1;display:flex;align-items:center;gap:10px;align-self:center;position:relative;min-width:0;border:1px solid #3d6570;border-radius:6px;background:#14252d;padding:12px;color:var(--tm-accent)}.tm-controller-symbol{display:grid;place-items:center;width:28px;height:28px;border:1px solid #325562;border-radius:5px;flex:none}.tm-controller-node>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}.tm-controller-node strong{font:600 14px var(--tm-mono)}.tm-controller-node>div>span{font-size:10px;color:#b1c9d3}.tm-controller-node>.tm-icon{width:12px;height:12px;color:#6c99a4}.tm-role-card{display:flex;flex-direction:column;justify-content:space-between;gap:5px;position:relative;min-width:0;text-align:left;padding:10px 11px;border:1px solid var(--tm-line);border-radius:6px;background:var(--tm-raised);transition:border-color .15s,background .15s}.tm-role-card:before,.tm-role-card:after{content:"";position:absolute;width:5px;height:5px;border:1px solid #65778b;background:var(--tm-bg);border-radius:50%;left:calc(50% - 3px)}.tm-role-card:before{top:-4px}.tm-role-card:after{bottom:-4px}.tm-role-card:hover{background:#202c38;border-color:#6b7d8f}.tm-role-card.is-selected{border-color:var(--tm-accent);background:#182b35;box-shadow:0 0 0 1px var(--tm-accent)}.tm-role-card.is-active:not(.is-selected){border-color:#47858f}.tm-role-card--planner{grid-column:1;grid-row:1}.tm-role-card--reviewer{grid-column:3;grid-row:1}.tm-role-card--coordinator{grid-column:2;grid-row:2}.tm-role-card--researcher{grid-column:1;grid-row:3}.tm-role-card--explorer{grid-column:2;grid-row:3}.tm-role-card--worker{grid-column:3;grid-row:3}.tm-role-top{display:flex;align-items:center;justify-content:space-between;gap:6px;position:absolute;top:11px;left:10px;right:10px}.tm-role-icon{display:inline-grid;place-items:center;width:25px;height:25px;flex:none;border:1px solid var(--tm-border);border-radius:5px;background:#1b2732;color:#b4c6d6}.tm-role-icon .tm-icon{width:15px;height:15px}.tm-role-mode{font-size:9px;color:var(--tm-soft);display:none}.tm-role-title{display:flex;align-items:center;gap:7px;padding-left:34px;height:25px;min-width:0}.tm-role-title>strong{font-size:12px;font-weight:550;white-space:nowrap}.tm-role-title>span{font:8px var(--tm-mono);color:var(--tm-soft);overflow:hidden;text-overflow:ellipsis;display:none}.tm-role-model{font-family:var(--tm-mono);font-size:10px;color:var(--tm-muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.tm-role-bottom{display:flex;align-items:center;justify-content:space-between;gap:5px}.tm-role-bottom>span:last-child{display:flex;align-items:center;gap:2px;font-size:9px;color:var(--tm-soft)}.tm-role-bottom>span:last-child>.tm-icon{width:11px;height:11px}.tm-map-footer{display:flex;flex-wrap:wrap;align-items:center;gap:8px 15px;border-top:1px solid var(--tm-border);background:var(--tm-panel);padding:9px 13px;font-size:10px;color:var(--tm-muted)}.tm-map-footer>span{display:flex;align-items:center;gap:6px}.tm-map-footer i{display:inline-block;width:16px;border-top:1px solid var(--tm-line)}.tm-map-footer .tm-dashed-line{border-top-style:dashed}.tm-map-footer .tm-live-dot{width:4px;height:4px;border:0;border-radius:50%;background:var(--tm-muted)}.tm-map-footer .tm-feedback-line{border-color:var(--tm-amber);border-top-style:dashed}.tm-map-footer .tm-retry-line{border-color:var(--tm-red);border-top-style:dashed}\n/* Recorded DAG: fixed readable node sizes, scroll/zoom, no invented activity. */\n.tm-graph-tools{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 13px;font-size:11px;color:var(--tm-muted);border-bottom:1px solid var(--tm-border)}.tm-graph-tools label{display:flex;align-items:center;gap:7px}.tm-graph-tools select{border:1px solid var(--tm-border);background:var(--tm-raised);border-radius:4px;padding:3px;font-size:11px}.tm-graph-scroll{overflow:auto;max-height:480px;min-height:350px;scrollbar-width:thin;scrollbar-color:var(--tm-line) transparent}.tm-task-canvas{position:relative;transform-origin:top left}.tm-task-wires{position:absolute;inset:0;pointer-events:none;color:#78929f;overflow:visible}.tm-edge>path{fill:none;stroke:currentColor;stroke-width:1.3}.tm-edge--feedback{color:var(--tm-amber)}.tm-edge--retry{color:var(--tm-red)}.tm-edge--feedback>path,.tm-edge--retry>path{stroke-dasharray:5 4}.tm-task-node{position:absolute;width:192px;height:122px;display:flex;flex-direction:column;justify-content:space-between;gap:7px;border:1px solid var(--tm-line);border-radius:6px;padding:12px;background:var(--tm-raised);text-align:left}.tm-task-node:hover{border-color:#7b91a2;background:#202c38}.tm-task-node.is-selected{border-color:var(--tm-accent);box-shadow:0 0 0 1px var(--tm-accent);background:#182b35}.tm-task-node--running{border-color:#4c8994}.tm-task-node--failed,.tm-task-node--blocked{border-left:3px solid var(--tm-red)}.tm-task-role{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tm-muted)}.tm-task-role small{margin-left:auto;font:10px var(--tm-mono);color:var(--tm-soft)}.tm-task-node>strong{font-size:12px;line-height:1.6;font-weight:500;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.tm-task-foot{display:flex;justify-content:space-between;align-items:center}.tm-task-foot>span:last-child{display:flex;gap:5px;color:var(--tm-soft)}.tm-task-foot>.tm-icon,.tm-task-foot>span>.tm-icon{width:12px;height:12px}.tm-empty-graph{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:320px;padding:30px;text-align:center;background:var(--tm-subtle)}.tm-empty-icon{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--tm-line);border-radius:8px;color:var(--tm-soft);margin-bottom:15px}.tm-empty-graph strong{font-size:14px;font-weight:500}.tm-empty-graph p{font-size:12px;color:var(--tm-muted);line-height:1.8;margin-top:8px;max-width:310px}\n/* Contextual inspector. */\n.tm-inspector{min-width:0;padding:17px;background:var(--tm-panel);border-top:1px solid var(--tm-border)}.tm-inspector>.tm-section-eyebrow{margin-bottom:15px;font-size:11px}.tm-inspector>.tm-section-eyebrow>span:last-child{font:10px var(--tm-mono);color:var(--tm-soft)}.tm-inspector-heading{display:flex;align-items:flex-start;gap:10px}.tm-inspector-heading>.tm-role-icon{width:33px;height:33px}.tm-inspector-heading h3{font-size:15px;font-weight:550;line-height:1.6;overflow-wrap:anywhere}.tm-role-description{font-size:12px;line-height:1.8;color:var(--tm-muted);margin-top:12px!important}.tm-facts{margin:16px 0}.tm-facts>div{display:grid;grid-template-columns:70px minmax(0,1fr);gap:10px;font-size:11px;padding:5px 0}.tm-facts dt{color:var(--tm-muted)}.tm-facts dd{margin:0;overflow-wrap:anywhere;font-family:var(--tm-mono);font-size:11px;color:#c8d5e1}.tm-inspector h4{font-size:12px;font-weight:500}.tm-mini-heading{display:flex;justify-content:space-between;align-items:center;gap:8px}.tm-mini-heading>span{font:10px var(--tm-mono);color:var(--tm-muted)}.tm-evidence,.tm-role-work,.tm-relations{border-top:1px solid var(--tm-border);margin-top:17px;padding-top:14px}.tm-evidence pre,.tm-node-error pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0 0;padding:12px;border:1px solid var(--tm-border);border-radius:5px;background:var(--tm-bg);font:11px/1.9 var(--tm-mono);max-height:320px;overflow:auto;scrollbar-width:thin;color:#c2d0df}.tm-node-error{margin-top:12px;color:var(--tm-red);font-size:12px}.tm-node-error pre{color:var(--tm-red);background:var(--tm-red-bg)}.tm-inline-empty{display:flex;align-items:center;justify-content:center;gap:7px;padding:20px 8px;font-size:12px;color:var(--tm-soft)}.tm-role-work>button,.tm-relations>button{display:flex;align-items:center;gap:8px;text-align:left;width:100%;border:0;border-bottom:1px solid var(--tm-border);background:none;padding:11px 0;font-size:11px}.tm-role-work>button>span:first-child{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.tm-role-work>button strong{font-weight:500;overflow-wrap:anywhere}.tm-role-work>button small{font:10px var(--tm-mono);color:var(--tm-soft)}.tm-role-work>button>.tm-icon,.tm-relations>button>.tm-icon{width:12px;height:12px;color:var(--tm-soft)}.tm-role-work>button:hover,.tm-relations>button:hover{color:var(--tm-accent)}.tm-relation-tag{font-size:10px;flex:none;color:var(--tm-muted);border:1px solid var(--tm-border);padding:1px 4px;border-radius:3px}.tm-relation-tag--retry,.tm-relation-tag--feedback{color:var(--tm-amber)}.tm-relations>button>span:nth-child(2){flex:1;overflow-wrap:anywhere}.tm-source{margin-top:16px;font-size:11px;color:var(--tm-muted)}.tm-source>summary{display:flex;align-items:center;justify-content:space-between}.tm-source dl{margin:12px 0 0;font:10px/1.7 var(--tm-mono)}.tm-source dd{margin:3px 0 8px;overflow-wrap:anywhere;color:var(--tm-text)}.tm-inspector-note{display:flex;align-items:center;gap:6px;margin-top:20px;font-size:10px;color:var(--tm-soft)}.tm-inspector-note .tm-icon{width:12px;height:12px}\n/* Activity is a trace, not a feed of decorative cards. */\n.tm-activity{margin-top:14px;border:1px solid var(--tm-border);border-radius:7px;overflow:hidden;background:var(--tm-panel)}.tm-activity-toggle{display:flex;align-items:center;gap:9px;padding:11px 13px;width:100%;background:transparent;border:0;text-align:left}.tm-activity-toggle>strong{font-size:12px;font-weight:550}.tm-activity-toggle>span{margin-left:auto;font:10px var(--tm-mono);color:var(--tm-muted)}.tm-activity-toggle>.tm-icon:last-child{width:12px;height:12px;transform:rotate(90deg)}.tm-activity-toggle[aria-expanded=false]>.tm-icon:last-child{transform:none}.tm-event-list{max-height:232px;overflow:auto;border-top:1px solid var(--tm-border);scrollbar-width:thin}.tm-event{display:grid;grid-template-columns:22px 65px minmax(0,1fr) 64px;align-items:start;gap:8px;width:100%;padding:10px 13px;text-align:left;border:0;border-bottom:1px solid #222c37;background:none;font-size:11px!important;line-height:1.75}.tm-event:disabled{opacity:1;cursor:default}.tm-event:hover:not(:disabled){background:var(--tm-raised)}.tm-event-icon{display:grid;place-items:center;width:22px;height:22px;color:var(--tm-muted)}.tm-event--feedback .tm-event-icon{color:var(--tm-amber)}.tm-event>strong{font-size:11px;font-weight:500;color:#c4d0dc}.tm-event>span:nth-last-child(2){color:var(--tm-muted);overflow-wrap:anywhere}.tm-event time{font:10px/1.9 var(--tm-mono);color:var(--tm-soft);text-align:right}.tm-event-bound{padding:8px 13px;color:var(--tm-soft);font-size:10px}.tm-running-bar,.tm-command-guide{display:flex;align-items:center;gap:12px;border:1px solid var(--tm-border);border-radius:7px;padding:14px;margin-top:14px;background:var(--tm-panel)}.tm-running-bar>div,.tm-command-guide>div{min-width:0;flex:1}.tm-running-bar strong,.tm-command-guide h3{font-size:13px;font-weight:500}.tm-running-bar p,.tm-command-guide p{font-size:11px;color:var(--tm-muted);line-height:1.8;margin-top:5px}.tm-running-indicator{width:6px;height:6px;border-radius:50%;background:var(--tm-accent);flex:none}.tm-command-icon{align-self:flex-start;color:var(--tm-muted);padding-top:3px}.tm-command-guide code{display:block;font:11px/1.8 var(--tm-mono);color:var(--tm-accent);white-space:normal;overflow-wrap:anywhere;margin-top:8px}.tm-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 0 2px;font-size:10px;color:var(--tm-soft)}.tm-footer>span{display:flex;align-items:center;gap:5px}.tm-footer>span:last-child{font-family:var(--tm-mono);font-size:9px}.tm-footer .tm-icon{width:11px;height:11px}.tm-footer i{height:9px;border-left:1px solid var(--tm-border);margin:0 4px}.tm-notice{display:flex;align-items:flex-start;gap:8px;border:1px solid var(--tm-border);border-radius:5px;background:var(--tm-raised);padding:11px 12px;font-size:12px;line-height:1.8;overflow-wrap:anywhere;margin:12px 0!important}.tm-notice>.tm-icon{margin-top:3px}.tm-notice--error{color:var(--tm-red);background:var(--tm-red-bg);border-color:#63423f}.tm-notice--warning{color:var(--tm-amber);background:var(--tm-amber-bg);border-color:#5e4d37}.tm-start-hint{font-size:11px!important;color:var(--tm-amber)!important;line-height:1.8;margin-top:10px!important}\n/* One-time native settings: role list + one editor, keys stay write-only. */\n.tm-setup-root{padding:20px}.tm-settings{max-width:1020px;margin:0 auto;min-width:0}.tm-settings>header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding-bottom:18px;border-bottom:1px solid var(--tm-border)}.tm-settings>header .tm-section-eyebrow{font-size:11px;color:var(--tm-muted);display:block;margin-bottom:7px}.tm-settings h3{font-size:19px;font-weight:550;letter-spacing:-.2px}.tm-settings>header p{font-size:12px;color:var(--tm-muted);line-height:1.8;max-width:700px;margin-top:7px}.tm-key-config{padding:15px;border:1px solid var(--tm-border);border-radius:7px;background:var(--tm-panel);margin:20px 0}.tm-key-config>div{display:flex;align-items:center;justify-content:space-between;gap:10px}.tm-key-config h4{font-size:13px;font-weight:550}.tm-key-config>div>span{font-size:11px;color:var(--tm-green)}.tm-key-config p{font-size:12px;color:var(--tm-muted);line-height:1.8;margin-top:7px}.tm-key-config label{display:flex;flex-direction:column;gap:7px;margin-top:12px;font-size:11px;color:var(--tm-muted)}.tm-key-config input,.tm-model-config input,.tm-model-config select,.tm-limits input{width:100%;min-width:0;min-height:36px;border:1px solid var(--tm-line);border-radius:5px;background:var(--tm-bg);color:var(--tm-text);padding:8px 10px;font-size:12px}.tm-key-config input::placeholder,.tm-model-config input::placeholder{color:var(--tm-soft)}.tm-config-lock{display:flex;align-items:center;gap:7px;font-size:11px!important}.tm-key-storage{margin-top:12px}.tm-key-storage>summary{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--tm-muted)}.tm-key-storage>p{font-size:11px}.tm-settings-section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:11px}.tm-settings-section-title h4{font-size:13px;font-weight:550}.tm-settings-section-title>span{font:11px var(--tm-mono);color:var(--tm-muted)}.tm-role-settings-layout{display:grid;grid-template-columns:240px minmax(0,1fr);border:1px solid var(--tm-border);border-radius:7px;overflow:hidden;background:var(--tm-panel)}.tm-role-selector{border-right:1px solid var(--tm-border);background:var(--tm-subtle)}.tm-role-selector>button{width:100%;display:flex;align-items:center;gap:10px;padding:11px 12px;border:0;border-bottom:1px solid var(--tm-border);background:none;text-align:left;min-width:0}.tm-role-selector>button:last-child{border-bottom:0}.tm-role-selector>button[aria-pressed=true]{background:#1a2c36;box-shadow:inset 2px 0 var(--tm-accent)}.tm-role-selector>button:hover{background:#1b2631}.tm-role-selector>button>span:first-of-type{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}.tm-role-selector strong{font-size:12px;font-weight:500}.tm-role-selector small{font:10px/1.6 var(--tm-mono);color:var(--tm-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tm-role-selector>button>.tm-icon{color:var(--tm-muted);width:15px;height:15px}.tm-role-selector>button>.tm-icon:last-child{width:12px;height:12px}.tm-role-selector .tm-config-ready{color:var(--tm-green)}.tm-role-selector .tm-config-missing{color:var(--tm-amber)}.tm-role-selector>button>span:last-of-type>.tm-icon{width:12px;height:12px}.tm-model-grid{min-width:0;padding:20px}.tm-model-config{border:0;padding:0;min-width:0;margin:0}.tm-model-config legend{display:flex;align-items:center;gap:8px;padding:0;margin-bottom:18px;max-width:100%}.tm-model-config legend strong{font-size:14px;font-weight:550}.tm-model-config legend>span:last-child{font-size:11px;color:var(--tm-muted)}.tm-config-selects{display:flex;flex-direction:column;gap:14px}.tm-model-config label,.tm-limits>label{display:flex;flex-direction:column;gap:7px;min-width:0;color:var(--tm-muted);font-size:12px}.tm-model-config select{font-size:12px}.tm-model-config select:disabled,.tm-model-config input:disabled{opacity:.55}.tm-advanced-model{margin-top:20px;border-top:1px solid var(--tm-border);padding-top:13px}.tm-advanced-model>summary{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--tm-muted)}.tm-advanced-model>div{display:flex;flex-direction:column;gap:13px;padding-top:13px}.tm-config-switches{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-top:20px;padding:16px 0;border-block:1px solid var(--tm-border)}.tm-config-switches>label{display:flex;align-items:flex-start;gap:9px;cursor:pointer}.tm-config-switches strong{font-size:12px;font-weight:500}.tm-config-switches small{display:block;font-size:11px;color:var(--tm-muted);margin-top:4px}.tm-root input[type=checkbox]{width:15px;height:15px;accent-color:var(--tm-accent);flex:none;margin:3px 0 0}.tm-advanced-settings{margin-top:18px}.tm-advanced-settings>summary{display:flex;justify-content:space-between;align-items:center;font-size:12px}.tm-limits-header{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:18px 0 12px}.tm-limits-header h4{font-size:12px;font-weight:500}.tm-limits-header span{font-size:11px;color:var(--tm-muted)}.tm-limits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.tm-limits>label>span{display:flex;align-items:center;gap:8px}.tm-limits input{font-family:var(--tm-mono)}.tm-limits small{font-size:11px;flex:none}.tm-disclosure{margin-top:20px;border:1px solid #594b37;border-radius:7px;padding:16px;background:#1c1d1c}.tm-disclosure h4{font-size:13px;font-weight:550;color:var(--tm-amber)}.tm-disclosure p{font-size:12px;line-height:1.85;color:var(--tm-muted);margin-top:9px;overflow-wrap:anywhere}.tm-disclosure .tm-endpoint{font-family:var(--tm-mono);font-size:11px;color:#c3b499}.tm-disclosure>label{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.8;cursor:pointer;margin-top:14px;color:var(--tm-text)}.tm-setup-actions{position:sticky;bottom:0;display:flex;justify-content:flex-end;gap:10px;margin-top:16px;padding:14px 0;background:var(--tm-bg);border-top:1px solid var(--tm-border);z-index:2}.dsh-team-tabs{display:flex;gap:4px;padding:5px;background:#121820;border-bottom:1px solid #28323e}.dsh-team-tabs button{font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:7px 12px;border:0;border-radius:5px;background:transparent;color:#9aa9ba;cursor:pointer}.dsh-team-tabs button[aria-pressed=true]{background:#1a2c36;color:#69d4df}.dsh-team-tabs button:focus-visible{outline:2px solid #69d4df;outline-offset:2px}\n@container team (min-width:900px){.tm-workspace{grid-template-columns:minmax(0,1fr) 290px}.tm-inspector{height:100%;border-top:0;border-left:1px solid var(--tm-border);max-height:650px;overflow:auto;scrollbar-width:thin}.tm-role-title>span{display:block}.tm-topology-map{grid-template-rows:106px 106px 106px;gap:38px 32px;padding:28px}.tm-topology-wires{inset:28px;width:calc(100% - 56px);height:calc(100% - 56px)}.tm-role-card{padding:12px}.tm-role-top{top:13px;left:12px}.tm-role-title{padding-left:33px}.tm-role-title strong{font-size:13px}.tm-role-model{font-size:11px}.tm-role-bottom>span:last-child{font-size:10px}}\n@container team (min-width:1200px){.tm-main{padding:20px 24px 12px}.tm-header{padding-inline:24px}.tm-workspace{grid-template-columns:minmax(0,1fr) 310px}.tm-topology-map{column-gap:42px}.tm-graph-scroll{min-height:426px}}\n@container team (max-width:650px){.tm-header{padding:12px 14px}.tm-main{padding:13px 12px 8px}.tm-overview{flex-direction:column;gap:9px}.tm-overview h2{font-size:17px;margin-top:6px}.tm-overview p{font-size:12px}.tm-run-state{flex-direction:row;justify-content:space-between;align-items:center;width:100%;padding:0}.tm-summary-strip{justify-content:space-between;gap:8px;margin:12px 0}.tm-summary-strip>div{gap:5px;font-size:11px}.tm-summary-strip .tm-icon{display:none}.tm-summary-strip strong{font-size:12px}.tm-summary-strip small{font-size:10px}.tm-demo-banner{padding:8px 14px;align-items:flex-start}.tm-demo-banner p{font-size:10px}.tm-demo-banner button{font-size:10px}.tm-demo-banner button>.tm-icon{display:none}.tm-jev-panel>header{padding:9px 11px;gap:5px}.tm-jev-panel h3{font-size:12px}.tm-jev-connection{font-size:10px}.tm-control-details>summary{padding:7px 11px;font-size:10px}.tm-control-details>summary>span:first-child>.tm-icon{display:none}.tm-control-details>summary>span{gap:4px}.tm-jev-metrics{gap:9px}.tm-jev-metrics strong{font-size:11px}.tm-gates ul{grid-template-columns:repeat(2,minmax(0,1fr))}.tm-config-trigger>span{display:none}.tm-tabs{gap:14px}.tm-panel-header{padding:0 10px}.tm-graph-caption{padding:7px 11px;font-size:10px}.tm-graph-caption>span{display:none}.tm-topology-map{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:64px 94px 94px 94px;gap:28px 30px;padding:20px 18px}.tm-controller-node{grid-column:1 / -1;grid-row:1;width:184px;justify-self:center;padding:9px 11px}.tm-topology-wires--wide{display:none}.tm-topology-wires--narrow{display:block;inset:20px 18px;width:calc(100% - 36px);height:calc(100% - 40px)}.tm-role-card--planner{grid-column:1;grid-row:2}.tm-role-card--coordinator{grid-column:2;grid-row:2}.tm-role-card--researcher{grid-column:1;grid-row:3}.tm-role-card--explorer{grid-column:2;grid-row:3}.tm-role-card--worker{grid-column:1;grid-row:4}.tm-role-card--reviewer{grid-column:2;grid-row:4}.tm-role-card{padding:9px}.tm-role-top{top:10px;left:9px}.tm-role-title{padding-left:31px}.tm-role-bottom>span:last-child{font-size:9px}.tm-role-bottom .tm-status{font-size:10px}.tm-map-footer{font-size:9px;gap:6px 10px;padding:8px 11px}.tm-inspector{padding:15px}.tm-activity-toggle{padding:10px 11px}.tm-activity-toggle>span{font-size:9px}.tm-event{grid-template-columns:18px minmax(0,1fr) 60px;gap:3px 7px;padding:10px 11px}.tm-event-icon{grid-row:1 / 3;width:18px}.tm-event>strong{grid-column:2;grid-row:1}.tm-event>span:nth-last-child(2){grid-column:2 / 4;grid-row:2}.tm-event time{grid-column:3;grid-row:1}.tm-command-guide,.tm-running-bar{flex-wrap:wrap;gap:9px;padding:12px}.tm-command-guide>.tm-button,.tm-running-bar>.tm-button{margin-left:25px}.tm-footer{align-items:flex-start;font-size:9px}.tm-footer>span:last-child{display:none}.tm-setup-root{padding:16px 13px}.tm-settings h3{font-size:17px}.tm-settings>header p{font-size:12px}.tm-key-config{padding:13px;margin:16px 0}.tm-key-config>div{flex-wrap:wrap;gap:5px}.tm-key-config>div>span{font-size:10px}.tm-role-settings-layout{grid-template-columns:1fr}.tm-role-selector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-right:0;border-bottom:1px solid var(--tm-border)}.tm-role-selector>button{gap:7px;padding:9px;min-height:57px;border-right:1px solid var(--tm-border)}.tm-role-selector>button:nth-last-child(-n+2){border-bottom:0}.tm-role-selector>button:nth-child(even){border-right:0}.tm-role-selector>button>.tm-icon:last-child{display:none}.tm-role-selector>button[aria-pressed=true]{box-shadow:inset 0 -2px var(--tm-accent)}.tm-role-selector small{font-size:9px}.tm-role-selector strong{font-size:12px}.tm-role-selector .tm-config-ready,.tm-role-selector .tm-config-missing{display:none}.tm-model-grid{padding:17px 14px}.tm-config-switches{flex-direction:column;gap:15px}.tm-limits{grid-template-columns:repeat(2,minmax(0,1fr))}.tm-limits-header{align-items:flex-start;flex-direction:column;gap:4px}.tm-disclosure{padding:13px}.tm-setup-actions>.tm-button{flex:1}.tm-settings>header{gap:10px}}\n@container team (max-width:340px){.tm-header{padding-inline:10px}.tm-main{padding-inline:8px}.tm-topology-map{padding-inline:11px;column-gap:17px}.tm-topology-wires--narrow{inset-inline:11px;width:calc(100% - 22px)}.tm-role-card{padding:8px}.tm-role-title>strong{font-size:11px}.tm-role-icon{width:23px;height:23px}.tm-role-top{left:8px}.tm-role-title{padding-left:28px}.tm-role-bottom>span:last-child{display:none}.tm-jev-connection{font-size:9px}.tm-controller-node{width:170px}.tm-session{font-size:10px}.tm-tabs{gap:10px}.tm-tabs button{font-size:11px}}\n@keyframes tm-spin{to{transform:rotate(360deg)}}.tm-root .is-spinning{animation:tm-spin 1s linear infinite}@media(prefers-reduced-motion:reduce){.tm-root *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}\n.tm-fit-button{border:1px solid var(--tm-border);border-radius:4px;background:var(--tm-raised);padding:3px 6px;font-size:11px!important;color:var(--tm-muted)!important}.tm-fit-button:hover{border-color:var(--tm-accent);color:var(--tm-accent)!important}.tm-task-graph--vertical .tm-task-node{width:160px;height:108px;padding:10px}.tm-task-graph--vertical .tm-task-node>strong{font-size:11px}.tm-task-graph--vertical .tm-task-role{font-size:10px}.tm-task-graph--vertical .tm-task-foot .tm-status{font-size:10px}\n.tm-control-details>summary{align-items:center;min-height:43px;background:var(--tm-panel);border:0;gap:10px;padding:10px 13px}.tm-control-details>summary .tm-control-title{font-size:12px;font-weight:550;color:var(--tm-text);margin-right:auto;white-space:nowrap}.tm-control-details>summary .tm-control-title>.tm-icon{display:block;width:15px;height:15px;color:var(--tm-accent)}.tm-control-details>summary>.tm-jev-connection{font-size:11px}.tm-control-details>summary>.tm-icon:last-child{width:12px;height:12px;color:var(--tm-muted)}.tm-control-details[open]>summary{border-bottom:1px solid var(--tm-border)}.tm-controller-node{text-align:left;cursor:pointer}.tm-controller-node:hover{background:#1c3440;border-color:var(--tm-accent)}.tm-controller-node.is-selected{border-color:var(--tm-accent);box-shadow:0 0 0 1px var(--tm-accent)}.tm-run-description{margin-top:4px}.tm-run-description>summary{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--tm-muted)}.tm-run-description>summary>.tm-icon{width:11px;height:11px}.tm-run-description p{padding:8px 0}.tm-run-description[open]{margin-bottom:4px}\n@container team (max-width:650px){.tm-main{padding-top:11px}.tm-overview{gap:6px}.tm-overview h2{font-size:16px;margin-top:4px}.tm-summary-strip{margin:10px 0}.tm-control-details>summary{min-height:40px;padding:8px 10px;gap:7px}.tm-control-details>summary>.tm-jev-connection{font-size:10px}.tm-control-details>summary .tm-control-title{font-size:12px}.tm-demo-banner{align-items:center;padding:7px 12px}.tm-demo-banner>span{font-size:10px}.tm-jev-panel{margin-bottom:12px}.tm-overview .tm-section-eyebrow{font-size:10px}.tm-run-description>summary{font-size:10px}}\n\n.tm-graph-controls{display:flex;align-items:center;gap:9px}\n.tm-inspector-wrap{min-width:0;height:100%;scroll-margin:12px}.tm-graph-context{font-family:inherit!important;font-size:11px!important;color:var(--tm-muted)!important;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;flex:1!important;min-width:0}.tm-inspect-jump,.tm-inspector-back{display:flex;align-items:center;gap:5px;border:0;background:transparent;color:var(--tm-accent)!important;font-size:11px!important;padding:1px 0;white-space:nowrap}.tm-inspect-jump .tm-icon{width:12px;height:12px;transform:rotate(90deg)}.tm-inspector-back{margin-bottom:13px;padding:3px 0}.tm-inspector-back .tm-icon{width:12px;height:12px;transform:rotate(-90deg)}\n@container team (min-width:900px){.tm-inspect-jump,.tm-inspector-back{display:none}.tm-graph-context{flex:none!important}.tm-inspector-wrap{align-self:stretch;max-height:650px}}\n@container team (max-width:650px){.tm-graph-caption>.tm-graph-context{display:block}}\n';
+  var team_default = '/* Original control-surface design. Component scoped; never changes the host theme. */\n.tm-root{--tm-bg:#0d1117;--tm-panel:#121820;--tm-raised:#19212b;--tm-subtle:#0f151d;--tm-border:#28323e;--tm-line:#435365;--tm-text:#e6edf5;--tm-muted:#9aa9ba;--tm-soft:#8a9aab;--tm-accent:#69d4df;--tm-green:#91c8b0;--tm-green-bg:#142b28;--tm-indigo:#69d4df;--tm-indigo-bg:#183038;--tm-amber:#e8bd7a;--tm-amber-bg:#2b241b;--tm-red:#efa19b;--tm-red-bg:#302022;--tm-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;container:team / inline-size;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:13px;line-height:1.55;color:var(--tm-text);color-scheme:dark;background:var(--tm-bg);width:100%;min-width:0;min-height:0;overflow:auto;isolation:isolate}\n.tm-root{box-sizing:border-box}.tm-root *{box-sizing:border-box}.tm-root h1,.tm-root h2,.tm-root h3,.tm-root h4,.tm-root p{margin:0}.tm-root button,.tm-root input,.tm-root select,.tm-root textarea{font:inherit;color:inherit}.tm-root button{cursor:pointer}.tm-root button:disabled{cursor:not-allowed;opacity:.5}.tm-root button:focus-visible,.tm-root input:focus-visible,.tm-root select:focus-visible,.tm-root textarea:focus-visible,.tm-root summary:focus-visible,.tm-root [tabindex]:focus-visible{outline:2px solid var(--tm-accent);outline-offset:3px}.tm-root button,.tm-root select,.tm-root input{-webkit-tap-highlight-color:transparent}.tm-root .tm-icon{flex:none;vertical-align:middle;width:16px;height:16px}.tm-root summary{cursor:pointer;list-style:none}.tm-root summary::-webkit-details-marker{display:none}.tm-root details>summary>.tm-icon:last-child{width:13px;transition:transform .15s}.tm-root details[open]>summary>.tm-icon:last-child{transform:rotate(90deg)}.tm-root [hidden]{display:none!important}.tm-shell{min-width:0;min-height:0;display:flex;flex-direction:column}.tm-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--tm-border);background:var(--tm-panel)}.tm-brand{display:flex;align-items:center;gap:10px;min-width:0}.tm-brand-mark{display:grid;place-items:center;width:32px;height:32px;color:var(--tm-accent);border:1px solid var(--tm-line);border-radius:7px;background:var(--tm-subtle)}.tm-brand-mark svg{width:19px!important;height:19px!important}.tm-wordmark{font-family:var(--tm-mono);font-size:10px;color:var(--tm-muted);letter-spacing:.2px}.tm-wordmark>span{color:var(--tm-soft)}.tm-brand h1{font-size:16px;line-height:1.45;font-weight:600;letter-spacing:.2px}.tm-header-actions{display:flex;align-items:center;gap:5px}.tm-button,.tm-icon-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:32px;border:1px solid var(--tm-border);border-radius:6px;background:var(--tm-raised);padding:6px 11px;font-size:12px;line-height:1.4;white-space:nowrap;transition:background .15s,border-color .15s}.tm-button:hover:not(:disabled),.tm-icon-button:hover:not(:disabled){background:#22303c;border-color:var(--tm-line)}.tm-icon-button{width:32px;padding:7px}.tm-button--quiet{background:transparent;border-color:transparent;color:var(--tm-muted)!important}.tm-button--primary{background:var(--tm-accent);border-color:var(--tm-accent);color:#0b2025!important;font-weight:600}.tm-button--primary:hover:not(:disabled){background:#94e3eb;border-color:#94e3eb}.tm-button--danger{border-color:#714640;color:var(--tm-red)!important;background:var(--tm-red-bg)}.tm-button--wide{width:100%;justify-content:flex-start}.tm-button--wide>.tm-icon:last-child{margin-left:auto}.tm-button.is-demo{color:var(--tm-amber)!important}.tm-demo-banner{display:flex;gap:9px;align-items:center;padding:8px 20px;background:var(--tm-amber-bg);border-bottom:1px solid #584532;color:var(--tm-amber);font-size:11px}.tm-demo-banner>span{font-family:var(--tm-mono);font-weight:600;flex:none;border:1px solid #655039;padding:1px 5px;border-radius:3px}.tm-demo-banner p{flex:1;line-height:1.6}.tm-demo-banner button{display:flex;gap:4px;align-items:center;border:0;background:transparent;padding:2px;color:var(--tm-amber);white-space:nowrap;font-size:11px}.tm-demo-banner button svg{width:13px}.tm-main{padding:18px 20px 10px;min-width:0}.tm-overview{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.tm-overview>div:first-child{min-width:0;flex:1}.tm-section-eyebrow{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11px;color:var(--tm-muted)}.tm-session{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--tm-muted);font-weight:400}.tm-session i{width:5px;height:5px;background:var(--tm-soft);border-radius:50%}.tm-overview h2{font-size:20px;font-weight:550;line-height:1.55;letter-spacing:-.3px;margin-top:8px;overflow-wrap:anywhere}.tm-overview p{font-size:12px;color:var(--tm-muted);line-height:1.7;margin-top:5px;max-width:980px}.tm-run-state{display:flex;align-items:flex-end;flex-direction:column;gap:7px;flex:none;padding-top:3px}.tm-run-state>span:last-child{font-family:var(--tm-mono);font-size:11px;color:var(--tm-muted)}.tm-status{display:inline-flex;gap:5px;align-items:center;font-size:11px;font-weight:500;white-space:nowrap;color:var(--tm-muted)}.tm-status i{width:5px;height:5px;background:currentColor;border-radius:50%;flex:none}.tm-status .tm-icon{width:12px;height:12px}.tm-status--completed{color:var(--tm-green)}.tm-status--running,.tm-status--planning,.tm-status--reviewing{color:var(--tm-accent)}.tm-status--failed,.tm-status--blocked{color:var(--tm-red)}.tm-status--unverified,.tm-status--completion_unverified{color:var(--tm-amber)}.tm-summary-strip{display:flex;align-items:center;gap:22px;margin:14px 0 16px;font-size:12px;color:var(--tm-muted)}.tm-summary-strip>div{display:flex;align-items:center;gap:7px;min-width:0}.tm-summary-strip .tm-icon{width:14px;height:14px;color:var(--tm-soft)}.tm-summary-strip strong{font:12px var(--tm-mono);color:var(--tm-text)}.tm-summary-strip small{font:11px var(--tm-mono);color:var(--tm-soft)}\n/* Control plane: always-visible connection state, progressively disclosed evidence. */\n.tm-jev-panel{border:1px solid var(--tm-border);border-radius:7px;background:var(--tm-panel);margin-bottom:14px;min-width:0;overflow:hidden}.tm-jev-panel>header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px}.tm-jev-panel h3{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}.tm-jev-panel h3>.tm-icon{color:var(--tm-accent)}.tm-jev-connection{font-size:11px;color:var(--tm-muted);text-align:right}.tm-jev-connection.is-fixture,.tm-jev-connection.is-blocked{color:var(--tm-amber)}.tm-jev-connection.is-ready{color:var(--tm-green)}.tm-control-details>summary{display:flex;justify-content:space-between;gap:12px;padding:7px 13px;background:var(--tm-subtle);border-top:1px solid var(--tm-border);font-size:11px;color:var(--tm-muted)}.tm-control-details>summary>span{display:flex;align-items:center;gap:7px}.tm-control-details>summary .tm-icon{width:13px;height:13px}.tm-control-details[open]>summary>span:last-child>.tm-icon{transform:rotate(90deg)}.tm-jev-description,.tm-jev-warning,.tm-jev-metrics,.tm-jev-next,.tm-jev-decisions,.tm-jev-inspect,.tm-gates{margin:13px!important}.tm-jev-description{font-size:12px;color:var(--tm-muted);line-height:1.8}.tm-jev-warning{display:flex;gap:8px;padding:10px;background:var(--tm-amber-bg);border:1px solid #59452d;border-radius:5px;color:var(--tm-amber);font-size:12px}.tm-jev-warning svg{margin-top:2px}.tm-jev-metrics{display:grid;grid-template-columns:1.1fr 1fr 1.2fr;gap:12px;border-block:1px solid var(--tm-border);padding:12px 0}.tm-jev-metrics>div{display:flex;flex-direction:column;gap:4px;min-width:0}.tm-jev-metrics>div>span{font-size:11px;color:var(--tm-muted)}.tm-jev-metrics strong{font:12px var(--tm-mono);overflow-wrap:anywhere}.tm-jev-metrics small{font-size:10px;display:block;color:var(--tm-muted);margin-top:5px}.tm-jev-next{display:flex;flex-direction:column;gap:5px;font-size:12px}.tm-jev-next strong{font-weight:500;color:var(--tm-accent)}.tm-jev-next p{color:var(--tm-muted);overflow-wrap:anywhere}.tm-jev-decisions>summary{display:flex;justify-content:space-between;align-items:center;font-size:12px}.tm-jev-decisions ol{list-style:none;padding:0;max-height:250px;overflow:auto;scrollbar-width:thin}.tm-jev-decisions li{border-left:1px solid var(--tm-line);padding:0 0 13px 12px;margin:0 0 8px}.tm-jev-decisions li>div{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.tm-jev-decisions li strong{font:12px var(--tm-mono)}.tm-jev-decisions li span{font-size:11px;color:var(--tm-muted)}.tm-jev-decisions li p{font-size:12px;color:var(--tm-muted);margin-top:5px;overflow-wrap:anywhere}.tm-jev-inspect{display:flex;align-items:center;gap:6px;border:0;background:transparent;padding:0;color:var(--tm-accent)!important;font-size:12px!important}.tm-gates{padding:12px;border:1px solid var(--tm-border);border-radius:5px;background:var(--tm-subtle)}.tm-gates-heading{display:flex;justify-content:space-between;align-items:center;gap:10px}.tm-gates-heading h4{font-size:12px;font-weight:500}.tm-gates-heading>span{font-size:11px;color:var(--tm-amber)}.tm-gates .is-passed{color:var(--tm-green)}.tm-gates .is-failed{color:var(--tm-red)}.tm-gates .is-pending{color:var(--tm-muted)}.tm-gates ul{list-style:none;margin:12px 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.tm-gates li{display:flex;align-items:center;gap:6px;font-size:11px;flex-wrap:wrap}.tm-gates li .tm-icon{width:13px;height:13px}.tm-gates li small{font-size:10px;margin-left:auto}.tm-gates>p{font-size:11px;color:var(--tm-muted);line-height:1.8;overflow-wrap:anywhere}\n/* Workspace and original, non-editable SVG routing schematic. */\n.tm-workspace{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;border:1px solid var(--tm-border);border-radius:7px;overflow:hidden;background:var(--tm-panel)}.tm-graph-panel{min-width:0}.tm-panel-header{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid var(--tm-border);padding:0 12px;min-height:45px}.tm-tabs{display:flex;align-items:stretch;gap:16px;align-self:stretch}.tm-tabs button{display:flex;align-items:center;gap:7px;position:relative;border:0;padding:11px 1px;background:none;color:var(--tm-muted);font-size:12px;white-space:nowrap}.tm-tabs button[aria-selected=true]{color:var(--tm-text)}.tm-tabs button[aria-selected=true]:after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--tm-accent)}.tm-tabs button>span{font:10px var(--tm-mono);border:1px solid var(--tm-border);padding:0 4px;border-radius:3px;color:var(--tm-muted)}.tm-config-trigger{padding:6px}.tm-graph-caption{display:flex;align-items:center;gap:9px;padding:8px 13px;border-bottom:1px solid var(--tm-border);font-size:11px;color:var(--tm-muted)}.tm-graph-caption>span{font-family:var(--tm-mono);color:var(--tm-soft);font-size:10px;flex:none}.tm-topology,.tm-graph-scroll{background-color:#0d141c;background-image:radial-gradient(#2a3948 .75px,transparent .75px);background-size:18px 18px}.tm-topology-map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:94px 94px 94px;gap:36px 24px;padding:24px;position:relative}.tm-topology-wires{position:absolute;inset:24px;width:calc(100% - 48px);height:calc(100% - 48px);pointer-events:none;overflow:visible;color:var(--tm-line)}.tm-topology-wires path{fill:none;stroke:currentColor;stroke-width:1.3;stroke-dasharray:4 4;vector-effect:non-scaling-stroke}.tm-topology-wires circle{fill:var(--tm-bg);stroke:currentColor;stroke-width:1.5}.tm-topology-wires--narrow{display:none}.tm-controller-node{grid-column:2;grid-row:1;display:flex;align-items:center;gap:10px;align-self:center;position:relative;min-width:0;border:1px solid #3d6570;border-radius:6px;background:#14252d;padding:12px;color:var(--tm-accent)}.tm-controller-symbol{display:grid;place-items:center;width:28px;height:28px;border:1px solid #325562;border-radius:5px;flex:none}.tm-controller-node>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}.tm-controller-node strong{font:600 14px var(--tm-mono)}.tm-controller-node>div>span{font-size:10px;color:#b1c9d3}.tm-controller-node>.tm-icon{width:12px;height:12px;color:#6c99a4}.tm-role-card{display:flex;flex-direction:column;justify-content:space-between;gap:5px;position:relative;min-width:0;text-align:left;padding:10px 11px;border:1px solid var(--tm-line);border-radius:6px;background:var(--tm-raised);transition:border-color .15s,background .15s}.tm-role-card:before,.tm-role-card:after{content:"";position:absolute;width:5px;height:5px;border:1px solid #65778b;background:var(--tm-bg);border-radius:50%;left:calc(50% - 3px)}.tm-role-card:before{top:-4px}.tm-role-card:after{bottom:-4px}.tm-role-card:hover{background:#202c38;border-color:#6b7d8f}.tm-role-card.is-selected{border-color:var(--tm-accent);background:#182b35;box-shadow:0 0 0 1px var(--tm-accent)}.tm-role-card.is-active:not(.is-selected){border-color:#47858f}.tm-role-card--planner{grid-column:1;grid-row:1}.tm-role-card--reviewer{grid-column:3;grid-row:1}.tm-role-card--coordinator{grid-column:2;grid-row:2}.tm-role-card--researcher{grid-column:1;grid-row:3}.tm-role-card--explorer{grid-column:2;grid-row:3}.tm-role-card--worker{grid-column:3;grid-row:3}.tm-role-top{display:flex;align-items:center;justify-content:space-between;gap:6px;position:absolute;top:11px;left:10px;right:10px}.tm-role-icon{display:inline-grid;place-items:center;width:25px;height:25px;flex:none;border:1px solid var(--tm-border);border-radius:5px;background:#1b2732;color:#b4c6d6}.tm-role-icon .tm-icon{width:15px;height:15px}.tm-role-mode{font-size:9px;color:var(--tm-soft);display:none}.tm-role-title{display:flex;align-items:center;gap:7px;padding-left:34px;height:25px;min-width:0}.tm-role-title>strong{font-size:12px;font-weight:550;white-space:nowrap}.tm-role-title>span{font:8px var(--tm-mono);color:var(--tm-soft);overflow:hidden;text-overflow:ellipsis;display:none}.tm-role-model{font-family:var(--tm-mono);font-size:10px;color:var(--tm-muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.tm-role-bottom{display:flex;align-items:center;justify-content:space-between;gap:5px}.tm-role-bottom>span:last-child{display:flex;align-items:center;gap:2px;font-size:9px;color:var(--tm-soft)}.tm-role-bottom>span:last-child>.tm-icon{width:11px;height:11px}.tm-map-footer{display:flex;flex-wrap:wrap;align-items:center;gap:8px 15px;border-top:1px solid var(--tm-border);background:var(--tm-panel);padding:9px 13px;font-size:10px;color:var(--tm-muted)}.tm-map-footer>span{display:flex;align-items:center;gap:6px}.tm-map-footer i{display:inline-block;width:16px;border-top:1px solid var(--tm-line)}.tm-map-footer .tm-dashed-line{border-top-style:dashed}.tm-map-footer .tm-live-dot{width:4px;height:4px;border:0;border-radius:50%;background:var(--tm-muted)}.tm-map-footer .tm-feedback-line{border-color:var(--tm-amber);border-top-style:dashed}.tm-map-footer .tm-retry-line{border-color:var(--tm-red);border-top-style:dashed}\n/* Recorded DAG: fixed readable node sizes, scroll/zoom, no invented activity. */\n.tm-graph-tools{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 13px;font-size:11px;color:var(--tm-muted);border-bottom:1px solid var(--tm-border)}.tm-graph-tools label{display:flex;align-items:center;gap:7px}.tm-graph-tools select{border:1px solid var(--tm-border);background:var(--tm-raised);border-radius:4px;padding:3px;font-size:11px}.tm-graph-scroll{overflow:auto;max-height:480px;min-height:350px;scrollbar-width:thin;scrollbar-color:var(--tm-line) transparent}.tm-task-canvas{position:relative;transform-origin:top left}.tm-task-wires{position:absolute;inset:0;pointer-events:none;color:#78929f;overflow:visible}.tm-edge>path{fill:none;stroke:currentColor;stroke-width:1.3}.tm-edge--feedback{color:var(--tm-amber)}.tm-edge--retry{color:var(--tm-red)}.tm-edge--feedback>path,.tm-edge--retry>path{stroke-dasharray:5 4}.tm-task-node{position:absolute;width:192px;height:122px;display:flex;flex-direction:column;justify-content:space-between;gap:7px;border:1px solid var(--tm-line);border-radius:6px;padding:12px;background:var(--tm-raised);text-align:left}.tm-task-node:hover{border-color:#7b91a2;background:#202c38}.tm-task-node.is-selected{border-color:var(--tm-accent);box-shadow:0 0 0 1px var(--tm-accent);background:#182b35}.tm-task-node--running{border-color:#4c8994}.tm-task-node--failed,.tm-task-node--blocked{border-left:3px solid var(--tm-red)}.tm-task-role{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tm-muted)}.tm-task-role small{margin-left:auto;font:10px var(--tm-mono);color:var(--tm-soft)}.tm-task-node>strong{font-size:12px;line-height:1.6;font-weight:500;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.tm-task-foot{display:flex;justify-content:space-between;align-items:center}.tm-task-foot>span:last-child{display:flex;gap:5px;color:var(--tm-soft)}.tm-task-foot>.tm-icon,.tm-task-foot>span>.tm-icon{width:12px;height:12px}.tm-empty-graph{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:320px;padding:30px;text-align:center;background:var(--tm-subtle)}.tm-empty-icon{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--tm-line);border-radius:8px;color:var(--tm-soft);margin-bottom:15px}.tm-empty-graph strong{font-size:14px;font-weight:500}.tm-empty-graph p{font-size:12px;color:var(--tm-muted);line-height:1.8;margin-top:8px;max-width:310px}\n/* Contextual inspector. */\n.tm-inspector{min-width:0;padding:17px;background:var(--tm-panel);border-top:1px solid var(--tm-border)}.tm-inspector>.tm-section-eyebrow{margin-bottom:15px;font-size:11px}.tm-inspector>.tm-section-eyebrow>span:last-child{font:10px var(--tm-mono);color:var(--tm-soft)}.tm-inspector-heading{display:flex;align-items:flex-start;gap:10px}.tm-inspector-heading>.tm-role-icon{width:33px;height:33px}.tm-inspector-heading h3{font-size:15px;font-weight:550;line-height:1.6;overflow-wrap:anywhere}.tm-role-description{font-size:12px;line-height:1.8;color:var(--tm-muted);margin-top:12px!important}.tm-facts{margin:16px 0}.tm-facts>div{display:grid;grid-template-columns:70px minmax(0,1fr);gap:10px;font-size:11px;padding:5px 0}.tm-facts dt{color:var(--tm-muted)}.tm-facts dd{margin:0;overflow-wrap:anywhere;font-family:var(--tm-mono);font-size:11px;color:#c8d5e1}.tm-inspector h4{font-size:12px;font-weight:500}.tm-mini-heading{display:flex;justify-content:space-between;align-items:center;gap:8px}.tm-mini-heading>span{font:10px var(--tm-mono);color:var(--tm-muted)}.tm-evidence,.tm-role-work,.tm-relations{border-top:1px solid var(--tm-border);margin-top:17px;padding-top:14px}.tm-evidence pre,.tm-node-error pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0 0;padding:12px;border:1px solid var(--tm-border);border-radius:5px;background:var(--tm-bg);font:11px/1.9 var(--tm-mono);max-height:320px;overflow:auto;scrollbar-width:thin;color:#c2d0df}.tm-node-error{margin-top:12px;color:var(--tm-red);font-size:12px}.tm-node-error pre{color:var(--tm-red);background:var(--tm-red-bg)}.tm-inline-empty{display:flex;align-items:center;justify-content:center;gap:7px;padding:20px 8px;font-size:12px;color:var(--tm-soft)}.tm-role-work>button,.tm-relations>button{display:flex;align-items:center;gap:8px;text-align:left;width:100%;border:0;border-bottom:1px solid var(--tm-border);background:none;padding:11px 0;font-size:11px}.tm-role-work>button>span:first-child{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.tm-role-work>button strong{font-weight:500;overflow-wrap:anywhere}.tm-role-work>button small{font:10px var(--tm-mono);color:var(--tm-soft)}.tm-role-work>button>.tm-icon,.tm-relations>button>.tm-icon{width:12px;height:12px;color:var(--tm-soft)}.tm-role-work>button:hover,.tm-relations>button:hover{color:var(--tm-accent)}.tm-relation-tag{font-size:10px;flex:none;color:var(--tm-muted);border:1px solid var(--tm-border);padding:1px 4px;border-radius:3px}.tm-relation-tag--retry,.tm-relation-tag--feedback{color:var(--tm-amber)}.tm-relations>button>span:nth-child(2){flex:1;overflow-wrap:anywhere}.tm-source{margin-top:16px;font-size:11px;color:var(--tm-muted)}.tm-source>summary{display:flex;align-items:center;justify-content:space-between}.tm-source dl{margin:12px 0 0;font:10px/1.7 var(--tm-mono)}.tm-source dd{margin:3px 0 8px;overflow-wrap:anywhere;color:var(--tm-text)}.tm-inspector-note{display:flex;align-items:center;gap:6px;margin-top:20px;font-size:10px;color:var(--tm-soft)}.tm-inspector-note .tm-icon{width:12px;height:12px}\n/* Activity is a trace, not a feed of decorative cards. */\n.tm-activity{margin-top:14px;border:1px solid var(--tm-border);border-radius:7px;overflow:hidden;background:var(--tm-panel)}.tm-activity-toggle{display:flex;align-items:center;gap:9px;padding:11px 13px;width:100%;background:transparent;border:0;text-align:left}.tm-activity-toggle>strong{font-size:12px;font-weight:550}.tm-activity-toggle>span{margin-left:auto;font:10px var(--tm-mono);color:var(--tm-muted)}.tm-activity-toggle>.tm-icon:last-child{width:12px;height:12px;transform:rotate(90deg)}.tm-activity-toggle[aria-expanded=false]>.tm-icon:last-child{transform:none}.tm-event-list{max-height:232px;overflow:auto;border-top:1px solid var(--tm-border);scrollbar-width:thin}.tm-event{display:grid;grid-template-columns:22px 65px minmax(0,1fr) 64px;align-items:start;gap:8px;width:100%;padding:10px 13px;text-align:left;border:0;border-bottom:1px solid #222c37;background:none;font-size:11px!important;line-height:1.75}.tm-event:disabled{opacity:1;cursor:default}.tm-event:hover:not(:disabled){background:var(--tm-raised)}.tm-event-icon{display:grid;place-items:center;width:22px;height:22px;color:var(--tm-muted)}.tm-event--feedback .tm-event-icon{color:var(--tm-amber)}.tm-event>strong{font-size:11px;font-weight:500;color:#c4d0dc}.tm-event>span:nth-last-child(2){color:var(--tm-muted);overflow-wrap:anywhere}.tm-event time{font:10px/1.9 var(--tm-mono);color:var(--tm-soft);text-align:right}.tm-event-bound{padding:8px 13px;color:var(--tm-soft);font-size:10px}.tm-running-bar,.tm-command-guide{display:flex;align-items:center;gap:12px;border:1px solid var(--tm-border);border-radius:7px;padding:14px;margin-top:14px;background:var(--tm-panel)}.tm-running-bar>div,.tm-command-guide>div{min-width:0;flex:1}.tm-running-bar strong,.tm-command-guide h3{font-size:13px;font-weight:500}.tm-running-bar p,.tm-command-guide p{font-size:11px;color:var(--tm-muted);line-height:1.8;margin-top:5px}.tm-running-indicator{width:6px;height:6px;border-radius:50%;background:var(--tm-accent);flex:none}.tm-command-icon{align-self:flex-start;color:var(--tm-muted);padding-top:3px}.tm-command-guide code{display:block;font:11px/1.8 var(--tm-mono);color:var(--tm-accent);white-space:normal;overflow-wrap:anywhere;margin-top:8px}.tm-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 0 2px;font-size:10px;color:var(--tm-soft)}.tm-footer>span{display:flex;align-items:center;gap:5px}.tm-footer>span:last-child{font-family:var(--tm-mono);font-size:9px}.tm-footer .tm-icon{width:11px;height:11px}.tm-footer i{height:9px;border-left:1px solid var(--tm-border);margin:0 4px}.tm-notice{display:flex;align-items:flex-start;gap:8px;border:1px solid var(--tm-border);border-radius:5px;background:var(--tm-raised);padding:11px 12px;font-size:12px;line-height:1.8;overflow-wrap:anywhere;margin:12px 0!important}.tm-notice>.tm-icon{margin-top:3px}.tm-notice--error{color:var(--tm-red);background:var(--tm-red-bg);border-color:#63423f}.tm-notice--warning{color:var(--tm-amber);background:var(--tm-amber-bg);border-color:#5e4d37}.tm-start-hint{font-size:11px!important;color:var(--tm-amber)!important;line-height:1.8;margin-top:10px!important}\n/* One-time native settings: role list + one editor, keys stay write-only. */\n.tm-setup-root{padding:20px}.tm-settings{max-width:1020px;margin:0 auto;min-width:0}.tm-settings>header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding-bottom:18px;border-bottom:1px solid var(--tm-border)}.tm-settings>header .tm-section-eyebrow{font-size:11px;color:var(--tm-muted);display:block;margin-bottom:7px}.tm-settings h3{font-size:19px;font-weight:550;letter-spacing:-.2px}.tm-settings>header p{font-size:12px;color:var(--tm-muted);line-height:1.8;max-width:700px;margin-top:7px}.tm-key-config{padding:15px;border:1px solid var(--tm-border);border-radius:7px;background:var(--tm-panel);margin:20px 0}.tm-key-config>div{display:flex;align-items:center;justify-content:space-between;gap:10px}.tm-key-config h4{font-size:13px;font-weight:550}.tm-key-config>div>span{font-size:11px;color:var(--tm-green)}.tm-key-config p{font-size:12px;color:var(--tm-muted);line-height:1.8;margin-top:7px}.tm-key-config label{display:flex;flex-direction:column;gap:7px;margin-top:12px;font-size:11px;color:var(--tm-muted)}.tm-key-config input,.tm-model-config input,.tm-model-config select,.tm-limits input{width:100%;min-width:0;min-height:36px;border:1px solid var(--tm-line);border-radius:5px;background:var(--tm-bg);color:var(--tm-text);padding:8px 10px;font-size:12px}.tm-key-config input::placeholder,.tm-model-config input::placeholder{color:var(--tm-soft)}.tm-config-lock{display:flex;align-items:center;gap:7px;font-size:11px!important}.tm-key-storage{margin-top:12px}.tm-key-storage>summary{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--tm-muted)}.tm-key-storage>p{font-size:11px}.tm-settings-section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:11px}.tm-settings-section-title h4{font-size:13px;font-weight:550}.tm-settings-section-title>span{font:11px var(--tm-mono);color:var(--tm-muted)}.tm-role-settings-layout{display:grid;grid-template-columns:240px minmax(0,1fr);border:1px solid var(--tm-border);border-radius:7px;overflow:hidden;background:var(--tm-panel)}.tm-role-selector{border-right:1px solid var(--tm-border);background:var(--tm-subtle)}.tm-role-selector>button{width:100%;display:flex;align-items:center;gap:10px;padding:11px 12px;border:0;border-bottom:1px solid var(--tm-border);background:none;text-align:left;min-width:0}.tm-role-selector>button:last-child{border-bottom:0}.tm-role-selector>button[aria-pressed=true]{background:#1a2c36;box-shadow:inset 2px 0 var(--tm-accent)}.tm-role-selector>button:hover{background:#1b2631}.tm-role-selector>button>span:first-of-type{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}.tm-role-selector strong{font-size:12px;font-weight:500}.tm-role-selector small{font:10px/1.6 var(--tm-mono);color:var(--tm-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tm-role-selector>button>.tm-icon{color:var(--tm-muted);width:15px;height:15px}.tm-role-selector>button>.tm-icon:last-child{width:12px;height:12px}.tm-role-selector .tm-config-ready{color:var(--tm-green)}.tm-role-selector .tm-config-missing{color:var(--tm-amber)}.tm-role-selector>button>span:last-of-type>.tm-icon{width:12px;height:12px}.tm-model-grid{min-width:0;padding:20px}.tm-model-config{border:0;padding:0;min-width:0;margin:0}.tm-model-config legend{display:flex;align-items:center;gap:8px;padding:0;margin-bottom:18px;max-width:100%}.tm-model-config legend strong{font-size:14px;font-weight:550}.tm-model-config legend>span:last-child{font-size:11px;color:var(--tm-muted)}.tm-config-selects{display:flex;flex-direction:column;gap:14px}.tm-model-config label,.tm-limits>label{display:flex;flex-direction:column;gap:7px;min-width:0;color:var(--tm-muted);font-size:12px}.tm-model-config select{font-size:12px}.tm-model-config select:disabled,.tm-model-config input:disabled{opacity:.55}.tm-advanced-model{margin-top:20px;border-top:1px solid var(--tm-border);padding-top:13px}.tm-advanced-model>summary{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--tm-muted)}.tm-advanced-model>div{display:flex;flex-direction:column;gap:13px;padding-top:13px}.tm-config-switches{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-top:20px;padding:16px 0;border-block:1px solid var(--tm-border)}.tm-config-switches>label{display:flex;align-items:flex-start;gap:9px;cursor:pointer}.tm-config-switches strong{font-size:12px;font-weight:500}.tm-config-switches small{display:block;font-size:11px;color:var(--tm-muted);margin-top:4px}.tm-root input[type=checkbox]{width:15px;height:15px;accent-color:var(--tm-accent);flex:none;margin:3px 0 0}.tm-advanced-settings{margin-top:18px}.tm-advanced-settings>summary{display:flex;justify-content:space-between;align-items:center;font-size:12px}.tm-limits-header{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:18px 0 12px}.tm-limits-header h4{font-size:12px;font-weight:500}.tm-limits-header span{font-size:11px;color:var(--tm-muted)}.tm-limits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.tm-limits>label>span{display:flex;align-items:center;gap:8px}.tm-limits input{font-family:var(--tm-mono)}.tm-limits small{font-size:11px;flex:none}.tm-disclosure{margin-top:20px;border:1px solid #594b37;border-radius:7px;padding:16px;background:#1c1d1c}.tm-disclosure h4{font-size:13px;font-weight:550;color:var(--tm-amber)}.tm-disclosure p{font-size:12px;line-height:1.85;color:var(--tm-muted);margin-top:9px;overflow-wrap:anywhere}.tm-disclosure .tm-endpoint{font-family:var(--tm-mono);font-size:11px;color:#c3b499}.tm-disclosure>label{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.8;cursor:pointer;margin-top:14px;color:var(--tm-text)}.tm-setup-actions{position:sticky;bottom:0;display:flex;justify-content:flex-end;gap:10px;margin-top:16px;padding:14px 0;background:var(--tm-bg);border-top:1px solid var(--tm-border);z-index:2}.dsh-team-tabs{display:flex;gap:4px;padding:5px;background:#121820;border-bottom:1px solid #28323e}.dsh-team-tabs button{font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:7px 12px;border:0;border-radius:5px;background:transparent;color:#9aa9ba;cursor:pointer}.dsh-team-tabs button[aria-pressed=true]{background:#1a2c36;color:#69d4df}.dsh-team-tabs button:focus-visible{outline:2px solid #69d4df;outline-offset:2px}\n@container team (min-width:900px){.tm-workspace{grid-template-columns:minmax(0,1fr) 290px}.tm-inspector{height:100%;border-top:0;border-left:1px solid var(--tm-border);max-height:650px;overflow:auto;scrollbar-width:thin}.tm-role-title>span{display:block}.tm-topology-map{grid-template-rows:106px 106px 106px;gap:38px 32px;padding:28px}.tm-topology-wires{inset:28px;width:calc(100% - 56px);height:calc(100% - 56px)}.tm-role-card{padding:12px}.tm-role-top{top:13px;left:12px}.tm-role-title{padding-left:33px}.tm-role-title strong{font-size:13px}.tm-role-model{font-size:11px}.tm-role-bottom>span:last-child{font-size:10px}}\n@container team (min-width:1200px){.tm-main{padding:20px 24px 12px}.tm-header{padding-inline:24px}.tm-workspace{grid-template-columns:minmax(0,1fr) 310px}.tm-topology-map{column-gap:42px}.tm-graph-scroll{min-height:426px}}\n@container team (max-width:650px){.tm-header{padding:12px 14px}.tm-main{padding:13px 12px 8px}.tm-overview{flex-direction:column;gap:9px}.tm-overview h2{font-size:17px;margin-top:6px}.tm-overview p{font-size:12px}.tm-run-state{flex-direction:row;justify-content:space-between;align-items:center;width:100%;padding:0}.tm-summary-strip{justify-content:space-between;gap:8px;margin:12px 0}.tm-summary-strip>div{gap:5px;font-size:11px}.tm-summary-strip .tm-icon{display:none}.tm-summary-strip strong{font-size:12px}.tm-summary-strip small{font-size:10px}.tm-demo-banner{padding:8px 14px;align-items:flex-start}.tm-demo-banner p{font-size:10px}.tm-demo-banner button{font-size:10px}.tm-demo-banner button>.tm-icon{display:none}.tm-jev-panel>header{padding:9px 11px;gap:5px}.tm-jev-panel h3{font-size:12px}.tm-jev-connection{font-size:10px}.tm-control-details>summary{padding:7px 11px;font-size:10px}.tm-control-details>summary>span:first-child>.tm-icon{display:none}.tm-control-details>summary>span{gap:4px}.tm-jev-metrics{gap:9px}.tm-jev-metrics strong{font-size:11px}.tm-gates ul{grid-template-columns:repeat(2,minmax(0,1fr))}.tm-config-trigger>span{display:none}.tm-tabs{gap:14px}.tm-panel-header{padding:0 10px}.tm-graph-caption{padding:7px 11px;font-size:10px}.tm-graph-caption>span{display:none}.tm-topology-map{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:64px 94px 94px 94px;gap:28px 30px;padding:20px 18px}.tm-controller-node{grid-column:1 / -1;grid-row:1;width:184px;justify-self:center;padding:9px 11px}.tm-topology-wires--wide{display:none}.tm-topology-wires--narrow{display:block;inset:20px 18px;width:calc(100% - 36px);height:calc(100% - 40px)}.tm-role-card--planner{grid-column:1;grid-row:2}.tm-role-card--coordinator{grid-column:2;grid-row:2}.tm-role-card--researcher{grid-column:1;grid-row:3}.tm-role-card--explorer{grid-column:2;grid-row:3}.tm-role-card--worker{grid-column:1;grid-row:4}.tm-role-card--reviewer{grid-column:2;grid-row:4}.tm-role-card{padding:9px}.tm-role-top{top:10px;left:9px}.tm-role-title{padding-left:31px}.tm-role-bottom>span:last-child{font-size:9px}.tm-role-bottom .tm-status{font-size:10px}.tm-map-footer{font-size:9px;gap:6px 10px;padding:8px 11px}.tm-inspector{padding:15px}.tm-activity-toggle{padding:10px 11px}.tm-activity-toggle>span{font-size:9px}.tm-event{grid-template-columns:18px minmax(0,1fr) 60px;gap:3px 7px;padding:10px 11px}.tm-event-icon{grid-row:1 / 3;width:18px}.tm-event>strong{grid-column:2;grid-row:1}.tm-event>span:nth-last-child(2){grid-column:2 / 4;grid-row:2}.tm-event time{grid-column:3;grid-row:1}.tm-command-guide,.tm-running-bar{flex-wrap:wrap;gap:9px;padding:12px}.tm-command-guide>.tm-button,.tm-running-bar>.tm-button{margin-left:25px}.tm-footer{align-items:flex-start;font-size:9px}.tm-footer>span:last-child{display:none}.tm-setup-root{padding:16px 13px}.tm-settings h3{font-size:17px}.tm-settings>header p{font-size:12px}.tm-key-config{padding:13px;margin:16px 0}.tm-key-config>div{flex-wrap:wrap;gap:5px}.tm-key-config>div>span{font-size:10px}.tm-role-settings-layout{grid-template-columns:1fr}.tm-role-selector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-right:0;border-bottom:1px solid var(--tm-border)}.tm-role-selector>button{gap:7px;padding:9px;min-height:57px;border-right:1px solid var(--tm-border)}.tm-role-selector>button:nth-last-child(-n+2){border-bottom:0}.tm-role-selector>button:nth-child(even){border-right:0}.tm-role-selector>button>.tm-icon:last-child{display:none}.tm-role-selector>button[aria-pressed=true]{box-shadow:inset 0 -2px var(--tm-accent)}.tm-role-selector small{font-size:9px}.tm-role-selector strong{font-size:12px}.tm-role-selector .tm-config-ready,.tm-role-selector .tm-config-missing{display:none}.tm-model-grid{padding:17px 14px}.tm-config-switches{flex-direction:column;gap:15px}.tm-limits{grid-template-columns:repeat(2,minmax(0,1fr))}.tm-limits-header{align-items:flex-start;flex-direction:column;gap:4px}.tm-disclosure{padding:13px}.tm-setup-actions>.tm-button{flex:1}.tm-settings>header{gap:10px}}\n@container team (max-width:340px){.tm-header{padding-inline:10px}.tm-main{padding-inline:8px}.tm-topology-map{padding-inline:11px;column-gap:17px}.tm-topology-wires--narrow{inset-inline:11px;width:calc(100% - 22px)}.tm-role-card{padding:8px}.tm-role-title>strong{font-size:11px}.tm-role-icon{width:23px;height:23px}.tm-role-top{left:8px}.tm-role-title{padding-left:28px}.tm-role-bottom>span:last-child{display:none}.tm-jev-connection{font-size:9px}.tm-controller-node{width:170px}.tm-session{font-size:10px}.tm-tabs{gap:10px}.tm-tabs button{font-size:11px}}\n@keyframes tm-spin{to{transform:rotate(360deg)}}.tm-root .is-spinning{animation:tm-spin 1s linear infinite}@media(prefers-reduced-motion:reduce){.tm-root *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}\n.tm-fit-button{border:1px solid var(--tm-border);border-radius:4px;background:var(--tm-raised);padding:3px 6px;font-size:11px!important;color:var(--tm-muted)!important}.tm-fit-button:hover{border-color:var(--tm-accent);color:var(--tm-accent)!important}.tm-task-graph--vertical .tm-task-node{width:160px;height:108px;padding:10px}.tm-task-graph--vertical .tm-task-node>strong{font-size:11px}.tm-task-graph--vertical .tm-task-role{font-size:10px}.tm-task-graph--vertical .tm-task-foot .tm-status{font-size:10px}\n.tm-control-details>summary{align-items:center;min-height:43px;background:var(--tm-panel);border:0;gap:10px;padding:10px 13px}.tm-control-details>summary .tm-control-title{font-size:12px;font-weight:550;color:var(--tm-text);margin-right:auto;white-space:nowrap}.tm-control-details>summary .tm-control-title>.tm-icon{display:block;width:15px;height:15px;color:var(--tm-accent)}.tm-control-details>summary>.tm-jev-connection{font-size:11px}.tm-control-details>summary>.tm-icon:last-child{width:12px;height:12px;color:var(--tm-muted)}.tm-control-details[open]>summary{border-bottom:1px solid var(--tm-border)}.tm-controller-node{text-align:left;cursor:pointer}.tm-controller-node:hover{background:#1c3440;border-color:var(--tm-accent)}.tm-controller-node.is-selected{border-color:var(--tm-accent);box-shadow:0 0 0 1px var(--tm-accent)}.tm-run-description{margin-top:4px}.tm-run-description>summary{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--tm-muted)}.tm-run-description>summary>.tm-icon{width:11px;height:11px}.tm-run-description p{padding:8px 0}.tm-run-description[open]{margin-bottom:4px}\n@container team (max-width:650px){.tm-main{padding-top:11px}.tm-overview{gap:6px}.tm-overview h2{font-size:16px;margin-top:4px}.tm-summary-strip{margin:10px 0}.tm-control-details>summary{min-height:40px;padding:8px 10px;gap:7px}.tm-control-details>summary>.tm-jev-connection{font-size:10px}.tm-control-details>summary .tm-control-title{font-size:12px}.tm-demo-banner{align-items:center;padding:7px 12px}.tm-demo-banner>span{font-size:10px}.tm-jev-panel{margin-bottom:12px}.tm-overview .tm-section-eyebrow{font-size:10px}.tm-run-description>summary{font-size:10px}}\n\n.tm-graph-controls{display:flex;align-items:center;gap:9px}\n.tm-inspector-wrap{min-width:0;height:100%;scroll-margin:12px}.tm-graph-context{font-family:inherit!important;font-size:11px!important;color:var(--tm-muted)!important;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;flex:1!important;min-width:0}.tm-inspect-jump,.tm-inspector-back{display:flex;align-items:center;gap:5px;border:0;background:transparent;color:var(--tm-accent)!important;font-size:11px!important;padding:1px 0;white-space:nowrap}.tm-inspect-jump .tm-icon{width:12px;height:12px;transform:rotate(90deg)}.tm-inspector-back{margin-bottom:13px;padding:3px 0}.tm-inspector-back .tm-icon{width:12px;height:12px;transform:rotate(-90deg)}\n@container team (min-width:900px){.tm-inspect-jump,.tm-inspector-back{display:none}.tm-graph-context{flex:none!important}.tm-inspector-wrap{align-self:stretch;max-height:650px}}\n@container team (max-width:650px){.tm-graph-caption>.tm-graph-context{display:block}}\n/* Production controls reuse scoped theme tokens and remain optional. */\n.tm-production-settings{margin-top:18px;border:1px solid var(--tm-border);border-radius:7px;background:var(--tm-panel);padding:13px 15px}.tm-production-settings>summary,.tm-production-records>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px}.tm-production-settings>summary>span:last-child,.tm-production-records>summary>span:last-child{font-size:20px;line-height:1;color:var(--tm-muted);transition:transform .15s}.tm-production-settings[open]>summary>span:last-child,.tm-production-records[open]>summary>span:last-child{transform:rotate(90deg)}.tm-production-help{color:var(--tm-muted);font-size:11px;line-height:1.8;margin-top:10px!important;overflow-wrap:anywhere}.tm-production-section{padding:13px 0 4px;border:0;border-top:1px solid var(--tm-border);min-width:0;margin:18px 0 0}.tm-production-section>legend{font-size:12px;font-weight:600;padding:0 10px 0 0}.tm-production-section p,.tm-routing-candidate>p{color:var(--tm-muted);font-size:11px;line-height:1.8;margin-top:9px}.tm-production-toggle{display:flex;align-items:flex-start;gap:9px;font-size:12px;cursor:pointer;margin:9px 0 12px}.tm-production-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:12px}.tm-production-fields>label,.tm-routing-candidate .tm-advanced-model label{display:flex;flex-direction:column;gap:7px;min-width:0;color:var(--tm-muted);font-size:11px}.tm-production-settings :is(select,input:not([type=checkbox])){width:100%;min-width:0;min-height:36px;border:1px solid var(--tm-line);border-radius:5px;background:var(--tm-bg);color:var(--tm-text);padding:8px 10px;font-size:12px}.tm-production-settings input::placeholder{color:var(--tm-soft)}.tm-production-settings :is(select,input):disabled{opacity:.55}.tm-routing-candidates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}.tm-routing-candidate{min-width:0;margin:0;padding:12px;border:1px solid var(--tm-border);border-radius:5px;background:var(--tm-subtle)}.tm-routing-candidate>legend{font-size:11px;padding:0 5px;color:var(--tm-accent)}.tm-routing-candidate>.tm-production-fields{grid-template-columns:1fr}.tm-production-errors{margin-top:12px;padding:12px;border:1px solid var(--tm-red);background:var(--tm-red-bg);color:var(--tm-red);font-size:12px;border-radius:5px}.tm-production-errors ul{margin:8px 0 0;padding-left:19px}.tm-production-errors li+li{margin-top:6px}.tm-production-status{margin:0 0 16px;border:1px solid var(--tm-border);border-radius:7px;background:var(--tm-panel);padding:12px 15px;min-width:0}.tm-production-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.tm-production-heading h3{font-size:12px;font-weight:600}.tm-production-heading>span{font-size:10px;color:var(--tm-muted)}.tm-production-idle{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:9px;font-size:11px;color:var(--tm-muted)}.tm-production-idle>span{overflow-wrap:anywhere;min-width:0}.tm-production-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:13px}.tm-production-metrics>div{display:flex;flex-direction:column;gap:4px;min-width:0}.tm-production-metrics span,.tm-production-metrics small{font-size:10px;color:var(--tm-muted);overflow-wrap:anywhere}.tm-production-metrics strong{font:500 12px/1.6 var(--tm-mono);overflow-wrap:anywhere}.tm-production-warning{color:var(--tm-amber);background:var(--tm-amber-bg);padding:8px 10px;margin-top:10px!important;font-size:11px;overflow-wrap:anywhere}.tm-production-records{margin-top:13px;border-top:1px solid var(--tm-border);padding-top:10px}.tm-production-records>summary{font-size:11px;color:var(--tm-muted)}.tm-production-records dl{margin:12px 0 0;font-size:11px}.tm-production-records dl>div{display:grid;grid-template-columns:84px minmax(0,1fr);gap:10px;padding:6px 0}.tm-production-records dt{color:var(--tm-muted)}.tm-production-records dd{margin:0;overflow-wrap:anywhere;font-family:var(--tm-mono)}.tm-production-records dd small{display:block;color:var(--tm-muted);font-size:10px;margin-top:3px}.tm-routing-records{list-style:none;margin:10px 0 0;padding:0}.tm-routing-records li{border-top:1px solid var(--tm-border);padding:10px 0;font-size:11px;overflow-wrap:anywhere}.tm-routing-records li>strong,.tm-routing-records li>span,.tm-routing-records li>small{display:block;margin-bottom:3px}.tm-routing-records li>span{font-family:var(--tm-mono)}.tm-routing-records li>small,.tm-routing-records li>p{color:var(--tm-muted)}\n@container team (max-width:650px){.tm-production-settings,.tm-production-status{padding:11px}.tm-production-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}.tm-production-fields,.tm-routing-candidates{grid-template-columns:1fr}.tm-production-records dl>div{grid-template-columns:70px minmax(0,1fr)}}\n@media(prefers-reduced-motion:reduce){.tm-production-settings>summary>span:last-child,.tm-production-records>summary>span:last-child{transition:none}}\n.tm-trace-viewer{margin-top:12px;padding:11px;border:1px solid var(--tm-border);background:var(--tm-subtle);font-size:11px;min-width:0}.tm-trace-viewer>div{display:flex;align-items:center;justify-content:space-between;gap:10px}.tm-trace-viewer p{margin-top:7px;color:var(--tm-muted);overflow-wrap:anywhere}.tm-trace-viewer [role=alert]{color:var(--tm-red)}.tm-trace-viewer pre{margin:10px 0 0;max-height:300px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font:10px/1.8 var(--tm-mono);color:var(--tm-text);background:var(--tm-bg);padding:10px;border:1px solid var(--tm-border)}\n\n/* Event-driven workflow surface. State and model provenance remain visible without motion. */\n.tm-root{--tm-live:#72dfe9}\n.tm-workflow-signals{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:1px;margin:0 0 16px;background:var(--tm-border);border:1px solid var(--tm-border)}\n.tm-signal{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:5px;min-width:0;background:var(--tm-panel);padding:11px 14px}\n.tm-signal>span{display:flex;align-items:center;gap:6px;font:10px var(--tm-mono);color:var(--tm-muted)}\n.tm-signal>strong{font-size:12px;font-weight:550;overflow-wrap:anywhere}.tm-signal>small{font-size:10px;color:var(--tm-soft)}\n.tm-signal--connection>span>i{width:6px;height:6px;background:var(--tm-live);border-radius:50%}.tm-signal.is-stale>span>i{background:var(--tm-amber)}.tm-signal.is-stale strong{color:var(--tm-amber)}\n.tm-root .tm-base-label{display:block;color:var(--tm-soft);font-size:9px;letter-spacing:.2px;margin-top:2px}\n.tm-root .tm-role-card{height:auto;min-height:114px}.tm-root .tm-topology-map{grid-template-rows:114px 114px 114px}\n.tm-root .tm-role-bottom{margin-top:7px}.tm-root .tm-role-model{margin-top:7px}.tm-root .tm-topology-wires{animation:none!important}\n.tm-instances{padding:18px 18px 20px;border-top:1px solid var(--tm-border);background:var(--tm-subtle)}\n.tm-instances-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:13px}.tm-instances-heading h3{font-size:13px;font-weight:550;margin-top:3px}.tm-instances-heading>span{font-size:10px;color:var(--tm-muted);white-space:nowrap}.tm-instances-heading .tm-section-eyebrow{font:9px var(--tm-mono);letter-spacing:1px}\n.tm-instance-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}\n.tm-root .tm-instance-card{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:7px;min-width:0;text-align:left;border:1px solid var(--tm-border);border-top:2px solid var(--tm-line);border-radius:5px;background:var(--tm-panel);padding:12px;isolation:isolate}\n.tm-root .tm-instance-card:hover{border-color:var(--tm-line);background:var(--tm-raised)}.tm-root .tm-instance-card.is-selected{outline:1px solid var(--tm-accent);border-color:var(--tm-accent)}\n.tm-instance-top{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:10px;color:var(--tm-muted)}.tm-instance-top>span:first-child{display:flex;align-items:center;gap:5px}.tm-root .tm-instance-top .tm-icon{width:13px;height:13px}.tm-root .tm-instance-top .tm-status{font-size:9px;gap:4px;white-space:nowrap}.tm-instance-card>strong{font-size:12px;font-weight:550;line-height:1.65;overflow-wrap:anywhere}\n.tm-root .tm-instance-model{display:block;max-width:100%;font:11px/1.55 var(--tm-mono);color:var(--tm-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n.tm-root .tm-instance-source{display:block;font-size:9px;line-height:1.7;color:var(--tm-muted);overflow-wrap:anywhere}.tm-instance-meta{display:flex;justify-content:space-between;gap:8px;margin-top:auto;padding-top:7px;border-top:1px solid var(--tm-border);font:9px/1.5 var(--tm-mono);color:var(--tm-soft)}.tm-instance-meta>span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tm-instance-meta>span:last-child{flex:none}.tm-instance-failure{font:10px var(--tm-mono);color:var(--tm-red)}\n.tm-root .tm-instance-card--running{border-top-color:var(--tm-live)}.tm-root .tm-instance-card--completed{border-top-color:var(--tm-green)}.tm-root .tm-instance-card--failed{border-top-color:var(--tm-red)}.tm-root .tm-instance-card--blocked{border-top-color:var(--tm-amber)}.tm-root .tm-instance-card--cancelled{border-top-style:dashed}\n.tm-root :is(.tm-instance-card,.tm-task-node,.tm-controller-node,.tm-signal--jev)[data-live=true]{border-color:var(--tm-live)}\n.tm-root :is(.tm-instance-card,.tm-task-node,.tm-controller-node,.tm-signal--jev)[data-live=true]::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:linear-gradient(105deg,transparent 5%,#72dfe908 32%,#72dfe925 50%,#72dfe908 68%,transparent 95%);transform:translateX(-110%);animation:tm-live-scan 1.8s linear infinite}\n.tm-root :is(.tm-instance-card,.tm-task-node,.tm-controller-node)>*{position:relative;z-index:1}\n@keyframes tm-live-scan{0%{transform:translateX(-110%)}100%{transform:translateX(110%)}}\n.tm-root .tm-task-node{height:164px;overflow:hidden}.tm-root .tm-task-node>strong{margin:8px 0 7px;line-height:1.5}.tm-root .tm-task-foot{margin-top:auto}.tm-root .tm-task-node .tm-instance-model{font-size:10px}.tm-root .tm-task-node .tm-instance-source{font-size:9px;line-height:1.5;margin-top:3px}.tm-root .tm-task-graph--vertical .tm-task-node{height:158px}.tm-root .tm-task-graph--vertical .tm-task-node>strong{margin:6px 0}.tm-root .tm-task-graph--vertical .tm-task-node .tm-instance-model{font-size:9px}\n.tm-root .tm-edge .tm-edge-pulse{stroke:var(--tm-live);stroke-width:3;stroke-dasharray:.14 .86;stroke-dashoffset:1;stroke-linecap:round;filter:drop-shadow(0 0 3px #72dfe955);animation:tm-relation-pass .8s ease-out 1;fill:none}\n@keyframes tm-relation-pass{from{stroke-dashoffset:1;opacity:0}15%{opacity:1}to{stroke-dashoffset:-.14;opacity:0}}\n.tm-root[data-live=false] :is(.tm-instance-card,.tm-task-node,.tm-controller-node,.tm-signal--jev)::after{animation:none!important;display:none}.tm-root[data-live=false] .tm-edge-pulse{display:none}.tm-root[data-live=false] .tm-running-indicator{animation:none}\n.tm-root .tm-inspector-wrap{height:auto}.tm-root .tm-inspector{height:auto;max-height:none}.tm-root .tm-inspector-wrap>.tm-jev-panel{margin:0;border:0;border-top:1px solid var(--tm-border)}.tm-root .tm-inspector-wrap .tm-jev-metrics{grid-template-columns:1fr;gap:10px}.tm-root .tm-inspector-wrap .tm-gates ul{grid-template-columns:1fr}.tm-root .tm-inspector-wrap .tm-jev-connection{white-space:normal;text-align:right;font-size:9px}.tm-root .tm-inspector-wrap .tm-control-title{font-size:11px}.tm-root .tm-inspector-wrap .tm-control-details>summary{gap:6px;padding-inline:14px}.tm-root .tm-inspector-wrap .tm-control-title>.tm-icon{display:none}\n.tm-runtime-details{margin:12px 0;border:1px solid var(--tm-border);background:var(--tm-panel)}.tm-runtime-details>summary{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--tm-muted)}.tm-runtime-details .tm-production-status{border:0;margin:0;border-top:1px solid var(--tm-border)}\n.tm-root .tm-event-list{max-height:230px;overflow:auto;scrollbar-width:thin}.tm-root .tm-event{min-height:49px}.tm-event-route{display:block;font:9px/1.7 var(--tm-mono);color:var(--tm-soft);overflow-wrap:anywhere}.tm-root .tm-event-integrity{padding:8px 13px;color:var(--tm-amber);border-top:1px solid var(--tm-border);margin:0;background:var(--tm-subtle)}.tm-root .tm-activity{margin-top:14px}.tm-root .tm-activity-toggle{min-height:44px}\n.tm-layout-classic .tm-workflow-signals,.tm-layout-classic .tm-instances{display:none}.tm-root .tm-layout-switch{font-size:10px;padding-inline:7px}\n@container team (min-width:1050px){.tm-root .tm-workspace{grid-template-columns:minmax(0,1fr) 320px;align-items:start}.tm-root .tm-inspector-wrap{align-self:stretch;max-height:820px;overflow:auto;scrollbar-width:thin;border-left:1px solid var(--tm-border)}.tm-root .tm-inspector{border-left:0}.tm-root .tm-inspector-wrap .tm-inspector-back{display:none}.tm-layout-classic .tm-workspace{grid-template-columns:minmax(0,1fr) 290px}}\n@container team (min-width:900px) and (max-width:1049px){.tm-root .tm-workspace{grid-template-columns:minmax(0,1fr) 300px}.tm-root .tm-instance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tm-root .tm-inspector-wrap{max-height:820px;overflow:auto}}\n@container team (max-width:899px){.tm-root .tm-workspace{grid-template-columns:1fr}.tm-root .tm-inspector-wrap{max-height:none}.tm-root .tm-inspector-back,.tm-root .tm-inspect-jump{display:flex}.tm-root .tm-inspector-wrap .tm-gates ul{grid-template-columns:repeat(2,minmax(0,1fr))}.tm-root .tm-inspector-wrap .tm-jev-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}\n@container team (max-width:650px){.tm-root .tm-workflow-signals{grid-template-columns:1fr 1fr;margin-bottom:12px}.tm-root .tm-signal--connection{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between;padding-block:8px}.tm-root .tm-signal--connection>strong{font-size:10px}.tm-root .tm-signal{padding:10px}.tm-root .tm-signal>strong{font-size:11px}.tm-root .tm-signal>small{font-size:9px}.tm-root .tm-topology-map{grid-template-rows:64px 114px 114px 114px;row-gap:24px}.tm-root .tm-role-card{min-height:114px}.tm-root .tm-instance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tm-root .tm-instances{padding:14px 11px}.tm-root .tm-instances-heading{align-items:flex-start;flex-direction:column;gap:5px}.tm-root .tm-instance-card{padding:10px;gap:6px}.tm-root .tm-instance-top{flex-wrap:wrap}.tm-root .tm-instance-card>strong{font-size:11px}.tm-root .tm-instance-model{font-size:10px}.tm-root .tm-instance-source{font-size:9px}.tm-root .tm-header-actions{flex-wrap:wrap}.tm-root .tm-inspector-wrap .tm-jev-metrics{grid-template-columns:1fr}.tm-root .tm-inspector-wrap .tm-gates ul{grid-template-columns:1fr}.tm-root .tm-layout-switch{font-size:9px}.tm-root .tm-activity-toggle{gap:6px}.tm-root .tm-activity-toggle>span{font-size:9px}}\n@container team (max-width:360px){.tm-root .tm-instance-grid{grid-template-columns:1fr}.tm-root .tm-signal--connection{align-items:flex-start;gap:5px;flex-direction:column}.tm-root .tm-instance-top{flex-wrap:nowrap}.tm-root .tm-instances-heading h3{font-size:12px}.tm-root .tm-role-model{font-size:9px}}\n@media(prefers-reduced-motion:reduce){.tm-root [data-live=true]::after{animation:none!important;display:none!important}.tm-root .tm-edge-pulse{animation:none!important;display:none!important}.tm-root [data-live=true]{outline:1px solid var(--tm-live);outline-offset:-2px}}\n.tm-run-blocker{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--tm-amber);background:var(--tm-amber-bg);padding:12px 14px;margin-top:12px;color:var(--tm-amber)}.tm-run-blocker>div{min-width:0}.tm-run-blocker strong{font-size:12px}.tm-run-blocker p{font-size:11px;line-height:1.7;overflow-wrap:anywhere;margin-top:4px}.tm-run-blocker>.tm-icon{margin-top:2px}.tm-task-failure{font:9px/1.4 var(--tm-mono);color:var(--tm-red)}.tm-root .tm-jev-decisions time{font:10px/1.5 var(--tm-mono);color:var(--tm-soft)}\n\n.tm-root .tm-controller-node{overflow:hidden}\n/* Workflow-first density: live graph precedes the secondary control-plane detail. */\n.tm-root.tm-layout-workflow .tm-header{padding:9px 14px;gap:8px}\n.tm-root.tm-layout-workflow .tm-main{padding:12px 14px 8px}\n.tm-root.tm-layout-workflow .tm-overview{gap:14px;align-items:center}\n.tm-root.tm-layout-workflow .tm-overview h2{font-size:18px;line-height:1.45;margin-top:4px}\n.tm-root.tm-layout-workflow .tm-overview .tm-section-eyebrow{font-size:10px}\n.tm-root.tm-layout-workflow .tm-run-description{margin-top:2px}\n.tm-root.tm-layout-workflow .tm-summary-strip{margin:8px 0 12px;gap:16px}\n.tm-root.tm-layout-workflow .tm-summary-strip>div{font-size:10px;gap:6px}\n.tm-root.tm-layout-workflow .tm-summary-strip strong{font-size:14px}\n.tm-root.tm-layout-workflow .tm-demo-banner{padding:5px 14px;font-size:10px}\n.tm-root .tm-inspector-wrap>.tm-workflow-signals{grid-template-columns:1fr;margin:0;border-width:0 0 1px;background:var(--tm-border)}\n.tm-root .tm-inspector-wrap .tm-signal{padding:10px 14px;gap:3px}\n.tm-root .tm-inspector-wrap .tm-signal--connection{padding-block:8px}\n.tm-root.tm-layout-workflow .tm-run-blocker{margin-top:8px;padding:9px 12px}\n@container team (max-width:899px){.tm-root .tm-inspector-wrap>.tm-workflow-signals{grid-template-columns:1fr 1fr}.tm-root .tm-inspector-wrap .tm-signal--connection{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between}.tm-root .tm-inspector-wrap .tm-signal--connection>strong{font-size:10px}}\n@container team (max-width:650px){.tm-root.tm-layout-workflow .tm-main{padding:9px 10px 7px}.tm-root.tm-layout-workflow .tm-header{padding:8px 10px}.tm-root.tm-layout-workflow .tm-overview{gap:6px;align-items:flex-start}.tm-root.tm-layout-workflow .tm-overview h2{font-size:15px}.tm-root.tm-layout-workflow .tm-summary-strip{margin:6px 0 10px;gap:8px}.tm-root.tm-layout-workflow .tm-demo-banner{padding:5px 10px}.tm-root.tm-layout-workflow .tm-demo-banner button{font-size:9px}.tm-root.tm-layout-workflow .tm-run-state{gap:6px}.tm-root.tm-layout-workflow .tm-run-state>span:last-child{font-size:9px}.tm-root .tm-inspector-wrap .tm-signal{padding:9px 11px}.tm-root .tm-inspector-wrap .tm-signal--connection{align-items:flex-start;flex-direction:column;gap:4px}}\n\n/* Team-first topology: measured cards, node-scoped work, and explicit event overlays. */\n.tm-root .tm-topology-map{grid-template-rows:repeat(3,minmax(136px,auto));gap:30px 30px;padding:22px;align-items:start;isolation:isolate}\n.tm-root .tm-topology-card{position:relative;min-width:0;min-height:136px;display:flex;flex-direction:column;border:1px solid var(--tm-line);border-radius:7px;background:var(--tm-raised);z-index:1;box-shadow:0 4px 16px #00000016;isolation:isolate}\n.tm-root .tm-topology-card--planner{grid-column:1;grid-row:1}\n.tm-root .tm-topology-card--jev{grid-column:2;grid-row:1}\n.tm-root .tm-topology-card--reviewer{grid-column:3;grid-row:1}\n.tm-root .tm-topology-card--coordinator{grid-column:2;grid-row:2}\n.tm-root .tm-topology-card--researcher{grid-column:1;grid-row:3}\n.tm-root .tm-topology-card--explorer{grid-column:2;grid-row:3}\n.tm-root .tm-topology-card--worker{grid-column:3;grid-row:3}\n.tm-root .tm-topology-card--verification{grid-column:3;grid-row:2;min-height:0;align-self:center;background:var(--tm-subtle);border-style:dashed}\n.tm-root .tm-topology-card.is-selected{border-color:var(--tm-accent);box-shadow:0 0 0 1px var(--tm-accent)}\n.tm-root .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node){display:block;position:relative;grid-column:auto;grid-row:auto;width:100%;min-height:0;height:auto;margin:0;padding:8px 9px 6px;background:transparent;border:0;border-radius:6px 6px 0 0;box-shadow:none;text-align:left;color:var(--tm-text);z-index:1}\n.tm-root .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node):hover{background:var(--tm-subtle)}\n.tm-root .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node)::before,.tm-root .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node)::after{display:none!important}\n.tm-root .tm-topology-card .tm-role-title{display:flex;align-items:center;gap:5px;min-width:0}\n.tm-root .tm-topology-card .tm-role-title>strong{font-size:12px;white-space:nowrap;font-weight:650}\n.tm-root .tm-topology-card .tm-role-title>span:last-of-type{font:8px var(--tm-mono);color:var(--tm-soft);overflow:hidden;text-overflow:ellipsis}\n.tm-root .tm-topology-card .tm-role-title>.tm-icon{margin-left:auto;width:11px;height:11px;color:var(--tm-soft)}\n.tm-root .tm-topology-card .tm-role-icon{width:21px;height:21px;flex:none;border-radius:4px}\n.tm-root .tm-topology-card .tm-role-icon>.tm-icon{width:13px;height:13px}\n.tm-root .tm-role-task{display:block;position:relative;min-width:0;width:100%;padding:5px 9px 6px;text-align:left;border:0;background:transparent;z-index:1}\n.tm-root button.tm-role-task:hover{background:var(--tm-subtle)}\n.tm-root .tm-role-task.is-selected{background:var(--tm-subtle);box-shadow:inset 2px 0 var(--tm-accent)}\n.tm-root .tm-role-task-heading{display:flex;align-items:baseline;gap:6px;margin-bottom:3px}\n.tm-root .tm-role-task-heading>strong{display:block;font-size:11px;line-height:1.5;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:550;flex:1}\n.tm-root .tm-role-task-heading>.tm-status{font-size:9px;gap:3px;flex:none}\n.tm-root .tm-role-task .tm-instance-model{font-size:10px;line-height:1.5}\n.tm-root .tm-role-task .tm-instance-source{font-size:9px;line-height:1.45;margin-top:2px}\n.tm-root .tm-node-route-reason{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--tm-muted);font-size:9px;line-height:1.5;margin-top:2px}\n.tm-root .tm-role-task-id{display:block;max-width:100%;font:8px/1.5 var(--tm-mono);color:var(--tm-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}\n.tm-root .tm-topology-card .tm-role-idle{position:relative;padding:5px 9px 8px;z-index:1;flex:1}\n.tm-root .tm-topology-card .tm-role-model{font-size:10px;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n.tm-root .tm-topology-card .tm-base-label{font-size:9px;line-height:1.6}\n.tm-root .tm-role-count{position:relative;display:block;margin-top:auto;padding:5px 9px 6px;border-top:1px solid var(--tm-border);font:9px/1.4 var(--tm-mono);color:var(--tm-muted);z-index:1}\n.tm-root .tm-topology-card[data-live=true]>.tm-role-count{color:var(--tm-live)}\n.tm-root .tm-role-task-list{position:relative;border-top:1px solid var(--tm-border);z-index:1}\n.tm-root .tm-role-task-list>summary{display:flex;align-items:center;justify-content:space-between;gap:3px;font-size:9px;padding:5px 9px;color:var(--tm-accent)}\n.tm-root .tm-role-task-list>summary>.tm-icon{width:10px;height:10px}\n.tm-root .tm-role-task-list>div>.tm-role-task{border-top:1px solid var(--tm-border);padding-block:8px}\n.tm-root .tm-topology-card[data-live=true]{border-color:var(--tm-live);animation:tm-card-breathe 2.4s ease-in-out infinite}\n.tm-root .tm-topology-card[data-live=true]::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;background:linear-gradient(105deg,transparent 0%,transparent 32%,#72dfe929 49%,#72dfe908 56%,transparent 70%,transparent 100%);background-size:280% 100%;animation:tm-topology-scan 1.8s linear infinite}\n@keyframes tm-topology-scan{from{background-position:130% 0}to{background-position:-30% 0}}\n@keyframes tm-card-breathe{0%,100%{box-shadow:0 0 0 1px #72dfe916,0 0 8px #72dfe90d}50%{box-shadow:0 0 0 1px #72dfe963,0 0 15px #72dfe927}}\n.tm-root .tm-topology-org-relations{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.45}\n.tm-root .tm-topology-org-relations path{stroke-width:1;stroke-dasharray:3 5}\n.tm-root .tm-topology-live-relations{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:3}\n.tm-root .tm-relation-color--dispatch{color:#72dfe9;--tm-relation-dash:none}\n.tm-root .tm-relation-color--dependency{color:#b1b2ff;--tm-relation-dash:5 3}\n.tm-root .tm-relation-color--feedback{color:#f0bb78;--tm-relation-dash:2 4}\n.tm-root .tm-relation-color--retry{color:#f49eaa;--tm-relation-dash:7 3 2 3}\n.tm-root .tm-relation-color--join{color:#a0dbb8;--tm-relation-dash:9 3}\n.tm-root .tm-topology-relation-line{fill:none;stroke:currentColor;stroke-width:1.7;stroke-dasharray:var(--tm-relation-dash);vector-effect:non-scaling-stroke}\n.tm-root .tm-topology-relation .tm-edge-pulse{fill:none;stroke:currentColor;stroke-width:3.5;stroke-dasharray:.14 .86;stroke-dashoffset:1;stroke-linecap:round;filter:drop-shadow(0 0 4px currentColor);animation:tm-relation-pass .8s ease-out 1}\n.tm-root .tm-topology-relation-label rect{fill:var(--tm-subtle);stroke:currentColor;stroke-width:.75}\n.tm-root .tm-topology-relation-label text{fill:currentColor;font-size:10px;font-family:inherit}\n.tm-root .tm-topology-self-events{position:absolute;right:7px;top:-12px;z-index:5;display:flex;gap:3px;flex-wrap:wrap;max-width:calc(100% - 14px)}\n.tm-root .tm-topology-self-event{display:inline-flex;gap:4px;align-items:center;white-space:nowrap;font-size:9px;line-height:1.5;padding:2px 5px;border:1px solid currentColor;border-radius:3px;background:var(--tm-subtle);animation:tm-self-event .8s ease-out 1}\n.tm-root .tm-topology-self-event>.tm-icon{width:10px;height:10px}\n@keyframes tm-self-event{0%{opacity:.35;transform:translateY(3px)}25%,85%{opacity:1;transform:translateY(0)}100%{opacity:.6}}\n.tm-root .tm-topology-legend{flex-wrap:wrap;gap:7px 12px;padding:8px 12px;font-size:9px}\n.tm-root .tm-topology-legend .tm-live-dot{background:var(--tm-live)}\n.tm-root[data-live=false] .tm-topology-card{animation:none!important}\n.tm-root[data-live=false] .tm-topology-card::after{display:none!important}\n.tm-root[data-live=false] :is(.tm-topology-live-relations,.tm-topology-self-events){display:none}\n@container team (min-width:900px) and (max-width:1100px){.tm-root .tm-topology-map{gap:24px 22px;padding:16px}.tm-root .tm-topology-card .tm-role-title>span:last-of-type{display:none}}\n@container team (max-width:650px){\n  .tm-root .tm-topology-map{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:auto;gap:26px 20px;padding:17px 14px}\n  .tm-root .tm-topology-card{grid-column:auto;grid-row:auto;order:var(--tm-activity-order);min-height:126px;height:100%}\n  .tm-root .tm-topology-card--verification{min-height:0;height:auto}\n  .tm-root .tm-topology-card .tm-role-title>span:last-of-type{display:none}\n  .tm-root .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node){padding:7px 8px 5px;justify-self:stretch;align-self:stretch}\n  .tm-root .tm-role-task{padding:4px 8px 5px}\n  .tm-root .tm-role-task-heading{display:block}\n  .tm-root .tm-role-task-heading>.tm-status{font-size:8px}\n  .tm-root .tm-role-task .tm-instance-model{font-size:9px}\n  .tm-root .tm-role-task .tm-instance-source{font-size:8px}\n  .tm-root .tm-node-route-reason{font-size:8px}\n  .tm-root .tm-role-task-id{font-size:7px}\n  .tm-root .tm-role-count{padding:4px 8px;font-size:8px}\n  .tm-root .tm-role-task-list>summary{padding:4px 8px;font-size:8px}\n}\n@container team (max-width:360px){.tm-root .tm-topology-map{padding:14px 11px;gap:24px 18px}.tm-root .tm-topology-card .tm-role-title>strong{font-size:11px}.tm-root .tm-topology-card .tm-role-icon{width:18px;height:18px}.tm-root .tm-role-task-heading>strong{font-size:10px}.tm-root .tm-topology-self-event{font-size:8px;gap:2px}}\n@media(prefers-reduced-motion:reduce){.tm-root .tm-topology-card,.tm-root .tm-topology-self-event{animation:none!important}.tm-root .tm-topology-card::after,.tm-root .tm-topology-relation .tm-edge-pulse{animation:none!important;display:none!important}}\n\n/* Active work leads on every screen; static role relationships retain their own measured layer. */\n.tm-root .tm-topology-map{grid-template-rows:none;grid-auto-rows:minmax(136px,auto)}\n.tm-root .tm-topology-card{grid-column:auto;grid-row:auto;order:var(--tm-activity-order)}\n.tm-root .tm-topology-card--verification{align-self:start}\n@container team (max-width:650px){.tm-root .tm-topology-map{grid-auto-rows:auto}}\n';
 
   // client/team-theme.css
-  var team_theme_default = '/* Style control is the only addition to the original UI. All visual overrides below\n   require the explicit theme attribute; no host/document theme is changed. */\n.tm-theme-switch{display:inline-flex;align-items:center;gap:6px;flex:none;margin-left:5px;font-size:11px;color:var(--tm-muted)}\n.tm-theme-switch select{max-width:112px;min-height:32px;padding:5px 22px 5px 8px;border:1px solid var(--tm-line);border-radius:5px;background:var(--tm-subtle);color:var(--tm-text);font-size:11px;cursor:pointer}\n.tm-settings-header-actions{display:flex;align-items:center;gap:10px;flex:none}\n@container team (max-width:540px){\n  .tm-header{flex-wrap:wrap;gap:8px}\n  .tm-header-actions{margin-left:auto}\n  .tm-settings>header{flex-wrap:wrap}\n  .tm-settings>header>div:first-child{flex:1 1 100%}\n  .tm-settings-header-actions{width:100%;justify-content:flex-end}\n}\n\n/* Arknights-inspired terminal. Original CSS geometry, no game art or remote fonts.\n   Visual grammar: hard corners, technical grids, black/white dossiers and one\n   yellow selection accent. Cyan is reserved for live execution, never animation. */\n.tm-root[data-theme=arknights]{\n  --tm-bg:#191b1f;--tm-panel:#25282d;--tm-raised:#2d3035;--tm-subtle:#202226;\n  --tm-border:#454a50;--tm-line:#727981;--tm-text:#f2f2ed;--tm-muted:#c7cac9;--tm-soft:#b3b8bb;\n  --tm-accent:#e4e56b;--tm-green:#a4d8bd;--tm-green-bg:#24382f;--tm-indigo:#8ad5df;--tm-indigo-bg:#20383d;\n  --tm-amber:#f0c282;--tm-amber-bg:#393022;--tm-red:#ffafa8;--tm-red-bg:#422a2a;\n  --tm-paper:#eeeee7;--tm-ink:#1b1d20;--tm-active:#8ad5df;\n  font-family:"Arial Narrow","Roboto Condensed","Noto Sans CJK SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;\n  background-image:linear-gradient(135deg,transparent 48%,#ffffff03 48%,#ffffff03 52%,transparent 52%);\n  background-size:8px 8px;\n}\n.tm-root[data-theme=arknights] .tm-header{\n  position:relative;padding-block:17px;background:#111316;border-bottom:3px solid var(--tm-paper);\n}\n.tm-root[data-theme=arknights] .tm-header::after{\n  content:"";position:absolute;bottom:-3px;right:0;width:70px;height:3px;\n  background:repeating-linear-gradient(135deg,var(--tm-accent) 0 4px,#111316 4px 8px);\n}\n.tm-root[data-theme=arknights] .tm-brand{gap:12px}\n.tm-root[data-theme=arknights] .tm-brand-mark{width:40px;height:40px;border:0;border-radius:0;background:var(--tm-paper);color:var(--tm-ink);clip-path:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px)}\n.tm-root[data-theme=arknights] .tm-brand-mark svg{width:25px!important;height:25px!important}\n.tm-root[data-theme=arknights] .tm-wordmark{font:700 25px/1.05 "Arial Narrow",Impact,var(--tm-mono);letter-spacing:-.5px;color:var(--tm-text)}\n.tm-root[data-theme=arknights] .tm-wordmark>span{font:10px var(--tm-mono);letter-spacing:1.2px;color:var(--tm-muted)}\n.tm-root[data-theme=arknights] .tm-brand h1{font-size:11px;letter-spacing:3px;font-weight:500;margin-top:5px}\n.tm-root[data-theme=arknights] :is(.tm-button,.tm-icon-button,.tm-theme-switch select,.tm-graph-tools select,.tm-fit-button){border-radius:0;border-color:var(--tm-line)}\n.tm-root[data-theme=arknights] :is(.tm-button,.tm-icon-button){min-height:34px;background:var(--tm-panel)}\n.tm-root[data-theme=arknights] :is(.tm-button,.tm-icon-button):hover:not(:disabled){background:#393d42;border-color:var(--tm-paper)}\n.tm-root[data-theme=arknights] .tm-button--quiet{border-color:transparent;background:transparent}\n.tm-root[data-theme=arknights] .tm-button--primary{background:var(--tm-accent);border-color:var(--tm-accent);color:var(--tm-ink)!important;font-weight:700}\n.tm-root[data-theme=arknights] .tm-button--primary:hover:not(:disabled){background:#f2f3a1;border-color:#f2f3a1}\n.tm-root[data-theme=arknights] .tm-button--danger{background:var(--tm-red-bg);border-color:#a26863}\n.tm-root[data-theme=arknights] .tm-theme-switch{padding-left:10px;border-left:1px solid var(--tm-border);gap:7px}\n.tm-root[data-theme=arknights] .tm-theme-switch select{background:var(--tm-paper);color:var(--tm-ink);font-weight:700;border-color:var(--tm-paper)}\n.tm-root[data-theme=arknights] .tm-demo-banner{background:#2b2b1e;border-bottom:1px solid #737548;color:#ebeca8}\n.tm-root[data-theme=arknights] .tm-demo-banner>span{border:0;border-radius:0;background:var(--tm-accent);color:var(--tm-ink);padding:2px 6px;letter-spacing:1px}\n.tm-root[data-theme=arknights] .tm-demo-banner button{color:#ebeca8}\n.tm-root[data-theme=arknights] .tm-overview{\n  --tm-text:#1b1d20;--tm-muted:#4f5556;--tm-soft:#565d60;--tm-accent:#245b65;--tm-active:#245b65;\n  --tm-green:#266045;--tm-red:#9f342b;--tm-amber:#7d5214;\n  position:relative;background:var(--tm-paper);color:var(--tm-text);padding:16px 18px;border-left:5px solid #e4e56b;\n}\n.tm-root[data-theme=arknights] .tm-overview::after{content:"";position:absolute;bottom:0;right:0;width:14px;height:14px;background:linear-gradient(135deg,transparent 49%,#191b1f 50%);pointer-events:none}\n.tm-root[data-theme=arknights] .tm-overview h2{font-weight:750;font-size:23px;line-height:1.5;letter-spacing:.1px}\n.tm-root[data-theme=arknights] .tm-section-eyebrow{letter-spacing:1px}\n.tm-root[data-theme=arknights] .tm-overview .tm-section-eyebrow>span:first-child{font-family:var(--tm-mono);font-size:10px;font-weight:700;border-bottom:1px solid #747b76;padding-bottom:3px}\n.tm-root[data-theme=arknights] .tm-summary-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0 0 16px;border:1px solid var(--tm-border);border-top:0;background:var(--tm-subtle)}\n.tm-root[data-theme=arknights] .tm-summary-strip>div{padding:10px 14px;gap:8px;border-right:1px solid var(--tm-border)}\n.tm-root[data-theme=arknights] .tm-summary-strip>div:last-child{border-right:0}\n.tm-root[data-theme=arknights] .tm-summary-strip strong{font:500 21px/1.1 var(--tm-mono);margin-left:auto}\n.tm-root[data-theme=arknights] .tm-summary-strip>div:nth-child(3) strong{color:var(--tm-active)}\n.tm-root[data-theme=arknights] .tm-summary-strip small{font-size:11px;color:var(--tm-soft)}\n.tm-root[data-theme=arknights] :is(.tm-jev-panel,.tm-workspace,.tm-activity,.tm-command-guide,.tm-running-bar,.tm-key-config,.tm-role-settings-layout,.tm-disclosure,.tm-notice,.tm-gates){border-radius:0}\n.tm-root[data-theme=arknights] .tm-jev-panel{border-left:3px solid var(--tm-active)}\n.tm-root[data-theme=arknights] .tm-control-details>summary{background:#20282c}\n.tm-root[data-theme=arknights] .tm-control-details>summary .tm-control-title>.tm-icon{color:var(--tm-active)}\n.tm-root[data-theme=arknights] .tm-jev-next strong{color:var(--tm-active)}\n.tm-root[data-theme=arknights] .tm-panel-header{background:var(--tm-paper);border-bottom:0;min-height:46px;padding:0 12px}\n.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs{gap:0}\n.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button{color:#4f5556;padding:12px 15px;font-weight:600}\n.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button[aria-selected=true]{background:#202226;color:var(--tm-paper)}\n.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button[aria-selected=true]::after{background:var(--tm-accent);height:3px;bottom:0}\n.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button>span{border:0;border-radius:0;background:#d2d5cb;color:#282c2c}\n.tm-root[data-theme=arknights] .tm-panel-header .tm-config-trigger{color:#414949!important;background:transparent;border-color:transparent}\n.tm-root[data-theme=arknights] .tm-panel-header .tm-config-trigger:hover{background:#d4d7ce;border-color:#a6aca3}\n.tm-root[data-theme=arknights] .tm-panel-header :is(button:focus-visible,select:focus-visible){outline-color:#235b65;outline-offset:-4px}\n.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button[aria-selected=true]:focus-visible{outline-color:var(--tm-accent)}\n.tm-root[data-theme=arknights] .tm-graph-caption{background:#25282d;border-bottom:1px solid var(--tm-border);padding-block:10px}\n.tm-root[data-theme=arknights] :is(.tm-topology,.tm-graph-scroll){\n  background-color:#1a1c20;\n  background-image:linear-gradient(#adb7b70b 1px,transparent 1px),linear-gradient(90deg,#adb7b70b 1px,transparent 1px),linear-gradient(#adb7b712 1px,transparent 1px),linear-gradient(90deg,#adb7b712 1px,transparent 1px);\n  background-size:20px 20px,20px 20px,100px 100px,100px 100px;\n}\n.tm-root[data-theme=arknights] .tm-topology-map::before{content:"";position:absolute;inset:11px;pointer-events:none;background:linear-gradient(var(--tm-soft),var(--tm-soft)) left top/12px 1px no-repeat,linear-gradient(var(--tm-soft),var(--tm-soft)) left top/1px 12px no-repeat,linear-gradient(var(--tm-soft),var(--tm-soft)) right bottom/12px 1px no-repeat,linear-gradient(var(--tm-soft),var(--tm-soft)) right bottom/1px 12px no-repeat;opacity:.7}\n.tm-root[data-theme=arknights] .tm-topology-wires{color:#929997}\n.tm-root[data-theme=arknights] .tm-topology-wires path{stroke-dasharray:3 5;stroke-width:1}\n.tm-root[data-theme=arknights] .tm-controller-node{background:var(--tm-paper);border:1px solid var(--tm-paper);border-left:4px solid var(--tm-active);border-radius:0;color:var(--tm-ink)}\n.tm-root[data-theme=arknights] .tm-controller-node:hover{background:#fffef4;border-color:var(--tm-active)}\n.tm-root[data-theme=arknights] .tm-controller-node.is-selected{border-color:var(--tm-accent);box-shadow:0 0 0 2px var(--tm-accent)}\n.tm-root[data-theme=arknights] .tm-controller-symbol{border:0;border-radius:0;background:#24292c;color:var(--tm-paper)}\n.tm-root[data-theme=arknights] .tm-controller-node strong{font:700 19px/1.2 var(--tm-mono);letter-spacing:1px}\n.tm-root[data-theme=arknights] .tm-controller-node>div>span{color:#4f5556}\n.tm-root[data-theme=arknights] .tm-controller-node>.tm-icon{color:#4f5556}\n.tm-root[data-theme=arknights] :is(.tm-role-card,.tm-task-node){border-radius:0;border:1px solid #737b80;background:#2b2e33;box-shadow:inset 3px 0 #757d80}\n.tm-root[data-theme=arknights] .tm-role-card::before{width:9px;height:9px;top:-1px;left:auto;right:-1px;border:0;border-radius:0;background:linear-gradient(45deg,#737b80 0 47%,#1a1c20 49% 100%)}\n.tm-root[data-theme=arknights] .tm-role-card::after{width:16px;height:2px;bottom:-2px;left:calc(50% - 8px);border:0;border-radius:0;background:#acb4b5}\n.tm-root[data-theme=arknights] :is(.tm-role-card,.tm-task-node):hover{background:#393d42;border-color:#bfc5c5}\n.tm-root[data-theme=arknights] :is(.tm-role-card,.tm-task-node).is-selected{background:#373a2a;border-color:var(--tm-accent);box-shadow:inset 4px 0 var(--tm-accent),0 0 0 1px var(--tm-accent)}\n.tm-root[data-theme=arknights] .tm-role-card.is-selected::before{background:linear-gradient(45deg,var(--tm-accent) 0 47%,#1a1c20 49% 100%)}\n.tm-root[data-theme=arknights] .tm-role-card.is-active:not(.is-selected),.tm-root[data-theme=arknights] .tm-task-node--running:not(.is-selected){border-color:var(--tm-active);box-shadow:inset 3px 0 var(--tm-active)}\n.tm-root[data-theme=arknights] :is(.tm-task-node--failed,.tm-task-node--blocked){box-shadow:inset 3px 0 var(--tm-red)}\n.tm-root[data-theme=arknights] .tm-role-icon{background:var(--tm-paper);border:0;border-radius:0;color:var(--tm-ink)}\n.tm-root[data-theme=arknights] .tm-role-title>strong{font-weight:700;letter-spacing:.4px}\n.tm-root[data-theme=arknights] .tm-role-title>span{font-size:9px;letter-spacing:.5px}\n.tm-root[data-theme=arknights] .tm-task-role{border-bottom:1px solid #596064;padding-bottom:5px;font-size:10px;letter-spacing:.3px}\n.tm-root[data-theme=arknights] .tm-task-role small{font-size:11px;color:var(--tm-text)}\n.tm-root[data-theme=arknights] .tm-task-node>strong{font-weight:650}\n.tm-root[data-theme=arknights] .tm-task-wires{color:#afb8b7}\n.tm-root[data-theme=arknights] :is(.tm-status--running,.tm-status--planning,.tm-status--reviewing){color:var(--tm-active)}\n.tm-root[data-theme=arknights] .tm-status i{border-radius:0}\n.tm-root[data-theme=arknights] .tm-map-footer{background:#202226;letter-spacing:.2px}\n/* Light dossier inspector is a separate readable surface, with its own tokens. */\n.tm-root[data-theme=arknights] .tm-inspector{\n  --tm-bg:#f6f6ef;--tm-panel:#eeeee7;--tm-raised:#e0e3da;--tm-subtle:#e3e5dc;\n  --tm-border:#bec4bb;--tm-line:#858e88;--tm-text:#1b1d20;--tm-muted:#4d5554;--tm-soft:#56605c;\n  --tm-accent:#255b65;--tm-active:#255b65;--tm-green:#276047;--tm-red:#a0342b;--tm-red-bg:#f3ddd6;--tm-amber:#805217;\n  color:var(--tm-text);border-top:4px solid #747b72;background:var(--tm-panel);\n}\n.tm-root[data-theme=arknights] .tm-inspector>.tm-section-eyebrow{font-size:10px;border-bottom:2px solid #292e2c;padding-bottom:9px;font-weight:700;letter-spacing:1px}\n.tm-root[data-theme=arknights] .tm-inspector-heading>.tm-role-icon{width:37px;height:37px;background:#252a29;color:#f4f4ed}\n.tm-root[data-theme=arknights] .tm-inspector-heading h3{font-size:18px;font-weight:750}\n.tm-root[data-theme=arknights] .tm-facts>div{padding:7px 0;border-bottom:1px solid var(--tm-border)}\n.tm-root[data-theme=arknights] :is(.tm-facts dd,.tm-evidence pre){color:var(--tm-text)}\n.tm-root[data-theme=arknights] .tm-evidence pre,.tm-root[data-theme=arknights] .tm-node-error pre{border-radius:0}\n.tm-root[data-theme=arknights] .tm-inspector :is(.tm-mini-heading,.tm-source>summary){font-weight:650}\n.tm-root[data-theme=arknights] .tm-inspector .tm-button:hover:not(:disabled){background:#dde1d7;border-color:#65746b}\n.tm-root[data-theme=arknights] .tm-inspector .tm-relation-tag{border-radius:0;background:#dde1d6}\n.tm-root[data-theme=arknights] .tm-activity-toggle{border-left:3px solid var(--tm-paper);background:#202226}\n.tm-root[data-theme=arknights] .tm-activity-toggle>strong{letter-spacing:1px;font-weight:650}\n.tm-root[data-theme=arknights] .tm-event{border-bottom-color:var(--tm-border)}\n.tm-root[data-theme=arknights] .tm-event>strong{color:var(--tm-text)}\n.tm-root[data-theme=arknights] .tm-event-icon{border:1px solid var(--tm-border)}\n.tm-root[data-theme=arknights] .tm-command-guide{border-left:4px solid var(--tm-accent);background:#252721}\n.tm-root[data-theme=arknights] .tm-command-guide code{background:#181b17;border-left:1px solid #7e8548;padding:7px 9px}\n.tm-root[data-theme=arknights] .tm-running-bar{border-left:4px solid var(--tm-active)}\n.tm-root[data-theme=arknights] .tm-running-indicator{border-radius:0;background:var(--tm-active)}\n.tm-root[data-theme=arknights] .tm-footer{font-family:var(--tm-mono);letter-spacing:.2px}\n/* Settings retain the exact disclosure and mounted editors; only their skin changes. */\n.tm-root[data-theme=arknights].tm-setup-root{background-color:#191b1f}\n.tm-root[data-theme=arknights] .tm-settings>header{position:relative;padding:18px;border:1px solid var(--tm-border);border-left:5px solid var(--tm-accent);background:#111316}\n.tm-root[data-theme=arknights] .tm-settings>header .tm-section-eyebrow{font:10px var(--tm-mono);letter-spacing:1px;color:var(--tm-accent)}\n.tm-root[data-theme=arknights] .tm-settings h3{font-size:23px;font-weight:750}\n.tm-root[data-theme=arknights] .tm-key-config{border-top:3px solid var(--tm-paper)}\n.tm-root[data-theme=arknights] :is(.tm-key-config input,.tm-model-config input,.tm-model-config select,.tm-limits input){border-radius:0;border-color:#747c80;background:#1c1e22}\n.tm-root[data-theme=arknights] .tm-settings-section-title{border-bottom:1px solid var(--tm-line);padding-bottom:9px}\n.tm-root[data-theme=arknights] .tm-settings-section-title h4{letter-spacing:1px;font-weight:650}\n.tm-root[data-theme=arknights] .tm-role-selector{background:#1d1f23}\n.tm-root[data-theme=arknights] .tm-role-selector>button[aria-pressed=true]{background:#e4e56b;color:#21251e;box-shadow:inset 4px 0 #f7f7e4}\n.tm-root[data-theme=arknights] .tm-role-selector>button[aria-pressed=true] :is(small,.tm-icon,.tm-config-ready,.tm-config-missing){color:#404c3a}\n.tm-root[data-theme=arknights] .tm-role-selector>button:hover:not([aria-pressed=true]){background:#393d42}\n.tm-root[data-theme=arknights] .tm-role-selector>button:focus-visible{outline-offset:-4px;outline-color:#8ad5df}\n.tm-root[data-theme=arknights] .tm-role-selector>button[aria-pressed=true]:focus-visible{outline-color:#245b65}\n.tm-root[data-theme=arknights] .tm-model-config legend{padding-bottom:12px;border-bottom:1px solid var(--tm-border);width:100%}\n.tm-root[data-theme=arknights] .tm-disclosure{border:1px solid #8b805f;border-top:3px solid var(--tm-amber);background:#292720}\n.tm-root[data-theme=arknights] .tm-disclosure .tm-endpoint{color:#e1d3b2}\n.tm-root[data-theme=arknights] .tm-disclosure>label{border-top:1px solid #766d54;padding-top:12px}\n.tm-root[data-theme=arknights] .tm-setup-actions{background:#191b1f}\n@container team (min-width:900px){\n  .tm-root[data-theme=arknights] .tm-inspector{border-top:0;border-left:1px solid #bec4bb}\n  .tm-root[data-theme=arknights] .tm-main{padding-top:18px}\n}\n@container team (max-width:650px){\n  .tm-root[data-theme=arknights] .tm-header{padding:12px 14px;gap:9px}\n  .tm-root[data-theme=arknights] .tm-wordmark{font-size:22px}\n  .tm-root[data-theme=arknights] .tm-wordmark>span{display:block;font-size:8px;letter-spacing:.8px;margin-top:4px}\n  .tm-root[data-theme=arknights] .tm-brand-mark{width:34px;height:34px}\n  .tm-root[data-theme=arknights] .tm-brand h1{font-size:10px;letter-spacing:1.5px;margin-top:3px}\n  .tm-root[data-theme=arknights] .tm-overview{padding:11px 12px}\n  .tm-root[data-theme=arknights] .tm-overview h2{font-size:17px;line-height:1.6;margin-top:5px}\n  .tm-root[data-theme=arknights] .tm-summary-strip{margin-bottom:12px}\n  .tm-root[data-theme=arknights] .tm-summary-strip>div{padding:9px 8px;gap:4px;flex-wrap:wrap;align-content:center}\n  .tm-root[data-theme=arknights] .tm-summary-strip strong{font-size:17px;margin-left:0;white-space:nowrap}\n  .tm-root[data-theme=arknights] .tm-summary-strip small{font-size:9px}\n  .tm-root[data-theme=arknights] .tm-summary-strip>div>span{font-size:10px}\n  .tm-root[data-theme=arknights] .tm-panel-header{padding:0 6px}\n  .tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button{padding:12px 10px;font-size:11px}\n  .tm-root[data-theme=arknights] .tm-graph-caption{padding-block:8px}\n  .tm-root[data-theme=arknights] .tm-inspector-heading h3{font-size:16px}\n  .tm-root[data-theme=arknights] .tm-settings>header{padding:14px}\n  .tm-root[data-theme=arknights] .tm-settings h3{font-size:19px}\n  .tm-root[data-theme=arknights] .tm-theme-switch{padding-left:8px}\n}\n@container team (max-width:380px){\n  .tm-root[data-theme=arknights] .tm-summary-strip>div{flex-direction:column;align-items:flex-start;gap:5px}\n  .tm-root[data-theme=arknights] .tm-theme-switch>span{display:none}\n  .tm-root[data-theme=arknights] .tm-header-actions{gap:3px}\n}\n@media(prefers-reduced-motion:reduce){.tm-root[data-theme=arknights] *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}\n';
+  var team_theme_default = `/* Style control is the only addition to the original UI. All visual overrides below
+   require the explicit theme attribute; no host/document theme is changed. */
+.tm-theme-switch{display:inline-flex;align-items:center;gap:6px;flex:none;margin-left:5px;font-size:11px;color:var(--tm-muted)}
+.tm-theme-switch select{max-width:112px;min-height:32px;padding:5px 22px 5px 8px;border:1px solid var(--tm-line);border-radius:5px;background:var(--tm-subtle);color:var(--tm-text);font-size:11px;cursor:pointer}
+.tm-settings-header-actions{display:flex;align-items:center;gap:10px;flex:none}
+@container team (max-width:540px){
+  .tm-header{flex-wrap:wrap;gap:8px}
+  .tm-header-actions{margin-left:auto}
+  .tm-settings>header{flex-wrap:wrap}
+  .tm-settings>header>div:first-child{flex:1 1 100%}
+  .tm-settings-header-actions{width:100%;justify-content:flex-end}
+}
+
+/* Arknights-inspired terminal. Original CSS geometry, no game art or remote fonts.
+   Visual grammar: hard corners, technical grids, black/white dossiers and one
+   yellow selection accent. Cyan is reserved for fresh execution and one-shot relation events. */
+.tm-root[data-theme=arknights]{
+  --tm-bg:#191b1f;--tm-panel:#25282d;--tm-raised:#2d3035;--tm-subtle:#202226;
+  --tm-border:#454a50;--tm-line:#727981;--tm-text:#f2f2ed;--tm-muted:#c7cac9;--tm-soft:#b3b8bb;
+  --tm-accent:#e4e56b;--tm-green:#a4d8bd;--tm-green-bg:#24382f;--tm-indigo:#8ad5df;--tm-indigo-bg:#20383d;
+  --tm-amber:#f0c282;--tm-amber-bg:#393022;--tm-red:#ffafa8;--tm-red-bg:#422a2a;
+  --tm-paper:#eeeee7;--tm-ink:#1b1d20;--tm-active:#8ad5df;
+  font-family:"Arial Narrow","Roboto Condensed","Noto Sans CJK SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  background-image:linear-gradient(135deg,transparent 48%,#ffffff03 48%,#ffffff03 52%,transparent 52%);
+  background-size:8px 8px;
+}
+.tm-root[data-theme=arknights] .tm-header{
+  position:relative;padding-block:17px;background:#111316;border-bottom:3px solid var(--tm-paper);
+}
+.tm-root[data-theme=arknights] .tm-header::after{
+  content:"";position:absolute;bottom:-3px;right:0;width:70px;height:3px;
+  background:repeating-linear-gradient(135deg,var(--tm-accent) 0 4px,#111316 4px 8px);
+}
+.tm-root[data-theme=arknights] .tm-brand{gap:12px}
+.tm-root[data-theme=arknights] .tm-brand-mark{width:40px;height:40px;border:0;border-radius:0;background:var(--tm-paper);color:var(--tm-ink);clip-path:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px)}
+.tm-root[data-theme=arknights] .tm-brand-mark svg{width:25px!important;height:25px!important}
+.tm-root[data-theme=arknights] .tm-wordmark{font:700 25px/1.05 "Arial Narrow",Impact,var(--tm-mono);letter-spacing:-.5px;color:var(--tm-text)}
+.tm-root[data-theme=arknights] .tm-wordmark>span{font:10px var(--tm-mono);letter-spacing:1.2px;color:var(--tm-muted)}
+.tm-root[data-theme=arknights] .tm-brand h1{font-size:11px;letter-spacing:3px;font-weight:500;margin-top:5px}
+.tm-root[data-theme=arknights] :is(.tm-button,.tm-icon-button,.tm-theme-switch select,.tm-graph-tools select,.tm-fit-button){border-radius:0;border-color:var(--tm-line)}
+.tm-root[data-theme=arknights] :is(.tm-button,.tm-icon-button){min-height:34px;background:var(--tm-panel)}
+.tm-root[data-theme=arknights] :is(.tm-button,.tm-icon-button):hover:not(:disabled){background:#393d42;border-color:var(--tm-paper)}
+.tm-root[data-theme=arknights] .tm-button--quiet{border-color:transparent;background:transparent}
+.tm-root[data-theme=arknights] .tm-button--primary{background:var(--tm-accent);border-color:var(--tm-accent);color:var(--tm-ink)!important;font-weight:700}
+.tm-root[data-theme=arknights] .tm-button--primary:hover:not(:disabled){background:#f2f3a1;border-color:#f2f3a1}
+.tm-root[data-theme=arknights] .tm-button--danger{background:var(--tm-red-bg);border-color:#a26863}
+.tm-root[data-theme=arknights] .tm-theme-switch{padding-left:10px;border-left:1px solid var(--tm-border);gap:7px}
+.tm-root[data-theme=arknights] .tm-theme-switch select{background:var(--tm-paper);color:var(--tm-ink);font-weight:700;border-color:var(--tm-paper)}
+.tm-root[data-theme=arknights] .tm-demo-banner{background:#2b2b1e;border-bottom:1px solid #737548;color:#ebeca8}
+.tm-root[data-theme=arknights] .tm-demo-banner>span{border:0;border-radius:0;background:var(--tm-accent);color:var(--tm-ink);padding:2px 6px;letter-spacing:1px}
+.tm-root[data-theme=arknights] .tm-demo-banner button{color:#ebeca8}
+.tm-root[data-theme=arknights] .tm-overview{
+  --tm-text:#1b1d20;--tm-muted:#4f5556;--tm-soft:#565d60;--tm-accent:#245b65;--tm-active:#245b65;
+  --tm-green:#266045;--tm-red:#9f342b;--tm-amber:#7d5214;
+  position:relative;background:var(--tm-paper);color:var(--tm-text);padding:16px 18px;border-left:5px solid #e4e56b;
+}
+.tm-root[data-theme=arknights] .tm-overview::after{content:"";position:absolute;bottom:0;right:0;width:14px;height:14px;background:linear-gradient(135deg,transparent 49%,#191b1f 50%);pointer-events:none}
+.tm-root[data-theme=arknights] .tm-overview h2{font-weight:750;font-size:23px;line-height:1.5;letter-spacing:.1px}
+.tm-root[data-theme=arknights] .tm-section-eyebrow{letter-spacing:1px}
+.tm-root[data-theme=arknights] .tm-overview .tm-section-eyebrow>span:first-child{font-family:var(--tm-mono);font-size:10px;font-weight:700;border-bottom:1px solid #747b76;padding-bottom:3px}
+.tm-root[data-theme=arknights] .tm-summary-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0 0 16px;border:1px solid var(--tm-border);border-top:0;background:var(--tm-subtle)}
+.tm-root[data-theme=arknights] .tm-summary-strip>div{padding:10px 14px;gap:8px;border-right:1px solid var(--tm-border)}
+.tm-root[data-theme=arknights] .tm-summary-strip>div:last-child{border-right:0}
+.tm-root[data-theme=arknights] .tm-summary-strip strong{font:500 21px/1.1 var(--tm-mono);margin-left:auto}
+.tm-root[data-theme=arknights] .tm-summary-strip>div:nth-child(3) strong{color:var(--tm-active)}
+.tm-root[data-theme=arknights] .tm-summary-strip small{font-size:11px;color:var(--tm-soft)}
+.tm-root[data-theme=arknights] :is(.tm-jev-panel,.tm-workspace,.tm-activity,.tm-command-guide,.tm-running-bar,.tm-key-config,.tm-role-settings-layout,.tm-disclosure,.tm-notice,.tm-gates){border-radius:0}
+.tm-root[data-theme=arknights] .tm-jev-panel{border-left:3px solid var(--tm-active)}
+.tm-root[data-theme=arknights] .tm-control-details>summary{background:#20282c}
+.tm-root[data-theme=arknights] .tm-control-details>summary .tm-control-title>.tm-icon{color:var(--tm-active)}
+.tm-root[data-theme=arknights] .tm-jev-next strong{color:var(--tm-active)}
+.tm-root[data-theme=arknights] .tm-panel-header{background:var(--tm-paper);border-bottom:0;min-height:46px;padding:0 12px}
+.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs{gap:0}
+.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button{color:#4f5556;padding:12px 15px;font-weight:600}
+.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button[aria-selected=true]{background:#202226;color:var(--tm-paper)}
+.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button[aria-selected=true]::after{background:var(--tm-accent);height:3px;bottom:0}
+.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button>span{border:0;border-radius:0;background:#d2d5cb;color:#282c2c}
+.tm-root[data-theme=arknights] .tm-panel-header .tm-config-trigger{color:#414949!important;background:transparent;border-color:transparent}
+.tm-root[data-theme=arknights] .tm-panel-header .tm-config-trigger:hover{background:#d4d7ce;border-color:#a6aca3}
+.tm-root[data-theme=arknights] .tm-panel-header :is(button:focus-visible,select:focus-visible){outline-color:#235b65;outline-offset:-4px}
+.tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button[aria-selected=true]:focus-visible{outline-color:var(--tm-accent)}
+.tm-root[data-theme=arknights] .tm-graph-caption{background:#25282d;border-bottom:1px solid var(--tm-border);padding-block:10px}
+.tm-root[data-theme=arknights] :is(.tm-topology,.tm-graph-scroll){
+  background-color:#1a1c20;
+  background-image:linear-gradient(#adb7b70b 1px,transparent 1px),linear-gradient(90deg,#adb7b70b 1px,transparent 1px),linear-gradient(#adb7b712 1px,transparent 1px),linear-gradient(90deg,#adb7b712 1px,transparent 1px);
+  background-size:20px 20px,20px 20px,100px 100px,100px 100px;
+}
+.tm-root[data-theme=arknights] .tm-topology-map::before{content:"";position:absolute;inset:11px;pointer-events:none;background:linear-gradient(var(--tm-soft),var(--tm-soft)) left top/12px 1px no-repeat,linear-gradient(var(--tm-soft),var(--tm-soft)) left top/1px 12px no-repeat,linear-gradient(var(--tm-soft),var(--tm-soft)) right bottom/12px 1px no-repeat,linear-gradient(var(--tm-soft),var(--tm-soft)) right bottom/1px 12px no-repeat;opacity:.7}
+.tm-root[data-theme=arknights] .tm-topology-wires{color:#929997}
+.tm-root[data-theme=arknights] .tm-topology-wires path{stroke-dasharray:3 5;stroke-width:1}
+.tm-root[data-theme=arknights] .tm-controller-node{background:var(--tm-paper);border:1px solid var(--tm-paper);border-left:4px solid var(--tm-active);border-radius:0;color:var(--tm-ink)}
+.tm-root[data-theme=arknights] .tm-controller-node:hover{background:#fffef4;border-color:var(--tm-active)}
+.tm-root[data-theme=arknights] .tm-controller-node.is-selected{border-color:var(--tm-accent);box-shadow:0 0 0 2px var(--tm-accent)}
+.tm-root[data-theme=arknights] .tm-controller-symbol{border:0;border-radius:0;background:#24292c;color:var(--tm-paper)}
+.tm-root[data-theme=arknights] .tm-controller-node strong{font:700 19px/1.2 var(--tm-mono);letter-spacing:1px}
+.tm-root[data-theme=arknights] .tm-controller-node>div>span{color:#4f5556}
+.tm-root[data-theme=arknights] .tm-controller-node>.tm-icon{color:#4f5556}
+.tm-root[data-theme=arknights] :is(.tm-role-card,.tm-task-node){border-radius:0;border:1px solid #737b80;background:#2b2e33;box-shadow:inset 3px 0 #757d80}
+.tm-root[data-theme=arknights] .tm-role-card::before{width:9px;height:9px;top:-1px;left:auto;right:-1px;border:0;border-radius:0;background:linear-gradient(45deg,#737b80 0 47%,#1a1c20 49% 100%)}
+.tm-root[data-theme=arknights] .tm-role-card::after{width:16px;height:2px;bottom:-2px;left:calc(50% - 8px);border:0;border-radius:0;background:#acb4b5}
+.tm-root[data-theme=arknights] :is(.tm-role-card,.tm-task-node):hover{background:#393d42;border-color:#bfc5c5}
+.tm-root[data-theme=arknights] :is(.tm-role-card,.tm-task-node).is-selected{background:#373a2a;border-color:var(--tm-accent);box-shadow:inset 4px 0 var(--tm-accent),0 0 0 1px var(--tm-accent)}
+.tm-root[data-theme=arknights] .tm-role-card.is-selected::before{background:linear-gradient(45deg,var(--tm-accent) 0 47%,#1a1c20 49% 100%)}
+.tm-root[data-theme=arknights] .tm-role-card.is-active:not(.is-selected),.tm-root[data-theme=arknights] .tm-task-node--running:not(.is-selected){border-color:var(--tm-active);box-shadow:inset 3px 0 var(--tm-active)}
+.tm-root[data-theme=arknights] :is(.tm-task-node--failed,.tm-task-node--blocked){box-shadow:inset 3px 0 var(--tm-red)}
+.tm-root[data-theme=arknights] .tm-role-icon{background:var(--tm-paper);border:0;border-radius:0;color:var(--tm-ink)}
+.tm-root[data-theme=arknights] .tm-role-title>strong{font-weight:700;letter-spacing:.4px}
+.tm-root[data-theme=arknights] .tm-role-title>span{font-size:9px;letter-spacing:.5px}
+.tm-root[data-theme=arknights] .tm-task-role{border-bottom:1px solid #596064;padding-bottom:5px;font-size:10px;letter-spacing:.3px}
+.tm-root[data-theme=arknights] .tm-task-role small{font-size:11px;color:var(--tm-text)}
+.tm-root[data-theme=arknights] .tm-task-node>strong{font-weight:650}
+.tm-root[data-theme=arknights] .tm-task-wires{color:#afb8b7}
+.tm-root[data-theme=arknights] :is(.tm-status--running,.tm-status--planning,.tm-status--reviewing){color:var(--tm-active)}
+.tm-root[data-theme=arknights] .tm-status i{border-radius:0}
+.tm-root[data-theme=arknights] .tm-map-footer{background:#202226;letter-spacing:.2px}
+/* Light dossier inspector is a separate readable surface, with its own tokens. */
+.tm-root[data-theme=arknights] .tm-inspector{
+  --tm-bg:#f6f6ef;--tm-panel:#eeeee7;--tm-raised:#e0e3da;--tm-subtle:#e3e5dc;
+  --tm-border:#bec4bb;--tm-line:#858e88;--tm-text:#1b1d20;--tm-muted:#4d5554;--tm-soft:#56605c;
+  --tm-accent:#255b65;--tm-active:#255b65;--tm-green:#276047;--tm-red:#a0342b;--tm-red-bg:#f3ddd6;--tm-amber:#805217;
+  color:var(--tm-text);border-top:4px solid #747b72;background:var(--tm-panel);
+}
+.tm-root[data-theme=arknights] .tm-inspector>.tm-section-eyebrow{font-size:10px;border-bottom:2px solid #292e2c;padding-bottom:9px;font-weight:700;letter-spacing:1px}
+.tm-root[data-theme=arknights] .tm-inspector-heading>.tm-role-icon{width:37px;height:37px;background:#252a29;color:#f4f4ed}
+.tm-root[data-theme=arknights] .tm-inspector-heading h3{font-size:18px;font-weight:750}
+.tm-root[data-theme=arknights] .tm-facts>div{padding:7px 0;border-bottom:1px solid var(--tm-border)}
+.tm-root[data-theme=arknights] :is(.tm-facts dd,.tm-evidence pre){color:var(--tm-text)}
+.tm-root[data-theme=arknights] .tm-evidence pre,.tm-root[data-theme=arknights] .tm-node-error pre{border-radius:0}
+.tm-root[data-theme=arknights] .tm-inspector :is(.tm-mini-heading,.tm-source>summary){font-weight:650}
+.tm-root[data-theme=arknights] .tm-inspector .tm-button:hover:not(:disabled){background:#dde1d7;border-color:#65746b}
+.tm-root[data-theme=arknights] .tm-inspector .tm-relation-tag{border-radius:0;background:#dde1d6}
+.tm-root[data-theme=arknights] .tm-activity-toggle{border-left:3px solid var(--tm-paper);background:#202226}
+.tm-root[data-theme=arknights] .tm-activity-toggle>strong{letter-spacing:1px;font-weight:650}
+.tm-root[data-theme=arknights] .tm-event{border-bottom-color:var(--tm-border)}
+.tm-root[data-theme=arknights] .tm-event>strong{color:var(--tm-text)}
+.tm-root[data-theme=arknights] .tm-event-icon{border:1px solid var(--tm-border)}
+.tm-root[data-theme=arknights] .tm-command-guide{border-left:4px solid var(--tm-accent);background:#252721}
+.tm-root[data-theme=arknights] .tm-command-guide code{background:#181b17;border-left:1px solid #7e8548;padding:7px 9px}
+.tm-root[data-theme=arknights] .tm-running-bar{border-left:4px solid var(--tm-active)}
+.tm-root[data-theme=arknights] .tm-running-indicator{border-radius:0;background:var(--tm-active)}
+.tm-root[data-theme=arknights] .tm-footer{font-family:var(--tm-mono);letter-spacing:.2px}
+/* Settings retain the exact disclosure and mounted editors; only their skin changes. */
+.tm-root[data-theme=arknights].tm-setup-root{background-color:#191b1f}
+.tm-root[data-theme=arknights] .tm-settings>header{position:relative;padding:18px;border:1px solid var(--tm-border);border-left:5px solid var(--tm-accent);background:#111316}
+.tm-root[data-theme=arknights] .tm-settings>header .tm-section-eyebrow{font:10px var(--tm-mono);letter-spacing:1px;color:var(--tm-accent)}
+.tm-root[data-theme=arknights] .tm-settings h3{font-size:23px;font-weight:750}
+.tm-root[data-theme=arknights] .tm-key-config{border-top:3px solid var(--tm-paper)}
+.tm-root[data-theme=arknights] :is(.tm-key-config input,.tm-model-config input,.tm-model-config select,.tm-limits input){border-radius:0;border-color:#747c80;background:#1c1e22}
+.tm-root[data-theme=arknights] .tm-settings-section-title{border-bottom:1px solid var(--tm-line);padding-bottom:9px}
+.tm-root[data-theme=arknights] .tm-settings-section-title h4{letter-spacing:1px;font-weight:650}
+.tm-root[data-theme=arknights] .tm-role-selector{background:#1d1f23}
+.tm-root[data-theme=arknights] .tm-role-selector>button[aria-pressed=true]{background:#e4e56b;color:#21251e;box-shadow:inset 4px 0 #f7f7e4}
+.tm-root[data-theme=arknights] .tm-role-selector>button[aria-pressed=true] :is(small,.tm-icon,.tm-config-ready,.tm-config-missing){color:#404c3a}
+.tm-root[data-theme=arknights] .tm-role-selector>button:hover:not([aria-pressed=true]){background:#393d42}
+.tm-root[data-theme=arknights] .tm-role-selector>button:focus-visible{outline-offset:-4px;outline-color:#8ad5df}
+.tm-root[data-theme=arknights] .tm-role-selector>button[aria-pressed=true]:focus-visible{outline-color:#245b65}
+.tm-root[data-theme=arknights] .tm-model-config legend{padding-bottom:12px;border-bottom:1px solid var(--tm-border);width:100%}
+.tm-root[data-theme=arknights] .tm-disclosure{border:1px solid #8b805f;border-top:3px solid var(--tm-amber);background:#292720}
+.tm-root[data-theme=arknights] .tm-disclosure .tm-endpoint{color:#e1d3b2}
+.tm-root[data-theme=arknights] .tm-disclosure>label{border-top:1px solid #766d54;padding-top:12px}
+.tm-root[data-theme=arknights] .tm-setup-actions{background:#191b1f}
+@container team (min-width:900px){
+  .tm-root[data-theme=arknights] .tm-inspector{border-top:0;border-left:1px solid #bec4bb}
+  .tm-root[data-theme=arknights] .tm-main{padding-top:18px}
+}
+@container team (max-width:650px){
+  .tm-root[data-theme=arknights] .tm-header{padding:12px 14px;gap:9px}
+  .tm-root[data-theme=arknights] .tm-wordmark{font-size:22px}
+  .tm-root[data-theme=arknights] .tm-wordmark>span{display:block;font-size:8px;letter-spacing:.8px;margin-top:4px}
+  .tm-root[data-theme=arknights] .tm-brand-mark{width:34px;height:34px}
+  .tm-root[data-theme=arknights] .tm-brand h1{font-size:10px;letter-spacing:1.5px;margin-top:3px}
+  .tm-root[data-theme=arknights] .tm-overview{padding:11px 12px}
+  .tm-root[data-theme=arknights] .tm-overview h2{font-size:17px;line-height:1.6;margin-top:5px}
+  .tm-root[data-theme=arknights] .tm-summary-strip{margin-bottom:12px}
+  .tm-root[data-theme=arknights] .tm-summary-strip>div{padding:9px 8px;gap:4px;flex-wrap:wrap;align-content:center}
+  .tm-root[data-theme=arknights] .tm-summary-strip strong{font-size:17px;margin-left:0;white-space:nowrap}
+  .tm-root[data-theme=arknights] .tm-summary-strip small{font-size:9px}
+  .tm-root[data-theme=arknights] .tm-summary-strip>div>span{font-size:10px}
+  .tm-root[data-theme=arknights] .tm-panel-header{padding:0 6px}
+  .tm-root[data-theme=arknights] .tm-panel-header .tm-tabs button{padding:12px 10px;font-size:11px}
+  .tm-root[data-theme=arknights] .tm-graph-caption{padding-block:8px}
+  .tm-root[data-theme=arknights] .tm-inspector-heading h3{font-size:16px}
+  .tm-root[data-theme=arknights] .tm-settings>header{padding:14px}
+  .tm-root[data-theme=arknights] .tm-settings h3{font-size:19px}
+  .tm-root[data-theme=arknights] .tm-theme-switch{padding-left:8px}
+}
+@container team (max-width:380px){
+  .tm-root[data-theme=arknights] .tm-summary-strip>div{flex-direction:column;align-items:flex-start;gap:5px}
+  .tm-root[data-theme=arknights] .tm-theme-switch>span{display:none}
+  .tm-root[data-theme=arknights] .tm-header-actions{gap:3px}
+}
+@media(prefers-reduced-motion:reduce){.tm-root[data-theme=arknights] *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* Production controls keep Terra's hard-edged terminal treatment. */
+.tm-root[data-theme=arknights] :is(.tm-production-settings,.tm-production-status,.tm-routing-candidate,.tm-production-errors){border-radius:0}
+.tm-root[data-theme=arknights] .tm-production-settings :is(select,input:not([type=checkbox])){border-radius:0}
+.tm-root[data-theme=arknights] .tm-production-status{border-left:3px solid var(--tm-accent)}
+
+/* Terra live workflow: cyan describes observed execution; yellow marks selection. */
+.tm-root[data-theme=arknights] :is(.tm-instance-card,.tm-workflow-signals,.tm-runtime-details){border-radius:0}
+.tm-root[data-theme=arknights] .tm-instance-card{background:#23262b;border-top-width:2px}
+.tm-root[data-theme=arknights] .tm-instance-card:hover{background:#2b3035}
+.tm-root[data-theme=arknights] .tm-instance-card.is-selected{outline-color:var(--tm-accent);border-color:var(--tm-accent)}
+.tm-root[data-theme=arknights] .tm-instances-heading{border-left:3px solid var(--tm-accent);padding-left:10px}
+.tm-root[data-theme=arknights] .tm-instances{background:#1b1e22}
+.tm-root[data-theme=arknights] .tm-instance-model{color:#e6e9e7}
+.tm-root[data-theme=arknights] .tm-workflow-signals .tm-signal--jev{border-top:2px solid #617b7e}
+.tm-root[data-theme=arknights] .tm-workflow-signals .tm-signal--gate{border-top:2px solid #777867}
+.tm-root[data-theme=arknights] :is(.tm-instance-card,.tm-task-node,.tm-controller-node,.tm-signal--jev)[data-live=true]{border-color:var(--tm-live);box-shadow:inset 0 0 0 1px #72dfe91a}
+.tm-root[data-theme=arknights] .tm-base-label{color:var(--tm-soft);font:8px/1.6 var(--tm-mono)}
+.tm-root[data-theme=arknights] .tm-task-node{height:164px}
+.tm-root[data-theme=arknights] .tm-task-graph--vertical .tm-task-node{height:158px}
+@container team (max-width:650px){.tm-root[data-theme=arknights] .tm-topology-map{grid-template-rows:64px 114px 114px 114px}.tm-root[data-theme=arknights] .tm-role-card{min-height:114px}}
+/* Compact mission header in the workflow layout; the comparison keeps prior spacing. */
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-header{padding:9px 14px;border-bottom-width:2px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-brand-mark{width:32px;height:32px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-wordmark{font-size:20px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-brand h1{font-size:10px;margin-top:2px;letter-spacing:2px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-overview{padding:10px 14px;border-left-width:3px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-overview h2{font-size:18px;margin-top:4px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip{margin:0 0 12px;gap:0}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip>div{padding:6px 12px;font-size:10px;gap:6px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip strong{font-size:14px}
+.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip small{font-size:9px}
+@container team (max-width:650px){.tm-root[data-theme=arknights].tm-layout-workflow .tm-header{padding:8px 10px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-overview{padding:9px 10px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-overview h2{font-size:15px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip{margin-bottom:10px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip>div{padding:6px 7px;gap:4px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip strong{font-size:12px}}
+
+/* Live role cards retain Terra's hard edges; event colors are independent of selection. */
+.tm-root[data-theme=arknights] .tm-topology-card{border-radius:0;background:#292d32;border-color:#687379;box-shadow:inset 2px 0 #687379}
+.tm-root[data-theme=arknights] .tm-topology-card.is-selected{border-color:var(--tm-accent);box-shadow:inset 3px 0 var(--tm-accent),0 0 0 1px var(--tm-accent)}
+.tm-root[data-theme=arknights] .tm-topology-card[data-live=true]{border-color:var(--tm-live)}
+.tm-root[data-theme=arknights] .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node){min-height:0;height:auto;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--tm-text)}
+.tm-root[data-theme=arknights] .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node):hover{background:#353b40}
+.tm-root[data-theme=arknights] .tm-topology-card .tm-role-icon{border-radius:0;background:var(--tm-paper);color:var(--tm-ink)}
+.tm-root[data-theme=arknights] .tm-topology-card--jev{border-top:3px solid var(--tm-paper);background:#222b30}
+.tm-root[data-theme=arknights] .tm-topology-card--jev .tm-controller-node strong{font-size:15px;font-family:var(--tm-mono)}
+.tm-root[data-theme=arknights] .tm-topology-card--verification{border-style:dashed;background:#252924}
+.tm-root[data-theme=arknights] .tm-topology-card .tm-role-count{background:#1a20244d}
+.tm-root[data-theme=arknights] .tm-topology-self-event{border-radius:0}
+.tm-root[data-theme=arknights] .tm-topology-org-relations{opacity:.35}
+@container team (max-width:650px){.tm-root[data-theme=arknights] .tm-topology-map{grid-template-rows:none}.tm-root[data-theme=arknights] .tm-topology-card .tm-role-card{min-height:0}}
+`;
 
   // client/team-theme.tsx
   var import_react = __toESM(require_react(), 1);
@@ -24576,11 +24815,14 @@
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "tm-theme-switch", children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u98CE\u683C" }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("select", { "aria-label": "\u754C\u9762\u98CE\u683C", value: theme2, onChange: (event) => setTeamTheme(event.target.value), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "arknights", children: "\u660E\u65E5\u65B9\u821F" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "arknights", children: "\u6CF0\u62C9" }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "classic", children: "\u539F\u7248 UI" })
       ] })
     ] });
   }
+
+  // client/TeamProduction.tsx
+  var import_react2 = __toESM(require_react(), 1);
 
   // client/team-types.ts
   function createDefaultTeamSettings() {
@@ -24594,85 +24836,551 @@
         reviewer: { provider: "", model: "", maxTokens: 4096 }
       },
       limits: { concurrency: 2, maxAgents: 12, maxTasks: 8, maxRetries: 1, maxDurationMs: 6e5, maxStepsPerAgent: 8, maxRounds: 4, maxJevCalls: 10 },
-      reviewPlan: true
+      reviewPlan: true,
+      budget: { enabled: false, tokenLimit: 0 },
+      routing: { enabled: false, roles: {} },
+      jev: { model: "jev-latest", trace: true, shadow: { enabled: false, model: "", maxCalls: 2 } }
     };
   }
 
-  // client/TeamView.tsx
+  // client/TeamProduction.tsx
   var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var ROLE_NAMES = { planner: "\u89C4\u5212\u8005", coordinator: "\u534F\u8C03\u8005", researcher: "\u7814\u7A76\u8005", explorer: "\u63A2\u7D22\u8005", worker: "\u6267\u884C\u8005", reviewer: "\u5BA1\u67E5\u8005" };
+  var PINNED_JEV = /^jev-\d+\.\d+\.\d+(?:-[a-z0-9.]+)?$/;
+  var integerIn = (value, min, max) => Number.isInteger(value) && value >= min && value <= max;
+  function productionDefaults(settings) {
+    const defaults = createDefaultTeamSettings();
+    return { ...settings, budget: settings.budget || defaults.budget, routing: settings.routing || defaults.routing, jev: settings.jev || defaults.jev };
+  }
+  function productionSettingsErrors(settings, catalog2) {
+    const normalized = productionDefaults(settings);
+    const { budget, routing, jev } = normalized;
+    const errors = [];
+    if (!integerIn(budget.tokenLimit, budget.enabled ? 1 : 0, 1e9)) errors.push("Token \u9884\u7B97\u5FC5\u987B\u662F\u660E\u786E\u8F93\u5165\u7684\u6B63\u6574\u6570\uFF0C\u6700\u5927 1,000,000,000\uFF1B\u5173\u95ED\u65F6\u5141\u8BB8 0\u3002");
+    if (jev.model.length > 64 || !["jev-latest", "jev-preview"].includes(jev.model) && !PINNED_JEV.test(jev.model)) errors.push("Jev \u4E3B\u7248\u672C\u987B\u4E3A jev-latest\u3001jev-preview \u6216\u56FA\u5B9A jev-x.y.z \u7248\u672C\uFF08\u53EF\u542B\u9884\u53D1\u5E03\u540E\u7F00\uFF09\u3002");
+    if (jev.shadow.model.length > 64 || (jev.shadow.enabled || jev.shadow.model) && !PINNED_JEV.test(jev.shadow.model)) errors.push("Shadow \u5FC5\u987B\u660E\u786E\u6307\u5B9A\u56FA\u5B9A jev-x.y.z \u7248\u672C\uFF0C\u4E0D\u80FD\u4F7F\u7528 latest \u6216 preview \u522B\u540D\u3002");
+    if (!integerIn(jev.shadow.maxCalls, 0, 20)) errors.push("Shadow \u8C03\u7528\u4E0A\u9650\u987B\u4E3A 0\u201320 \u7684\u6574\u6570\u3002");
+    for (const role of Object.keys(ROLE_NAMES)) {
+      for (const tier of ["weak", "strong"]) {
+        const selection = routing.roles[role]?.[tier];
+        if (!selection) continue;
+        const model = catalog2.providers.find((provider) => provider.id === selection.provider)?.models.find((model2) => model2.id === selection.model);
+        if (!model || selection.reasoningEffort && !model.efforts?.some((effort) => effort.id === selection.reasoningEffort) || selection.maxTokens !== void 0 && !integerIn(selection.maxTokens, 128, 32768)) {
+          errors.push(`${ROLE_NAMES[role]}\u7684 ${tier} \u5019\u9009\u672A\u901A\u8FC7\u5BBF\u4E3B\u76EE\u5F55\u9A8C\u8BC1\uFF0C\u8BF7\u91CD\u65B0\u9009\u62E9\u6216\u6E05\u9664\u5019\u9009\u3002`);
+        }
+      }
+    }
+    return errors;
+  }
+  function CandidateSelector({ role, tier, selection, catalog: catalog2, disabled, onChange }) {
+    const provider = catalog2.providers.find((item) => item.id === selection?.provider);
+    const model = provider?.models.find((item) => item.id === selection?.model);
+    const name = `${ROLE_NAMES[role]} ${tier}`;
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("fieldset", { className: "tm-routing-candidate", disabled: disabled || !catalog2.available, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("legend", { children: tier === "weak" ? "weak \xB7 small \u5206\u6863" : "strong \xB7 high / escalate \u5206\u6863" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: selection ? "\u4EC5\u4F7F\u7528\u4F60\u660E\u786E\u9009\u62E9\u7684\u5BBF\u4E3B\u6A21\u578B" : "\u672A\u914D\u7F6E \xB7 \u6CBF\u7528\u5C97\u4F4D\u57FA\u7840\u6A21\u578B" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-production-fields", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+          "\u63D0\u4F9B\u65B9",
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("select", { "aria-label": `${name}\u63D0\u4F9B\u65B9`, value: selection?.provider || "", onChange: (event) => onChange(event.target.value ? { provider: event.target.value, model: "" } : void 0), children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: "", children: "\u4E0D\u914D\u7F6E\u5019\u9009" }),
+            selection?.provider && !provider && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("option", { value: selection.provider, disabled: true, children: [
+              selection.provider,
+              " \xB7 \u5F53\u524D\u4E0D\u53EF\u7528"
+            ] }),
+            catalog2.providers.map((item) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: item.id, children: item.name }, item.id))
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+          "\u6A21\u578B",
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("select", { "aria-label": `${name}\u6A21\u578B`, value: selection?.model || "", disabled: disabled || !provider || !catalog2.available, onChange: (event) => {
+            const selected = provider?.models.find((item) => item.id === event.target.value);
+            onChange({ ...selection, model: event.target.value, reasoningEffort: selected?.defaultEffort });
+          }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: "", children: "\u9009\u62E9\u6A21\u578B" }),
+            selection?.model && !model && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("option", { value: selection.model, disabled: true, children: [
+              selection.model,
+              " \xB7 \u5F53\u524D\u4E0D\u53EF\u7528"
+            ] }),
+            provider?.models.map((item) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: item.id, children: item.name }, item.id))
+          ] })
+        ] })
+      ] }),
+      selection && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("details", { className: "tm-advanced-model", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("summary", { children: [
+          "\u5019\u9009\u8BF7\u6C42\u8BBE\u7F6E",
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { "aria-hidden": "true", children: "\u203A" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+          !!model?.efforts?.length && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+            "\u63A8\u7406\u5F3A\u5EA6",
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("select", { "aria-label": `${name}\u63A8\u7406\u5F3A\u5EA6`, value: selection.reasoningEffort || "", onChange: (event) => onChange({ ...selection, reasoningEffort: event.target.value || void 0 }), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: "", children: "\u4F7F\u7528\u6A21\u578B\u9ED8\u8BA4\u503C" }),
+              model.efforts.map((effort) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: effort.id, children: effort.name }, effort.id))
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+            "\u6BCF\u6B21\u6A21\u578B\u8BF7\u6C42\u8F93\u51FA\u4E0A\u9650",
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { "aria-label": `${name}\u6BCF\u6B21\u6A21\u578B\u8BF7\u6C42\u8F93\u51FA\u4E0A\u9650`, type: "number", min: 128, max: 32768, step: 1, value: Number.isFinite(selection.maxTokens) ? selection.maxTokens : "", placeholder: "\u9ED8\u8BA4 4096 tokens", onChange: (event) => onChange({ ...selection, maxTokens: event.target.value === "" ? void 0 : Number(event.target.value) }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: "tm-button tm-button--quiet", onClick: () => onChange(void 0), children: [
+            "\u6E05\u9664 ",
+            tier,
+            " \u5019\u9009"
+          ] })
+        ] })
+      ] })
+    ] });
+  }
+  function ProductionSettings({ settings, catalog: catalog2, disabled, role, onRoleChange, onChange, onModelSelectionChange }) {
+    const normalized = productionDefaults(settings);
+    const budget = normalized.budget, routing = normalized.routing, jev = normalized.jev;
+    function candidate(tier, selection) {
+      const nextRole = { ...routing.roles[role] };
+      if (selection) nextRole[tier] = selection;
+      else delete nextRole[tier];
+      const roles2 = { ...routing.roles };
+      if (nextRole.weak || nextRole.strong) roles2[role] = nextRole;
+      else delete roles2[role];
+      const next = { ...routing, roles: roles2 };
+      onChange({ ...normalized, routing: next });
+      onModelSelectionChange?.(settings.roles, next);
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("details", { className: "tm-production-settings", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("summary", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u751F\u4EA7\u63A7\u5236 \xB7 \u9884\u7B97\u3001\u8DEF\u7531\u4E0E Jev \u7248\u672C" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { "aria-hidden": "true", children: "\u203A" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-production-help", children: "\u4FDD\u5B58\u540E\u7528\u4E8E\u65B0\u8FD0\u884C\u3002\u672C\u6B21\u8FD0\u884C\u4FDD\u6301\u542F\u52A8\u65F6\u7684\u8BBE\u7F6E\u3002" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("fieldset", { className: "tm-production-section", disabled, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("legend", { children: "Token \u9884\u7B97" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { className: "tm-production-toggle", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { type: "checkbox", name: "budgetEnabled", checked: budget.enabled, onChange: (event) => onChange({ ...normalized, budget: { ...budget, enabled: event.target.checked } }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u542F\u7528 Token \u9884\u7B97" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "tm-production-fields", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+          "\u6BCF\u6B21\u8FD0\u884C Token \u4E0A\u9650",
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { "aria-label": "\u6BCF\u6B21\u8FD0\u884C Token \u4E0A\u9650", type: "number", min: budget.enabled ? 1 : 0, max: 1e9, step: 1, value: budget.tokenLimit || "", disabled: !budget.enabled, placeholder: "\u542F\u7528\u524D\u8BF7\u660E\u786E\u8F93\u5165\u4E0A\u9650", onChange: (event) => onChange({ ...normalized, budget: { ...budget, tokenLimit: Number(event.target.value) } }) })
+        ] }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u9ED8\u8BA4\u5173\u95ED\u3002\u6BCF\u6B21\u8BF7\u6C42\u4F1A\u6309\u6240\u9009\u6A21\u578B\u7684\u5B8C\u6574\u4E0A\u4E0B\u6587\u7A97\u53E3\u4FDD\u5B88\u9884\u7559\uFF0C\u8F83\u5C0F\u9884\u7B97\u53EF\u80FD\u5728\u9996\u6B21\u8C03\u7528\u524D\u88AB\u963B\u6B62\u3002Token \u4E0A\u9650\u4E0D\u662F\u91D1\u989D\u4E0A\u9650\uFF1B\u5DF2\u8BB0\u8D26\u4E0E\u672A\u77E5\u7528\u91CF\u5206\u522B\u663E\u793A\u3002" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("fieldset", { className: "tm-production-section", disabled, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("legend", { children: "\u52A8\u6001\u6A21\u578B\u8DEF\u7531" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { className: "tm-production-toggle", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { type: "checkbox", name: "routingEnabled", checked: routing.enabled, onChange: (event) => onChange({ ...normalized, routing: { ...routing, enabled: event.target.checked } }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u542F\u7528\u52A8\u6001\u8DEF\u7531" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "small \u4F7F\u7528\u5DF2\u914D\u7F6E\u7684 weak \u5019\u9009\uFF1Bhigh / escalate \u4F7F\u7528 strong \u5019\u9009\uFF1Bmedium \u6216\u7F3A\u5C11\u5019\u9009\u65F6\u6CBF\u7528\u57FA\u7840\u6A21\u578B\u3002\u5173\u95ED\u540E\u5168\u90E8\u6CBF\u7528\u57FA\u7840\u6A21\u578B\u3002" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "tm-production-fields", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+          "\u914D\u7F6E\u5C97\u4F4D",
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("select", { "aria-label": "\u8DEF\u7531\u5C97\u4F4D", value: role, onChange: (event) => onRoleChange(event.target.value), children: Object.keys(ROLE_NAMES).map((item) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: item, children: ROLE_NAMES[item] }, item)) })
+        ] }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "tm-routing-candidates", children: ["weak", "strong"].map((tier) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(CandidateSelector, { role, tier, selection: routing.roles[role]?.[tier], catalog: catalog2, disabled, onChange: (selection) => candidate(tier, selection) }, `${role}-${tier}`)) })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("fieldset", { className: "tm-production-section", disabled, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("legend", { children: "Jev \u4E3B\u7248\u672C\u4E0E\u53EA\u89C2\u5BDF\u5BF9\u7167" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "tm-production-fields", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+          "Jev \u4E3B\u7248\u672C",
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { "aria-label": "Jev \u4E3B\u7248\u672C", type: "text", maxLength: 64, autoComplete: "off", spellCheck: false, value: jev.model, onChange: (event) => onChange({ ...normalized, jev: { ...jev, model: event.target.value.trim() } }) })
+        ] }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u652F\u6301 jev-latest\u3001jev-preview \u6216\u56FA\u5B9A jev-x.y.z \u7248\u672C\uFF0C\u53EF\u542B\u9884\u53D1\u5E03\u540E\u7F00\u3002\u8BF7\u6C42\u522B\u540D\u4E0E\u670D\u52A1\u54CD\u5E94\u7248\u672C\u5206\u522B\u8BB0\u5F55\u3002" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { className: "tm-production-toggle", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { type: "checkbox", name: "shadowEnabled", checked: jev.shadow.enabled, onChange: (event) => onChange({ ...normalized, jev: { ...jev, shadow: { ...jev.shadow, enabled: event.target.checked } } }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u542F\u7528 Shadow \u5BF9\u7167\uFF08\u53EA\u89C2\u5BDF\uFF09" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-production-fields", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+            "Shadow \u56FA\u5B9A\u7248\u672C",
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { "aria-label": "Shadow \u56FA\u5B9A\u7248\u672C", type: "text", maxLength: 64, autoComplete: "off", spellCheck: false, value: jev.shadow.model, disabled: !jev.shadow.enabled, placeholder: "\u660E\u786E\u8F93\u5165\u56FA\u5B9A\u7248\u672C", onChange: (event) => onChange({ ...normalized, jev: { ...jev, shadow: { ...jev.shadow, model: event.target.value.trim() } } }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+            "Shadow \u8C03\u7528\u4E0A\u9650",
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { "aria-label": "Shadow \u8C03\u7528\u4E0A\u9650", type: "number", min: 0, max: 20, step: 1, value: Number.isFinite(jev.shadow.maxCalls) ? jev.shadow.maxCalls : "", disabled: !jev.shadow.enabled, onChange: (event) => onChange({ ...normalized, jev: { ...jev, shadow: { ...jev.shadow, maxCalls: event.target.value === "" ? NaN : Number(event.target.value) } } }) })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u5BF9\u7167\u7248\u672C\u5FC5\u987B\u56FA\u5B9A\uFF1B\u7ED3\u679C\u4E0D\u53C2\u4E0E\u6267\u884C\u51B3\u7B56\u30020 \u6B21\u8868\u793A\u4E0D\u53D1\u8D77\u5BF9\u7167\u8BF7\u6C42\u3002\u5BF9\u7167\u4E5F\u4F1A\u4EA7\u751F\u670D\u52A1\u8C03\u7528\u3002" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { className: "tm-production-toggle", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { type: "checkbox", name: "traceEnabled", checked: jev.trace, onChange: (event) => onChange({ ...normalized, jev: { ...jev, trace: event.target.checked } }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u8BB0\u5F55\u5143\u6570\u636E Trace" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u53EA\u8BB0\u5F55\u8FD0\u884C\u5143\u6570\u636E\uFF0C\u4E0D\u5BFC\u51FA\u5BC6\u94A5\u3001\u5B8C\u6574\u8BF7\u6C42\u6216\u6A21\u578B\u539F\u6587\u3002" })
+      ] })
+    ] });
+  }
+  var number = (value) => Number.isFinite(value) ? value.toLocaleString("zh-CN") : "\u672A\u62A5\u544A";
+  var TIER_NAMES = { base: "\u57FA\u7840\u6A21\u578B", weak: "weak \u5019\u9009", strong: "strong \u5019\u9009" };
+  function ProductionStatus({ snapshot, settings, onLoadTrace }) {
+    const production = snapshot?.production;
+    if (!production) return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-production-status", "aria-label": "\u751F\u4EA7\u8FD0\u884C\u72B6\u6001", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-production-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h3", { children: "\u751F\u4EA7\u63A7\u5236" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: snapshot ? "\u672C\u6B21\u8FD0\u884C\u672A\u63D0\u4F9B\u8BA1\u91CF" : "\u4E0B\u6B21\u8FD0\u884C\u914D\u7F6E" })
+      ] }),
+      snapshot ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-production-help", children: "\u65E0\u6CD5\u786E\u8BA4\u672C\u6B21\u8FD0\u884C\u7684\u9884\u7B97\u3001\u8DEF\u7531\u548C Jev \u7248\u672C\uFF1B\u4E0D\u4F1A\u7528\u5F53\u524D\u8BBE\u7F6E\u66FF\u4EE3\u5386\u53F2\u8BB0\u5F55\u3002" }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-production-idle", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+          "\u9884\u7B97\uFF1A",
+          settings.budget?.enabled ? `${number(settings.budget.tokenLimit)} tokens` : "\u672A\u542F\u7528"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+          "\u52A8\u6001\u8DEF\u7531\uFF1A",
+          settings.routing?.enabled ? "\u5DF2\u542F\u7528" : "\u672A\u542F\u7528"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+          "Jev\uFF1A",
+          settings.jev?.model || "jev-latest"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+          "Shadow\uFF1A",
+          settings.jev?.shadow.enabled ? settings.jev.shadow.model : "\u672A\u542F\u7528"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+          "Trace\uFF1A",
+          settings.jev?.trace === false ? "\u5173\u95ED" : "\u5143\u6570\u636E"
+        ] })
+      ] })
+    ] });
+    const { budget, routing, jev, trace } = production;
+    const latest = routing.decisions.at(-1);
+    const primary = jev?.primary;
+    const shadow = jev?.shadow;
+    const shadowDecision = shadow?.lastDecision;
+    const shadowText = typeof shadowDecision === "string" ? shadowDecision : shadowDecision ? [shadowDecision.action, shadowDecision.lane, shadowDecision.reason].filter(Boolean).join(" \xB7 ") : "";
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-production-status", "aria-label": "\u751F\u4EA7\u8FD0\u884C\u72B6\u6001", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-production-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h3", { children: "\u751F\u4EA7\u63A7\u5236" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: snapshot?.demo || snapshot?.jev?.mode === "fixture" ? "\u5408\u6210\u8BB0\u5F55" : "\u672C\u6B21\u8FD0\u884C\u8BB0\u5F55" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-production-metrics", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "Token \u9884\u7B97" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: budget.enabled ? budget.halted ? "\u9884\u7B97\u5DF2\u505C\u6B62\u6D3E\u53D1" : `\u5269\u4F59 ${number(budget.remaining)}` : "\u672A\u542F\u7528" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("small", { children: budget.enabled ? `\u4E0A\u9650 ${number(budget.limit)} tokens` : "\u672A\u8BBE\u7F6E\u672C\u6B21\u8FD0\u884C\u4E0A\u9650" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u7528\u91CF\u8BB0\u8D26" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("strong", { children: [
+            number(budget.spent),
+            " ",
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("small", { children: "tokens" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("small", { children: [
+            "\u9884\u7559 ",
+            number(budget.reserved),
+            " \xB7 \u5BBF\u4E3B\u8BF7\u6C42\u6B21\u6570 ",
+            number(budget.physicalCalls)
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u52A8\u6001\u8DEF\u7531" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: routing.enabled ? "\u5DF2\u542F\u7528" : "\u672A\u542F\u7528" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("small", { children: [
+            number(routing.decisions.length),
+            " \u6761\u9009\u62E9\u8BB0\u5F55"
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "Jev \u4E3B\u7248\u672C" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: primary?.requestedModel || "\u672A\u62A5\u544A" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("small", { children: [
+            "\u54CD\u5E94 ",
+            primary?.responseModel || "\u672A\u62A5\u544A",
+            " \xB7 ",
+            number(primary?.calls),
+            " \u6B21"
+          ] })
+        ] })
+      ] }),
+      !jev && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-production-help", children: "\u672C\u6B21\u8FD0\u884C\u672A\u63D0\u4F9B Jev \u7248\u672C\u8BB0\u5F55\u3002" }),
+      budget.halted && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-production-warning", role: "status", children: "\u9884\u7B97\u95E8\u7981\u5DF2\u505C\u6B62\u6D3E\u53D1\uFF1B\u5DF2\u53D1\u751F\u7684\u8C03\u7528\u548C\u6587\u4EF6\u6539\u52A8\u4E0D\u4F1A\u56DE\u6EDA\u3002" }),
+      budget.unknownUsageCalls > 0 && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", { className: "tm-production-warning", role: "status", children: [
+        number(budget.unknownUsageCalls),
+        " \u6B21\u8C03\u7528\u7684\u7528\u91CF\u672A\u77E5\uFF0C\u5DF2\u8BB0\u8D26\u6570\u5B57\u4E0D\u662F\u5B8C\u6574\u5B9E\u9645\u7528\u91CF\u3002"
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("details", { className: "tm-production-records", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("summary", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u8DEF\u7531\u3001Shadow \u4E0E Trace \u8BB0\u5F55" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { "aria-hidden": "true", children: "\u203A" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("dl", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u8BB0\u8D26\u72B6\u6001" }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: budget.accounting || "\u672A\u62A5\u544A" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u4E3B\u7248\u672C\u72B6\u6001" }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: primary?.status || "\u672A\u62A5\u544A" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "Shadow" }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("dd", { children: [
+              shadow ? shadow.enabled ? `${shadow.requestedModel || "\u672A\u62A5\u544A"} \xB7 ${number(shadow.calls)} \u6B21 \xB7 ${shadow.status || "\u5C1A\u65E0\u72B6\u6001"}` : "\u672A\u542F\u7528" : "\u672A\u62A5\u544A",
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("small", { children: "\u53EA\u89C2\u5BDF\uFF0C\u4E0D\u53C2\u4E0E\u6267\u884C\u51B3\u7B56" }),
+              shadowText && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("small", { children: [
+                "\u6700\u65B0\u5BF9\u7167\uFF1A",
+                shadowText
+              ] })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "Trace" }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: trace.enabled ? `\u5143\u6570\u636E \xB7 ${number(trace.eventCount)} \u6761${trace.truncated ? " \xB7 \u5DF2\u622A\u65AD" : ""}` : "\u5173\u95ED" })
+          ] })
+        ] }),
+        trace.enabled && snapshot && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(TraceViewer, { runId: snapshot.id, fixture: !!snapshot.demo || snapshot.jev?.mode === "fixture", onLoadTrace }),
+        latest ? /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", { className: "tm-production-help", children: [
+            "\u6700\u8FD1 ",
+            Math.min(routing.decisions.length, 6),
+            " \u6761\u6A21\u578B\u9009\u62E9\u3002\u56E2\u961F\u62D3\u6251\u4E0E\u4EFB\u52A1\u5B9E\u4F8B\u5747\u6309\u8282\u70B9\u663E\u793A\u9009\u5B9A\u6A21\u578B\u3001\u5206\u6863\u4E0E\u539F\u56E0\uFF1B\u6CA1\u6709\u9009\u62E9\u8BB0\u5F55\u65F6\u660E\u786E\u6807\u6CE8\u542F\u52A8\u57FA\u7840\u914D\u7F6E\u3002"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("ol", { className: "tm-routing-records", children: routing.decisions.slice(-6).reverse().map((decision, index) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("li", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("strong", { children: [
+              ROLE_NAMES[decision.role] || decision.role,
+              " \xB7 ",
+              decision.lane,
+              " \xB7 ",
+              TIER_NAMES[decision.tier] || decision.tier
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+              decision.provider,
+              " / ",
+              decision.model
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("small", { children: [
+              "\u8282\u70B9 ",
+              decision.nodeId
+            ] }),
+            decision.at && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("small", { children: [
+              "\u9009\u5B9A\u65F6\u95F4 ",
+              decision.at
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: decision.reason })
+          ] }, `${decision.nodeId}-${index}`)) })
+        ] }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-production-help", children: "\u5C1A\u65E0\u6A21\u578B\u9009\u62E9\u8BB0\u5F55\u3002" })
+      ] })
+    ] });
+  }
+  function traceSummary(value) {
+    const trace = value;
+    if (!trace) return null;
+    if (trace.schema !== "dsh-evaluation-trace/v1" || trace.privacy !== "metadata-only" || typeof trace.truncated !== "boolean" || !Array.isArray(trace.events) || trace.events.length > 2048) throw new Error("unsupported trace");
+    const enumValue = (value2, allowed) => typeof value2 === "string" && allowed.includes(value2) ? value2 : void 0;
+    const count = (value2) => typeof value2 === "number" && Number.isSafeInteger(value2) && value2 >= 0 ? value2 : void 0;
+    const model = (value2) => typeof value2 === "string" && value2.length <= 64 && (["jev-latest", "jev-preview"].includes(value2) || PINNED_JEV.test(value2)) ? value2 : void 0;
+    const events = trace.events.map((item, index) => {
+      const event = item;
+      if (!event || event.seq !== index + 1 || !enumValue(event.type, ["plan", "routing", "model_call", "verification", "jev", "branch", "terminal"]) || !event.data || typeof event.data !== "object") throw new Error("invalid trace event");
+      const data = event.data;
+      return {
+        seq: index + 1,
+        type: event.type,
+        phase: enumValue(data.phase, ["classify", "step", "baseline", "check", "seal"]),
+        source: enumValue(data.source, ["primary", "shadow"]),
+        status: enumValue(data.status, ["started", "completed", "failed", "blocked", "cancelled", "unverified", "error", "skipped"]),
+        role: enumValue(data.role, [...Object.keys(ROLE_NAMES), "router"]),
+        node: count(data.node),
+        modelRef: count(data.modelRef),
+        round: count(data.round),
+        tier: enumValue(data.tier, ["base", "weak", "strong"]),
+        lane: enumValue(data.lane || data.decision?.lane, ["small", "medium", "high", "escalate"]),
+        action: enumValue(data.decision?.action, ["blocked", "classify", "verify", "retry", "escalate", "continue", "complete"]),
+        requestedModel: model(data.metadata?.requestedModel),
+        responseModel: model(data.metadata?.responseModel),
+        inputTokens: count(data.metadata?.usage?.inputTokens),
+        outputTokens: count(data.metadata?.usage?.outputTokens),
+        checksPassed: typeof data.evidence?.checksPassed === "boolean" ? data.evidence.checksPassed : void 0,
+        verified: typeof data.evidence?.verified === "boolean" ? data.evidence.verified : void 0
+      };
+    });
+    return { schema: "dsh-evaluation-trace/v1", privacy: "metadata-only", truncated: trace.truncated, count: events.length, events: events.slice(-50) };
+  }
+  function TraceViewer({ runId, fixture, onLoadTrace }) {
+    const [trace, setTrace] = (0, import_react2.useState)();
+    const [loading, setLoading] = (0, import_react2.useState)(false);
+    const [error, setError] = (0, import_react2.useState)();
+    const request = (0, import_react2.useRef)();
+    (0, import_react2.useEffect)(() => () => request.current?.abort(), []);
+    async function load() {
+      if (!onLoadTrace || fixture || request.current) return;
+      const abort = new AbortController();
+      request.current = abort;
+      setLoading(true);
+      setError(void 0);
+      try {
+        const result = traceSummary(await onLoadTrace(runId, abort.signal));
+        if (!abort.signal.aborted) setTrace(result);
+      } catch {
+        if (!abort.signal.aborted) {
+          setTrace(void 0);
+          setError("\u65E0\u6CD5\u8BFB\u53D6\u6216\u9A8C\u8BC1\u5143\u6570\u636E\u8BB0\u5F55\uFF0C\u8BF7\u5237\u65B0\u91CD\u8BD5\u3002");
+        }
+      } finally {
+        if (!abort.signal.aborted) {
+          request.current = void 0;
+          setLoading(false);
+        }
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-trace-viewer", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: "\u5143\u6570\u636E Trace \u6458\u8981" }),
+        onLoadTrace && !fixture && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "button", className: "tm-button tm-button--quiet", onClick: () => void load(), disabled: loading, children: loading ? "\u6B63\u5728\u8BFB\u53D6\u2026" : trace ? "\u5237\u65B0 Trace" : "\u67E5\u770B Trace" })
+      ] }),
+      fixture ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u5408\u6210\u6F14\u793A\u4E0D\u8BFB\u53D6\u771F\u5B9E\u8FD0\u884C\u8BB0\u5F55\u3002" }) : !onLoadTrace ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u6B64\u89C6\u56FE\u672A\u63D0\u4F9B\u8BB0\u5F55\u8BFB\u53D6\u5165\u53E3\u3002" }) : null,
+      error && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { role: "alert", children: error }),
+      trace === null && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { role: "status", children: "\u6B64\u8FD0\u884C\u6CA1\u6709\u53EF\u7528 Trace\uFF0C\u53EF\u80FD\u672A\u542F\u7528\u6216\u8BB0\u5F55\u5DF2\u4E0D\u5728\u5185\u5B58\u4E2D\u3002" }),
+      trace && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", { children: [
+          "\u663E\u793A ",
+          trace.events.length,
+          " / ",
+          trace.count,
+          " \u6761\u7684\u767D\u540D\u5355\u6458\u8981\u5B57\u6BB5",
+          trace.truncated ? " \xB7 \u670D\u52A1\u7AEF\u8BB0\u5F55\u5DF2\u622A\u65AD" : "",
+          "\u3002\u4E0D\u5305\u542B\u539F\u59CB\u5185\u5BB9\uFF1B\u4E0D\u7528\u4E8E\u5B8C\u6574\u51B3\u7B56\u91CD\u653E\u3002"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("pre", { "aria-label": "Trace \u5143\u6570\u636E\u6458\u8981", children: JSON.stringify(trace.events, null, 2) })
+      ] })
+    ] });
+  }
+
+  // client/team-live.ts
+  function resolveNodeModel(snapshot, node) {
+    if (!snapshot || node.role === "jev" || node.kind === "verification" || node.kind === "jev_classify" || node.kind === "jev_step") return void 0;
+    const decision = snapshot.production?.routing.decisions.filter((item) => item.nodeId === node.id).at(-1);
+    if (decision) return { selection: { provider: decision.provider, model: decision.model }, source: "routing", label: "\u672C\u8282\u70B9\u9009\u5B9A\u6A21\u578B", decision };
+    const selection = snapshot.roles[node.role];
+    return selection ? { selection, source: "startup-base", label: "\u542F\u52A8\u65F6\u57FA\u7840\u914D\u7F6E\uFF0C\u672A\u62A5\u544A\u672C\u8282\u70B9\u9009\u62E9" } : void 0;
+  }
+  var ACTIVE_RUNS = /* @__PURE__ */ new Set(["planning", "running", "reviewing"]);
+  function shouldAnimateNode(node, runStatus, display) {
+    return display.visible && !display.stale && ACTIVE_RUNS.has(runStatus) && node.status === "running" && node.kind !== "verification" && (node.role !== "jev" || node.kind === "jev_classify" || node.kind === "jev_step");
+  }
+  var RELATION_KINDS = /* @__PURE__ */ new Set(["dispatch", "dependency", "feedback", "retry", "join"]);
+  var INCOMPLETE = "\u4E8B\u4EF6\u5386\u53F2\u4E0D\u5B8C\u6574\u6216\u5DF2\u622A\u65AD\uFF1B\u7F3A\u5931\u7684\u5173\u7CFB\u4E0D\u4F1A\u8865\u64AD\u3002";
+  var DISCONTINUOUS = "\u4E8B\u4EF6\u5E8F\u5217\u6709\u7F3A\u5931\uFF0C\u5DF2\u91CD\u65B0\u5EFA\u7ACB\u5B9E\u65F6\u57FA\u7EBF\uFF1B\u5386\u53F2\u5173\u7CFB\u4E0D\u4F1A\u8865\u64AD\u3002";
+  var REGRESSED = "\u4E8B\u4EF6\u5E8F\u5217\u56DE\u9000\uFF0C\u5DF2\u4FDD\u7559\u5B9E\u65F6\u57FA\u7EBF\uFF1B\u65E7\u4E8B\u4EF6\u4E0D\u4F1A\u91CD\u64AD\u3002";
+  function isSequence(value) {
+    return typeof value === "number" && Number.isSafeInteger(value) && value > 0;
+  }
+  function validRelation(event, snapshot) {
+    return event.type === "relation_activated" && (event.runId === void 0 || event.runId === snapshot.id) && typeof event.edgeId === "string" && event.edgeId.length > 0 && typeof event.fromNodeId === "string" && typeof event.toNodeId === "string" && event.kind !== void 0 && RELATION_KINDS.has(event.kind) && snapshot.edges.some((edge) => edge.id === event.edgeId && edge.from === event.fromNodeId && edge.to === event.toNodeId && edge.kind === event.kind);
+  }
+  function advanceRelationCursor(previous, snapshot, options) {
+    if (!snapshot) return { cursor: previous ? { ...previous, visible: false } : null, events: [], baseline: true };
+    const sameRun = previous?.runId === snapshot.id;
+    const revision = options.revision ?? 0;
+    const previousSeq = sameRun ? previous.seq : previous?.highWaterByRun && Object.hasOwn(previous.highWaterByRun, snapshot.id) ? previous.highWaterByRun[snapshot.id] : 0;
+    const bySequence = /* @__PURE__ */ new Map();
+    let malformedSequence = false;
+    for (const event of snapshot.events) {
+      if (!isSequence(event.seq)) {
+        malformedSequence = true;
+        continue;
+      }
+      if (!bySequence.has(event.seq)) bySequence.set(event.seq, event);
+    }
+    const ordered = [...bySequence.values()].sort((a, b) => a.seq - b.seq);
+    const latestSeq = ordered.at(-1)?.seq ?? 0;
+    const oldestSeq = isSequence(snapshot.oldestSeq) ? snapshot.oldestSeq : ordered[0]?.seq;
+    const historyGap = ordered.some((event, index) => index > 0 && event.seq !== ordered[index - 1].seq + 1);
+    const newEvents = ordered.filter((event) => event.seq > previousSeq);
+    const newGap = newEvents.some((event, index) => event.seq !== (index === 0 ? previousSeq : newEvents[index - 1].seq) + 1);
+    const missedWindow = sameRun && oldestSeq !== void 0 && oldestSeq > previousSeq + 1;
+    const regressed = sameRun && latestSeq < previousSeq;
+    let notice = sameRun ? previous.notice : void 0;
+    if (snapshot.eventsTruncated || (oldestSeq ?? 1) > 1 || (ordered[0]?.seq ?? 1) > 1 || historyGap) notice = INCOMPLETE;
+    if (malformedSequence || sameRun && newGap || missedWindow) notice = DISCONTINUOUS;
+    if (regressed) notice = REGRESSED;
+    const baseline = !sameRun || previous.revision !== revision || !options.visible || options.stale || !previous.visible || previous.stale || regressed || malformedSequence || newGap || missedWindow;
+    const seq = Math.max(previousSeq, latestSeq, (oldestSeq ?? 1) - 1);
+    const cursor = {
+      runId: snapshot.id,
+      seq,
+      visible: options.visible,
+      stale: options.stale,
+      revision,
+      highWaterByRun: { ...previous?.highWaterByRun, [snapshot.id]: seq },
+      ...notice ? { notice } : {}
+    };
+    return { cursor, events: baseline ? [] : newEvents.filter((event) => validRelation(event, snapshot)), baseline, ...notice ? { notice } : {} };
+  }
+
+  // client/TeamView.tsx
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
   function Icon({ name, className = "" }) {
     const paths = {
-      team: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("rect", { x: "8", y: "8", width: "8", height: "8", rx: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "4", cy: "4", r: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "20", cy: "4", r: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "4", cy: "20", r: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "20", cy: "20", r: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "m6 6 3 3m6 0 3-3M6 18l3-3m6 0 3 3" })
+      team: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("rect", { x: "8", y: "8", width: "8", height: "8", rx: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "4", cy: "4", r: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "20", cy: "4", r: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "4", cy: "20", r: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "20", cy: "20", r: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "m6 6 3 3m6 0 3-3M6 18l3-3m6 0 3 3" })
       ] }),
-      plan: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("rect", { x: "5", y: "3", width: "14", height: "18", rx: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M9 8h6M9 12h6M9 16h3" })
+      plan: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("rect", { x: "5", y: "3", width: "14", height: "18", rx: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M9 8h6M9 12h6M9 16h3" })
       ] }),
-      coordinate: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("rect", { x: "8", y: "8", width: "8", height: "8", rx: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M12 3v5m0 8v5M3 12h5m8 0h5m-4-8-2 2M7 7 5 5m12 12 2 2M7 17l-2 2" })
+      coordinate: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("rect", { x: "8", y: "8", width: "8", height: "8", rx: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M12 3v5m0 8v5M3 12h5m8 0h5m-4-8-2 2M7 7 5 5m12 12 2 2M7 17l-2 2" })
       ] }),
-      search: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "10", cy: "10", r: "6" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "m15 15 6 6M8 10h4m-2-2v4" })
+      search: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "10", cy: "10", r: "6" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "m15 15 6 6M8 10h4m-2-2v4" })
       ] }),
-      explore: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M3 7a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "m10 12-3 2 3 2m4-4 3 2-3 2" })
+      explore: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M3 7a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "m10 12-3 2 3 2m4-4 3 2-3 2" })
       ] }),
-      code: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "m8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 16" }),
-      review: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M12 3 4 6v5c0 5 4 8 8 10 4-2 8-5 8-10V6Z" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "m8 12 3 3 5-6" })
+      code: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "m8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 16" }),
+      review: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M12 3 4 6v5c0 5 4 8 8 10 4-2 8-5 8-10V6Z" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "m8 12 3 3 5-6" })
       ] }),
-      route: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M4 12h5a3 3 0 0 0 3-3V7a2 2 0 0 1 2-2h6M9 12a3 3 0 0 1 3 3v2a2 2 0 0 0 2 2h6m-3-17 3 3-3 3m0 8 3 3-3 3" }) }),
-      arrow: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M4 12h16m-6-6 6 6-6 6" }),
-      check: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "m5 12 4 4L19 6" }),
-      close: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "m6 6 12 12M6 18 18 6" }),
-      refresh: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M20 5v6h-6M4 19v-6h6" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M6 6a8 8 0 0 1 14 5M4 13a8 8 0 0 0 14 5" })
+      route: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_jsx_runtime3.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M4 12h5a3 3 0 0 0 3-3V7a2 2 0 0 1 2-2h6M9 12a3 3 0 0 1 3 3v2a2 2 0 0 0 2 2h6m-3-17 3 3-3 3m0 8 3 3-3 3" }) }),
+      arrow: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M4 12h16m-6-6 6 6-6 6" }),
+      check: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "m5 12 4 4L19 6" }),
+      close: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "m6 6 12 12M6 18 18 6" }),
+      refresh: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M20 5v6h-6M4 19v-6h6" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M6 6a8 8 0 0 1 14 5M4 13a8 8 0 0 0 14 5" })
       ] }),
-      settings: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M4 6h16M4 12h16M4 18h16" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "9", cy: "6", r: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "15", cy: "12", r: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "8", cy: "18", r: "2" })
+      settings: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M4 6h16M4 12h16M4 18h16" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "9", cy: "6", r: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "15", cy: "12", r: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "8", cy: "18", r: "2" })
       ] }),
-      clock: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "12", cy: "12", r: "9" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M12 7v5l3 2" })
+      clock: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "12", cy: "12", r: "9" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M12 7v5l3 2" })
       ] }),
-      file: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M14 3v6h6M8 14h8m-8 3h5" })
+      file: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M14 3v6h6M8 14h8m-8 3h5" })
       ] }),
-      chevron: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "m9 5 7 7-7 7" }),
-      play: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "m8 4 12 8-12 8Z" }),
-      stop: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("rect", { x: "6", y: "6", width: "12", height: "12", rx: "2" }),
-      lock: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("rect", { x: "6", y: "10", width: "12", height: "11", rx: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M8 10V7a4 4 0 0 1 8 0v3m-4 4v3" })
+      chevron: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "m9 5 7 7-7 7" }),
+      play: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "m8 4 12 8-12 8Z" }),
+      stop: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("rect", { x: "6", y: "6", width: "12", height: "12", rx: "2" }),
+      lock: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("rect", { x: "6", y: "10", width: "12", height: "11", rx: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M8 10V7a4 4 0 0 1 8 0v3m-4 4v3" })
       ] }),
-      activity: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M3 12h4l3-8 4 16 3-8h4" }),
-      branch: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "6", cy: "5", r: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "6", cy: "19", r: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "18", cy: "6", r: "2" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M6 7v10m0-4c6 0 12-1 12-5" })
+      activity: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M3 12h4l3-8 4 16 3-8h4" }),
+      branch: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "6", cy: "5", r: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "6", cy: "19", r: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("circle", { cx: "18", cy: "6", r: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M6 7v10m0-4c6 0 12-1 12-5" })
       ] }),
-      alert: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "m10 4-8 14a2 2 0 0 0 2 3h16a2 2 0 0 0 2-3L14 4a2 2 0 0 0-4 0Z" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M12 9v5m0 3v.1" })
+      alert: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "m10 4-8 14a2 2 0 0 0 2 3h16a2 2 0 0 0 2-3L14 4a2 2 0 0 0-4 0Z" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M12 9v5m0 3v.1" })
       ] })
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("svg", { className: `tm-icon ${className}`, width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: paths[name] });
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("svg", { className: `tm-icon ${className}`, width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: paths[name] });
   }
   var ROLE = {
     planner: { name: "\u89C4\u5212\u8005", subtitle: "\u5F3A\u6A21\u578B\u89C4\u5212", icon: "plan", description: "\u7406\u89E3\u76EE\u6807\uFF0C\u63D0\u51FA\u4EFB\u52A1\u62C6\u5206\u3001\u4F9D\u8D56\u548C\u9A8C\u6536\u6761\u4EF6\u3002\u5B9E\u9645\u4EFB\u52A1\u968F\u76EE\u6807\u751F\u6210\u3002", access: "\u53EA\u8BFB\u5206\u6790" },
@@ -24686,13 +25394,14 @@
   var ROLES = ["planner", "coordinator", "researcher", "explorer", "worker", "reviewer"];
   var STATUS = { pending: "\u5F85\u6267\u884C", running: "\u8FDB\u884C\u4E2D", completed: "\u5DF2\u5B8C\u6210", failed: "\u5931\u8D25", blocked: "\u5DF2\u963B\u585E", cancelled: "\u5DF2\u53D6\u6D88", planning: "\u89C4\u5212\u4E2D", reviewing: "\u5BA1\u67E5\u4E2D", idle: "\u672A\u6D3E\u53D1", unverified: "\u5F85\u9A8C\u8BC1", completion_unverified: "\u5B8C\u6210\u6761\u4EF6\u672A\u6EE1\u8DB3" };
   var EDGE = { dispatch: "\u6D3E\u53D1", dependency: "\u4F9D\u8D56", feedback: "\u53CD\u9988", retry: "\u91CD\u8BD5", join: "\u6C47\u603B" };
+  var RELATION_EVENT_LABEL = { ...EDGE, dependency: "\u4F9D\u8D56\u6EE1\u8DB3" };
   var ACTIVE = /* @__PURE__ */ new Set(["planning", "running", "reviewing"]);
   function isFixture(snapshot) {
     return !!snapshot?.demo || snapshot?.jev?.mode === "fixture";
   }
   function Status({ status, count }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { className: `tm-status tm-status--${status}`, children: [
-      status === "completed" ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "check" }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("i", {}),
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: `tm-status tm-status--${status}`, children: [
+      status === "completed" ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "check" }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("i", {}),
       STATUS[status] || status,
       count ? ` \xB7 ${count}` : ""
     ] });
@@ -24731,6 +25440,117 @@
       return !model || !!selected?.reasoningEffort && !(model.efforts || []).some((effort) => effort.id === selected.reasoningEffort);
     });
   }
+  function useLiveWorkflow(snapshot, freshness) {
+    const [visible, setVisible] = (0, import_react3.useState)(() => typeof document === "undefined" || document.visibilityState !== "hidden");
+    const [pulses, setPulses] = (0, import_react3.useState)([]);
+    const [notice, setNotice] = (0, import_react3.useState)();
+    const cursor = (0, import_react3.useRef)(null);
+    const stale = !!freshness?.stale;
+    (0, import_react3.useEffect)(() => {
+      const update = () => setVisible(document.visibilityState !== "hidden");
+      document.addEventListener("visibilitychange", update);
+      return () => document.removeEventListener("visibilitychange", update);
+    }, []);
+    (0, import_react3.useEffect)(() => {
+      const result = advanceRelationCursor(cursor.current, snapshot, { visible, stale, revision: freshness?.revision });
+      cursor.current = result.cursor;
+      setNotice(result.notice);
+      if (result.baseline || !snapshot || !ACTIVE.has(snapshot.status) || !visible || stale) {
+        setPulses([]);
+        return;
+      }
+      if (result.events.length) setPulses((current) => [...current, ...result.events.map((event) => ({ event, key: `${snapshot.id}:${event.seq}`, expires: Date.now() + 800 }))]);
+    }, [snapshot, visible, stale, freshness?.revision]);
+    (0, import_react3.useEffect)(() => {
+      if (!pulses.length) return;
+      const timer = setTimeout(() => setPulses((current) => current.filter((pulse) => pulse.expires > Date.now())), Math.max(0, Math.min(...pulses.map((pulse) => pulse.expires)) - Date.now()) + 5);
+      return () => clearTimeout(timer);
+    }, [pulses]);
+    return { visible, stale, pulses, notice };
+  }
+  function NodeModel({ snapshot, node, catalog: catalog2, showReason = false }) {
+    const model = resolveNodeModel(snapshot, node);
+    if (!model) return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-instance-model", children: node.kind === "verification" ? "\u5BBF\u4E3B\u9A8C\u8BC1 \xB7 \u975E\u6A21\u578B\u8282\u70B9" : node.role === "jev" || node.kind === "jev_classify" || node.kind === "jev_step" ? "TypeSafe \xB7 \u72EC\u7ACB\u51B3\u7B56" : "\u672A\u62A5\u544A\u6A21\u578B\u9009\u62E9" });
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-instance-model", title: `${providerName(model.selection, catalog2)} / ${modelName(model.selection, catalog2)}`, children: modelName(model.selection, catalog2) }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-instance-source", children: model.source === "routing" ? `\u672C\u8282\u70B9\u9009\u5B9A\u6A21\u578B \xB7 ${model.decision.lane} / ${model.decision.tier}` : "\u542F\u52A8\u65F6\u57FA\u7840\u914D\u7F6E\uFF0C\u672A\u62A5\u544A\u672C\u8282\u70B9\u9009\u62E9" }),
+      showReason && model.decision && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-node-route-reason", title: model.decision.reason, children: model.decision.reason })
+    ] });
+  }
+  function InstanceCards({ snapshot, catalog: catalog2, selected, onSelect, live }) {
+    if (!snapshot?.nodes.length) return null;
+    const running = snapshot.nodes.filter((node) => node.status === "running");
+    const others = snapshot.nodes.filter((node) => node.status !== "running");
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-instances", "aria-label": "\u5B9E\u9645\u8FD0\u884C\u5B9E\u4F8B", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-instances-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-section-eyebrow", children: "EXECUTION INSTANCES" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { children: "\u6BCF\u4E00\u6B21\u6D3E\u53D1\uFF0C\u72EC\u7ACB\u4FDD\u7559" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+          running.length,
+          " \u4E2A\u8FD0\u884C\u4E2D / ",
+          snapshot.nodes.length,
+          " \u4E2A\u5B9E\u4F8B"
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "tm-instance-grid", children: [...running, ...others].map((node) => {
+        const animate = shouldAnimateNode(node, snapshot.status, live);
+        return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: `tm-instance-card tm-instance-card--${node.status} ${selected === node.id ? "is-selected" : ""}`, "data-node-id": node.id, "data-live": animate, onClick: () => onSelect(node), "aria-pressed": selected === node.id, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: "tm-instance-top", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: node.kind === "verification" ? "review" : ROLE[node.role].icon }),
+              node.kind === "verification" ? "\u5BBF\u4E3B\u9A8C\u8BC1" : ROLE[node.role].name
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Status, { status: node.status })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: node.title }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(NodeModel, { snapshot, node, catalog: catalog2 }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: "tm-instance-meta", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: node.id }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+              "\u7B2C ",
+              node.attempt,
+              " \u6B21"
+            ] })
+          ] }),
+          node.failureCode && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-instance-failure", children: node.failureCode })
+        ] }, node.id);
+      }) })
+    ] });
+  }
+  function WorkflowSignals({ snapshot, live, freshness }) {
+    const jevNode = snapshot?.nodes.filter((node) => node.kind === "jev_classify" || node.kind === "jev_step").at(-1);
+    const runningJev = snapshot?.nodes.find((node) => (node.kind === "jev_classify" || node.kind === "jev_step") && node.status === "running");
+    const decision = snapshot?.jev?.decisions.at(-1);
+    const evidence = snapshot?.jev?.evidence;
+    const verified = !!evidence && evidence.checksPassed && evidence.scopeOk && evidence.diffAvailable && evidence.verified;
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-workflow-signals", "aria-label": "\u5DE5\u4F5C\u6D41\u5B9E\u65F6\u72B6\u6001", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: `tm-signal tm-signal--connection ${live.stale ? "is-stale" : ""}`, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("i", {}),
+          isFixture(snapshot) ? "SYNTHETIC DEMO" : live.stale ? "\u6570\u636E\u5DF2\u8FC7\u671F" : snapshot ? "\u5FEB\u7167\u5DF2\u540C\u6B65" : "\u7B49\u5F85\u4EFB\u52A1"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: live.stale ? freshness?.reason || "\u8FDE\u63A5\u4E2D\u65AD\uFF0C\u4FDD\u7559\u6700\u540E\u72B6\u6001" : !live.visible ? "\u9875\u9762\u9690\u85CF\uFF0C\u52A8\u6548\u5DF2\u6682\u505C" : snapshot ? `\u66F4\u65B0\u4E8E ${time(freshness?.observedAt || snapshot.observedAt)}` : "\u914D\u7F6E\u6A21\u578B\u540E\u4F7F\u7528 /team" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-signal tm-signal--jev", "data-live": !!runningJev && !!snapshot && shouldAnimateNode(runningJev, snapshot.status, live), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "route" }),
+          "Jev \u51B3\u7B56"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: runningJev ? runningJev.kind === "jev_classify" ? "\u6B63\u5728\u5206\u7C7B" : "\u6B63\u5728\u9010\u8F6E\u51B3\u7B56" : decision ? `${decision.lane} \xB7 ${decision.action}` : "\u5C1A\u65E0\u51B3\u7B56" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("small", { children: decision?.at ? time(decision.at) : jevNode ? `\u8282\u70B9\u65F6\u95F4 ${time(jevNode.finishedAt || jevNode.startedAt)}` : "\u7B49\u5F85\u771F\u5B9E\u8BB0\u5F55" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-signal tm-signal--gate", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "review" }),
+          "\u72EC\u7ACB\u5B8C\u6210\u95E8\u7981"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: verified ? isFixture(snapshot) ? "\u5408\u6210\u95E8\u7981\u901A\u8FC7" : "\u5168\u90E8\u9A8C\u8BC1\u901A\u8FC7" : "\u5C1A\u672A\u5168\u90E8\u901A\u8FC7" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("small", { children: "\u68C0\u67E5 \xB7 \u8303\u56F4 \xB7 \u5DEE\u5F02 \xB7 \u72EC\u7ACB\u9A8C\u8BC1" })
+      ] })
+    ] });
+  }
   var LANE = { small: "\u5C0F\u578B\u4EFB\u52A1", medium: "\u6807\u51C6\u4EFB\u52A1", high: "\u9AD8\u590D\u6742\u5EA6", escalate: "\u5347\u7EA7\u5904\u7406" };
   function JevPanel({ catalog: catalog2, snapshot, settings, onSelectNode }) {
     const state = snapshot?.jev;
@@ -24746,67 +25566,67 @@
       { label: "\u5DEE\u5F02\u8BC1\u636E\u53EF\u7528", value: evidence?.diffAvailable },
       { label: "\u72EC\u7ACB\u9A8C\u8BC1\u6210\u7ACB", value: evidence?.verified }
     ];
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("section", { className: "tm-jev-panel", "aria-label": "Jev \u6838\u5FC3\u8C03\u5EA6\u4E0E\u5B8C\u6210\u95E8\u7981", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("details", { className: "tm-control-details", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("summary", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { className: "tm-control-title", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "route" }),
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("section", { className: "tm-jev-panel", "aria-label": "Jev \u6838\u5FC3\u8C03\u5EA6\u4E0E\u5B8C\u6210\u95E8\u7981", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("details", { className: "tm-control-details", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("summary", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: "tm-control-title", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "route" }),
           "Jev \u6838\u5FC3\u8C03\u5EA6"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: `tm-jev-connection ${fixture ? "is-fixture" : ready ? "is-ready" : "is-blocked"}`, children: fixture ? "FIXTURE \xB7 \u672A\u8FDE\u63A5\u670D\u52A1" : ready ? "TypeSafe \xB7 \u5DF2\u914D\u7F6E" : "\u771F\u5B9E\u8FD0\u884C\u5DF2\u963B\u6B62" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: `tm-jev-connection ${fixture ? "is-fixture" : ready ? "is-ready" : "is-blocked"}`, children: fixture ? "FIXTURE \xB7 \u672A\u8FDE\u63A5\u670D\u52A1" : ready ? "TypeSafe \xB7 \u5DF2\u914D\u7F6E" : "\u771F\u5B9E\u8FD0\u884C\u5DF2\u963B\u6B62" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-jev-description", children: "Jev \u51B3\u5B9A\u4EFB\u52A1\u5206\u6863\u4E0E\u4E0B\u4E00\u6B65\u6D41\u7A0B\u3002\u516D\u4E2A\u5C97\u4F4D\u59CB\u7EC8\u4F7F\u7528\u4F60\u9009\u62E9\u7684\u6A21\u578B\u548C\u63D0\u4F9B\u65B9\uFF0C\u4E0D\u4F1A\u968F\u5206\u6863\u81EA\u52A8\u6362\u6A21\u3002" }),
-      !fixture && !ready && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", { className: "tm-jev-warning", role: "status", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "alert" }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "tm-jev-description", children: "Jev \u51B3\u5B9A\u4EFB\u52A1\u5206\u6863\u4E0E\u4E0B\u4E00\u6B65\u6D41\u7A0B\u3002\u52A8\u6001\u8DEF\u7531\u5173\u95ED\u65F6\u6CBF\u7528\u516D\u5C97\u4F4D\u57FA\u7840\u6A21\u578B\uFF1B\u542F\u7528\u540E\u4EC5\u5728\u4F60\u660E\u786E\u914D\u7F6E\u7684\u5019\u9009\u95F4\u9009\u62E9\uFF0C\u5B9E\u9645\u9009\u62E9\u4EE5\u8FD0\u884C\u8BB0\u5F55\u4E3A\u51C6\u3002" }),
+      !fixture && !ready && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-jev-warning", role: "status", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "alert" }),
         catalog2.jev?.reason || "\u5C1A\u672A\u5B8C\u6210 Jev \u8BBE\u7F6E\u3002\u8BF7\u6253\u5F00\u56E2\u961F\u8BBE\u7F6E\uFF0C\u8FDE\u63A5\u5BC6\u94A5\u5E76\u9009\u62E9\u516D\u4E2A\u5C97\u4F4D\u6A21\u578B\u3002"
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-jev-metrics", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u5F53\u524D\u5206\u6863" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: state ? `${state.lane} \xB7 ${LANE[state.lane] || state.lane}` : "\u7B49\u5F85 Jev \u5206\u7C7B" })
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-jev-metrics", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u5F53\u524D\u5206\u6863" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: state ? `${state.lane} \xB7 ${LANE[state.lane] || state.lane}` : "\u7B49\u5F85 Jev \u5206\u7C7B" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u8C03\u5EA6\u8F6E\u6B21" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("strong", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u8C03\u5EA6\u8F6E\u6B21" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("strong", { children: [
             state?.round ?? 0,
             " / ",
             (snapshot?.limits || settings.limits).maxRounds
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "Jev \u51B3\u7B56\u8BB0\u5F55" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("strong", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "Jev \u51B3\u7B56\u8BB0\u5F55" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("strong", { children: [
             state?.decisions.length ?? 0,
             " \u6761 ",
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("small", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("small", { children: [
               "\u8C03\u7528\u4E0A\u9650 ",
               (snapshot?.limits || settings.limits).maxJevCalls
             ] })
           ] })
         ] })
       ] }),
-      latestDecision && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-jev-next", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("strong", { children: [
+      latestDecision && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-jev-next", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("strong", { children: [
           "\u6700\u65B0\u51B3\u7B56 \xB7 ",
           latestDecision.action
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: latestDecision.reason })
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: latestDecision.reason })
       ] }),
-      !!state?.decisions.length && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("details", { className: "tm-jev-decisions", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("summary", { children: [
+      !!state?.decisions.length && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("details", { className: "tm-jev-decisions", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("summary", { children: [
           "\u72EC\u7ACB Jev \u51B3\u7B56\u5386\u53F2 \xB7 ",
           state.decisions.length,
           " \u6761",
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("ol", { children: state.decisions.map((decision, index) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("li", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("strong", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("ol", { children: state.decisions.map((decision, index) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("strong", { children: [
               decision.phase,
               " \u2192 ",
               decision.action
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
               "\u7B2C ",
               decision.round,
               " \u8F6E \xB7 ",
@@ -24815,79 +25635,258 @@
               Number.isFinite(decision.confidence) ? `${Math.round(decision.confidence * 100)}%` : "\u672A\u62A5\u544A"
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: decision.reason })
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: decision.reason }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("time", { dateTime: decision.at, children: [
+            "\u51B3\u7B56\u65F6\u95F4\uFF1A",
+            time(decision.at)
+          ] })
         ] }, index)) })
       ] }),
-      jevNode && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: "tm-jev-inspect", onClick: () => onSelectNode(jevNode), children: [
+      jevNode && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: "tm-jev-inspect", onClick: () => onSelectNode(jevNode), children: [
         "\u67E5\u770B\u6700\u65B0 Jev \u8282\u70B9",
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "arrow" })
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "arrow" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-gates", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-gates-heading", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { children: "\u786C\u6027\u5B8C\u6210\u6761\u4EF6" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: passed ? "is-passed" : "", children: passed ? fixture ? "Fixture \u6761\u4EF6\u901A\u8FC7" : "\u5168\u90E8\u901A\u8FC7" : snapshot?.status === "completed" ? "\u5B8C\u6210\u6761\u4EF6\u672A\u6EE1\u8DB3" : "\u672A\u5168\u90E8\u901A\u8FC7" })
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-gates", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-gates-heading", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h4", { children: "\u786C\u6027\u5B8C\u6210\u6761\u4EF6" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: passed ? "is-passed" : "", children: passed ? fixture ? "Fixture \u6761\u4EF6\u901A\u8FC7" : "\u5168\u90E8\u901A\u8FC7" : snapshot?.status === "completed" ? "\u5B8C\u6210\u6761\u4EF6\u672A\u6EE1\u8DB3" : "\u672A\u5168\u90E8\u901A\u8FC7" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("ul", { children: gates.map((gate) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("li", { className: gate.value === true ? "is-passed" : gate.value === false ? "is-failed" : "is-pending", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: gate.value === true ? "check" : gate.value === false ? "close" : "clock" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: gate.label }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("small", { children: gate.value === true ? "\u901A\u8FC7" : gate.value === false ? "\u672A\u901A\u8FC7" : "\u5F85\u9A8C\u8BC1" })
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("ul", { children: gates.map((gate) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("li", { className: gate.value === true ? "is-passed" : gate.value === false ? "is-failed" : "is-pending", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: gate.value === true ? "check" : gate.value === false ? "close" : "clock" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: gate.label }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("small", { children: gate.value === true ? "\u901A\u8FC7" : gate.value === false ? "\u672A\u901A\u8FC7" : "\u5F85\u9A8C\u8BC1" })
         ] }, gate.label)) }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: evidence?.reason || "\u670D\u52A1\u7AEF\u5C1A\u672A\u63D0\u4F9B\u5B8C\u6210\u8BC1\u636E\u3002Jev \u6216\u5BA1\u67E5\u8005\u7684\u5B8C\u6210\u5EFA\u8BAE\u4E0D\u80FD\u8DF3\u8FC7\u8FD9\u4E9B\u68C0\u67E5\u3002" })
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: evidence?.reason || "\u670D\u52A1\u7AEF\u5C1A\u672A\u63D0\u4F9B\u5B8C\u6210\u8BC1\u636E\u3002Jev \u6216\u5BA1\u67E5\u8005\u7684\u5B8C\u6210\u5EFA\u8BAE\u4E0D\u80FD\u8DF3\u8FC7\u8FD9\u4E9B\u68C0\u67E5\u3002" })
       ] })
     ] }) });
   }
-  function Topology({ snapshot, settings, catalog: catalog2, selected, onSelect }) {
-    const roles2 = snapshot?.roles || settings.roles;
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-topology", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-topology-map", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("svg", { className: "tm-topology-wires tm-topology-wires--wide", viewBox: "0 0 840 392", preserveAspectRatio: "none", "aria-hidden": "true", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M140 54H420M420 82V196M560 196H700V54M280 196H140V54M420 250V280H140V312M420 280V312M420 280H700V312" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "420", cy: "280", r: "4" })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("svg", { className: "tm-topology-wires tm-topology-wires--narrow", viewBox: "0 0 400 430", preserveAspectRatio: "none", "aria-hidden": "true", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M200 60V78H94V92M200 78H306V92M94 186V200H306V186M94 200V214M306 200V214M94 308V322H306V308M94 322V336M306 322V336" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("circle", { cx: "200", cy: "78", r: "3" })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: `tm-controller-node ${selected === "jev" ? "is-selected" : ""}`, onClick: () => onSelect("jev"), "aria-pressed": selected === "jev", "aria-label": "\u67E5\u770B Jev \u6838\u5FC3\u8C03\u5EA6\u8BE6\u60C5", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "tm-controller-symbol", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "route" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: "Jev" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u72EC\u7ACB\u8C03\u5EA6\u63A7\u5236\u9762" })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
-        ] }),
-        ["planner", "reviewer", "coordinator", "researcher", "explorer", "worker"].map((role) => {
-          const nodes = snapshot?.nodes.filter((node) => node.role === role) || [];
-          const status = roleStatus(nodes);
-          return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: `tm-role-card tm-role-card--${role} ${selected === role ? "is-selected" : ""} ${status === "running" ? "is-active" : ""}`, onClick: () => onSelect(role), "aria-pressed": selected === role, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-role-top", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: `tm-role-icon tm-role-icon--${role}`, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: ROLE[role].icon }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "tm-role-mode", children: role === "coordinator" ? "\u56E2\u961F\u4E2D\u67A2" : role === "worker" ? "\u4E32\u884C\u7F16\u8F91" : role === "researcher" || role === "explorer" ? "\u5E76\u884C\u53EA\u8BFB" : "\u6309\u9700\u53C2\u4E0E" })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-role-title", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: ROLE[role].name }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: role.toUpperCase() })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "tm-role-model", title: modelName(roles2[role], catalog2, isFixture(snapshot)), children: modelName(roles2[role], catalog2, isFixture(snapshot)) }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-role-bottom", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Status, { status, count: nodes.filter((node) => node.status === "running").length }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-                nodes.length ? `${nodes.length} \u4E2A\u8282\u70B9` : "\u5C97\u4F4D\u914D\u7F6E",
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
-              ] })
-            ] })
-          ] }, role);
-        })
+  function topologyCardForNode(node) {
+    if (node.kind === "verification") return "verification";
+    if (node.kind === "jev_classify" || node.kind === "jev_step") return "jev";
+    return node.role;
+  }
+  function resolveTopologyRelation(snapshot, event) {
+    if (event.type !== "relation_activated" || !event.kind || !Object.hasOwn(EDGE, event.kind)) return void 0;
+    if ("runId" in event && event.runId !== void 0 && event.runId !== snapshot.id) return void 0;
+    const edge = snapshot.edges.find((item) => item.id === event.edgeId && item.from === event.fromNodeId && item.to === event.toNodeId && item.kind === event.kind);
+    if (!edge) return void 0;
+    const fromNode = snapshot.nodes.find((node) => node.id === edge.from), toNode = snapshot.nodes.find((node) => node.id === edge.to);
+    if (!fromNode || !toNode) return void 0;
+    const fromCard = topologyCardForNode(fromNode), toCard = topologyCardForNode(toNode);
+    return { fromCard, toCard, fromNode, toNode, kind: edge.kind, edgeId: edge.id, sameCard: fromCard === toCard };
+  }
+  function routeTopologyPath(from, to, geometry) {
+    const a = geometry.cards[from], b = geometry.cards[to];
+    if (!a || !b || from === to) return void 0;
+    const gap = 10;
+    const boxes = Object.values(geometry.cards);
+    const ports = (rect) => [
+      { x: (rect.left + rect.right) / 2, y: rect.top - gap, anchor: { x: (rect.left + rect.right) / 2, y: rect.top } },
+      { x: rect.right + gap, y: (rect.top + rect.bottom) / 2, anchor: { x: rect.right, y: (rect.top + rect.bottom) / 2 } },
+      { x: (rect.left + rect.right) / 2, y: rect.bottom + gap, anchor: { x: (rect.left + rect.right) / 2, y: rect.bottom } },
+      { x: rect.left - gap, y: (rect.top + rect.bottom) / 2, anchor: { x: rect.left, y: (rect.top + rect.bottom) / 2 } }
+    ];
+    const starts = ports(a), ends = ports(b);
+    const xs = [.../* @__PURE__ */ new Set([4, geometry.width - 4, ...boxes.flatMap((rect) => [rect.left - gap, rect.right + gap]), ...starts.map((p) => p.x), ...ends.map((p) => p.x)])].sort((x, y) => x - y);
+    const ys = [.../* @__PURE__ */ new Set([4, geometry.height - 4, ...boxes.flatMap((rect) => [rect.top - gap, rect.bottom + gap]), ...starts.map((p) => p.y), ...ends.map((p) => p.y)])].sort((x, y) => x - y);
+    const inside = (p) => p.x < 2 || p.y < 2 || p.x > geometry.width - 2 || p.y > geometry.height - 2 || boxes.some((rect) => p.x > rect.left - 6 && p.x < rect.right + 6 && p.y > rect.top - 6 && p.y < rect.bottom + 6);
+    const blocked = (p, q) => boxes.some((rect) => p.x === q.x ? p.x > rect.left - 6 && p.x < rect.right + 6 && Math.max(p.y, q.y) > rect.top - 6 && Math.min(p.y, q.y) < rect.bottom + 6 : p.y > rect.top - 6 && p.y < rect.bottom + 6 && Math.max(p.x, q.x) > rect.left - 6 && Math.min(p.x, q.x) < rect.right + 6);
+    const points = ys.flatMap((y) => xs.map((x) => ({ x, y })));
+    const distances = points.map(() => Infinity), previous = points.map(() => -1), origin = points.map(() => -1);
+    const pending = /* @__PURE__ */ new Set();
+    const indexOf = (p) => ys.indexOf(p.y) * xs.length + xs.indexOf(p.x);
+    starts.forEach((p, index) => {
+      if (!inside(p)) {
+        const id = indexOf(p);
+        distances[id] = gap;
+        origin[id] = index;
+        pending.add(id);
+      }
+    });
+    const targets = new Map(ends.filter((p) => !inside(p)).map((p) => [indexOf(p), p]));
+    let finish = -1;
+    while (pending.size) {
+      let current = -1;
+      for (const candidate of pending) if (current === -1 || distances[candidate] < distances[current]) current = candidate;
+      pending.delete(current);
+      if (targets.has(current)) {
+        finish = current;
+        break;
+      }
+      const x = current % xs.length, y = Math.floor(current / xs.length);
+      const neighbors = [x > 0 ? current - 1 : -1, x < xs.length - 1 ? current + 1 : -1, y > 0 ? current - xs.length : -1, y < ys.length - 1 ? current + xs.length : -1];
+      for (const next of neighbors) {
+        if (next < 0 || inside(points[next]) || blocked(points[current], points[next])) continue;
+        const cost = distances[current] + Math.abs(points[current].x - points[next].x) + Math.abs(points[current].y - points[next].y);
+        if (cost < distances[next]) {
+          distances[next] = cost;
+          previous[next] = current;
+          origin[next] = origin[current];
+          pending.add(next);
+        }
+      }
+    }
+    if (finish < 0) return void 0;
+    const route = [targets.get(finish).anchor];
+    for (let current = finish; current !== -1; current = previous[current]) route.unshift(points[current]);
+    route.unshift(starts[origin[finish]].anchor);
+    const simplified = route.filter((p, index) => !index || index === route.length - 1 || !(route[index - 1].x === p.x && p.x === route[index + 1].x || route[index - 1].y === p.y && p.y === route[index + 1].y));
+    let length = -1, label = simplified[0];
+    simplified.slice(1).forEach((p, index) => {
+      const q = simplified[index], distance = Math.abs(p.x - q.x) + Math.abs(p.y - q.y);
+      if (distance > length) {
+        length = distance;
+        label = { x: (p.x + q.x) / 2, y: (p.y + q.y) / 2 };
+      }
+    });
+    return { d: simplified.map((p, index) => `${index ? "L" : "M"}${p.x} ${p.y}`).join(" "), label, points: simplified };
+  }
+  function currentTopologyNodes(nodes) {
+    const latest = /* @__PURE__ */ new Map();
+    nodes.forEach((node) => {
+      const key = node.taskId || node.id;
+      if (!latest.has(key) || latest.get(key).attempt <= node.attempt) latest.set(key, node);
+    });
+    const priority = { running: 0, pending: 1, blocked: 2, failed: 3, completed: 4, cancelled: 5 };
+    const position = new Map(nodes.map((node, index) => [node.id, index]));
+    return [...latest.values()].sort((a, b) => priority[a.status] - priority[b.status] || (a.status === "running" ? 0 : position.get(b.id) - position.get(a.id)));
+  }
+  function TopologyTask({ snapshot, node, catalog: catalog2 }) {
+    const decision = snapshot.jev?.decisions.filter((item) => item.nodeId === node.id).at(-1);
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: "tm-role-task-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { title: node.title, children: node.title }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Status, { status: node.status })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-map-footer", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("i", { className: "tm-dashed-line" }),
-          "\u5C97\u4F4D\u5173\u7CFB\u793A\u610F\uFF0C\u8FDE\u7EBF\u4E0D\u4EE3\u8868\u5DF2\u8C03\u7528"
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(NodeModel, { snapshot, node, catalog: catalog2, showReason: true }),
+      decision && topologyCardForNode(node) === "jev" && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: "tm-node-route-reason", title: decision.reason, children: [
+        decision.lane,
+        " \xB7 ",
+        decision.reason
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: "tm-role-task-id", title: node.id, children: [
+        node.id,
+        " \xB7 \u7B2C ",
+        node.attempt,
+        " \u6B21"
+      ] })
+    ] });
+  }
+  var ORG_RELATIONS = [["planner", "coordinator"], ["jev", "coordinator"], ["reviewer", "coordinator"], ["coordinator", "researcher"], ["coordinator", "explorer"], ["coordinator", "worker"]];
+  function Topology({ snapshot, settings, catalog: catalog2, selected, selectedNodeId, onSelect, onSelectNode, live, layoutKey }) {
+    const roles2 = snapshot?.roles || settings.roles;
+    const map = (0, import_react3.useRef)(null);
+    const [geometry, setGeometry] = (0, import_react3.useState)({ width: 0, height: 0, cards: {} });
+    const marker = (0, import_react3.useId)().replace(/:/g, "");
+    const hasVerification = !!snapshot?.nodes.some((node) => node.kind === "verification");
+    (0, import_react3.useLayoutEffect)(() => {
+      const element = map.current;
+      if (!element) return;
+      const measure = () => {
+        const bounds = element.getBoundingClientRect();
+        const cards = {};
+        element.querySelectorAll("[data-topology-card]").forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          if (rect.width > 0 && rect.height > 0) cards[card.dataset.topologyCard] = { left: rect.left - bounds.left, top: rect.top - bounds.top, right: rect.right - bounds.left, bottom: rect.bottom - bounds.top };
+        });
+        const next = { width: bounds.width, height: bounds.height, cards };
+        setGeometry((current) => JSON.stringify(current) === JSON.stringify(next) ? current : next);
+      };
+      measure();
+      const observer = typeof ResizeObserver === "undefined" ? void 0 : new ResizeObserver(measure);
+      observer?.observe(element);
+      element.querySelectorAll("[data-topology-card]").forEach((card) => observer?.observe(card));
+      window.addEventListener("resize", measure);
+      element.addEventListener("toggle", measure, true);
+      return () => {
+        observer?.disconnect();
+        window.removeEventListener("resize", measure);
+        element.removeEventListener("toggle", measure, true);
+      };
+    }, [snapshot, hasVerification, live.visible, live.stale, layoutKey]);
+    const pulses = (0, import_react3.useMemo)(() => !snapshot || !ACTIVE.has(snapshot.status) || !live.visible || live.stale ? [] : live.pulses.flatMap((pulse) => {
+      if (pulse.key !== `${snapshot.id}:${pulse.event.seq}`) return [];
+      const relation = resolveTopologyRelation(snapshot, pulse.event);
+      return relation ? [{ ...pulse, ...relation }] : [];
+    }), [snapshot, live.visible, live.stale, live.pulses]);
+    const background = (0, import_react3.useMemo)(() => ORG_RELATIONS.map(([from, to]) => ({ from, to, path: routeTopologyPath(from, to, geometry) })), [geometry]);
+    const cardOrder = ["jev", "planner", "reviewer", "coordinator", "researcher", "explorer", "worker", ...hasVerification ? ["verification"] : []];
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-topology", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-topology-map", ref: map, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("svg", { className: "tm-topology-wires tm-topology-org-relations", width: geometry.width, height: geometry.height, "aria-hidden": "true", children: background.map(({ from, to, path }) => path && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: path.d }, `${from}-${to}`)) }),
+        cardOrder.map((card) => {
+          const allNodes = snapshot?.nodes.filter((node) => topologyCardForNode(node) === card) || [];
+          const nodes = currentTopologyNodes(allNodes), primary = nodes[0], running = nodes.filter((node) => node.status === "running").length;
+          const animate = !!snapshot && nodes.some((node) => shouldAnimateNode(node, snapshot.status, live));
+          const isSelected = selectedNodeId ? allNodes.some((node) => node.id === selectedNodeId) : selected === card;
+          const selfEvents = pulses.filter((pulse) => pulse.sameCard && pulse.fromCard === card);
+          const name = card === "verification" ? "\u5BBF\u4E3B\u9A8C\u8BC1" : ROLE[card].name;
+          const className = card === "jev" ? "tm-controller-node" : card === "verification" ? "tm-verification-node" : `tm-role-card tm-role-card--${card}`;
+          const modelCount = snapshot ? new Set(nodes.filter((node) => node.status === "running").flatMap((node) => {
+            const model = resolveNodeModel(snapshot, node);
+            return model ? [`${model.selection.provider}/${model.selection.model}`] : [];
+          })).size : 0;
+          const activityOrder = running ? card === "jev" ? 1 : 0 : primary?.status === "pending" ? 2 : 3;
+          return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("article", { className: `tm-topology-card tm-topology-card--${card} ${isSelected ? "is-selected" : ""}`, "data-topology-card": card, "data-live": animate, "data-running-count": running, style: { "--tm-activity-order": activityOrder }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: `${className} ${isSelected ? "is-selected" : ""}`, "data-live": animate, "aria-pressed": isSelected, "aria-label": `\u67E5\u770B ${name}\u8BE6\u60C5`, onClick: () => card === "verification" ? primary && onSelectNode(primary) : onSelect(card), children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: "tm-role-title", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: `tm-role-icon tm-role-icon--${card}`, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: card === "verification" ? "review" : ROLE[card].icon }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: card === "jev" ? "Jev" : name }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: card === "verification" ? "HOST" : card.toUpperCase() }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
+            ] }) }),
+            primary && snapshot ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: `tm-role-task ${selectedNodeId === primary.id ? "is-selected" : ""}`, "data-node-id": primary.id, onClick: () => onSelectNode(primary), children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(TopologyTask, { snapshot, node: primary, catalog: catalog2 }) }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-role-idle", children: card === "jev" ? /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-role-model", children: "TypeSafe \xB7 \u72EC\u7ACB\u8C03\u5EA6" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-base-label", children: "\u5C1A\u672A\u6D3E\u53D1\u51B3\u7B56\u8282\u70B9" })
+            ] }) : card !== "verification" && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-role-model", title: modelName(roles2[card], catalog2, isFixture(snapshot)), children: modelName(roles2[card], catalog2, isFixture(snapshot)) }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-base-label", children: snapshot ? "\u542F\u52A8\u57FA\u7840\u914D\u7F6E \xB7 \u5C1A\u65E0\u4EFB\u52A1" : "\u5C97\u4F4D\u57FA\u7840\u914D\u7F6E \xB7 \u5C1A\u65E0\u4EFB\u52A1" })
+            ] }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-role-count", title: `${allNodes.length} \u6B21\u6D3E\u53D1\uFF0C\u91CD\u8BD5\u6309\u4EFB\u52A1\u4FDD\u7559\u6700\u65B0\u5B9E\u4F8B`, children: running > 1 ? `${running} \u4E2A\u5E76\u53D1${modelCount ? ` / ${modelCount} \u79CD\u6A21\u578B` : ""}` : running ? "1 \u4E2A\u8FD0\u884C\u4E2D" : nodes.length ? `${nodes.length} \u4E2A\u5F53\u524D\u4EFB\u52A1` : "\u7B49\u5F85\u6D3E\u53D1" }),
+            nodes.length > 1 && snapshot && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("details", { className: "tm-role-task-list", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("summary", { children: [
+                "\u5C55\u5F00\u5176\u4F59 ",
+                nodes.length - 1,
+                " \u4E2A\u4EFB\u52A1",
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { children: nodes.slice(1).map((node) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: `tm-role-task ${selectedNodeId === node.id ? "is-selected" : ""}`, "data-node-id": node.id, onClick: () => onSelectNode(node), children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(TopologyTask, { snapshot, node, catalog: catalog2 }) }, node.id)) })
+            ] }),
+            selfEvents.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "tm-topology-self-events", children: selfEvents.map((pulse) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: `tm-topology-self-event tm-relation-color--${pulse.kind}`, "data-event-key": pulse.key, "data-kind": pulse.kind, "data-from-card": pulse.fromCard, "data-to-card": pulse.toCard, "data-from-node-id": pulse.fromNode.id, "data-to-node-id": pulse.toNode.id, title: `${RELATION_EVENT_LABEL[pulse.kind]}\uFF1A${pulse.fromNode.id} \u2192 ${pulse.toNode.id}`, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "refresh" }),
+              "\u540C\u5C97 \xB7 ",
+              RELATION_EVENT_LABEL[pulse.kind]
+            ] }, pulse.key)) })
+          ] }, card);
+        }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("svg", { className: "tm-topology-live-relations", width: geometry.width, height: geometry.height, "aria-label": "\u65B0\u53D1\u751F\u7684\u771F\u5B9E\u8282\u70B9\u5173\u7CFB", children: pulses.filter((pulse) => !pulse.sameCard).map((pulse) => {
+          const path = routeTopologyPath(pulse.fromCard, pulse.toCard, geometry);
+          if (!path) return null;
+          const arrowId = `${marker}-${pulse.kind}-${pulse.event.seq}`;
+          const label = RELATION_EVENT_LABEL[pulse.kind], width = label.length * 11 + 16;
+          return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("g", { className: `tm-topology-relation tm-relation-color--${pulse.kind}`, "data-event-key": pulse.key, "data-kind": pulse.kind, "data-from-card": pulse.fromCard, "data-to-card": pulse.toCard, "data-from-node-id": pulse.fromNode.id, "data-to-node-id": pulse.toNode.id, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("title", { children: `${label}\uFF1A${pulse.fromNode.id} \u2192 ${pulse.toNode.id}` }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("defs", { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("marker", { id: arrowId, markerWidth: "6", markerHeight: "6", refX: "5", refY: "3", orient: "auto", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M0 0 6 3 0 6Z", fill: "currentColor" }) }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { className: "tm-topology-relation-line", d: path.d, markerEnd: `url(#${arrowId})` }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { className: "tm-edge-pulse", "data-event-key": pulse.key, d: path.d, pathLength: "1" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("g", { className: "tm-topology-relation-label", transform: `translate(${path.label.x},${path.label.y})`, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("rect", { x: -width / 2, y: "-9", width, height: "18", rx: "3" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("text", { textAnchor: "middle", dominantBaseline: "central", children: label })
+            ] })
+          ] }, pulse.key);
+        }) })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-map-footer tm-topology-legend", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("i", { className: "tm-dashed-line" }),
+          "\u5C97\u4F4D\u5173\u7CFB\u793A\u610F"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("i", { className: "tm-live-dot" }),
-          "\u72B6\u6001\u6765\u81EA",
-          isFixture(snapshot) ? "\u5408\u6210\u793A\u4F8B" : "\u5B9E\u9645\u8282\u70B9"
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("i", { className: "tm-live-dot" }),
+          "\u626B\u63CF = \u65B0\u9C9C\u8FD0\u884C\u72B6\u6001"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+          "\u5F69\u8272\u8DEF\u5F84 = \u65B0\u5173\u7CFB\u4E8B\u4EF6",
+          isFixture(snapshot) ? "\uFF08\u5408\u6210\u6F14\u793A\uFF09" : ""
         ] })
       ] })
     ] });
@@ -24914,108 +25913,120 @@
     });
     const rows = Math.max(1, ...Array.from(columns.values()).map((column) => column.length));
     const ranks = Math.max(0, ...rank.values()) + 1;
-    const height = vertical ? Math.max(320, ranks * 146 + 32) : Math.max(320, rows * 156 + 68);
+    const height = vertical ? Math.max(320, ranks * 192 + 32) : Math.max(320, rows * 198 + 68);
     const positions = /* @__PURE__ */ new Map();
     const width = vertical ? Math.max(360, rows * 186 + 26) : Math.max(490, ranks * 236 + 24);
-    columns.forEach((column, depth) => column.forEach((node, index) => positions.set(node.id, vertical ? { x: (width - column.length * 186) / 2 + index * 186 + 13, y: 24 + depth * 146 } : { x: 24 + depth * 236, y: (height - column.length * 156) / 2 + index * 156 + 12 })));
+    columns.forEach((column, depth) => column.forEach((node, index) => positions.set(node.id, vertical ? { x: (width - column.length * 186) / 2 + index * 186 + 13, y: 24 + depth * 192 } : { x: 24 + depth * 236, y: (height - column.length * 198) / 2 + index * 198 + 12 })));
     return { positions, width, height };
   }
-  function TaskGraph({ snapshot, selected, onSelect }) {
-    const [zoom, setZoom] = (0, import_react2.useState)(1);
-    const [viewportWidth, setViewportWidth] = (0, import_react2.useState)(400);
-    const graphRef = (0, import_react2.useRef)(null);
+  function TaskGraph({ snapshot, selected, onSelect, catalog: catalog2, live }) {
+    const [zoom, setZoom] = (0, import_react3.useState)(1);
+    const [viewportWidth, setViewportWidth] = (0, import_react3.useState)(400);
+    const graphRef = (0, import_react3.useRef)(null);
+    const scrollRef = (0, import_react3.useRef)(null);
     const vertical = viewportWidth < 650;
-    (0, import_react2.useEffect)(() => {
+    (0, import_react3.useEffect)(() => {
       const element = graphRef.current;
       if (!element || typeof ResizeObserver === "undefined") return;
       const observer = new ResizeObserver((entries) => setViewportWidth(entries[0]?.contentRect.width || 400));
       observer.observe(element);
       return () => observer.disconnect();
     }, [snapshot?.id, !!snapshot?.nodes.length]);
-    const selectedRef = (0, import_react2.useRef)(null);
-    (0, import_react2.useEffect)(() => {
+    const selectedRef = (0, import_react3.useRef)(null);
+    (0, import_react3.useEffect)(() => {
       selectedRef.current?.scrollIntoView({ block: "nearest", inline: "nearest" });
     }, [selected]);
-    const marker = (0, import_react2.useId)().replace(/:/g, "");
-    const layout = (0, import_react2.useMemo)(() => taskLayout(snapshot?.nodes || [], snapshot?.edges || [], vertical), [snapshot?.nodes, snapshot?.edges, vertical]);
-    if (!snapshot?.nodes.length) return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-empty-graph", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "tm-empty-icon", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "branch" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: "\u4EFB\u52A1\u5173\u7CFB\u5C06\u5728\u6D3E\u53D1\u540E\u51FA\u73B0" }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u53D1\u8D77 /team \u540E\uFF0C\u5DF2\u8BB0\u5F55\u7684\u6D3E\u53D1\u3001\u4F9D\u8D56\u4E0E\u53CD\u9988\u4F1A\u663E\u793A\u5728\u8FD9\u91CC\u3002" })
+    const marker = (0, import_react3.useId)().replace(/:/g, "");
+    const layout = (0, import_react3.useMemo)(() => taskLayout(snapshot?.nodes || [], snapshot?.edges || [], vertical), [snapshot?.nodes, snapshot?.edges, vertical]);
+    (0, import_react3.useEffect)(() => {
+      const viewport = scrollRef.current;
+      const target = layout.positions.get(selected || "") || layout.positions.get(snapshot?.nodes[0]?.id || "");
+      if (!viewport || !target) return;
+      const cardWidth = vertical ? 160 : 192;
+      const center = (target.x + cardWidth / 2) * zoom;
+      viewport.scrollLeft = Math.max(0, Math.min(layout.width * zoom - viewportWidth, center - viewportWidth / 2));
+    }, [snapshot?.id, !!snapshot?.nodes.length, viewportWidth, vertical, zoom]);
+    if (!snapshot?.nodes.length) return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-empty-graph", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-empty-icon", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "branch" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "\u4EFB\u52A1\u5173\u7CFB\u5C06\u5728\u6D3E\u53D1\u540E\u51FA\u73B0" }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "\u53D1\u8D77 /team \u540E\uFF0C\u5DF2\u8BB0\u5F55\u7684\u6D3E\u53D1\u3001\u4F9D\u8D56\u4E0E\u53CD\u9988\u4F1A\u663E\u793A\u5728\u8FD9\u91CC\u3002" })
     ] });
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: `tm-task-graph ${vertical ? "tm-task-graph--vertical" : ""}`, ref: graphRef, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-graph-tools", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: `tm-task-graph ${vertical ? "tm-task-graph--vertical" : ""}`, ref: graphRef, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-graph-tools", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
           snapshot.nodes.length,
           " \u4E2A\u8282\u70B9 \xB7 ",
           snapshot.edges.length,
           " \u6761\u5173\u7CFB"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-graph-controls", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "button", className: "tm-fit-button", onClick: () => setZoom(Math.min(1, Math.max(0.5, Math.floor((viewportWidth - 12) / layout.width * 100) / 100))), children: "\u9002\u5E94" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-graph-controls", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: "tm-fit-button", onClick: () => setZoom(Math.min(1, Math.max(0.5, Math.floor((viewportWidth - 12) / layout.width * 100) / 100))), children: "\u9002\u5E94" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
             "\u7F29\u653E",
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("select", { "aria-label": "\u4EFB\u52A1\u56FE\u7F29\u653E", value: zoom, onChange: (e) => setZoom(Number(e.target.value)), children: [
-              ![0.5, 0.75, 1].includes(zoom) && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("option", { value: zoom, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("select", { "aria-label": "\u4EFB\u52A1\u56FE\u7F29\u653E", value: zoom, onChange: (e) => setZoom(Number(e.target.value)), children: [
+              ![0.5, 0.75, 1].includes(zoom) && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("option", { value: zoom, children: [
                 Math.round(zoom * 100),
                 "%"
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: 0.5, children: "50%" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: 0.75, children: "75%" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: 1, children: "100%" })
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: 0.5, children: "50%" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: 0.75, children: "75%" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: 1, children: "100%" })
             ] })
           ] })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "tm-graph-scroll", tabIndex: 0, role: "region", "aria-label": "\u4EFB\u52A1\u5173\u7CFB\u56FE\uFF0C\u53EF\u6A2A\u5411\u6EDA\u52A8", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { style: { width: layout.width * zoom, height: layout.height * zoom }, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-task-canvas", style: { width: layout.width, height: layout.height, transform: `scale(${zoom})` }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("svg", { className: "tm-task-wires", width: layout.width, height: layout.height, "aria-hidden": "true", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("defs", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("marker", { id: marker, markerWidth: "6", markerHeight: "6", refX: "5", refY: "3", orient: "auto-start-reverse", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "M0 0 6 3 0 6", fill: "none", stroke: "currentColor", strokeWidth: "1" }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "tm-graph-scroll", ref: scrollRef, tabIndex: 0, role: "region", "aria-label": "\u4EFB\u52A1\u5173\u7CFB\u56FE\uFF0C\u53EF\u6A2A\u5411\u6EDA\u52A8", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { style: { width: layout.width * zoom, height: layout.height * zoom }, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-task-canvas", style: { width: layout.width, height: layout.height, transform: `scale(${zoom})` }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("svg", { className: "tm-task-wires", width: layout.width, height: layout.height, "aria-hidden": "true", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("defs", { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("marker", { id: marker, markerWidth: "6", markerHeight: "6", refX: "5", refY: "3", orient: "auto-start-reverse", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d: "M0 0 6 3 0 6", fill: "none", stroke: "currentColor", strokeWidth: "1" }) }) }),
           snapshot.edges.map((edge) => {
             const from = layout.positions.get(edge.from), to = layout.positions.get(edge.to);
             if (!from || !to) return null;
-            const sx = from.x + 192, sy = from.y + 61, tx = to.x - 4, ty = to.y + 61;
+            const sx = from.x + 192, sy = from.y + 82, tx = to.x - 4, ty = to.y + 82;
             const skip = tx - sx > 100 || tx < sx;
-            const verticalPath = `M${from.x + 80} ${from.y + 108} C${from.x + 80} ${from.y + 128}, ${to.x + 80} ${to.y - 20}, ${to.x + 80} ${to.y - 4}`;
+            const verticalPath = `M${from.x + 80} ${from.y + 158} C${from.x + 80} ${from.y + 178}, ${to.x + 80} ${to.y - 20}, ${to.x + 80} ${to.y - 4}`;
             const d = vertical ? verticalPath : skip ? `M${sx} ${sy} C${sx + 22} ${sy}, ${sx + 22} 24, ${sx + 46} 24 L${tx - 28} 24 Q${tx - 8} 24 ${tx - 8} ${ty - 18} L${tx - 8} ${ty - 8} Q${tx - 8} ${ty} ${tx} ${ty}` : `M${sx} ${sy} C${sx + 22} ${sy}, ${tx - 22} ${ty}, ${tx} ${ty}`;
-            return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("g", { className: `tm-edge tm-edge--${edge.kind}`, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("title", { children: `${EDGE[edge.kind]}\uFF1A${edge.from} \u2192 ${edge.to}` }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d, markerEnd: `url(#${marker})` })
+            return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("g", { className: `tm-edge tm-edge--${edge.kind}`, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("title", { children: `${EDGE[edge.kind]}\uFF1A${edge.from} \u2192 ${edge.to}` }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { d, markerEnd: `url(#${marker})` }),
+              live.pulses.filter((pulse) => pulse.event.edgeId === edge.id).map((pulse) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("path", { className: "tm-edge-pulse", "data-event-key": pulse.key, d, pathLength: "1" }, pulse.key))
             ] }, edge.id);
           })
         ] }),
         snapshot.nodes.map((node) => {
           const position = layout.positions.get(node.id);
-          return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", ref: selected === node.id ? selectedRef : void 0, className: `tm-task-node tm-task-node--${node.status} ${selected === node.id ? "is-selected" : ""}`, style: { left: position.x, top: position.y }, onClick: () => onSelect(node), "aria-pressed": selected === node.id, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { className: "tm-task-role", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: node.kind === "verification" ? "review" : ROLE[node.role]?.icon || "file" }),
+          return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", ref: selected === node.id ? selectedRef : void 0, "data-node-id": node.id, "data-live": shouldAnimateNode(node, snapshot.status, live), className: `tm-task-node tm-task-node--${node.status} ${selected === node.id ? "is-selected" : ""}`, style: { left: position.x, top: position.y }, onClick: () => onSelect(node), "aria-pressed": selected === node.id, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: "tm-task-role", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: node.kind === "verification" ? "review" : ROLE[node.role]?.icon || "file" }),
               node.kind === "verification" ? "\u5BBF\u4E3B\u9A8C\u8BC1" : ROLE[node.role]?.name || node.role,
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("small", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("small", { children: [
                 "#",
                 node.attempt
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: node.title }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { className: "tm-task-foot", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Status, { status: node.status }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-                node.output ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "file" }) : null,
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: node.title }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(NodeModel, { snapshot, node, catalog: catalog2 }),
+            node.failureCode && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-task-failure", children: node.failureCode }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: "tm-task-foot", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Status, { status: node.status }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+                node.output ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "file" }) : null,
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
               ] })
             ] })
           ] }, node.id);
         })
       ] }) }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-map-footer", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("i", { className: "tm-solid-line" }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-map-footer", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("i", { className: "tm-solid-line" }),
           "\u6D3E\u53D1 / \u4F9D\u8D56 / \u6C47\u603B"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("i", { className: "tm-feedback-line" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("i", { className: "tm-feedback-line" }),
           "\u53CD\u9988"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("i", { className: "tm-retry-line" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("i", { className: "tm-retry-line" }),
           "\u91CD\u8BD5 \xB7 \u72EC\u7ACB\u8282\u70B9"
         ] })
       ] })
@@ -25024,132 +26035,146 @@
   function Inspector({ role, node, snapshot, settings, catalog: catalog2, onSelectNode, onConfigure, onBack }) {
     const verificationNode = node?.kind === "verification";
     const definition = verificationNode ? { name: "\u5BBF\u4E3B\u9A8C\u8BC1", subtitle: "\u72EC\u7ACB\u5B8C\u6210\u68C0\u67E5", icon: "review", description: "\u7531\u5BBF\u4E3B\u8FD0\u884C\u670D\u52A1\u7AEF\u5141\u8BB8\u7684\u9A8C\u8BC1\u914D\u7F6E\uFF0C\u5E76\u68C0\u67E5\u4FEE\u6539\u8303\u56F4\u4E0E\u5DEE\u5F02\u8BC1\u636E\u3002\u6B64\u8282\u70B9\u4E0D\u662F\u6A21\u578B\u81EA\u62A5\u6210\u529F\u3002", access: "\u56FA\u5B9A\u670D\u52A1\u7AEF\u9A8C\u8BC1\u914D\u7F6E" } : ROLE[role] || ROLE.worker;
-    const selection = role === "jev" || verificationNode ? void 0 : (snapshot?.roles || settings.roles)[role];
-    const nodes = snapshot?.nodes.filter((item) => item.role === role) || [];
+    const route = node && snapshot?.production?.routing.decisions.filter((decision) => decision.nodeId === node.id).at(-1);
+    const selection = role === "jev" || verificationNode ? void 0 : route || (snapshot?.roles || settings.roles)[role];
+    const nodes = snapshot?.nodes.filter((item) => topologyCardForNode(item) === (verificationNode ? "verification" : role)) || [];
     const relations = node ? snapshot?.edges.filter((edge) => edge.from === node.id || edge.to === node.id) || [] : [];
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("aside", { className: "tm-inspector", "aria-label": node ? "\u8282\u70B9\u8BE6\u60C5" : "\u5C97\u4F4D\u8BE6\u60C5", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: "tm-inspector-back", onClick: onBack, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "arrow" }),
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("aside", { className: "tm-inspector", "aria-label": node ? "\u8282\u70B9\u8BE6\u60C5" : "\u5C97\u4F4D\u8BE6\u60C5", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: "tm-inspector-back", onClick: onBack, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "arrow" }),
         "\u8FD4\u56DE\u56FE\u8C31"
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-section-eyebrow", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: node ? "\u8282\u70B9\u8BE6\u60C5" : "\u5C97\u4F4D\u8BE6\u60C5" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: node ? `\u7B2C ${node.attempt} \u6B21\u6267\u884C` : "ROLE PROFILE" })
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-section-eyebrow", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: node ? "\u8282\u70B9\u8BE6\u60C5" : "\u5C97\u4F4D\u8BE6\u60C5" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: node ? `\u7B2C ${node.attempt} \u6B21\u6267\u884C` : "ROLE PROFILE" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-inspector-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: `tm-role-icon tm-role-icon--${role}`, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: definition.icon }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h3", { children: node?.title || definition.name }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Status, { status: node?.status || roleStatus(nodes) })
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-inspector-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: `tm-role-icon tm-role-icon--${role}`, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: definition.icon }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { children: node?.title || definition.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Status, { status: node?.status || roleStatus(nodes) })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-role-description", children: definition.description }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("dl", { className: "tm-facts", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u8D1F\u8D23\u89D2\u8272" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: definition.name })
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "tm-role-description", children: definition.description }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("dl", { className: "tm-facts", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dt", { children: "\u8D1F\u8D23\u89D2\u8272" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dd", { children: definition.name })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: role === "jev" || verificationNode ? "\u6267\u884C\u65B9\u5F0F" : "\u6A21\u578B" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: verificationNode ? "\u670D\u52A1\u7AEF\u9A8C\u8BC1\u68C0\u67E5" : role === "jev" ? "Jev \xB7 \u72EC\u7ACB\u670D\u52A1" : modelName(selection, catalog2, isFixture(snapshot)) })
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dt", { children: role === "jev" || verificationNode ? "\u6267\u884C\u65B9\u5F0F" : route ? "\u672C\u8282\u70B9\u9009\u5B9A\u6A21\u578B" : node ? "\u542F\u52A8\u57FA\u7840\u6A21\u578B" : "\u5C97\u4F4D\u57FA\u7840\u6A21\u578B" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dd", { children: verificationNode ? "\u670D\u52A1\u7AEF\u9A8C\u8BC1\u68C0\u67E5" : role === "jev" ? "Jev \xB7 \u72EC\u7ACB\u670D\u52A1" : modelName(selection, catalog2, isFixture(snapshot)) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u63D0\u4F9B\u65B9" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: verificationNode ? isFixture(snapshot) || snapshot?.jev?.mode === "fixture" ? "Fixture \xB7 \u5408\u6210\u9A8C\u8BC1" : "\u5F53\u524D\u5BBF\u4E3B" : role === "jev" ? isFixture(snapshot) || catalog2.jev?.mode === "fixture" ? "Fixture \xB7 \u672A\u8FDE\u63A5 TypeSafe" : catalog2.jev?.configured && catalog2.jev.available ? "TypeSafe \xB7 \u670D\u52A1\u7AEF\u5DF2\u914D\u7F6E" : "TypeSafe \xB7 \u672A\u8FDE\u63A5\u670D\u52A1" : isFixture(snapshot) && !selection?.provider ? "\u5408\u6210\u793A\u4F8B" : providerName(selection, catalog2) })
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dt", { children: "\u63D0\u4F9B\u65B9" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dd", { children: verificationNode ? isFixture(snapshot) || snapshot?.jev?.mode === "fixture" ? "Fixture \xB7 \u5408\u6210\u9A8C\u8BC1" : "\u5F53\u524D\u5BBF\u4E3B" : role === "jev" ? isFixture(snapshot) || catalog2.jev?.mode === "fixture" ? "Fixture \xB7 \u672A\u8FDE\u63A5 TypeSafe" : catalog2.jev?.configured && catalog2.jev.available ? "TypeSafe \xB7 \u670D\u52A1\u7AEF\u5DF2\u914D\u7F6E" : "TypeSafe \xB7 \u672A\u8FDE\u63A5\u670D\u52A1" : isFixture(snapshot) && !selection?.provider ? "\u5408\u6210\u793A\u4F8B" : providerName(selection, catalog2) })
         ] }),
-        selection?.reasoningEffort && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u601D\u8003\u5F3A\u5EA6" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: catalog2.providers.find((p) => p.id === selection.provider)?.models.find((m) => m.id === selection.model)?.efforts?.find((e) => e.id === selection.reasoningEffort)?.name || selection.reasoningEffort })
+        selection?.reasoningEffort && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dt", { children: "\u601D\u8003\u5F3A\u5EA6" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dd", { children: catalog2.providers.find((p) => p.id === selection.provider)?.models.find((m) => m.id === selection.model)?.efforts?.find((e) => e.id === selection.reasoningEffort)?.name || selection.reasoningEffort })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u5DE5\u4F5C\u65B9\u5F0F" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: definition.access })
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dt", { children: "\u5DE5\u4F5C\u65B9\u5F0F" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dd", { children: definition.access })
         ] }),
-        node && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u5F00\u59CB\u65F6\u95F4" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: time(node.startedAt) })
+        node && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dt", { children: "\u5F00\u59CB\u65F6\u95F4" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dd", { children: time(node.startedAt) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u7ED3\u675F\u65F6\u95F4" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: time(node.finishedAt) })
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dt", { children: "\u7ED3\u675F\u65F6\u95F4" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dd", { children: time(node.finishedAt) })
           ] })
         ] })
       ] }),
-      !snapshot && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: "tm-button tm-button--wide", onClick: onConfigure, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "settings" }),
-        "\u914D\u7F6E\u89D2\u8272\u6A21\u578B",
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "arrow" })
+      node && !route && role !== "jev" && !verificationNode && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "tm-production-help tm-model-provenance", children: "\u542F\u52A8\u65F6\u57FA\u7840\u914D\u7F6E\uFF0C\u672A\u62A5\u544A\u672C\u8282\u70B9\u9009\u62E9\u3002\u6B64\u5904\u4E0D\u662F\u5B9E\u9645\u54CD\u5E94\u6A21\u578B\u4FE1\u606F\u3002" }),
+      node?.failureCode && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-production-warning", children: [
+        "\u5931\u8D25\u5206\u7C7B\uFF1A",
+        node.failureCode
       ] }),
-      node ? /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-evidence", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-mini-heading", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { children: "\u8F93\u51FA\u4E0E\u8BC1\u636E" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u539F\u6587" })
+      route && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-production-help", children: [
+        "\u672C\u8282\u70B9\u8DEF\u7531\uFF1A",
+        route.lane,
+        " \xB7 ",
+        route.tier,
+        " \xB7 ",
+        route.reason
+      ] }),
+      !snapshot && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: "tm-button tm-button--wide", onClick: onConfigure, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "settings" }),
+        "\u914D\u7F6E\u89D2\u8272\u6A21\u578B",
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "arrow" })
+      ] }),
+      node ? /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-evidence", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-mini-heading", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h4", { children: "\u8F93\u51FA\u4E0E\u8BC1\u636E" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u539F\u6587" })
           ] }),
-          node.output ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("pre", { children: node.output }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-inline-empty", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "file" }),
+          node.output ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("pre", { children: node.output }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-inline-empty", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "file" }),
             "\u5C1A\u65E0\u516C\u5F00\u8F93\u51FA"
           ] }),
-          node.error && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-node-error", role: "status", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: "\u9519\u8BEF\u4FE1\u606F" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("pre", { children: node.error })
+          node.error && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-node-error", role: "status", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "\u9519\u8BEF\u4FE1\u606F" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("pre", { children: node.error })
           ] })
         ] }),
-        relations.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-relations", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { children: "\u5173\u8054\u8BB0\u5F55" }),
+        relations.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-relations", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h4", { children: "\u5173\u8054\u8BB0\u5F55" }),
           relations.map((edge) => {
             const other = snapshot?.nodes.find((item) => item.id === (edge.from === node.id ? edge.to : edge.from));
-            return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", disabled: !other, onClick: () => other && onSelectNode(other), children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: `tm-relation-tag tm-relation-tag--${edge.kind}`, children: EDGE[edge.kind] }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: other?.title || (edge.from === node.id ? edge.to : edge.from) }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
+            return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", disabled: !other, onClick: () => other && onSelectNode(other), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: `tm-relation-tag tm-relation-tag--${edge.kind}`, children: EDGE[edge.kind] }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: other?.title || (edge.from === node.id ? edge.to : edge.from) }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
             ] }, edge.id);
           })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("details", { className: "tm-source", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("summary", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("details", { className: "tm-source", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("summary", { children: [
             "\u6765\u6E90\u6807\u8BC6",
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("dl", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u8282\u70B9 ID" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: node.id }),
-            node.taskId && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u4EFB\u52A1 ID" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: node.taskId })
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("dl", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dt", { children: "\u8282\u70B9 ID" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dd", { children: node.id }),
+            node.taskId && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dt", { children: "\u4EFB\u52A1 ID" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dd", { children: node.taskId })
             ] }),
-            node.childId && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u5B50\u4F1A\u8BDD ID" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: node.childId })
+            node.childId && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dt", { children: "\u5B50\u4F1A\u8BDD ID" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dd", { children: node.childId })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "\u8FD0\u884C ID" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: snapshot?.id })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dt", { children: "\u8FD0\u884C ID" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("dd", { children: snapshot?.id })
           ] })
         ] })
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-role-work", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-mini-heading", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { children: "\u5DF2\u6D3E\u53D1\u8282\u70B9" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: nodes.length })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-role-work", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-mini-heading", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h4", { children: "\u5DF2\u6D3E\u53D1\u8282\u70B9" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: nodes.length })
         ] }),
-        nodes.length ? nodes.map((item) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", onClick: () => onSelectNode(item), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: item.title }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("small", { children: [
+        nodes.length ? nodes.map((item) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", onClick: () => onSelectNode(item), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: item.title }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("small", { children: [
               "\u7B2C ",
               item.attempt,
               " \u6B21\u6267\u884C"
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Status, { status: item.status }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
-        ] }, item.id)) : /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-inline-empty", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "branch" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Status, { status: item.status }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
+        ] }, item.id)) : /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-inline-empty", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "branch" }),
           "\u8FD9\u4E2A\u5C97\u4F4D\u8FD8\u6CA1\u6709\u6D3E\u53D1\u8BB0\u5F55"
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-inspector-note", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "lock" }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-inspector-note", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "lock" }),
         isFixture(snapshot) ? "\u5408\u6210\u6570\u636E \xB7 \u4EC5\u4F9B\u4F53\u9A8C" : "\u53EA\u5C55\u793A\u516C\u5F00\u4EA7\u51FA\u4E0E\u771F\u5B9E\u8BB0\u5F55"
       ] })
     ] });
@@ -25166,31 +26191,32 @@
   ];
   function TeamSettingsView({ setup, catalog: catalog2, credential, loading = false, saving = false, error, notice, onSave, onClose, onRefresh, onModelSelectionChange }) {
     const theme2 = useTeamTheme();
-    const [settings, setSettings] = (0, import_react2.useState)(setup.settings);
-    const [settingsRole, setSettingsRole] = (0, import_react2.useState)("planner");
-    const [disclosureAccepted, setDisclosureAccepted] = (0, import_react2.useState)(setup.disclosureAccepted);
-    const [keyDraft, setKeyDraft] = (0, import_react2.useState)("");
-    const [localError, setLocalError] = (0, import_react2.useState)();
-    const [submitting, setSubmitting] = (0, import_react2.useState)(false);
-    const saveLock = (0, import_react2.useRef)(false);
-    (0, import_react2.useEffect)(() => {
-      setSettings(setup.settings);
+    const [settings, setSettings] = (0, import_react3.useState)(() => productionDefaults(setup.settings));
+    const [settingsRole, setSettingsRole] = (0, import_react3.useState)("planner");
+    const [disclosureAccepted, setDisclosureAccepted] = (0, import_react3.useState)(setup.disclosureAccepted);
+    const [keyDraft, setKeyDraft] = (0, import_react3.useState)("");
+    const [localError, setLocalError] = (0, import_react3.useState)();
+    const [submitting, setSubmitting] = (0, import_react3.useState)(false);
+    const saveLock = (0, import_react3.useRef)(false);
+    (0, import_react3.useEffect)(() => {
+      setSettings(productionDefaults(setup.settings));
       setDisclosureAccepted(setup.disclosureAccepted);
       setKeyDraft("");
     }, [setup.revision, setup.settings, setup.disclosureAccepted]);
     const disabled = loading || saving || submitting || setup.writable === false;
     const missingRoles = validateSettings(settings, catalog2);
+    const productionErrors = productionSettingsErrors(settings, catalog2);
     const invalidLimits = LIMIT_FIELDS.some((field) => !Number.isInteger(settings.limits[field.key]) || settings.limits[field.key] < field.min * (field.factor || 1) || settings.limits[field.key] > field.max * (field.factor || 1));
     const keyReady = !!credential?.configured || setup.keyConfigured || !!keyDraft.trim() && !!credential?.writable;
     const revokingConsent = setup.disclosureAccepted && !disclosureAccepted;
-    const canSave = !disabled && !missingRoles.length && !invalidLimits && (revokingConsent || catalog2.available && disclosureAccepted && keyReady);
+    const canSave = !disabled && !missingRoles.length && !invalidLimits && !productionErrors.length && (revokingConsent || catalog2.available && disclosureAccepted && keyReady);
     function update(role, selection) {
       const clean = { provider: selection.provider, model: selection.model };
       if (selection.reasoningEffort) clean.reasoningEffort = selection.reasoningEffort;
       if (selection.maxTokens !== void 0) clean.maxTokens = selection.maxTokens;
       const roles2 = { ...settings.roles, [role]: clean };
       setSettings((current) => ({ ...current, roles: roles2 }));
-      onModelSelectionChange?.(roles2);
+      onModelSelectionChange?.(roles2, settings.routing);
     }
     async function save() {
       if (!canSave || saveLock.current) return;
@@ -25208,130 +26234,130 @@
         setSubmitting(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-root tm-setup-root", "data-theme": theme2, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("style", { children: team_default }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("style", { children: team_theme_default }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-settings", "aria-label": "\u56E2\u961F\u4E00\u6B21\u6027\u8BBE\u7F6E", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("header", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "tm-section-eyebrow", children: "\u56E2\u961F\u8BBE\u7F6E / \u539F\u751F Desktop" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h3", { children: "\u914D\u7F6E\u4E00\u6B21\uFF0C\u4EE5\u540E\u76F4\u63A5 /team" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u9009\u62E9\u516D\u4E2A\u5C97\u4F4D\u6A21\u578B\u5E76\u8FDE\u63A5 Jev\u3002\u4FDD\u5B58\u540E\uFF0C\u5728\u9879\u76EE\u804A\u5929\u8F93\u5165 /team \u548C\u4EFB\u52A1\u76EE\u6807\u5373\u53EF\u542F\u52A8\u3002" })
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-root tm-setup-root", "data-theme": theme2, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("style", { children: team_default }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("style", { children: team_theme_default }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-settings", "aria-label": "\u56E2\u961F\u4E00\u6B21\u6027\u8BBE\u7F6E", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("header", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-section-eyebrow", children: "\u56E2\u961F\u8BBE\u7F6E / \u539F\u751F Desktop" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { children: "\u914D\u7F6E\u4E00\u6B21\uFF0C\u4EE5\u540E\u76F4\u63A5 /team" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "\u9009\u62E9\u516D\u4E2A\u5C97\u4F4D\u6A21\u578B\u5E76\u8FDE\u63A5 Jev\u3002\u4FDD\u5B58\u540E\uFF0C\u5728\u9879\u76EE\u804A\u5929\u8F93\u5165 /team \u548C\u4EFB\u52A1\u76EE\u6807\u5373\u53EF\u542F\u52A8\u3002" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-settings-header-actions", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(TeamThemeSwitch, { theme: theme2 }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "button", className: "tm-icon-button", onClick: () => {
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-settings-header-actions", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(TeamThemeSwitch, { theme: theme2 }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: "tm-icon-button", onClick: () => {
               setKeyDraft("");
               onClose();
-            }, "aria-label": "\u5173\u95ED\u56E2\u961F\u8BBE\u7F6E", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "close" }) })
+            }, "aria-label": "\u5173\u95ED\u56E2\u961F\u8BBE\u7F6E", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "close" }) })
           ] })
         ] }),
-        (error || localError) && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", { className: "tm-notice tm-notice--error", role: "alert", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "alert" }),
+        (error || localError) && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-notice tm-notice--error", role: "alert", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "alert" }),
           error || localError
         ] }),
-        notice && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", { className: "tm-notice", role: "status", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "check" }),
+        notice && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-notice", role: "status", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "check" }),
           notice
         ] }),
-        !catalog2.available && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", { className: "tm-notice tm-notice--warning", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "alert" }),
+        !catalog2.available && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-notice tm-notice--warning", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "alert" }),
           catalog2.reason || "\u65E0\u6CD5\u8BFB\u53D6\u5BBF\u4E3B\u6A21\u578B\u76EE\u5F55\uFF0C\u8BF7\u5237\u65B0\u91CD\u8BD5\u3002"
         ] }),
-        setup.writable === false && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-notice tm-notice--warning", role: "status", children: "\u5F53\u524D\u5BBF\u4E3B\u7684\u56E2\u961F\u8BBE\u7F6E\u4E0D\u53EF\u5199\uFF0C\u8BF7\u68C0\u67E5\u4F7F\u7528\u7684 Desktop profile \u540E\u5237\u65B0\u3002" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-key-config", "aria-label": "Jev \u8FDE\u63A5", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { children: "Jev API \u5BC6\u94A5" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: credential?.configured || setup.keyConfigured ? "\u5DF2\u4FDD\u5B58 \xB7 \u4E0D\u56DE\u663E\u5BC6\u94A5" : "\u5C1A\u672A\u8FDE\u63A5" })
+        setup.writable === false && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "tm-notice tm-notice--warning", role: "status", children: "\u5F53\u524D\u5BBF\u4E3B\u7684\u56E2\u961F\u8BBE\u7F6E\u4E0D\u53EF\u5199\uFF0C\u8BF7\u68C0\u67E5\u4F7F\u7528\u7684 Desktop profile \u540E\u5237\u65B0\u3002" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-key-config", "aria-label": "Jev \u8FDE\u63A5", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h4", { children: "Jev API \u5BC6\u94A5" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: credential?.configured || setup.keyConfigured ? "\u5DF2\u4FDD\u5B58 \xB7 \u4E0D\u56DE\u663E\u5BC6\u94A5" : "\u5C1A\u672A\u8FDE\u63A5" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u5BC6\u94A5\u4EC5\u901A\u8FC7 Desktop \u539F\u751F\u51ED\u636E\u670D\u52A1\u4FDD\u5B58\uFF0C\u4E0D\u8FDB\u5165\u6A21\u578B\u914D\u7F6E\u3001\u804A\u5929\u6216\u8FD0\u884C\u8BB0\u5F55\u3002" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "\u5BC6\u94A5\u4EC5\u901A\u8FC7 Desktop \u539F\u751F\u51ED\u636E\u670D\u52A1\u4FDD\u5B58\uFF0C\u4E0D\u8FDB\u5165\u6A21\u578B\u914D\u7F6E\u3001\u804A\u5929\u6216\u8FD0\u884C\u8BB0\u5F55\u3002" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
             credential?.configured || setup.keyConfigured ? "\u66FF\u6362\u5BC6\u94A5\uFF08\u53EF\u9009\uFF09" : "\u8F93\u5165 Jev API \u5BC6\u94A5",
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { type: "password", "aria-label": "Jev API \u5BC6\u94A5", autoComplete: "new-password", spellCheck: false, maxLength: 4096, value: keyDraft, disabled: disabled || !credential?.writable, onChange: (event) => setKeyDraft(event.target.value), placeholder: credential?.configured || setup.keyConfigured ? "\u7559\u7A7A\u4FDD\u7559\u5F53\u524D\u5BC6\u94A5" : "\u7531\u4F60\u8F93\u5165\uFF0C\u4E0D\u4F1A\u663E\u793A\u5DF2\u4FDD\u5B58\u7684\u5BC6\u94A5" })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", { type: "password", "aria-label": "Jev API \u5BC6\u94A5", autoComplete: "new-password", spellCheck: false, maxLength: 4096, value: keyDraft, disabled: disabled || !credential?.writable, onChange: (event) => setKeyDraft(event.target.value), placeholder: credential?.configured || setup.keyConfigured ? "\u7559\u7A7A\u4FDD\u7559\u5F53\u524D\u5BC6\u94A5" : "\u7531\u4F60\u8F93\u5165\uFF0C\u4E0D\u4F1A\u663E\u793A\u5DF2\u4FDD\u5B58\u7684\u5BC6\u94A5" })
           ] }),
-          !credential?.writable && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", { className: "tm-config-lock", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "lock" }),
+          !credential?.writable && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-config-lock", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "lock" }),
             credential?.configured ? "\u5F53\u524D\u51ED\u636E\u6765\u6E90\u4E0D\u5141\u8BB8\u5728\u6B64\u66FF\u6362\u3002" : "\u539F\u751F\u51ED\u636E\u5B58\u50A8\u6682\u4E0D\u53EF\u5199\uFF0C\u8BF7\u68C0\u67E5 Desktop \u7684\u51ED\u636E\u670D\u52A1\u540E\u5237\u65B0\u3002"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("details", { className: "tm-key-storage", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("summary", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("details", { className: "tm-key-storage", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("summary", { children: [
               "\u5BC6\u94A5\u5982\u4F55\u4FDD\u5B58",
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "Desktop \u539F\u751F\u51ED\u636E\u5B58\u50A8\u4F7F\u7528\u672C\u5730\u660E\u6587\u6587\u4EF6\uFF0C\u5E76\u8BBE\u7F6E\u4EC5\u6587\u4EF6\u6240\u5C5E\u7528\u6237\u53EF\u8BFB\u5199\u7684\u6743\u9650\u3002\u5B83\u4E0D\u662F\u52A0\u5BC6\u4FDD\u9669\u5E93\uFF0C\u8BF7\u52FF\u5171\u4EAB\u51ED\u636E\u6587\u4EF6\u3002" })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "Desktop \u539F\u751F\u51ED\u636E\u5B58\u50A8\u4F7F\u7528\u672C\u5730\u660E\u6587\u6587\u4EF6\uFF0C\u5E76\u8BBE\u7F6E\u4EC5\u6587\u4EF6\u6240\u5C5E\u7528\u6237\u53EF\u8BFB\u5199\u7684\u6743\u9650\u3002\u5B83\u4E0D\u662F\u52A0\u5BC6\u4FDD\u9669\u5E93\uFF0C\u8BF7\u52FF\u5171\u4EAB\u51ED\u636E\u6587\u4EF6\u3002" })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-role-settings", "aria-label": "\u516D\u5C97\u4F4D\u6A21\u578B\u914D\u7F6E", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-settings-section-title", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { children: "\u5C97\u4F4D\u6A21\u578B" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-role-settings", "aria-label": "\u516D\u5C97\u4F4D\u6A21\u578B\u914D\u7F6E", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-settings-section-title", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h4", { children: "\u5C97\u4F4D\u6A21\u578B" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
               6 - missingRoles.length,
               " / 6 \u5DF2\u914D\u7F6E"
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-role-settings-layout", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("nav", { className: "tm-role-selector", "aria-label": "\u9009\u62E9\u8981\u914D\u7F6E\u7684\u5C97\u4F4D", children: ROLES.map((role) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", "aria-pressed": settingsRole === role, onClick: () => setSettingsRole(role), children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: ROLE[role].icon }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: ROLE[role].name }),
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("small", { children: modelName(settings.roles[role], catalog2) })
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-role-settings-layout", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("nav", { className: "tm-role-selector", "aria-label": "\u9009\u62E9\u8981\u914D\u7F6E\u7684\u5C97\u4F4D", children: ROLES.map((role) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", "aria-pressed": settingsRole === role, onClick: () => setSettingsRole(role), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: ROLE[role].icon }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: ROLE[role].name }),
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("small", { children: modelName(settings.roles[role], catalog2) })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: missingRoles.includes(role) ? "tm-config-missing" : "tm-config-ready", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: missingRoles.includes(role) ? "alert" : "check" }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: missingRoles.includes(role) ? "tm-config-missing" : "tm-config-ready", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: missingRoles.includes(role) ? "alert" : "check" }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
             ] }, role)) }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "tm-model-grid", children: ROLES.map((role) => {
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "tm-model-grid", children: ROLES.map((role) => {
               const selection = settings.roles[role] || { provider: "", model: "" };
               const provider = catalog2.providers.find((item) => item.id === selection.provider);
               const model = provider?.models.find((item) => item.id === selection.model);
-              return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("fieldset", { hidden: settingsRole !== role, className: "tm-model-config", disabled: disabled || !catalog2.available, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("legend", { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: `tm-role-icon tm-role-icon--${role}`, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: ROLE[role].icon }) }),
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: ROLE[role].name }),
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: ROLE[role].subtitle })
+              return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("fieldset", { hidden: settingsRole !== role, className: "tm-model-config", disabled: disabled || !catalog2.available, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("legend", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: `tm-role-icon tm-role-icon--${role}`, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: ROLE[role].icon }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: ROLE[role].name }),
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: ROLE[role].subtitle })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-config-selects", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-config-selects", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
                     "\u63D0\u4F9B\u65B9",
-                    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("select", { "aria-label": `${ROLE[role].name}\u63D0\u4F9B\u65B9`, value: selection.provider, onChange: (e) => update(role, { provider: e.target.value, model: "", maxTokens: selection.maxTokens }), children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: "", children: "\u9009\u62E9\u63D0\u4F9B\u65B9" }),
-                      selection.provider && !provider && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("option", { value: selection.provider, disabled: true, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("select", { "aria-label": `${ROLE[role].name}\u63D0\u4F9B\u65B9`, value: selection.provider, onChange: (e) => update(role, { provider: e.target.value, model: "", maxTokens: selection.maxTokens }), children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "", children: "\u9009\u62E9\u63D0\u4F9B\u65B9" }),
+                      selection.provider && !provider && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("option", { value: selection.provider, disabled: true, children: [
                         selection.provider,
                         " \xB7 \u5F53\u524D\u4E0D\u53EF\u7528"
                       ] }),
-                      catalog2.providers.map((item) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: item.id, children: item.name }, item.id))
+                      catalog2.providers.map((item) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: item.id, children: item.name }, item.id))
                     ] })
                   ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
                     "\u6A21\u578B",
-                    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("select", { "aria-label": `${ROLE[role].name}\u6A21\u578B`, value: selection.model, disabled: !provider || disabled || !catalog2.available, onChange: (e) => {
+                    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("select", { "aria-label": `${ROLE[role].name}\u6A21\u578B`, value: selection.model, disabled: !provider || disabled || !catalog2.available, onChange: (e) => {
                       const next = provider?.models.find((item) => item.id === e.target.value);
                       update(role, { ...selection, model: e.target.value, reasoningEffort: next?.defaultEffort });
                     }, children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: "", children: "\u9009\u62E9\u6A21\u578B" }),
-                      selection.model && !model && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("option", { value: selection.model, disabled: true, children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "", children: "\u9009\u62E9\u6A21\u578B" }),
+                      selection.model && !model && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("option", { value: selection.model, disabled: true, children: [
                         selection.model,
                         " \xB7 \u5F53\u524D\u4E0D\u53EF\u7528"
                       ] }),
-                      provider?.models.map((item) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: item.id, children: item.name }, item.id))
+                      provider?.models.map((item) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: item.id, children: item.name }, item.id))
                     ] })
                   ] })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("details", { className: "tm-advanced-model", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("summary", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("details", { className: "tm-advanced-model", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("summary", { children: [
                     "\u8BF7\u6C42\u8BBE\u7F6E",
-                    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
+                    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
                   ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-                    !!model?.efforts?.length && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+                    !!model?.efforts?.length && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
                       "\u63A8\u7406\u5F3A\u5EA6",
-                      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("select", { "aria-label": `${ROLE[role].name}\u63A8\u7406\u5F3A\u5EA6`, value: selection.reasoningEffort || "", onChange: (e) => update(role, { ...selection, reasoningEffort: e.target.value || void 0 }), children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: "", children: "\u4F7F\u7528\u6A21\u578B\u9ED8\u8BA4\u503C" }),
-                        model.efforts.map((effort) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: effort.id, children: effort.name }, effort.id))
+                      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("select", { "aria-label": `${ROLE[role].name}\u63A8\u7406\u5F3A\u5EA6`, value: selection.reasoningEffort || "", onChange: (e) => update(role, { ...selection, reasoningEffort: e.target.value || void 0 }), children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "", children: "\u4F7F\u7528\u6A21\u578B\u9ED8\u8BA4\u503C" }),
+                        model.efforts.map((effort) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: effort.id, children: effort.name }, effort.id))
                       ] })
                     ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
                       "\u6BCF\u6B21\u6A21\u578B\u8BF7\u6C42\u8F93\u51FA\u4E0A\u9650",
-                      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { "aria-label": `${ROLE[role].name}\u6BCF\u6B21\u6A21\u578B\u8BF7\u6C42\u8F93\u51FA\u4E0A\u9650`, type: "number", min: 128, max: 32768, step: 128, value: selection.maxTokens ?? "", placeholder: "\u9ED8\u8BA4 4096 tokens", onChange: (e) => update(role, { ...selection, maxTokens: e.target.value === "" ? void 0 : Math.min(32768, Math.max(128, Math.trunc(Number(e.target.value)))) }) })
+                      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", { "aria-label": `${ROLE[role].name}\u6BCF\u6B21\u6A21\u578B\u8BF7\u6C42\u8F93\u51FA\u4E0A\u9650`, type: "number", min: 128, max: 32768, step: 128, value: selection.maxTokens ?? "", placeholder: "\u9ED8\u8BA4 4096 tokens", onChange: (e) => update(role, { ...selection, maxTokens: e.target.value === "" ? void 0 : Math.min(32768, Math.max(128, Math.trunc(Number(e.target.value)))) }) })
                     ] })
                   ] })
                 ] })
@@ -25339,64 +26365,69 @@
             }) })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-config-switches", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { type: "checkbox", checked: settings.reviewPlan, disabled, onChange: (e) => setSettings({ ...settings, reviewPlan: e.target.checked }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: "\u590D\u6838\u521D\u59CB\u65B9\u6848" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("small", { children: "\u89C4\u5212\u5B8C\u6210\u540E\u7531\u5BA1\u67E5\u8005\u590D\u6838" })
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-config-switches", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", { type: "checkbox", checked: settings.reviewPlan, disabled, onChange: (e) => setSettings({ ...settings, reviewPlan: e.target.checked }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "\u590D\u6838\u521D\u59CB\u65B9\u6848" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("small", { children: "\u89C4\u5212\u5B8C\u6210\u540E\u7531\u5BA1\u67E5\u8005\u590D\u6838" })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: "Jev \u6838\u5FC3\u8C03\u5EA6 \xB7 \u5FC5\u987B\u542F\u7528" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("small", { children: "\u5206\u6863\u53EA\u8C03\u6574\u6267\u884C\u6D41\u7A0B\uFF0C\u4E0D\u66F4\u6362\u6240\u9009\u6A21\u578B\u6216\u63D0\u4F9B\u65B9" })
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "Jev \u6838\u5FC3\u8C03\u5EA6 \xB7 \u5FC5\u987B\u542F\u7528" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("small", { children: "\u9ED8\u8BA4\u6CBF\u7528\u57FA\u7840\u6A21\u578B\uFF0C\u53EF\u5728\u751F\u4EA7\u63A7\u5236\u4E2D\u660E\u786E\u542F\u7528\u5019\u9009\u8DEF\u7531" })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("details", { className: "tm-advanced-settings", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("summary", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(ProductionSettings, { settings, catalog: catalog2, disabled, role: settingsRole, onRoleChange: setSettingsRole, onChange: setSettings, onModelSelectionChange }),
+        productionErrors.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-production-errors", role: "alert", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "\u751F\u4EA7\u63A7\u5236\u9700\u8981\u4FEE\u6B63" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("ul", { children: productionErrors.map((message) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("li", { children: message }, message)) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("details", { className: "tm-advanced-settings", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("summary", { children: [
             "\u9AD8\u7EA7\u8FD0\u884C\u9650\u5236",
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-limits-header", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { children: "\u8FD0\u884C\u8FB9\u754C" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u53EA\u8BFB\u5DE5\u4F5C\u53EF\u5E76\u884C\uFF0C\u7F16\u8F91\u59CB\u7EC8\u4E32\u884C" })
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-limits-header", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h4", { children: "\u8FD0\u884C\u8FB9\u754C" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u53EA\u8BFB\u5DE5\u4F5C\u53EF\u5E76\u884C\uFF0C\u7F16\u8F91\u59CB\u7EC8\u4E32\u884C" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "tm-limits", children: LIMIT_FIELDS.map((field) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "tm-limits", children: LIMIT_FIELDS.map((field) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
             field.label,
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { "aria-label": field.label, type: "number", min: field.min, max: field.max, step: 1, disabled, value: settings.limits[field.key] / (field.factor || 1), onChange: (e) => {
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", { "aria-label": field.label, type: "number", min: field.min, max: field.max, step: 1, disabled, value: settings.limits[field.key] / (field.factor || 1), onChange: (e) => {
                 const value = Math.min(field.max, Math.max(field.min, Math.trunc(Number(e.target.value) || field.min)));
                 setSettings({ ...settings, limits: { ...settings.limits, [field.key]: value * (field.factor || 1) } });
               } }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("small", { children: field.suffix })
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("small", { children: field.suffix })
             ] })
           ] }, field.key)) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-disclosure", "aria-label": "\u4EE5\u540E /team \u7684\u6570\u636E\u4F7F\u7528\u4E0E\u6743\u9650", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { children: "\u4EE5\u540E\u6BCF\u6B21 /team \u7684\u5DE5\u4F5C\u65B9\u5F0F" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u4F60\u4E3B\u52A8\u53D1\u9001 /team \u65F6\uFF0C\u4EFB\u52A1\u76EE\u6807\u53CA\u5DE5\u5177\u8BFB\u53D6\u7684\u9879\u76EE\u4E0A\u4E0B\u6587\u4F1A\u53D1\u7ED9\u6240\u9009\u6A21\u578B\u63D0\u4F9B\u65B9\uFF1B\u6709\u9650\u7684\u76EE\u6807\u3001\u4E0A\u4E0B\u6587\u6458\u8981\u3001\u8BA1\u5212\u3001\u516C\u5F00\u4EA7\u51FA\u3001\u5DEE\u5F02\u548C\u9A8C\u8BC1\u8BC1\u636E\u4F1A\u53D1\u9001\u81F3 TypeSafe \u7684 Jev \u670D\u52A1\uFF0C\u7528\u4E8E\u5206\u7C7B\u548C\u9010\u8F6E\u8C03\u5EA6\u3002" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u7CFB\u7EDF\u4F1A\u5728\u5F53\u524D\u9879\u76EE\u5185\u53D1\u73B0\u5E76\u8FD0\u884C\u9002\u7528\u7684\u6D4B\u8BD5\u68C0\u67E5\uFF0C\u68C0\u67E5\u6587\u4EF6\u5DEE\u5F02\u4E0E\u4FEE\u6539\u8303\u56F4\u3002\u672A\u8BC6\u522B\u5230\u53EF\u5B89\u5168\u8FD0\u884C\u7684\u9A8C\u8BC1\u547D\u4EE4\u65F6\uFF0C\u4ECD\u53EF\u5728\u5141\u8BB8\u8303\u56F4\u5185\u4FEE\u6539\u9879\u76EE\uFF0C\u4F46\u7ED3\u679C\u4F1A\u6807\u4E3A\u201C\u5F85\u9A8C\u8BC1\u201D\uFF0C\u4E0D\u4F1A\u5BA3\u79F0\u9A8C\u8BC1\u901A\u8FC7\u3002\u6267\u884C\u8005\u4EC5\u5728\u5BBF\u4E3B\u5DF2\u6709\u6743\u9650\u5185\u4FEE\u6539\u9879\u76EE\uFF1B\u65B0\u589E\u6743\u9650\u4E0D\u4F1A\u81EA\u52A8\u6279\u51C6\u3002" }),
-          catalog2.jev?.disclosure && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: catalog2.jev.disclosure }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", { className: "tm-endpoint", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-disclosure", "aria-label": "\u4EE5\u540E /team \u7684\u6570\u636E\u4F7F\u7528\u4E0E\u6743\u9650", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h4", { children: "\u4EE5\u540E\u6BCF\u6B21 /team \u7684\u5DE5\u4F5C\u65B9\u5F0F" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "\u4F60\u4E3B\u52A8\u53D1\u9001 /team \u65F6\uFF0C\u4EFB\u52A1\u76EE\u6807\u53CA\u5DE5\u5177\u8BFB\u53D6\u7684\u9879\u76EE\u4E0A\u4E0B\u6587\u4F1A\u53D1\u7ED9\u6240\u9009\u6A21\u578B\u63D0\u4F9B\u65B9\uFF1B\u6709\u9650\u7684\u76EE\u6807\u3001\u4E0A\u4E0B\u6587\u6458\u8981\u3001\u8BA1\u5212\u3001\u516C\u5F00\u4EA7\u51FA\u3001\u5DEE\u5F02\u548C\u9A8C\u8BC1\u8BC1\u636E\u4F1A\u53D1\u9001\u81F3 TypeSafe \u7684 Jev \u670D\u52A1\uFF0C\u7528\u4E8E\u5206\u7C7B\u548C\u9010\u8F6E\u8C03\u5EA6\u3002" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "\u7CFB\u7EDF\u4F1A\u5728\u5F53\u524D\u9879\u76EE\u5185\u53D1\u73B0\u5E76\u8FD0\u884C\u9002\u7528\u7684\u6D4B\u8BD5\u68C0\u67E5\uFF0C\u68C0\u67E5\u6587\u4EF6\u5DEE\u5F02\u4E0E\u4FEE\u6539\u8303\u56F4\u3002\u672A\u8BC6\u522B\u5230\u53EF\u5B89\u5168\u8FD0\u884C\u7684\u9A8C\u8BC1\u547D\u4EE4\u65F6\uFF0C\u4ECD\u53EF\u5728\u5141\u8BB8\u8303\u56F4\u5185\u4FEE\u6539\u9879\u76EE\uFF0C\u4F46\u7ED3\u679C\u4F1A\u6807\u4E3A\u201C\u5F85\u9A8C\u8BC1\u201D\uFF0C\u4E0D\u4F1A\u5BA3\u79F0\u9A8C\u8BC1\u901A\u8FC7\u3002\u6267\u884C\u8005\u4EC5\u5728\u5BBF\u4E3B\u5DF2\u6709\u6743\u9650\u5185\u4FEE\u6539\u9879\u76EE\uFF1B\u65B0\u589E\u6743\u9650\u4E0D\u4F1A\u81EA\u52A8\u6279\u51C6\u3002" }),
+          catalog2.jev?.disclosure && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: catalog2.jev.disclosure }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-endpoint", children: [
             "TypeSafe \u76EE\u6807\uFF1A",
             catalog2.jev?.endpoint || "\u7B49\u5F85\u5BBF\u4E3B\u63D0\u4F9B\u670D\u52A1\u5730\u5740"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { type: "checkbox", "aria-label": "\u540C\u610F\u4EE5\u540E\u4E3B\u52A8\u53D1\u8D77\u7684 team \u4EFB\u52A1", checked: disclosureAccepted, disabled, onChange: (event) => setDisclosureAccepted(event.target.checked) }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u6211\u540C\u610F\u4EE5\u540E\u7531\u6211\u4E3B\u52A8\u53D1\u8D77\u7684 /team \u4EFB\u52A1\u6309\u4E0A\u8FF0\u65B9\u5F0F\u4F7F\u7528\u6240\u9009\u6A21\u578B\u3001\u53D1\u9001\u6709\u9650\u8BC1\u636E\u81F3 TypeSafe\uFF0C\u5E76\u53D1\u73B0\u548C\u8FD0\u884C\u5F53\u524D\u9879\u76EE\u7684\u9A8C\u8BC1\u68C0\u67E5\u3002" })
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", { type: "checkbox", "aria-label": "\u540C\u610F\u4EE5\u540E\u4E3B\u52A8\u53D1\u8D77\u7684 team \u4EFB\u52A1", checked: disclosureAccepted, disabled, onChange: (event) => setDisclosureAccepted(event.target.checked) }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u6211\u540C\u610F\u4EE5\u540E\u7531\u6211\u4E3B\u52A8\u53D1\u8D77\u7684 /team \u4EFB\u52A1\u6309\u4E0A\u8FF0\u65B9\u5F0F\u4F7F\u7528\u6240\u9009\u6A21\u578B\u3001\u53D1\u9001\u6709\u9650\u8BC1\u636E\u81F3 TypeSafe\uFF0C\u5E76\u53D1\u73B0\u548C\u8FD0\u884C\u5F53\u524D\u9879\u76EE\u7684\u9A8C\u8BC1\u68C0\u67E5\u3002" })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-setup-actions", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: "tm-button", onClick: onRefresh, disabled: loading || saving || submitting, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "refresh" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-setup-actions", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: "tm-button", onClick: onRefresh, disabled: loading || saving || submitting, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "refresh" }),
             "\u5237\u65B0\u8BBE\u7F6E"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: "tm-button tm-button--primary", onClick: () => void save(), disabled: !canSave, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "check" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: "tm-button tm-button--primary", onClick: () => void save(), disabled: !canSave, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "check" }),
             saving || submitting ? "\u6B63\u5728\u4FDD\u5B58\u2026" : loading ? "\u6B63\u5728\u8BFB\u53D6\u2026" : "\u4FDD\u5B58\u56E2\u961F\u8BBE\u7F6E"
           ] })
         ] }),
-        missingRoles.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", { className: "tm-start-hint", children: [
+        missingRoles.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-start-hint", children: [
           "\u8BF7\u9009\u62E9",
           missingRoles.map((role) => ROLE[role].name).join("\u3001"),
           "\u7684\u6709\u6548\u6A21\u578B\u3002\u4FDD\u5B58\u540E\u4E0D\u4F1A\u81EA\u52A8\u66FF\u6362\u6240\u9009\u6A21\u578B\u3002"
@@ -25404,43 +26435,48 @@
       ] })
     ] });
   }
-  function TeamView({ catalog: catalog2, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings }) {
+  function TeamView({ catalog: catalog2, history = [], selectedRunId, onSelectRun, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings, onLoadTrace, freshness }) {
+    const diagnostic = snapshot?.diagnostic || (!selectedRunId ? sessionContext?.diagnostic : void 0);
     const theme2 = useTeamTheme();
-    const [graph, setGraph] = (0, import_react2.useState)("team");
-    const [selectedRole, setSelectedRole] = (0, import_react2.useState)("coordinator");
-    const [selectedNodeId, setSelectedNodeId] = (0, import_react2.useState)();
-    const [activityOpen, setActivityOpen] = (0, import_react2.useState)(true);
-    const [cancelling, setCancelling] = (0, import_react2.useState)(false);
-    const [localError, setLocalError] = (0, import_react2.useState)();
-    const cancelLock = (0, import_react2.useRef)(false);
-    const cancelGeneration = (0, import_react2.useRef)(0);
-    const prefix = (0, import_react2.useId)();
-    const inspectorRef = (0, import_react2.useRef)(null);
-    const canvasRef = (0, import_react2.useRef)(null);
+    const [graph, setGraph] = (0, import_react3.useState)("team");
+    const [selectedRole, setSelectedRole] = (0, import_react3.useState)("coordinator");
+    const [selectedNodeId, setSelectedNodeId] = (0, import_react3.useState)();
+    const [activityOpen, setActivityOpen] = (0, import_react3.useState)(true);
+    const [layout, setLayout] = (0, import_react3.useState)("workflow");
+    const live = useLiveWorkflow(snapshot, freshness);
+    const [cancelling, setCancelling] = (0, import_react3.useState)(false);
+    const [localError, setLocalError] = (0, import_react3.useState)();
+    const cancelLock = (0, import_react3.useRef)(false);
+    const cancelGeneration = (0, import_react3.useRef)(0);
+    const prefix = (0, import_react3.useId)();
+    const inspectorRef = (0, import_react3.useRef)(null);
+    const canvasRef = (0, import_react3.useRef)(null);
     const demo = isFixture(snapshot);
     const active = !!snapshot && !demo && ACTIVE.has(snapshot.status);
     const selectedNode = snapshot?.nodes.find((node) => node.id === selectedNodeId);
-    const role = selectedNode?.role || selectedRole;
+    const role = selectedNode && topologyCardForNode(selectedNode) === "jev" ? "jev" : selectedNode?.role || selectedRole;
     const nodes = snapshot?.nodes || [];
     const completed = nodes.filter((node) => node.status === "completed").length;
     const running = nodes.filter((node) => node.status === "running").length;
-    const events = [...snapshot?.events || []].slice(-30).reverse();
+    const uniqueEvents = [...new Map([...snapshot?.events || []].reverse().map((event) => [event.seq, event])).values()].sort((a, b) => a.seq - b.seq);
+    const events = uniqueEvents.slice(-30).reverse();
     const runEvidence = snapshot?.jev?.evidence;
     const completionVerified = !!runEvidence && runEvidence.checksPassed && runEvidence.scopeOk && runEvidence.diffAvailable && runEvidence.verified;
-    (0, import_react2.useEffect)(() => {
+    (0, import_react3.useEffect)(() => {
       cancelGeneration.current++;
       cancelLock.current = false;
       setSelectedNodeId(void 0);
       setLocalError(void 0);
       setCancelling(false);
+      setGraph("team");
     }, [snapshot?.id, sessionId]);
-    (0, import_react2.useEffect)(() => () => {
+    (0, import_react3.useEffect)(() => () => {
       cancelGeneration.current++;
     }, []);
     const openSettings = onOpenSettings;
     function selectNode(node) {
       setSelectedNodeId(node.id);
-      setSelectedRole(node.role);
+      setSelectedRole(topologyCardForNode(node) === "jev" ? "jev" : node.role);
     }
     function selectRole(next) {
       setSelectedRole(next);
@@ -25463,199 +26499,266 @@
         }
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-root", "data-theme": theme2, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("style", { children: team_default }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("style", { children: team_theme_default }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-shell", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("header", { className: "tm-header", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-brand", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "tm-brand-mark", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "team" }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-wordmark", children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: `tm-root tm-layout-${layout}`, "data-theme": theme2, "data-stale": live.stale, "data-live": live.visible && !live.stale && !!snapshot && ACTIVE.has(snapshot.status), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("style", { children: team_default }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("style", { children: team_theme_default }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-shell", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("header", { className: "tm-header", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-brand", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-brand-mark", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "team" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-wordmark", children: [
                 "DSH ",
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "/ WORKSPACE" })
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "/ WORKSPACE" })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h1", { children: "\u667A\u80FD\u4F53\u56E2\u961F" })
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h1", { children: "\u667A\u80FD\u4F53\u56E2\u961F" })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-header-actions", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: `tm-button tm-button--quiet ${demo ? "is-demo" : ""}`, onClick: onDemo, disabled: active, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "play" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-header-actions", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: "tm-button tm-button--quiet tm-layout-switch", "aria-label": "\u5207\u6362\u5DE5\u4F5C\u6D41\u5E03\u5C40", "aria-pressed": layout === "classic", onClick: () => setLayout(layout === "workflow" ? "classic" : "workflow"), children: layout === "workflow" ? "\u7D27\u51D1\u5BF9\u7167" : "\u5DE5\u4F5C\u6D41\u5E03\u5C40" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: `tm-button tm-button--quiet ${demo ? "is-demo" : ""}`, onClick: onDemo, disabled: active, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "play" }),
               "\u6F14\u793A"
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "button", className: "tm-icon-button", onClick: () => void onRefresh(), disabled: loading, "aria-label": demo ? "\u8FD4\u56DE\u5B9E\u65F6\u89C6\u56FE" : "\u5237\u65B0\u56E2\u961F\u72B6\u6001", title: demo ? "\u8FD4\u56DE\u5B9E\u65F6\u89C6\u56FE" : "\u5237\u65B0\u56E2\u961F\u72B6\u6001", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "refresh", className: loading ? "is-spinning" : "" }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(TeamThemeSwitch, { theme: theme2 })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: "tm-icon-button", onClick: () => void onRefresh(), disabled: loading, "aria-label": demo ? "\u8FD4\u56DE\u5B9E\u65F6\u89C6\u56FE" : "\u5237\u65B0\u56E2\u961F\u72B6\u6001", title: demo ? "\u8FD4\u56DE\u5B9E\u65F6\u89C6\u56FE" : "\u5237\u65B0\u56E2\u961F\u72B6\u6001", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "refresh", className: loading ? "is-spinning" : "" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(TeamThemeSwitch, { theme: theme2 })
           ] })
         ] }),
-        demo && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-demo-banner", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u6F14\u793A" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u5408\u6210\u6570\u636E \xB7 \u672A\u8C03\u7528\u771F\u5B9E\u6A21\u578B\u6216 TypeSafe\uFF0C\u672A\u4FEE\u6539\u9879\u76EE\u3002" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", onClick: () => void onRefresh(), children: [
+        demo && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-demo-banner", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u6F14\u793A" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "\u5408\u6210\u6570\u636E \xB7 \u672A\u8C03\u7528\u771F\u5B9E\u6A21\u578B\u6216 TypeSafe\u3002" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", onClick: () => void onRefresh(), children: [
             "\u8FD4\u56DE\u5B9E\u65F6",
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "arrow" })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "arrow" })
           ] })
         ] }),
-        (error || localError) && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-notice tm-notice--error", role: "alert", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "alert" }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: localError || error })
+        (error || localError) && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-notice tm-notice--error", role: "alert", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "alert" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: localError || error })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("main", { className: "tm-main", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-overview", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-section-eyebrow", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: snapshot ? "\u5F53\u524D\u4EFB\u52A1" : "\u5DE5\u4F5C\u53F0" }),
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { className: "tm-session", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("i", {}),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("main", { className: "tm-main", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-overview", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-section-eyebrow", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: snapshot ? "\u5F53\u524D\u4EFB\u52A1" : "\u5DE5\u4F5C\u53F0" }),
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: "tm-session", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("i", {}),
                   demo ? "\u793A\u4F8B\u4F1A\u8BDD" : sessionId ? "\u5DF2\u8FDE\u63A5\u5F53\u524D\u4F1A\u8BDD" : "\u7B49\u5F85 Desktop \u4F1A\u8BDD"
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h2", { children: snapshot?.goal || (configured ? "\u56E2\u961F\u5DF2\u5C31\u4F4D" : "\u8FDE\u63A5\u4F60\u7684\u5DE5\u4F5C\u56E2\u961F") }),
-              snapshot ? /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("details", { className: "tm-run-description", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("summary", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h2", { children: snapshot?.goal || (configured ? "\u56E2\u961F\u5DF2\u5C31\u4F4D" : "\u8FDE\u63A5\u4F60\u7684\u5DE5\u4F5C\u56E2\u961F") }),
+              snapshot ? /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("details", { className: "tm-run-description", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("summary", { children: [
                   "\u8FD0\u884C\u8BF4\u660E",
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: snapshot.message || "\u4EFB\u52A1\u6309\u5B9E\u9645\u9700\u8981\u6D3E\u53D1\uFF0C\u7814\u7A76\u4E0E\u63A2\u7D22\u5E76\u884C\uFF0C\u7F16\u8F91\u5DE5\u4F5C\u4E32\u884C\u3002" })
-              ] }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u5728\u804A\u5929\u4E2D\u4F7F\u7528 /team \u53D1\u8D77\u4EFB\u52A1\u3002" })
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: snapshot.message || "\u4EFB\u52A1\u6309\u5B9E\u9645\u9700\u8981\u6D3E\u53D1\uFF0C\u7814\u7A76\u4E0E\u63A2\u7D22\u5E76\u884C\uFF0C\u7F16\u8F91\u5DE5\u4F5C\u4E32\u884C\u3002" })
+              ] }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "\u5728\u804A\u5929\u4E2D\u4F7F\u7528 /team \u53D1\u8D77\u4EFB\u52A1\u3002" })
             ] }),
-            snapshot && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-run-state", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Status, { status: snapshot.status === "completed" && !completionVerified ? "completion_unverified" : snapshot.status }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: snapshot.finishedAt ? duration(snapshot) : `\u5F00\u59CB\u4E8E ${time(snapshot.startedAt)}` })
+            snapshot && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-run-state", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Status, { status: snapshot.status === "completed" && !completionVerified ? "completion_unverified" : snapshot.status }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: snapshot.finishedAt ? duration(snapshot) : `\u5F00\u59CB\u4E8E ${time(snapshot.startedAt)}` })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-summary-strip", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "team" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u5C97\u4F4D" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: "6" })
+          snapshot && ["blocked", "failed", "unverified"].includes(snapshot.status) && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-run-blocker", role: "status", "aria-label": "\u5F53\u524D\u8FD0\u884C\u53D7\u963B\u539F\u56E0", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "alert" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("strong", { children: [
+                STATUS[snapshot.status],
+                snapshot.failureCode ? ` \xB7 ${snapshot.failureCode}` : ""
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: snapshot.message || "\u672C\u6B21\u8FD0\u884C\u5C1A\u672A\u6EE1\u8DB3\u5B8C\u6210\u6761\u4EF6\uFF0C\u8BF7\u67E5\u770B\u8282\u70B9\u8BE6\u60C5\u4E0E\u72EC\u7ACB\u9A8C\u8BC1\u7ED3\u679C\u3002" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-summary-strip", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "team" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u5C97\u4F4D" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "6" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "branch" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u8282\u70B9" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: nodes.length })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "branch" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u8282\u70B9" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: nodes.length })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "activity" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u6267\u884C\u4E2D" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("strong", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "activity" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u6267\u884C\u4E2D" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("strong", { children: [
                 running,
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("small", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("small", { children: [
                   " / ",
                   (snapshot?.limits || settings.limits).concurrency
                 ] })
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "check" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u5B8C\u6210" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: completed })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "check" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u5B8C\u6210" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: completed })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(JevPanel, { catalog: catalog2, snapshot, settings, onSelectNode: (node) => {
-            setGraph("tasks");
-            selectNode(node);
-          } }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-workspace", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-graph-panel", ref: canvasRef, "aria-label": "\u56E2\u961F\u4E0E\u4EFB\u52A1\u53EF\u89C6\u5316", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-panel-header", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-tabs", role: "tablist", "aria-label": "\u56FE\u8868\u89C6\u56FE", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", role: "tab", id: `${prefix}-team-tab`, "aria-controls": `${prefix}-graph`, "aria-selected": graph === "team", tabIndex: graph === "team" ? 0 : -1, onClick: () => setGraph("team"), onKeyDown: (e) => {
+          live.stale && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "tm-notice tm-notice--warning tm-stale-notice", role: "status", children: "\u8FDE\u63A5\u4E2D\u65AD\u6216\u5FEB\u7167\u5DF2\u8FC7\u671F\u3002\u4FDD\u7559\u6700\u540E\u62A5\u544A\u7684\u8282\u70B9\u72B6\u6001\uFF0C\u6240\u6709\u6267\u884C\u4E0E\u5173\u7CFB\u52A8\u6548\u5DF2\u6682\u505C\uFF1B\u6062\u590D\u540E\u4ECE\u65B0\u5FEB\u7167\u7EE7\u7EED\u3002" }),
+          history.length > 1 && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { className: "tm-notice", children: [
+            "\u672C\u4F1A\u8BDD\u8FD0\u884C ",
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("select", { "aria-label": "\u672C\u4F1A\u8BDD\u8FD0\u884C\u5386\u53F2", value: selectedRunId || "", onChange: (event) => onSelectRun?.(event.target.value || void 0), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "", children: "\u6700\u65B0\u8FD0\u884C" }),
+              history.filter((row) => row.sessionId === sessionId).map((row) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("option", { value: row.id, children: [
+                row.id,
+                " \xB7 ",
+                row.finishedAt ? "\u5386\u53F2" : "\u8FDB\u884C\u4E2D",
+                " \xB7 ",
+                row.goal.slice(0, 60)
+              ] }, row.id))
+            ] })
+          ] }),
+          diagnostic && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-notice", role: "status", children: [
+            "\u68C0\u67E5\u9636\u6BB5\uFF1A",
+            diagnostic.phase,
+            "\uFF1B\u539F\u56E0\uFF1A",
+            diagnostic.reason,
+            "\uFF1B\u5BBF\u4E3B\u5206\u7C7B\uFF1A",
+            diagnostic.code,
+            " / ",
+            diagnostic.kind,
+            diagnostic.exitCode === void 0 ? "" : " / exit " + diagnostic.exitCode
+          ] }),
+          sessionContext?.occupancy && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "tm-notice", role: "status", children: [
+            "\u9879\u76EE\u5360\u7528\uFF1A\u4F1A\u8BDD ",
+            sessionContext.occupancy.sessionId,
+            " \xB7 ",
+            sessionContext.occupancy.state,
+            sessionContext.occupancy.runId ? " \xB7 " + sessionContext.occupancy.runId : ""
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-workspace", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-graph-panel", ref: canvasRef, "aria-label": "\u56E2\u961F\u4E0E\u4EFB\u52A1\u53EF\u89C6\u5316", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-panel-header", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-tabs", role: "tablist", "aria-label": "\u56FE\u8868\u89C6\u56FE", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", role: "tab", id: `${prefix}-team-tab`, "aria-controls": `${prefix}-graph`, "aria-selected": graph === "team", tabIndex: graph === "team" ? 0 : -1, onClick: () => setGraph("team"), onKeyDown: (e) => {
                     if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
                       e.preventDefault();
                       setGraph("tasks");
                       e.currentTarget.nextElementSibling?.focus();
                     }
                   }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "team" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "team" }),
                     "\u56E2\u961F\u62D3\u6251"
                   ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", role: "tab", id: `${prefix}-tasks-tab`, "aria-controls": `${prefix}-graph`, "aria-selected": graph === "tasks", tabIndex: graph === "tasks" ? 0 : -1, onClick: () => setGraph("tasks"), onKeyDown: (e) => {
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", role: "tab", id: `${prefix}-tasks-tab`, "aria-controls": `${prefix}-graph`, "aria-selected": graph === "tasks", tabIndex: graph === "tasks" ? 0 : -1, onClick: () => setGraph("tasks"), onKeyDown: (e) => {
                     if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
                       e.preventDefault();
                       setGraph("team");
                       e.currentTarget.previousElementSibling?.focus();
                     }
                   }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "branch" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "branch" }),
                     "\u4EFB\u52A1\u5173\u7CFB",
-                    nodes.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: nodes.length })
+                    nodes.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: nodes.length })
                   ] })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: "tm-button tm-button--quiet tm-config-trigger", "aria-label": "\u56E2\u961F\u8BBE\u7F6E", onClick: openSettings, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "settings" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u56E2\u961F\u8BBE\u7F6E" })
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: "tm-button tm-button--quiet tm-config-trigger", "aria-label": "\u56E2\u961F\u8BBE\u7F6E", onClick: openSettings, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "settings" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u56E2\u961F\u8BBE\u7F6E" })
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "tm-graph-caption", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: graph === "team" ? "\u5C97\u4F4D\u914D\u7F6E" : "\u52A8\u6001\u4EFB\u52A1\u56FE" }),
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "tm-graph-context", children: selectedNode ? selectedNode.title : ROLE[role].name }),
-                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: "tm-inspect-jump", onClick: () => inspectorRef.current?.scrollIntoView({ block: "start", behavior: "auto" }), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-graph-caption", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: graph === "team" ? "\u56E2\u961F\u5B9E\u65F6\u62D3\u6251" : "\u52A8\u6001\u4EFB\u52A1\u56FE" }),
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-graph-context", children: selectedNode ? selectedNode.title : ROLE[role].name }),
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: "tm-inspect-jump", onClick: () => inspectorRef.current?.scrollIntoView({ block: "start", behavior: "auto" }), children: [
                   "\u67E5\u770B\u8BE6\u60C5",
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "arrow" })
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "arrow" })
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { role: "tabpanel", id: `${prefix}-graph`, "aria-labelledby": `${prefix}-${graph}-tab`, children: graph === "team" ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Topology, { snapshot, settings, catalog: catalog2, selected: !selectedNodeId ? role : void 0, onSelect: selectRole }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(TaskGraph, { snapshot, selected: selectedNodeId, onSelect: selectNode }) })
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { role: "tabpanel", id: `${prefix}-graph`, "aria-labelledby": `${prefix}-${graph}-tab`, children: graph === "team" ? /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Topology, { snapshot, settings, catalog: catalog2, selected: !selectedNodeId ? role : void 0, selectedNodeId, onSelect: selectRole, onSelectNode: selectNode, live, layoutKey: `${theme2}:${layout}` }),
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(InstanceCards, { snapshot, catalog: catalog2, selected: selectedNodeId, onSelect: selectNode, live })
+              ] }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(TaskGraph, { snapshot, selected: selectedNodeId, onSelect: selectNode, catalog: catalog2, live }) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "tm-inspector-wrap", ref: inspectorRef, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Inspector, { role, node: selectedNode, snapshot, settings, catalog: catalog2, onSelectNode: selectNode, onConfigure: openSettings, onBack: () => canvasRef.current?.scrollIntoView({ block: "start", behavior: "auto" }) }) })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "tm-inspector-wrap", ref: inspectorRef, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(WorkflowSignals, { snapshot, live, freshness }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Inspector, { role, node: selectedNode, snapshot, settings, catalog: catalog2, onSelectNode: selectNode, onConfigure: openSettings, onBack: () => canvasRef.current?.scrollIntoView({ block: "start", behavior: "auto" }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(JevPanel, { catalog: catalog2, snapshot, settings, onSelectNode: (node) => {
+                setGraph("tasks");
+                selectNode(node);
+              } })
+            ] })
           ] }),
-          snapshot && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-activity", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: "tm-activity-toggle", onClick: () => setActivityOpen(!activityOpen), "aria-expanded": activityOpen, "aria-controls": `${prefix}-events`, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "activity" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: "\u56E2\u961F\u52A8\u6001" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+          snapshot && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-activity", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: "tm-activity-toggle", onClick: () => setActivityOpen(!activityOpen), "aria-expanded": activityOpen, "aria-controls": `${prefix}-events`, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "activity" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "\u4E8B\u4EF6\u65F6\u95F4\u7EBF" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
                 demo ? "\u5408\u6210\u4E8B\u4EF6" : "\u6700\u8FD1\u4E8B\u4EF6",
                 " \xB7 ",
-                Math.min(snapshot.events.length, 30),
+                Math.min(uniqueEvents.length, 30),
                 " \u6761"
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "chevron" })
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
             ] }),
-            activityOpen && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { id: `${prefix}-events`, className: "tm-event-list", "aria-label": "\u6700\u8FD1\u56E2\u961F\u4E8B\u4EF6", children: [
+            (live.notice || snapshot.events.length > 0 && !snapshot.events.some((event) => event.type === "relation_activated")) && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "tm-event-bound tm-event-integrity", role: "status", children: live.notice || "\u5F53\u524D\u8BB0\u5F55\u672A\u5305\u542B\u5173\u7CFB\u6FC0\u6D3B\u4E8B\u4EF6\uFF1B\u4EC5\u5C55\u793A\u9759\u6001\u5173\u7CFB\uFF0C\u4E0D\u63A8\u6D4B\u5386\u53F2\u4F20\u9012\u3002" }),
+            activityOpen && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { id: `${prefix}-events`, className: "tm-event-list", "aria-label": "\u6700\u8FD1\u56E2\u961F\u4E8B\u4EF6", children: [
               events.length ? events.map((event) => {
-                const eventNode = nodes.find((node) => node.id === event.nodeId);
-                return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: `tm-event ${/retry|feedback/.test(event.type) ? "tm-event--feedback" : ""}`, disabled: !eventNode, onClick: () => eventNode && selectNode(eventNode), children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "tm-event-icon", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: /retry|feedback/.test(event.type) ? "refresh" : eventNode ? eventNode.kind === "verification" ? "review" : ROLE[eventNode.role]?.icon || "activity" : "activity" }) }),
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: eventNode ? eventNode.kind === "verification" ? "\u5BBF\u4E3B\u9A8C\u8BC1" : ROLE[eventNode.role]?.name || eventNode.role : "\u56E2\u961F" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: event.message }),
-                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("time", { dateTime: event.at, children: time(event.at) })
+                const eventNode = nodes.find((node) => node.id === (event.nodeId || event.toNodeId));
+                return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: `tm-event ${/retry|feedback/.test(event.type) ? "tm-event--feedback" : ""}`, disabled: !eventNode, onClick: () => eventNode && selectNode(eventNode), children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-event-icon", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: /retry|feedback/.test(event.type) ? "refresh" : eventNode ? eventNode.kind === "verification" ? "review" : ROLE[eventNode.role]?.icon || "activity" : "activity" }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: eventNode ? eventNode.kind === "verification" ? "\u5BBF\u4E3B\u9A8C\u8BC1" : ROLE[eventNode.role]?.name || eventNode.role : "\u56E2\u961F" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+                    event.message,
+                    event.type === "relation_activated" && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("small", { className: "tm-event-route", children: [
+                      RELATION_EVENT_LABEL[event.kind] || event.kind,
+                      " \xB7 ",
+                      event.fromNodeId,
+                      " \u2192 ",
+                      event.toNodeId
+                    ] }),
+                    event.failureCode && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("small", { className: "tm-event-route", children: event.failureCode })
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("time", { dateTime: event.at, children: time(event.at) })
                 ] }, event.seq);
-              }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-inline-empty", children: "\u5C1A\u65E0\u4E8B\u4EF6\u8BB0\u5F55" }),
-              snapshot.events.length > 30 && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-event-bound", children: "\u663E\u793A\u6700\u8FD1 30 \u6761\u4E8B\u4EF6\uFF0C\u8282\u70B9\u8BE6\u60C5\u4FDD\u7559\u72EC\u7ACB\u4EA7\u51FA\u3002" })
+              }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "tm-inline-empty", children: "\u5C1A\u65E0\u4E8B\u4EF6\u8BB0\u5F55" }),
+              uniqueEvents.length > 30 && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "tm-event-bound", children: "\u663E\u793A\u6700\u8FD1 30 \u6761\u4E8B\u4EF6\uFF0C\u8282\u70B9\u8BE6\u60C5\u4FDD\u7559\u72EC\u7ACB\u4EA7\u51FA\u3002" })
             ] })
           ] }),
-          active ? /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-running-bar", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "tm-running-indicator" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: "\u56E2\u961F\u6B63\u5728\u5904\u7406\u5F53\u524D\u4EFB\u52A1" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u505C\u6B62\u53EA\u5F71\u54CD\u672C\u6B21\u8FD0\u884C\uFF1B\u4E0D\u4F1A\u56DE\u6EDA\u5DF2\u7ECF\u4EA7\u751F\u7684\u6587\u4EF6\u4FEE\u6539\u3002" })
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("details", { className: "tm-runtime-details", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("summary", { children: [
+              "\u8FD0\u884C\u63A7\u5236\u4E0E\u751F\u4EA7\u8BB0\u5F55",
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "chevron" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: "tm-button tm-button--danger", onClick: () => void cancel(), disabled: cancelling, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "stop" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(ProductionStatus, { snapshot, settings, onLoadTrace }, `${sessionId || "none"}:${snapshot?.id || "idle"}`)
+          ] }),
+          active ? /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-running-bar", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-running-indicator" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "\u56E2\u961F\u6B63\u5728\u5904\u7406\u5F53\u524D\u4EFB\u52A1" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "\u505C\u6B62\u53EA\u5F71\u54CD\u672C\u6B21\u8FD0\u884C\uFF1B\u4E0D\u4F1A\u56DE\u6EDA\u5DF2\u7ECF\u4EA7\u751F\u7684\u6587\u4EF6\u4FEE\u6539\u3002" })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: "tm-button tm-button--danger", onClick: () => void cancel(), disabled: cancelling, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "stop" }),
               cancelling ? "\u6B63\u5728\u505C\u6B62\u2026" : "\u505C\u6B62\u672C\u6B21\u8FD0\u884C"
             ] })
-          ] }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "tm-command-guide", "aria-label": "\u4F7F\u7528 team \u547D\u4EE4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "tm-command-icon", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "team" }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h3", { children: configured ? "\u5728\u804A\u5929\u4E2D\u7ED9\u56E2\u961F\u4E00\u4E2A\u76EE\u6807" : "\u5148\u5B8C\u6210\u4E00\u6B21\u56E2\u961F\u8BBE\u7F6E" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: configured ? "\u8F93\u5165 /team \u548C\u4EFB\u52A1\u76EE\u6807\uFF0C\u56E2\u961F\u4F1A\u81EA\u52A8\u5F00\u59CB\uFF0C\u8FDB\u5C55\u663E\u793A\u5728\u8FD9\u91CC\u3002" : "\u9009\u62E9\u516D\u4E2A\u5C97\u4F4D\u6A21\u578B\u3001\u4FDD\u5B58 Jev \u5BC6\u94A5\u540E\uFF0C\u4EE5\u540E\u76F4\u63A5\u5728\u804A\u5929\u4E2D\u4F7F\u7528 /team\u3002" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", { children: "/team \u68C0\u67E5\u8D2D\u7269\u8F66\u6570\u91CF\u66F4\u65B0\u95EE\u9898\uFF0C\u4FEE\u590D\u5B9E\u73B0\u5E76\u9A8C\u8BC1" }),
-              sessionContext?.reason && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-start-hint", children: sessionContext.reason }),
-              !sessionId && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "tm-start-hint", children: "\u8BF7\u5148\u5728 Desktop \u6253\u5F00\u4E00\u4E2A\u9879\u76EE\u4F1A\u8BDD\u3002" })
+          ] }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "tm-command-guide", "aria-label": "\u4F7F\u7528 team \u547D\u4EE4", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "tm-command-icon", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "team" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { children: configured ? "\u5728\u804A\u5929\u4E2D\u7ED9\u56E2\u961F\u4E00\u4E2A\u76EE\u6807" : "\u5148\u5B8C\u6210\u4E00\u6B21\u56E2\u961F\u8BBE\u7F6E" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: configured ? "\u8F93\u5165 /team \u548C\u4EFB\u52A1\u76EE\u6807\uFF0C\u56E2\u961F\u4F1A\u81EA\u52A8\u5F00\u59CB\uFF0C\u8FDB\u5C55\u663E\u793A\u5728\u8FD9\u91CC\u3002" : "\u9009\u62E9\u516D\u4E2A\u5C97\u4F4D\u6A21\u578B\u3001\u4FDD\u5B58 Jev \u5BC6\u94A5\u540E\uFF0C\u4EE5\u540E\u76F4\u63A5\u5728\u804A\u5929\u4E2D\u4F7F\u7528 /team\u3002" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("code", { children: "/team \u68C0\u67E5\u8D2D\u7269\u8F66\u6570\u91CF\u66F4\u65B0\u95EE\u9898\uFF0C\u4FEE\u590D\u5B9E\u73B0\u5E76\u9A8C\u8BC1" }),
+              sessionContext?.reason && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "tm-start-hint", children: sessionContext.reason }),
+              !sessionId && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "tm-start-hint", children: "\u8BF7\u5148\u5728 Desktop \u6253\u5F00\u4E00\u4E2A\u9879\u76EE\u4F1A\u8BDD\u3002" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", className: "tm-button", onClick: openSettings, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "settings" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { type: "button", className: "tm-button", onClick: openSettings, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "settings" }),
               configured ? "\u56E2\u961F\u8BBE\u7F6E" : "\u5B8C\u6210\u8BBE\u7F6E",
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "arrow" })
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "arrow" })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("footer", { className: "tm-footer", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Icon, { name: "lock" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("footer", { className: "tm-footer", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: "lock" }),
               demo ? "\u5168\u90E8\u4E3A\u5408\u6210\u793A\u4F8B \xB7 \u672A\u6D3E\u53D1\u667A\u80FD\u4F53" : "\u516D\u5C97\u4F4D\u72EC\u7ACB\u9009\u578B \xB7 Jev \u6838\u5FC3\u8C03\u5EA6 \xB7 \u786C\u6027\u5B8C\u6210\u9A8C\u8BC1"
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
               "DSH ",
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("i", {}),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("i", {}),
               " TEAM WORKFLOW"
             ] })
           ] })
@@ -25693,8 +26796,8 @@
         lane: "medium",
         round: 1,
         decisions: [
-          { phase: "classify", action: "classify", lane: "medium", confidence: 0.93, reason: "\u3010Fixture\u3011\u6D89\u53CA\u4EE3\u7801\u4FEE\u6539\u4E0E\u56DE\u5F52\u68C0\u67E5\uFF0C\u91C7\u7528\u6807\u51C6\u56E2\u961F\u6D41\u7A0B\uFF1B\u5C97\u4F4D\u6A21\u578B\u4E0D\u53D8\u3002", round: 0 },
-          { phase: "step", action: "continue", lane: "medium", confidence: 0.89, reason: "\u3010Fixture\u3011\u65B9\u6848\u5DF2\u590D\u6838\uFF0C\u7EE7\u7EED\u6267\u884C\u3002\u5C1A\u65E0\u53EF\u4EA4\u4ED8\u7684\u9A8C\u8BC1\u8BC1\u636E\u3002", round: 1 }
+          { phase: "classify", action: "classify", lane: "medium", confidence: 0.93, reason: "\u3010Fixture\u3011\u6D89\u53CA\u4EE3\u7801\u4FEE\u6539\u4E0E\u56DE\u5F52\u68C0\u67E5\uFF0C\u91C7\u7528\u6807\u51C6\u56E2\u961F\u6D41\u7A0B\uFF1B\u5C97\u4F4D\u6A21\u578B\u4E0D\u53D8\u3002", round: 0, nodeId: "jev-classify-1" },
+          { phase: "step", action: "continue", lane: "medium", confidence: 0.89, reason: "\u3010Fixture\u3011\u65B9\u6848\u5DF2\u590D\u6838\uFF0C\u7EE7\u7EED\u6267\u884C\u3002\u5C1A\u65E0\u53EF\u4EA4\u4ED8\u7684\u9A8C\u8BC1\u8BC1\u636E\u3002", round: 1, nodeId: "jev-step-1" }
         ],
         evidence: { checksPassed: false, scopeOk: true, diffAvailable: false, verified: false, reason: "\u3010Fixture\u3011\u6F14\u793A\u4ECD\u5728\u6267\u884C\uFF1A\u8303\u56F4\u68C0\u67E5\u901A\u8FC7\uFF0C\u6D4B\u8BD5\u4E0E\u5DEE\u5F02\u8BC1\u636E\u5C1A\u4E0D\u9F50\u5168\uFF0C\u4E0D\u80FD\u5224\u5B9A\u5B8C\u6210\u3002" }
       },
@@ -25741,63 +26844,313 @@
   }
   var TEAM_DEMO = createTeamDemo();
   var teamDemoSnapshot = createTeamDemo;
+  function playingDemoSnapshot(step = 0, generation = 0) {
+    const frame = Math.min(8, Math.max(0, step));
+    const seed = createTeamDemo();
+    const at = (s) => new Date(Date.UTC(2026, 9, 11, 9, 30, s)).toISOString();
+    const specs = [
+      { id: "classify", role: "jev", kind: "jev_classify", title: "\u5224\u5B9A\u4EFB\u52A1\u5206\u6863", from: 0, to: 1 },
+      { id: "plan", role: "planner", kind: "plan", title: "\u62C6\u89E3\u8D2D\u7269\u8F66\u4FEE\u590D\u76EE\u6807", from: 1, to: 2 },
+      { id: "coordinate", role: "coordinator", kind: "coordination", title: "\u5B89\u6392\u5E76\u884C\u8C03\u67E5\u4E0E\u9A8C\u6536", from: 2, to: 3 },
+      { id: "research-fast", role: "researcher", kind: "task", title: "\u786E\u8BA4\u6570\u91CF\u53D8\u66F4\u89C4\u5219", from: 3, to: 4 },
+      { id: "research-deep", role: "researcher", kind: "task", title: "\u8C03\u67E5\u5E93\u5B58\u8FB9\u754C\u6761\u4EF6", from: 3, to: 4 },
+      { id: "explore", role: "explorer", kind: "task", title: "\u8FFD\u8E2A\u72B6\u6001\u66F4\u65B0\u8DEF\u5F84", from: 3, to: 4 },
+      { id: "implement", role: "worker", kind: "task", title: "\u7EDF\u4E00\u4FEE\u590D\u72B6\u6001\u4E0E\u91D1\u989D", from: 4, to: 5 },
+      { id: "review", role: "reviewer", kind: "review", title: "\u68C0\u67E5\u6539\u52A8\u4E0E\u56DE\u5F52\u8986\u76D6", from: 5, to: 6 },
+      { id: "decide", role: "jev", kind: "jev_step", title: "\u51B3\u5B9A\u4E0B\u4E00\u6B65\u9A8C\u8BC1", from: 6, to: 7 },
+      { id: "verify", role: "jev", kind: "verification", title: "\u5BBF\u4E3B\u72EC\u7ACB\u9A8C\u8BC1\u95E8\u7981", from: 7, to: 8 }
+    ];
+    const relations = [
+      { from: "classify", to: "plan", kind: "dispatch", stage: 1 },
+      { from: "plan", to: "coordinate", kind: "dispatch", stage: 2 },
+      ...["research-fast", "research-deep", "explore"].map((to) => ({ from: "coordinate", to, kind: "dispatch", stage: 3 })),
+      ...["research-fast", "research-deep", "explore"].map((from) => ({ from, to: "implement", kind: "dependency", stage: 4 })),
+      { from: "implement", to: "review", kind: "dispatch", stage: 5 },
+      { from: "review", to: "implement", kind: "feedback", stage: 6 },
+      { from: "review", to: "decide", kind: "dispatch", stage: 6 },
+      { from: "decide", to: "verify", kind: "dispatch", stage: 7 }
+    ];
+    const nodes = specs.filter((spec) => spec.from <= frame).map((spec) => ({ id: spec.id, taskId: spec.id, role: spec.role, kind: spec.kind, title: spec.title, status: frame >= spec.to ? "completed" : "running", attempt: 1, dependsOn: relations.filter((edge) => edge.to === spec.id && edge.kind !== "feedback").map((edge) => edge.from), startedAt: at(spec.from * 8), ...frame >= spec.to ? { finishedAt: at(spec.to * 8), output: "\u3010\u5408\u6210\u6F14\u793A\u3011\u8FD9\u4E2A\u5B9E\u4F8B\u5DF2\u7ECF\u7ED3\u675F\u3002\u6B64\u6587\u672C\u4E0D\u662F\u6A21\u578B\u4EA7\u51FA\uFF0C\u6CA1\u6709\u8BFB\u53D6\u6216\u4FEE\u6539\u9879\u76EE\u3002" } : {} }));
+    const edges = relations.filter((edge) => edge.stage <= frame).map((edge) => ({ id: `edge-${edge.from}-${edge.to}`, from: edge.from, to: edge.to, kind: edge.kind }));
+    const events = [];
+    for (let stage = 0; stage <= frame; stage++) {
+      for (const spec of specs.filter((item) => item.to === stage)) events.push({ seq: events.length + 1, at: at(stage * 8), type: "node_completed", nodeId: spec.id, message: `\u3010\u5408\u6210\u6F14\u793A\u3011${spec.title}\u5B8C\u6210` });
+      for (const edge of relations.filter((item) => item.stage === stage)) events.push({ seq: events.length + 1, at: at(stage * 8), type: "relation_activated", edgeId: `edge-${edge.from}-${edge.to}`, fromNodeId: edge.from, toNodeId: edge.to, kind: edge.kind, nodeId: edge.to, message: `\u3010\u5408\u6210\u4E8B\u4EF6\u3011${edge.kind === "feedback" ? "\u5BA1\u67E5\u53CD\u9988\u5DF2\u4EA4\u56DE" : edge.kind === "dependency" ? "\u4F9D\u8D56\u8BC1\u636E\u4EA4\u63A5" : "\u4EFB\u52A1\u6D3E\u53D1"}` });
+      for (const spec of specs.filter((item) => item.from === stage)) events.push({ seq: events.length + 1, at: at(stage * 8), type: "node_started", nodeId: spec.id, message: `\u3010\u5408\u6210\u6F14\u793A\u3011${spec.title}\u5F00\u59CB` });
+    }
+    const decisions = nodes.filter((node) => node.role !== "jev").map((node) => ({ nodeId: node.id, role: node.role, lane: node.id === "research-fast" ? "small" : node.id === "research-deep" ? "high" : "medium", tier: node.id === "research-fast" ? "weak" : node.id === "research-deep" ? "strong" : "base", provider: "preview-fixture", model: node.id === "research-fast" ? "\u6A21\u62DF\xB7\u8F7B\u91CF\u7814\u7A76\u6A21\u578B" : node.id === "research-deep" ? "\u6A21\u62DF\xB7\u6DF1\u5EA6\u7814\u7A76\u6A21\u578B" : `\u6A21\u62DF\xB7${node.role}\u57FA\u7840\u6A21\u578B`, reason: node.id === "research-fast" ? "\u5408\u6210\u8DEF\u7531\uFF1A\u89C4\u5219\u67E5\u8BE2\u4F7F\u7528 weak \u5019\u9009" : node.id === "research-deep" ? "\u5408\u6210\u8DEF\u7531\uFF1A\u8FB9\u754C\u5206\u6790\u4F7F\u7528 strong \u5019\u9009\uFF1B\u540C\u5C97\u4F4D\u4E0D\u540C\u5B9E\u4F8B" : "\u5408\u6210\u8DEF\u7531\uFF1A\u6807\u51C6\u4EFB\u52A1\u4F7F\u7528\u542F\u52A8\u57FA\u7840\u6A21\u578B" }));
+    return { ...seed, id: `playing-fixture-${generation}`, sessionId: "preview-session", status: frame === 8 ? "completed" : "running", message: "\u64AD\u653E\u4E2D\u7684\u5408\u6210\u5DE5\u4F5C\u6D41\u3002\u6BCF\u6B21\u524D\u8FDB\u8FFD\u52A0\u4E8B\u4EF6\uFF1B\u8FDE\u7EBF\u53EA\u5728\u65B0\u589E relation_activated \u4E8B\u4EF6\u65F6\u4EAE\u8D77\u4E00\u6B21\u3002\u672A\u8FD0\u884C\u6A21\u578B\u3001Jev \u6216\u68C0\u67E5\u3002", nodes, edges, events, roles: Object.fromEntries(Object.keys(seed.roles).map((role) => [role, { provider: "preview-fixture", model: `\u6A21\u62DF\xB7${role}\u57FA\u7840\u6A21\u578B` }])), startedAt: at(0), observedAt: at(frame * 8), oldestSeq: 1, eventsTruncated: false, ...frame === 8 ? { finishedAt: at(64) } : {}, limits: { ...seed.limits, concurrency: 3 }, jev: { mode: "fixture", lane: "medium", round: frame >= 6 ? 1 : 0, decisions: [...frame >= 1 ? [{ phase: "classify", action: "classify", lane: "medium", confidence: 0.93, reason: "\u3010\u5408\u6210\u6F14\u793A\u3011\u5148\u5E76\u884C\u8C03\u67E5\uFF0C\u540E\u4E32\u884C\u7F16\u8F91\u3002", round: 0, at: at(8), nodeId: "classify" }] : [], ...frame >= 7 ? [{ phase: "step", action: "verify", lane: "medium", confidence: 0.9, reason: "\u3010\u5408\u6210\u6F14\u793A\u3011\u4EA4\u7ED9\u72EC\u7ACB\u5BBF\u4E3B\u9A8C\u8BC1\uFF0C\u4E0D\u4EE5 Jev \u5EFA\u8BAE\u66FF\u4EE3\u5B8C\u6210\u8BC1\u636E\u3002", round: 1, at: at(56), nodeId: "decide" }] : []], evidence: { checksPassed: frame === 8, scopeOk: frame >= 7, diffAvailable: frame >= 7, verified: frame === 8, reason: frame === 8 ? "\u3010\u5408\u6210\u8BC1\u636E\u3011\u6240\u6709\u95E8\u7981\u901A\u8FC7\uFF1B\u6CA1\u6709\u8FD0\u884C\u771F\u5B9E\u68C0\u67E5\u3002" : "\u3010\u5408\u6210\u8BC1\u636E\u3011\u95E8\u7981\u5C1A\u672A\u5168\u90E8\u901A\u8FC7\u3002Jev \u72B6\u6001\u4E0E\u9A8C\u8BC1\u72B6\u6001\u5206\u522B\u5C55\u793A\u3002" } }, production: { budget: { enabled: false, limit: 0, spent: 0, reserved: 0, remaining: null, halted: null, accounting: "fixture", unknownUsageCalls: 0, physicalCalls: 0 }, routing: { enabled: true, decisions }, jev: { primary: { requestedModel: "fixture-jev", responseModel: frame ? "fixture-jev-v3" : void 0, calls: 0, status: "fixture" }, shadow: { enabled: false, requestedModel: "", calls: 0 } }, trace: { enabled: false, eventCount: events.length, truncated: false } } };
+  }
+  var DEMO_RELATIONS = [
+    { id: "dispatch", label: "\u6D3E\u53D1", from: "coordinate", to: "research-fast", kind: "dispatch" },
+    { id: "dependency", label: "\u4F9D\u8D56\u4EA4\u63A5", from: "research-deep", to: "implement", kind: "dependency" },
+    { id: "retry", label: "\u540C\u5C97\u4F4D\u91CD\u8BD5", from: "research-fast", to: "research-fast-retry", kind: "retry" },
+    { id: "cross-role", label: "\u7814\u7A76 \u2192 \u63A2\u7D22", from: "research-deep", to: "explore", kind: "dependency" },
+    { id: "join", label: "\u63A2\u7D22 \u2192 \u5BA1\u67E5\u6C47\u5408", from: "explore", to: "review", kind: "join" },
+    { id: "feedback", label: "\u5BA1\u67E5\u53CD\u9988", from: "review", to: "implement", kind: "feedback" },
+    { id: "jev", label: "Jev \u51B3\u7B56", from: "review", to: "decide", kind: "dispatch" },
+    { id: "verification", label: "\u5BBF\u4E3B\u9A8C\u8BC1", from: "decide", to: "verify", kind: "dispatch" }
+  ];
+  function appendDemoRelation(snapshot, relationId) {
+    const relation = DEMO_RELATIONS.find((item) => item.id === relationId);
+    const complete = playingDemoSnapshot(8);
+    const maxSeq = snapshot.events.reduce((highest, event) => Math.max(highest, event.seq), 0);
+    const at = new Date(Date.parse(snapshot.observedAt || snapshot.startedAt) + 1e3).toISOString();
+    const events = [...snapshot.events];
+    const nodes = snapshot.nodes.map((node) => ({ ...node }));
+    const routes = [...snapshot.production?.routing.decisions || []];
+    const append = (event) => events.push({ ...event, seq: maxSeq + events.length - snapshot.events.length + 1, at });
+    for (const nodeId of [relation.from, relation.to]) {
+      if (nodes.some((node2) => node2.id === nodeId)) continue;
+      const templateId = nodeId === "research-fast-retry" ? "research-fast" : nodeId;
+      const template = complete.nodes.find((node2) => node2.id === templateId);
+      const node = { ...template, id: nodeId, dependsOn: [], status: "pending", startedAt: void 0, finishedAt: void 0, output: void 0, ...nodeId === "research-fast-retry" ? { attempt: 2, title: "\u91CD\u65B0\u786E\u8BA4\u6570\u91CF\u53D8\u66F4\u89C4\u5219", dependsOn: ["research-fast"] } : {} };
+      nodes.push(node);
+      const route = complete.production?.routing.decisions.find((item) => item.nodeId === templateId);
+      if (route) routes.push({ ...route, nodeId, at, reason: nodeId === "research-fast-retry" ? "\u5408\u6210\u8DEF\u7531\uFF1A\u8BE5\u91CD\u8BD5\u5B9E\u4F8B\u660E\u786E\u6CBF\u7528\u8F7B\u91CF\u7814\u7A76\u6A21\u578B\uFF0C\u672A\u501F\u7528\u540C\u5C97\u4F4D\u7684\u6DF1\u5EA6\u6A21\u578B\u8BB0\u5F55\u3002" : route.reason });
+    }
+    if (relationId === "jev" || relationId === "verification") {
+      for (const node of nodes) if (node.role === "jev" && node.status === "running") {
+        node.status = "completed";
+        node.finishedAt = at;
+        append({ type: "node_completed", nodeId: node.id, message: `\u3010\u5408\u6210\u6F14\u793A\u3011${node.title}\u5B8C\u6210` });
+      }
+    }
+    const source = nodes.find((node) => node.id === relation.from);
+    source.status = relationId === "retry" ? "failed" : "completed";
+    source.startedAt ||= at;
+    source.finishedAt = at;
+    if (relationId === "retry") {
+      source.failureCode = "FIXTURE_RETRYABLE";
+      source.error = "\u3010\u5408\u6210\u9519\u8BEF\u3011\u4E00\u6B21\u6027\u4E34\u65F6\u9519\u8BEF\uFF0C\u521B\u5EFA\u72EC\u7ACB\u91CD\u8BD5\u5B9E\u4F8B\u3002";
+      append({ type: "node_failed", nodeId: source.id, failureCode: source.failureCode, message: source.error });
+    }
+    const target = nodes.find((node) => node.id === relation.to);
+    target.status = "running";
+    target.startedAt = at;
+    target.finishedAt = void 0;
+    target.output = void 0;
+    if (relation.kind !== "feedback" && !target.dependsOn.includes(source.id)) target.dependsOn = [...target.dependsOn, source.id];
+    target.error = void 0;
+    target.failureCode = void 0;
+    const edge = { id: `fixture-${relation.id}-${relation.from}-${relation.to}`, from: relation.from, to: relation.to, kind: relation.kind };
+    const edges = [...snapshot.edges.filter((item) => item.id !== edge.id), edge];
+    append({ type: "relation_activated", edgeId: edge.id, fromNodeId: edge.from, toNodeId: edge.to, nodeId: edge.to, kind: edge.kind, message: `\u3010\u5408\u6210\u4E8B\u4EF6\u3011${relation.label}\uFF1A${edge.from} \u2192 ${edge.to}` });
+    append({ type: "node_started", nodeId: target.id, message: `\u3010\u5408\u6210\u6F14\u793A\u3011${target.title}\u5F00\u59CB` });
+    const jev = snapshot.jev && { ...snapshot.jev, decisions: [...snapshot.jev.decisions] };
+    if (jev && relationId === "verification") {
+      jev.decisions = [...jev.decisions.filter((item) => item.nodeId !== "decide"), { phase: "step", action: "verify", lane: "medium", confidence: 0.9, reason: "\u3010\u5408\u6210\u6F14\u793A\u3011Jev \u51B3\u7B56\u5DF2\u7ECF\u5B8C\u6210\uFF1B\u5BBF\u4E3B\u72EC\u7ACB\u9A8C\u8BC1\u4ECD\u5728\u6267\u884C\uFF0C\u672A\u62A5\u544A\u5B8C\u6210\u8BC1\u636E\u3002", round: 1, at, nodeId: "decide" }];
+      jev.evidence = { checksPassed: false, scopeOk: true, diffAvailable: true, verified: false, reason: "\u3010\u5408\u6210\u8BC1\u636E\u3011\u72EC\u7ACB\u5BBF\u4E3B\u68C0\u67E5\u8FDB\u884C\u4E2D\uFF0C\u4E0D\u5C5E\u4E8E\u5C97\u4F4D\u6A21\u578B\u6216 Jev \u51B3\u7B56\u3002" };
+    }
+    return {
+      ...snapshot,
+      status: "running",
+      finishedAt: void 0,
+      failureCode: void 0,
+      nodes,
+      edges,
+      events,
+      observedAt: at,
+      jev,
+      limits: { ...snapshot.limits, concurrency: Math.max(snapshot.limits.concurrency, nodes.filter((node) => node.status === "running").length) },
+      message: `\u3010\u79BB\u7EBF\u5408\u6210\u4E8B\u4EF6\u3011${relation.label}\u3002\u4EC5\u8FFD\u52A0 fixture \u72B6\u6001\uFF0C\u6CA1\u6709\u8C03\u7528\u6A21\u578B\u3001\u5BBF\u4E3B\u6216 TypeSafe\u3002`,
+      production: snapshot.production ? { ...snapshot.production, routing: { ...snapshot.production.routing, decisions: routes }, trace: { ...snapshot.production.trace, eventCount: events.length } } : void 0
+    };
+  }
+  function terminalDemoSnapshot(status, generation = 0) {
+    const snapshot = playingDemoSnapshot(status === "completed" ? 8 : 3, generation);
+    if (status === "completed") return snapshot;
+    const finishedAt = "2026-10-11T09:30:40.000Z";
+    const failureCode = status === "blocked" ? "STEP_LIMIT" : status === "failed" ? "FIXTURE_PROVIDER_FAILURE" : void 0;
+    const message = status === "blocked" ? "\u6267\u884C\u8FBE\u5230\u6B65\u6570\u4E0A\u9650\uFF0C\u672C\u6B21\u8FD0\u884C\u5DF2\u963B\u585E\u3002" : status === "failed" ? "\u6A21\u62DF\u63D0\u4F9B\u65B9\u4E0D\u53EF\u6062\u590D\u9519\u8BEF\uFF0C\u672C\u6B21\u8FD0\u884C\u5931\u8D25\u3002" : status === "cancelled" ? "\u7528\u6237\u5728\u79BB\u7EBF\u9884\u89C8\u4E2D\u505C\u6B62\u672C\u6B21\u5408\u6210\u8FD0\u884C\u3002" : "\u5DF2\u6709\u5408\u6210\u4EA7\u51FA\uFF0C\u4F46\u7F3A\u5C11\u72EC\u7ACB\u9A8C\u8BC1\uFF0C\u4E0D\u80FD\u663E\u793A\u5B8C\u6210\u3002";
+    const nodes = snapshot.nodes.map((node) => node.status !== "running" ? node : { ...node, status: status === "unverified" ? "completed" : status, failureCode, finishedAt, ...failureCode ? { error: `\u3010\u5408\u6210\u9519\u8BEF\u3011${message}` } : {} });
+    return { ...snapshot, status, nodes, failureCode, finishedAt, observedAt: finishedAt, message: `\u3010\u5408\u6210\u6F14\u793A\u3011${message}`, events: [...snapshot.events, { seq: snapshot.events.at(-1).seq + 1, at: finishedAt, type: `run_${status}`, message: `\u3010\u5408\u6210\u6F14\u793A\u3011${message}`, ...failureCode ? { failureCode } : {} }] };
+  }
 
   // preview/main.tsx
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
   var roles = ["planner", "coordinator", "researcher", "explorer", "worker", "reviewer"];
-  var names = { planner: "\u6A21\u62DF\xB7\u89C4\u5212\u6A21\u578B", coordinator: "\u6A21\u62DF\xB7\u4E3B\u529B\u6A21\u578B", researcher: "\u6A21\u62DF\xB7\u8F7B\u91CF\u6A21\u578B", explorer: "\u6A21\u62DF\xB7\u8F7B\u91CF\u6A21\u578B", worker: "\u6A21\u62DF\xB7\u4E3B\u529B\u6A21\u578B", reviewer: "\u6A21\u62DF\xB7\u5BA1\u67E5\u6A21\u578B" };
-  var catalog = { available: true, jev: { configured: true, available: true, mode: "fixture", endpoint: "fixture://typesafe/jev\uFF08\u79BB\u7EBF\u6F14\u793A\uFF09", disclosure: "\u672C\u9884\u89C8\u4E0D\u5411\u4EFB\u4F55\u670D\u52A1\u53D1\u9001\u6570\u636E\u3002" }, providers: [{ id: "preview-fixture", name: "\u4EC5\u4F9B\u9884\u89C8\u7684\u6A21\u62DF\u76EE\u5F55", models: [...new Set(Object.values(names))].map((id) => ({ id, name: id, efforts: [{ id: "fixture-standard", name: "\u6A21\u62DF\u6807\u51C6" }, { id: "fixture-deep", name: "\u6A21\u62DF\u6DF1\u5165" }] })) }] };
+  var models = [...roles.map((role) => `\u6A21\u62DF\xB7${role}\u57FA\u7840\u6A21\u578B`), "\u6A21\u62DF\xB7\u8F7B\u91CF\u7814\u7A76\u6A21\u578B", "\u6A21\u62DF\xB7\u6DF1\u5EA6\u7814\u7A76\u6A21\u578B"];
+  var catalog = { available: true, jev: { configured: true, available: true, mode: "fixture", endpoint: "fixture://typesafe/jev\uFF08\u79BB\u7EBF\u6F14\u793A\uFF09", disclosure: "\u672C\u9884\u89C8\u4E0D\u5411\u4EFB\u4F55\u670D\u52A1\u53D1\u9001\u6570\u636E\u3002" }, providers: [{ id: "preview-fixture", name: "\u4EC5\u4F9B\u9884\u89C8\u7684\u6A21\u62DF\u76EE\u5F55", models: models.map((id) => ({ id, name: id, efforts: [{ id: "fixture-standard", name: "\u6A21\u62DF\u6807\u51C6" }, { id: "fixture-deep", name: "\u6A21\u62DF\u6DF1\u5165" }] })) }] };
+  var stages = ["Jev \u5206\u7C7B", "\u89C4\u5212", "\u534F\u8C03", "\u540C\u5C97\u4F4D\u5E76\u884C / \u4E0D\u540C\u6A21\u578B", "\u4F9D\u8D56\u4EA4\u63A5\u4E0E\u6267\u884C", "\u5BA1\u67E5", "\u53CD\u9988 / Jev \u51B3\u7B56", "\u72EC\u7ACB\u9A8C\u8BC1", "\u5B8C\u6210"];
+  var terminalModes = { "\u53D7\u963B": "blocked", "\u5F85\u9A8C\u8BC1": "unverified", "\u5B8C\u6210": "completed", "\u5931\u8D25": "failed", "\u5DF2\u53D6\u6D88": "cancelled" };
+  var INITIAL_STEP = 3;
   function Preview() {
-    const [mode, setMode] = (0, import_react3.useState)("\u6F14\u793A\u62D3\u6251");
-    const [dark, setDark] = (0, import_react3.useState)(true);
-    const [width, setWidth] = (0, import_react3.useState)("full");
-    const [notice, setNotice] = (0, import_react3.useState)();
-    const [setup, setSetup] = (0, import_react3.useState)(() => {
+    const [mode, setMode] = (0, import_react4.useState)("\u64AD\u653E\u6F14\u793A");
+    const [dark, setDark] = (0, import_react4.useState)(true);
+    const [width, setWidth] = (0, import_react4.useState)("full");
+    const [reducedMotion, setReducedMotion] = (0, import_react4.useState)(false);
+    const [notice, setNotice] = (0, import_react4.useState)();
+    const [qaNotice, setQaNotice] = (0, import_react4.useState)();
+    const [step, setStep] = (0, import_react4.useState)(INITIAL_STEP);
+    const [playing, setPlaying] = (0, import_react4.useState)(true);
+    const [generation, setGeneration] = (0, import_react4.useState)(0);
+    const [manual, setManual] = (0, import_react4.useState)(null);
+    const [response, setResponse] = (0, import_react4.useState)(null);
+    const [previousRun, setPreviousRun] = (0, import_react4.useState)(null);
+    const [setup, setSetup] = (0, import_react4.useState)(() => {
       const settings = createDefaultTeamSettings();
-      for (const role of roles) settings.roles[role] = { provider: "preview-fixture", model: names[role], maxTokens: 4096 };
+      for (const role of roles) settings.roles[role] = { provider: "preview-fixture", model: `\u6A21\u62DF\xB7${role}\u57FA\u7840\u6A21\u578B`, maxTokens: 4096 };
+      settings.routing = { enabled: true, roles: { researcher: { weak: { provider: "preview-fixture", model: "\u6A21\u62DF\xB7\u8F7B\u91CF\u7814\u7A76\u6A21\u578B" }, strong: { provider: "preview-fixture", model: "\u6A21\u62DF\xB7\u6DF1\u5EA6\u7814\u7A76\u6A21\u578B" } } } };
       return { settings, configured: true, keyConfigured: true, disclosureAccepted: true, revision: 1 };
     });
-    let snapshot = ["\u6F14\u793A\u62D3\u6251", "\u5B8C\u6210", "\u5F85\u9A8C\u8BC1", "\u53D7\u963B"].includes(mode) ? teamDemoSnapshot() : null;
-    if (snapshot) snapshot = { ...snapshot, roles: setup.settings.roles };
-    if (mode === "\u5B8C\u6210" && snapshot) snapshot = { ...snapshot, status: "completed", finishedAt: "2026-10-09T09:45:00.000Z", message: "\u3010Fixture\u3011\u5168\u90E8\u68C0\u67E5\u901A\u8FC7\u7684\u5408\u6210\u5B8C\u6210\u72B6\u6001\u3002\u672A\u8FD0\u884C\u771F\u5B9E\u68C0\u67E5\u3002", jev: { ...snapshot.jev, evidence: { checksPassed: true, scopeOk: true, diffAvailable: true, verified: true, reason: "\u3010Fixture\u3011\u6240\u6709\u95E8\u7981\u901A\u8FC7\uFF0C\u4EC5\u4E3A\u5408\u6210\u8BC1\u636E\u3002" } }, nodes: snapshot.nodes.map((node) => ({ ...node, status: "completed" })) };
-    if (mode === "\u5F85\u9A8C\u8BC1" && snapshot) snapshot = { ...snapshot, status: "unverified", message: "\u3010Fixture\u3011\u5DF2\u4EA7\u751F\u5141\u8BB8\u8303\u56F4\u5185\u7684\u9879\u76EE\u6539\u52A8\uFF0C\u4F46\u672A\u8BC6\u522B\u5230\u53EF\u81EA\u52A8\u8FD0\u884C\u7684\u9A8C\u6536\u547D\u4EE4\uFF0C\u7ED3\u679C\u5F85\u9A8C\u8BC1\u3002", jev: { ...snapshot.jev, lane: "escalate", evidence: { checksPassed: false, scopeOk: true, diffAvailable: true, verified: false, reason: "\u3010Fixture\u3011\u7F3A\u5C11\u9002\u7528\u9A8C\u8BC1\u547D\u4EE4\uFF1B\u5DF2\u4FDD\u7559\u5141\u8BB8\u8303\u56F4\u5185\u7684\u6539\u52A8\uFF0C\u7ED3\u679C\u5F85\u9A8C\u8BC1\uFF0C\u4E0D\u5BA3\u79F0\u9A8C\u8BC1\u901A\u8FC7\u3002" } } };
-    if (mode === "\u53D7\u963B" && snapshot) snapshot = { ...snapshot, status: "blocked", message: "\u3010Fixture\u3011\u4FEE\u6539\u8303\u56F4\u68C0\u67E5\u5931\u8D25\uFF0C\u8FD0\u884C\u88AB\u963B\u6B62\uFF0C\u8BF7\u68C0\u67E5\u9879\u76EE\u5DEE\u5F02\u3002", jev: { ...snapshot.jev, evidence: { checksPassed: true, scopeOk: false, diffAvailable: true, verified: false, reason: "\u3010Fixture\u3011\u8303\u56F4\u68C0\u67E5\u5931\u8D25\uFF0C\u4E0D\u80FD\u4EA4\u4ED8\u5DF2\u9A8C\u8BC1\u7684\u7ED3\u679C\u3002" } } };
-    if (snapshot && ["\u5B8C\u6210", "\u5F85\u9A8C\u8BC1", "\u53D7\u963B"].includes(mode)) {
-      const finishedAt = "2026-10-09T09:45:00.000Z";
-      snapshot = { ...snapshot, finishedAt, nodes: snapshot.nodes.map((node) => ({ ...node, status: node.status === "running" || node.status === "pending" ? mode === "\u53D7\u963B" ? "blocked" : "completed" : node.status, ...node.status === "running" || node.status === "pending" ? { finishedAt, output: `\u3010Fixture\u3011${mode === "\u53D7\u963B" ? "\u8FD0\u884C\u5DF2\u963B\u6B62\uFF0C\u4FDD\u7559\u5DF2\u62A5\u544A\u8BC1\u636E\u3002" : "\u672C\u6B21\u6267\u884C\u5DF2\u7ED3\u675F\uFF0C\u6700\u7EC8\u72B6\u6001\u7531\u5B8C\u6210\u68C0\u67E5\u51B3\u5B9A\u3002"}` } : {} })), jev: { ...snapshot.jev, decisions: [...snapshot.jev.decisions, { phase: "step", action: mode === "\u5B8C\u6210" ? "finish" : "escalate", lane: snapshot.jev.lane, round: snapshot.jev.round, confidence: 1, reason: `\u3010Fixture\u3011${mode === "\u5B8C\u6210" ? "\u6240\u6709\u5408\u6210\u5B8C\u6210\u8BC1\u636E\u901A\u8FC7\u3002" : mode === "\u5F85\u9A8C\u8BC1" ? "\u672A\u627E\u5230\u9002\u7528\u68C0\u67E5\uFF0C\u4FDD\u7559\u6539\u52A8\u5E76\u6807\u4E3A\u5F85\u9A8C\u8BC1\u3002" : "\u8303\u56F4\u68C0\u67E5\u5931\u8D25\uFF0C\u672C\u6B21\u8FD0\u884C\u88AB\u963B\u6B62\u3002"}` }] } };
+    (0, import_react4.useEffect)(() => {
+      if (!playing || mode !== "\u64AD\u653E\u6F14\u793A" || manual) return;
+      if (step >= 8) {
+        setPlaying(false);
+        return;
+      }
+      const timer = setTimeout(() => setStep((current) => current + 1), 3200);
+      return () => clearTimeout(timer);
+    }, [playing, mode, step, manual]);
+    (0, import_react4.useEffect)(() => {
+      document.body.toggleAttribute("data-ds-dark-theme", dark);
+      document.body.style.backgroundColor = dark ? "#080c11" : "#e5e9ec";
+    }, [dark]);
+    const snapshot = (0, import_react4.useMemo)(() => {
+      if (mode === "\u5F85\u547D" || mode === "\u4E00\u6B21\u6027\u8BBE\u7F6E") return null;
+      if (mode === "\u9759\u6001\u65E7\u793A\u4F8B") return { ...teamDemoSnapshot(), roles: setup.settings.roles };
+      if (terminalModes[mode]) return terminalDemoSnapshot(terminalModes[mode], generation);
+      let result = manual || playingDemoSnapshot(step, generation);
+      if (response) {
+        const last = [...result.events].reverse().find((event) => event.type === "relation_activated");
+        const maximum = result.events.reduce((highest, event) => Math.max(highest, event.seq), 0);
+        const events = response === "duplicate" && last ? [...result.events, { ...last }] : response === "out-of-order" ? [...result.events].reverse() : result.events.filter((event) => event.seq <= maximum - 3);
+        result = { ...result, events };
+      }
+      return mode === "\u65E5\u5FD7\u622A\u65AD" ? { ...result, events: result.events.slice(-3), oldestSeq: result.events.at(-3)?.seq, eventsTruncated: true } : result;
+    }, [mode, step, generation, manual, response, setup.settings.roles]);
+    const canEmit = !!snapshot && ["planning", "running", "reviewing"].includes(snapshot.status) && mode !== "\u9759\u6001\u65E7\u793A\u4F8B";
+    const canPlay = mode === "\u64AD\u653E\u6F14\u793A";
+    function reset(nextStep = INITIAL_STEP, autoplay = true) {
+      setStep(nextStep);
+      setGeneration((current) => current + 1);
+      setPlaying(autoplay);
+      setMode("\u64AD\u653E\u6F14\u793A");
+      setManual(null);
+      setResponse(null);
+      setPreviousRun(null);
+      setQaNotice(void 0);
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { style: { font: "12px system-ui", padding: "10px 18px", display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", background: dark ? "#1b202b" : "#fff", color: dark ? "#eef1f8" : "#475467", borderBottom: "1px solid #dbe1e9" }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "v0.5 /team \u79BB\u7EBF\u9884\u89C8" }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "Fixture \u5408\u6210\u6570\u636E \xB7 \u4E0D\u8FDE\u63A5\u5BBF\u4E3B / TypeSafe \xB7 \u8BF7\u52FF\u8F93\u5165\u771F\u5B9E\u5BC6\u94A5" }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("select", { "aria-label": "\u9884\u89C8\u72B6\u6001", value: mode, onChange: (event) => {
-          setMode(event.target.value);
-          setNotice(void 0);
-        }, children: ["\u6F14\u793A\u62D3\u6251", "\u5F85\u547D", "\u4E00\u6B21\u6027\u8BBE\u7F6E", "\u5B8C\u6210", "\u5F85\u9A8C\u8BC1", "\u53D7\u963B"].map((value) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { children: value }, value)) }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("button", { onClick: () => {
-          document.body.toggleAttribute("data-ds-dark-theme", !dark);
-          setDark(!dark);
-        }, children: [
-          "\u4E3B\u9898\uFF1A",
-          dark ? "\u6DF1\u8272" : "\u6D45\u8272"
+    function changeMode(nextMode) {
+      setMode(nextMode);
+      setNotice(void 0);
+      setQaNotice(void 0);
+      if (["\u64AD\u653E\u6F14\u793A", "\u8FDE\u63A5\u4E2D\u65AD", "\u65E5\u5FD7\u622A\u65AD"].includes(nextMode) && ["\u64AD\u653E\u6F14\u793A", "\u8FDE\u63A5\u4E2D\u65AD", "\u65E5\u5FD7\u622A\u65AD"].includes(mode)) return;
+      setGeneration((current) => current + 1);
+      setManual(null);
+      setResponse(null);
+      setPreviousRun(null);
+      setStep(INITIAL_STEP);
+      setPlaying(nextMode === "\u64AD\u653E\u6F14\u793A");
+    }
+    function emitRelation(id) {
+      if (!snapshot || !canEmit) return;
+      setPlaying(false);
+      setManual(appendDemoRelation(manual || playingDemoSnapshot(step, generation), id));
+      setResponse(null);
+      setQaNotice(`\u5DF2\u8FFD\u52A0\u65B0\u4E8B\u4EF6\uFF1A${DEMO_RELATIONS.find((item) => item.id === id).label}\u3002\u64AD\u653E\u6309\u94AE\u53EF\u91CD\u65B0\u5F00\u59CB\u6807\u51C6\u6D41\u7A0B\u3002`);
+    }
+    function replayResponse(kind) {
+      if (!snapshot) return;
+      setPlaying(false);
+      setManual(manual || playingDemoSnapshot(step, generation));
+      setResponse(kind);
+      setQaNotice(kind === "duplicate" ? "\u91CD\u590D\u5DF2\u6709 seq\uFF1B\u4E0D\u5E94\u4EA7\u751F\u7B2C\u4E8C\u6B21\u4F20\u9012\u52A8\u753B\u3002" : kind === "out-of-order" ? "\u53EA\u98A0\u5012\u5FEB\u7167\u4E8B\u4EF6\u987A\u5E8F\uFF1B\u4E0D\u5E94\u91CD\u64AD\u5DF2\u6D88\u8D39\u7684\u4E8B\u4EF6\u3002" : "\u8F83\u65E7\u54CD\u5E94\u5DF2\u9001\u8FBE\uFF1B\u5E94\u4FDD\u7559\u9AD8\u6C34\u4F4D\u5E76\u63D0\u793A\u56DE\u9000\uFF0C\u4E0D\u91CD\u64AD\u5386\u53F2\u3002");
+    }
+    function switchRun() {
+      if (!snapshot) return;
+      const current = manual || playingDemoSnapshot(step, generation);
+      setPlaying(false);
+      setPreviousRun(current);
+      setResponse(null);
+      setManual({ ...current, id: `playing-fixture-${generation + 1}` });
+      setGeneration((current2) => current2 + 1);
+      setQaNotice("\u5DF2\u5207\u6362\u5230\u53E6\u4E00\u5408\u6210\u8FD0\u884C\uFF1B\u9996\u5E27\u5386\u53F2\u53EA\u5EFA\u7ACB\u57FA\u7EBF\uFF0C\u4E0D\u8865\u64AD\u3002");
+    }
+    function returnRun() {
+      if (!previousRun || !snapshot) return;
+      setPlaying(false);
+      setManual(previousRun);
+      setPreviousRun(manual || snapshot);
+      setResponse(null);
+      setQaNotice("\u5DF2\u8FD4\u56DE\u5148\u524D\u8FD0\u884C\uFF1B\u5DF2\u6D88\u8D39\u4E8B\u4EF6\u4E0D\u8865\u64AD\u3002");
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { "data-preview-reduced-motion": reducedMotion, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("style", { children: `
+      body{color:#e7eeed;font-family:system-ui;background:#e5e9ec}body[data-ds-dark-theme]{background:#080c11}
+      .preview-controls{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:7px 14px;background:#11171ded;border-bottom:1px solid #39434b;font-size:10px}
+      .preview-controls strong{color:#e4e56b}.preview-controls select,.preview-controls button{background:#252b32;border:1px solid #58636a;color:#edf1ee;padding:4px 7px;font:inherit;cursor:pointer}
+      .preview-controls button:disabled{opacity:.4;cursor:default}.preview-badge{font:700 10px monospace;background:#e4e56b;color:#1b1d20;padding:4px 6px;white-space:nowrap}
+      .preview-stage{color:#91dce2}.preview-title{display:flex;align-items:center;gap:8px;flex-basis:100%}.preview-transport{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+      .preview-options{margin-left:auto}.preview-options>summary{cursor:pointer;padding:5px 8px;border:1px solid #58636a;background:#252b32}.preview-options>div{display:flex;align-items:center;flex-wrap:wrap;gap:7px;padding-top:7px}
+      .preview-options[open]{flex-basis:100%;margin:0}.preview-options[open]>summary{width:max-content}.preview-qa-label{flex-basis:100%;margin-top:3px;color:#a5b7c4}.preview-qa-notice{margin:0;color:#afc6d4;flex-basis:100%}
+      .preview-watermark{position:fixed;bottom:6px;left:6px;z-index:30;pointer-events:none;font:700 9px monospace;padding:3px 5px;border:1px solid #64662c;background:#171b1deb;color:#e4e56b}.preview-shell{margin:8px auto;min-height:700px}
+      [data-preview-reduced-motion="true"] .tm-root *,[data-preview-reduced-motion="true"] .tm-root *::before,[data-preview-reduced-motion="true"] .tm-root *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+      [data-preview-reduced-motion="true"] .tm-root [data-live=true]::after,[data-preview-reduced-motion="true"] .tm-root .tm-topology-card::after,[data-preview-reduced-motion="true"] .tm-root .tm-edge-pulse{display:none!important}
+      [data-preview-reduced-motion="true"] .tm-root [data-live=true]{outline:1px solid var(--tm-live);outline-offset:-2px}
+      @media(max-width:600px){.preview-controls{padding:7px 9px;gap:5px}.preview-shell{margin:0 auto}.preview-title strong,.preview-stage{display:none}.preview-title{gap:6px;font-size:9px}.preview-controls button{font-size:9px;padding:4px 5px}.preview-options>summary{font-size:9px;padding:4px 5px}}
+    ` }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "preview-controls", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "preview-title", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "preview-badge", children: "SYNTHETIC DEMO" }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("strong", { children: "\u56E2\u961F\u5B9E\u65F6\u62D3\u6251\u9884\u89C8" }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { children: "Fixture \u5408\u6210\u6570\u636E \xB7 \u8BF7\u52FF\u8F93\u5165\u771F\u5B9E\u5BC6\u94A5" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
-          "\u9884\u89C8\u5BBD\u5EA6 ",
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("select", { "aria-label": "\u9884\u89C8\u5BBD\u5EA6", value: width, onChange: (event) => setWidth(event.target.value), children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "full", children: "\u5B8C\u6574\u753B\u5E03" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "420", children: "420px \u4FA7\u680F" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "320", children: "320px \u4FA7\u680F" })
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "preview-transport", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { "data-preview-action": "play", onClick: () => manual || step >= 8 ? reset() : setPlaying(!playing), disabled: !canPlay, children: manual || step >= 8 ? "\u91CD\u64AD\u6807\u51C6\u6D41\u7A0B" : playing ? "\u6682\u505C\u64AD\u653E" : "\u7EE7\u7EED\u64AD\u653E" }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { "data-preview-action": "next", onClick: () => {
+            setPlaying(false);
+            setStep((current) => Math.min(8, current + 1));
+          }, disabled: !canPlay || !!manual || step >= 8, children: "\u4E0B\u4E00\u6B65\u4E8B\u4EF6" }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { onClick: () => reset(), children: "\u91CD\u7F6E\u6F14\u793A" }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "preview-stage", "aria-live": "polite", children: manual ? "\u624B\u52A8\u4E8B\u4EF6 \xB7 \u5DF2\u6682\u505C" : `${step + 1} / 9 \xB7 ${stages[step]}` })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("details", { className: "preview-options", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("summary", { children: "\u573A\u666F\u4E0E\u5C3A\u5BF8" }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { children: [
+              "\u573A\u666F ",
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("select", { "aria-label": "\u9884\u89C8\u72B6\u6001", value: mode, onChange: (event) => changeMode(event.target.value), children: ["\u64AD\u653E\u6F14\u793A", "\u5F85\u547D", "\u4E00\u6B21\u6027\u8BBE\u7F6E", "\u53D7\u963B", "\u5F85\u9A8C\u8BC1", "\u5B8C\u6210", "\u5931\u8D25", "\u5DF2\u53D6\u6D88", "\u8FDE\u63A5\u4E2D\u65AD", "\u65E5\u5FD7\u622A\u65AD", "\u9759\u6001\u65E7\u793A\u4F8B"].map((value) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { children: value }, value)) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { onClick: () => reset(INITIAL_STEP, false), children: "\u540C\u5C97\u4F4D\u53CC\u6A21\u578B" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { onClick: () => reset(0, false), children: "\u4ECE Jev \u5206\u7C7B\u5F00\u59CB" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("button", { onClick: () => setDark(!dark), title: "\u4EC5\u4FEE\u6539\u9884\u89C8\u5BBF\u4E3B\u80CC\u666F\uFF1B\u7EC4\u4EF6\u4E3B\u9898\u7531\u7EC4\u4EF6\u53F3\u4E0A\u89D2\u4E3B\u9898\u83DC\u5355\u5207\u6362\u3002", children: [
+              "\u5BBF\u4E3B\u80CC\u666F\uFF1A",
+              dark ? "\u6DF1\u8272" : "\u6D45\u8272"
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { children: [
+              "\u5BBD\u5EA6 ",
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("select", { "aria-label": "\u9884\u89C8\u5BBD\u5EA6", value: width, onChange: (event) => setWidth(event.target.value), children: [
+                /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "full", children: "\u5B8C\u6574\u753B\u5E03" }),
+                /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "420", children: "420px \u4FA7\u680F" }),
+                /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "320", children: "320px \u4FA7\u680F" })
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("button", { onClick: () => setReducedMotion(!reducedMotion), "aria-pressed": reducedMotion, title: "\u7CFB\u7EDF\u51CF\u5C11\u52A8\u6548\u8BBE\u7F6E\u59CB\u7EC8\u6709\u6548\uFF1B\u6B64\u9879\u989D\u5916\u5728\u9884\u89C8\u4E2D\u5173\u95ED\u6240\u6709\u52A8\u753B\u3002", children: [
+              "\u51CF\u5C11\u52A8\u6548\uFF1A",
+              reducedMotion ? "\u9884\u89C8\u5F00\u542F" : "\u8DDF\u968F\u7CFB\u7EDF"
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "preview-qa-label", children: "\u65B0\u5173\u7CFB\u4E8B\u4EF6 \xB7 \u4F7F\u7528\u771F\u5B9E\u5B57\u6BB5\u683C\u5F0F\uFF0C\u53EA\u8FFD\u52A0\u5408\u6210\u4E8B\u4EF6\uFF1B\u4E0D\u8C03\u7528\u670D\u52A1" }),
+            DEMO_RELATIONS.map((relation) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { "data-preview-relation": relation.id, disabled: !canEmit, onClick: () => emitRelation(relation.id), children: relation.label }, relation.id)),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "preview-qa-label", children: "\u4E8B\u4EF6\u53BB\u91CD / \u4E71\u5E8F / \u8FD0\u884C\u5207\u6362\u9A8C\u6536" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { "data-preview-response": "duplicate", disabled: !canEmit, onClick: () => replayResponse("duplicate"), children: "\u91CD\u590D\u4E0A\u4E2A\u5173\u7CFB seq" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { "data-preview-response": "out-of-order", disabled: !canEmit, onClick: () => replayResponse("out-of-order"), children: "\u4E71\u5E8F\u5FEB\u7167" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { "data-preview-response": "regressed", disabled: !canEmit, onClick: () => replayResponse("regressed"), children: "\u8F83\u65E7\u54CD\u5E94" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { "data-preview-action": "switch-run", disabled: !canEmit, onClick: switchRun, children: "\u5207\u6362\u5408\u6210\u8FD0\u884C" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { "data-preview-action": "return-run", disabled: !previousRun || !canEmit, onClick: returnRun, children: "\u8FD4\u56DE\u4E0A\u4E00\u8FD0\u884C" }),
+            qaNotice && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { className: "preview-qa-notice", role: "status", children: qaNotice })
           ] })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { style: { maxWidth: width === "full" ? 1500 : Number(width), margin: "16px auto", minHeight: 700 }, children: mode === "\u4E00\u6B21\u6027\u8BBE\u7F6E" ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(TeamSettingsView, { setup, catalog, credential: { configured: true, writable: true, source: "fixture" }, notice, onClose: () => setMode("\u5F85\u547D"), onRefresh: () => setNotice("Fixture \u9884\u89C8\uFF0C\u672A\u8FDE\u63A5\u6216\u8BFB\u53D6\u771F\u5B9E\u51ED\u636E\u3002"), onSave: async (input) => {
-        setSetup({ settings: input.settings, configured: input.disclosureAccepted && Object.values(input.settings.roles).every((role) => !!role.provider && !!role.model), keyConfigured: true, disclosureAccepted: input.disclosureAccepted, revision: setup.revision + 1 });
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "preview-shell", "data-preview-run-id": snapshot?.id, "data-preview-mode": mode, style: { maxWidth: width === "full" ? 1500 : Number(width) }, children: mode === "\u4E00\u6B21\u6027\u8BBE\u7F6E" ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(TeamSettingsView, { setup, catalog, credential: { configured: true, writable: true, source: "fixture" }, notice, onClose: () => changeMode("\u64AD\u653E\u6F14\u793A"), onRefresh: () => setNotice("Fixture \u9884\u89C8\uFF0C\u672A\u8BFB\u53D6\u771F\u5B9E\u51ED\u636E\u3002"), onSave: async (input) => {
+        setSetup({ settings: input.settings, configured: input.disclosureAccepted, keyConfigured: true, disclosureAccepted: input.disclosureAccepted, revision: setup.revision + 1 });
         setNotice("Fixture \u8BBE\u7F6E\u4EA4\u4E92\u5B8C\u6210\uFF0C\u672A\u4FDD\u5B58\u5BC6\u94A5\u3001\u672A\u53D1\u51FA\u7F51\u7EDC\u8BF7\u6C42\u3002");
-      } }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(TeamView, { catalog, sessionId: "preview-session", sessionContext: { workspace: "/\u4EC5\u4E3A\u793A\u4F8B/\u9879\u76EE\u76EE\u5F55", permissionNotice: "\u79BB\u7EBF\u9884\u89C8\uFF0C\u4E0D\u4EA7\u751F\u6A21\u578B\u8C03\u7528\u3002" }, snapshot, settings: setup.settings, configured: setup.configured, onOpenSettings: () => setMode("\u4E00\u6B21\u6027\u8BBE\u7F6E"), onCancel: async () => {
-      }, onRefresh: () => setMode("\u5F85\u547D"), onDemo: () => setMode(mode === "\u6F14\u793A\u62D3\u6251" ? "\u5F85\u547D" : "\u6F14\u793A\u62D3\u6251") }) })
+      } }) : /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(TeamView, { catalog, sessionId: "preview-session", sessionContext: { workspace: "/\u4EC5\u4E3A\u793A\u4F8B/\u9879\u76EE\u76EE\u5F55", permissionNotice: "\u79BB\u7EBF\u9884\u89C8\uFF0C\u4E0D\u4EA7\u751F\u6A21\u578B\u8C03\u7528\u3002" }, snapshot, freshness: { stale: mode === "\u8FDE\u63A5\u4E2D\u65AD", reason: "\u5408\u6210\u65AD\u8FDE\uFF1A\u6570\u636E\u8D85\u8FC7\u65F6\u9650", observedAt: snapshot?.observedAt, revision: generation }, settings: setup.settings, configured: setup.configured, onOpenSettings: () => changeMode("\u4E00\u6B21\u6027\u8BBE\u7F6E"), onCancel: async () => changeMode("\u5DF2\u53D6\u6D88"), onRefresh: () => reset(), onDemo: () => reset() }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "preview-watermark", "aria-label": "\u6301\u7EED\u5408\u6210\u6F14\u793A\u6807\u8BC6", children: "\u5408\u6210\u6F14\u793A \xB7 \u65E0\u771F\u5B9E\u8C03\u7528" })
     ] });
   }
-  (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Preview, {}));
+  (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Preview, {}));
 })();
 /*! Bundled license information:
 

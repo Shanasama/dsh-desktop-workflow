@@ -1,0 +1,2725 @@
+{
+  "mode": "integrated-offline-synthetic",
+  "fixtureDefinitionSha256": "9479ed9397bf6af564a39be3190161863d886a626228c01aa217d3d1ee36e920",
+  "realModelCalls": 0,
+  "realJevCalls": 0,
+  "costRoutingImplemented": false,
+  "actualTaskAcceptance": "not-run",
+  "observedProductionAccuracy": null,
+  "cases": 4,
+  "passed": true,
+  "reports": [
+    {
+      "case": "passes-independent-check",
+      "mode": "offline-scripted-controller-with-real-local-tests",
+      "realModelCalls": 0,
+      "realJevCalls": 0,
+      "modelOutputsExecuted": false,
+      "actualTaskAcceptance": "not-run",
+      "observedProductionAccuracy": null,
+      "persistentLedgersUsed": true,
+      "mockHttpPosts": null,
+      "status": "completed",
+      "observations": [
+        {
+          "phase": "baseline",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": null,
+          "checkExitCodes": []
+        },
+        {
+          "phase": "check",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": true,
+          "sealed": null,
+          "checkExitCodes": [
+            0
+          ]
+        },
+        {
+          "phase": "seal",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": true,
+          "checkExitCodes": []
+        }
+      ],
+      "summary": {
+        "mode": "injected-evaluation",
+        "costRoutingImplemented": false,
+        "spentTokens": 900,
+        "reservedTokens": 0,
+        "remainingTokens": 9999100,
+        "halted": null,
+        "modelPhysicalCalls": 5,
+        "jev": {
+          "calls": 4,
+          "failures": 0,
+          "retries": 0,
+          "inputTokens": 124,
+          "outputTokens": 28,
+          "unknownUsageCalls": 0,
+          "active": 0
+        }
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "verification",
+            "data": {
+              "phase": "baseline",
+              "round": 0,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 2,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 3,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "small",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 1,
+                    "medium": 0,
+                    "high": 0,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 4,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 5,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 6,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 7,
+            "type": "plan",
+            "data": {
+              "node": 3,
+              "kind": "plan",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 8,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 9,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 10,
+            "type": "plan",
+            "data": {
+              "node": 4,
+              "kind": "coordination",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 11,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 12,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 13,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 14,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 15,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 16,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 17,
+            "type": "verification",
+            "data": {
+              "phase": "check",
+              "round": 1,
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "checks": [
+                {
+                  "check": 1,
+                  "passed": true,
+                  "exitCode": 0
+                }
+              ]
+            }
+          },
+          {
+            "seq": 18,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 19,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "complete",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 20,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 21,
+            "type": "verification",
+            "data": {
+              "phase": "seal",
+              "round": 1,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": true,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 22,
+            "type": "branch",
+            "data": {
+              "code": "completed",
+              "round": 1,
+              "lane": "small"
+            }
+          },
+          {
+            "seq": 23,
+            "type": "terminal",
+            "data": {
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 24,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "high",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 0,
+                    "medium": 0,
+                    "high": 1,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "high",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 25,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "needs_person",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 0,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 1,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "escalate",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": true
+              }
+            }
+          }
+        ]
+      },
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "completed",
+        "decisions": [
+          {
+            "seq": 3,
+            "source": "primary",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 19,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "complete",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          },
+          {
+            "seq": 24,
+            "source": "shadow",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "high",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 25,
+            "source": "shadow",
+            "phase": "step",
+            "decision": {
+              "action": "escalate",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": true
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      }
+    },
+    {
+      "case": "test-failure",
+      "mode": "offline-scripted-controller-with-real-local-tests",
+      "realModelCalls": 0,
+      "realJevCalls": 0,
+      "modelOutputsExecuted": false,
+      "actualTaskAcceptance": "not-run",
+      "observedProductionAccuracy": null,
+      "persistentLedgersUsed": true,
+      "mockHttpPosts": null,
+      "status": "blocked",
+      "observations": [
+        {
+          "phase": "baseline",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": null,
+          "checkExitCodes": []
+        },
+        {
+          "phase": "check",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": false,
+          "sealed": null,
+          "checkExitCodes": [
+            1
+          ]
+        }
+      ],
+      "summary": {
+        "mode": "injected-evaluation",
+        "costRoutingImplemented": false,
+        "spentTokens": 900,
+        "reservedTokens": 0,
+        "remainingTokens": 9999100,
+        "halted": null,
+        "modelPhysicalCalls": 5,
+        "jev": {
+          "calls": 4,
+          "failures": 0,
+          "retries": 0,
+          "inputTokens": 124,
+          "outputTokens": 28,
+          "unknownUsageCalls": 0,
+          "active": 0
+        }
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "verification",
+            "data": {
+              "phase": "baseline",
+              "round": 0,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 2,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 3,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "small",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 1,
+                    "medium": 0,
+                    "high": 0,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 4,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 5,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 6,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 7,
+            "type": "plan",
+            "data": {
+              "node": 3,
+              "kind": "plan",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 8,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 9,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 10,
+            "type": "plan",
+            "data": {
+              "node": 4,
+              "kind": "coordination",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 11,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 12,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 13,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 14,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 15,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 16,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 17,
+            "type": "verification",
+            "data": {
+              "phase": "check",
+              "round": 1,
+              "evidence": {
+                "checksPassed": false,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 1
+              },
+              "checks": [
+                {
+                  "check": 1,
+                  "passed": false,
+                  "exitCode": 1
+                }
+              ]
+            }
+          },
+          {
+            "seq": 18,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 19,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": false,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 1
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "retry",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 20,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 21,
+            "type": "branch",
+            "data": {
+              "code": "retry_exhausted",
+              "round": 1,
+              "lane": "small"
+            }
+          },
+          {
+            "seq": 22,
+            "type": "terminal",
+            "data": {
+              "status": "blocked"
+            }
+          },
+          {
+            "seq": 23,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "high",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 0,
+                    "medium": 0,
+                    "high": 1,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "high",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 24,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "needs_person",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 0,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 1,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": false,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 1
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "retry",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": true
+              }
+            }
+          }
+        ]
+      },
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "blocked",
+        "decisions": [
+          {
+            "seq": 3,
+            "source": "primary",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 19,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "retry",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          },
+          {
+            "seq": 23,
+            "source": "shadow",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "high",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 24,
+            "source": "shadow",
+            "phase": "step",
+            "decision": {
+              "action": "retry",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": true
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      }
+    },
+    {
+      "case": "seal-tampering",
+      "mode": "offline-scripted-controller-with-real-local-tests",
+      "realModelCalls": 0,
+      "realJevCalls": 0,
+      "modelOutputsExecuted": false,
+      "actualTaskAcceptance": "not-run",
+      "observedProductionAccuracy": null,
+      "persistentLedgersUsed": true,
+      "mockHttpPosts": null,
+      "status": "blocked",
+      "observations": [
+        {
+          "phase": "baseline",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": null,
+          "checkExitCodes": []
+        },
+        {
+          "phase": "check",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": true,
+          "sealed": null,
+          "checkExitCodes": [
+            0
+          ]
+        },
+        {
+          "phase": "seal",
+          "runnerExit": 1,
+          "verified": false,
+          "checksPassed": null,
+          "sealed": null,
+          "checkExitCodes": []
+        }
+      ],
+      "summary": {
+        "mode": "injected-evaluation",
+        "costRoutingImplemented": false,
+        "spentTokens": 900,
+        "reservedTokens": 0,
+        "remainingTokens": 9999100,
+        "halted": null,
+        "modelPhysicalCalls": 5,
+        "jev": {
+          "calls": 4,
+          "failures": 0,
+          "retries": 0,
+          "inputTokens": 124,
+          "outputTokens": 28,
+          "unknownUsageCalls": 0,
+          "active": 0
+        }
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "verification",
+            "data": {
+              "phase": "baseline",
+              "round": 0,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 2,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 3,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "small",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 1,
+                    "medium": 0,
+                    "high": 0,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 4,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 5,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 6,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 7,
+            "type": "plan",
+            "data": {
+              "node": 3,
+              "kind": "plan",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 8,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 9,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 10,
+            "type": "plan",
+            "data": {
+              "node": 4,
+              "kind": "coordination",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 11,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 12,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 13,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 14,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 15,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 16,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 17,
+            "type": "verification",
+            "data": {
+              "phase": "check",
+              "round": 1,
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "checks": [
+                {
+                  "check": 1,
+                  "passed": true,
+                  "exitCode": 0
+                }
+              ]
+            }
+          },
+          {
+            "seq": 18,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 19,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.0.0",
+                "responseModel": "jev-1.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "complete",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 20,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 21,
+            "type": "terminal",
+            "data": {
+              "status": "blocked"
+            }
+          },
+          {
+            "seq": 22,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "high",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 0,
+                    "medium": 0,
+                    "high": 1,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "high",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 23,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-2.0.0",
+                "responseModel": "jev-2.0.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 31,
+                  "outputTokens": 7
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "needs_person",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 0,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 1,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "escalate",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": true
+              }
+            }
+          }
+        ]
+      },
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "blocked",
+        "decisions": [
+          {
+            "seq": 3,
+            "source": "primary",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 19,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "complete",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          },
+          {
+            "seq": 22,
+            "source": "shadow",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "high",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 23,
+            "source": "shadow",
+            "phase": "step",
+            "decision": {
+              "action": "escalate",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": true
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      }
+    },
+    {
+      "case": "mock-http-with-independent-check",
+      "mode": "offline-scripted-controller-with-real-local-tests",
+      "realModelCalls": 0,
+      "realJevCalls": 0,
+      "modelOutputsExecuted": false,
+      "actualTaskAcceptance": "not-run",
+      "observedProductionAccuracy": null,
+      "persistentLedgersUsed": true,
+      "mockHttpPosts": {
+        "model": 5,
+        "jev": 4
+      },
+      "status": "completed",
+      "observations": [
+        {
+          "phase": "baseline",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": null,
+          "checkExitCodes": []
+        },
+        {
+          "phase": "check",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": true,
+          "sealed": null,
+          "checkExitCodes": [
+            0
+          ]
+        },
+        {
+          "phase": "seal",
+          "runnerExit": 0,
+          "verified": true,
+          "checksPassed": null,
+          "sealed": true,
+          "checkExitCodes": []
+        }
+      ],
+      "summary": {
+        "mode": "injected-evaluation",
+        "costRoutingImplemented": false,
+        "spentTokens": 900,
+        "reservedTokens": 0,
+        "remainingTokens": 9999100,
+        "halted": null,
+        "modelPhysicalCalls": 5,
+        "jev": {
+          "calls": 4,
+          "failures": 0,
+          "retries": 0,
+          "inputTokens": 44,
+          "outputTokens": 12,
+          "unknownUsageCalls": 0,
+          "active": 0
+        }
+      },
+      "trace": {
+        "schema": "dsh-evaluation-trace/v1",
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "privacy": "metadata-only",
+        "truncated": false,
+        "events": [
+          {
+            "seq": 1,
+            "type": "verification",
+            "data": {
+              "phase": "baseline",
+              "round": 0,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 2,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.13.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 3,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.13.0",
+                "responseModel": "jev-1.13.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 11,
+                  "outputTokens": 3
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "small",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 1,
+                    "medium": 0,
+                    "high": 0,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 4,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.12.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 5,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 6,
+            "type": "model_call",
+            "data": {
+              "node": 3,
+              "role": "planner",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 7,
+            "type": "plan",
+            "data": {
+              "node": 3,
+              "kind": "plan",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 8,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 9,
+            "type": "model_call",
+            "data": {
+              "node": 4,
+              "role": "coordinator",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 10,
+            "type": "plan",
+            "data": {
+              "node": 4,
+              "kind": "coordination",
+              "tasks": [
+                {
+                  "task": 1,
+                  "role": "worker",
+                  "dependsOn": []
+                }
+              ]
+            }
+          },
+          {
+            "seq": 11,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 12,
+            "type": "model_call",
+            "data": {
+              "node": 5,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 13,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 14,
+            "type": "model_call",
+            "data": {
+              "node": 6,
+              "role": "worker",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 15,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "started"
+            }
+          },
+          {
+            "seq": 16,
+            "type": "model_call",
+            "data": {
+              "node": 7,
+              "role": "reviewer",
+              "modelRef": 1,
+              "maxTokens": 2048,
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 17,
+            "type": "verification",
+            "data": {
+              "phase": "check",
+              "round": 1,
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "checks": [
+                {
+                  "check": 1,
+                  "passed": true,
+                  "exitCode": 0
+                }
+              ]
+            }
+          },
+          {
+            "seq": 18,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.13.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 19,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "primary",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.13.0",
+                "responseModel": "jev-1.13.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 11,
+                  "outputTokens": 3
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "complete",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          },
+          {
+            "seq": 20,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "started",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.12.0",
+                "responseModel": null,
+                "modelPolicy": null,
+                "usage": {
+                  "inputTokens": null,
+                  "outputTokens": null
+                }
+              },
+              "answers": null,
+              "evidence": null,
+              "context": null,
+              "decision": null
+            }
+          },
+          {
+            "seq": 21,
+            "type": "verification",
+            "data": {
+              "phase": "seal",
+              "round": 1,
+              "evidence": {
+                "checksPassed": null,
+                "checksRun": null,
+                "scopeOk": null,
+                "diffAvailable": null,
+                "protectedOk": null,
+                "verified": true,
+                "expectsChanges": null,
+                "diffEmpty": null,
+                "securityChanged": null,
+                "needsVerification": null,
+                "sealed": true,
+                "checksFailed": null
+              },
+              "checks": []
+            }
+          },
+          {
+            "seq": 22,
+            "type": "branch",
+            "data": {
+              "code": "completed",
+              "round": 1,
+              "lane": "small"
+            }
+          },
+          {
+            "seq": 23,
+            "type": "terminal",
+            "data": {
+              "status": "completed"
+            }
+          },
+          {
+            "seq": 24,
+            "type": "jev",
+            "data": {
+              "phase": "classify",
+              "round": 0,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.12.0",
+                "responseModel": "jev-1.12.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 11,
+                  "outputTokens": 3
+                }
+              },
+              "answers": {
+                "lane": {
+                  "type": "choice",
+                  "choice": "small",
+                  "confidence": 1,
+                  "probabilities": {
+                    "small": 1,
+                    "medium": 0,
+                    "high": 0,
+                    "escalate": 0,
+                    "other": 0
+                  }
+                },
+                "security_sensitive": {
+                  "type": "noul",
+                  "noul": 0
+                },
+                "underspecified": {
+                  "type": "noul",
+                  "noul": 0
+                }
+              },
+              "evidence": null,
+              "context": null,
+              "decision": {
+                "action": "classify",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": null
+              }
+            }
+          },
+          {
+            "seq": 25,
+            "type": "jev",
+            "data": {
+              "phase": "step",
+              "round": 1,
+              "source": "shadow",
+              "reasonCode": null,
+              "status": "completed",
+              "mode": "fixture",
+              "metadata": {
+                "requestedModel": "jev-1.12.0",
+                "responseModel": "jev-1.12.0",
+                "modelPolicy": "pinned",
+                "usage": {
+                  "inputTokens": 11,
+                  "outputTokens": 3
+                }
+              },
+              "answers": {
+                "next": {
+                  "type": "choice",
+                  "choice": "complete",
+                  "confidence": 1,
+                  "probabilities": {
+                    "complete": 1,
+                    "continue": 0,
+                    "retry_differently": 0,
+                    "needs_stronger_model": 0,
+                    "needs_person": 0,
+                    "other": 0
+                  }
+                },
+                "implemented": {
+                  "type": "noul",
+                  "noul": 1
+                },
+                "in_scope": {
+                  "type": "noul",
+                  "noul": 1
+                }
+              },
+              "evidence": {
+                "checksPassed": true,
+                "checksRun": true,
+                "scopeOk": true,
+                "diffAvailable": true,
+                "protectedOk": true,
+                "verified": true,
+                "expectsChanges": true,
+                "diffEmpty": false,
+                "securityChanged": false,
+                "needsVerification": null,
+                "sealed": null,
+                "checksFailed": 0
+              },
+              "context": {
+                "lane": "small",
+                "attempts": 1,
+                "sameFailureRepeated": false
+              },
+              "decision": {
+                "action": "complete",
+                "lane": "small",
+                "confidence": 1,
+                "needsPerson": false
+              }
+            }
+          }
+        ]
+      },
+      "replay": {
+        "policy": "hermes-b22a21f+dsh-gates-v1",
+        "scope": "code-decisions-only",
+        "terminal": "completed",
+        "decisions": [
+          {
+            "seq": 3,
+            "source": "primary",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 19,
+            "source": "primary",
+            "phase": "step",
+            "decision": {
+              "action": "complete",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          },
+          {
+            "seq": 24,
+            "source": "shadow",
+            "phase": "classify",
+            "decision": {
+              "action": "classify",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": null
+            },
+            "matches": true
+          },
+          {
+            "seq": 25,
+            "source": "shadow",
+            "phase": "step",
+            "decision": {
+              "action": "complete",
+              "lane": "small",
+              "confidence": 1,
+              "needsPerson": false
+            },
+            "matches": true
+          }
+        ],
+        "matches": true
+      }
+    }
+  ]
+}

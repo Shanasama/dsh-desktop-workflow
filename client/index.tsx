@@ -6,7 +6,9 @@ import type { CredentialStatus } from './team-types';
 import teamCss from './team.css';
 import css from './workflow.css';
 import { requestWithDeadline } from './request';
+import { registerTeamChatFeedback } from './team-chat-feedback';
 export { requestWithDeadline } from './request';
+export { registerTeamChatFeedback, teamFeedbackDefinition, TeamFeedbackMessage, TeamCommandMessage } from './team-chat-feedback';
 
 export const inject = ['slots', 'sidebarRightTabs', 'sidebarRight', 'connection', 'remote', 'remote.credentials'];
 export const PACKAGE = 'dsh-desktop-workflow';
@@ -17,6 +19,7 @@ export type RpcResult<T = unknown> = {ok:true;value:T}|{ok:false;error:{message:
 type TabBodyProps = {sessionId?:string;useTabInfo?:()=>{tab:{navigation:{params?:{view?:string};revision:number}}}};
 export interface HostContext {
   effect(fn:()=>Disposer,label:string):unknown;
+  inject?(services:string[],callback:(context:any)=>void):unknown;
   on(name:'command/executed',listener:(sessionId:string,name:string,result:{kind:'success'|'error';text?:string})=>void):Disposer;
   connection:{rpc:{call(channel:string,endpoint:string,payload:object,signal:AbortSignal):Promise<RpcResult>}};
   remote?:{credentials?:{describe(refs:string[]):Promise<RpcResult<Record<string,CredentialStatus>>>;set(ref:string,value:string):Promise<RpcResult>}};
@@ -84,12 +87,15 @@ export function apply(ctx:HostContext){
     const navigation=info?.tab.navigation;
     const [view,setView]=useState('results');
     useEffect(()=>{setView(navigation?.params?.view==='settings'?'settings':'results');},[sessionId,navigation?.revision]);
-    return view==='settings'?<ConnectedTeamSettings ctx={ctx} onClose={()=>setView('results')}/>:<ConnectedTeam ctx={ctx} sessionId={sessionId} navigationRevision={navigation?.revision} onOpenSettings={()=>setView('settings')}/>;
+    return view==='settings'?<ConnectedTeamSettings ctx={ctx} onClose={()=>setView('results')}/>:<ConnectedTeam key={sessionId||"no-session"} ctx={ctx} sessionId={sessionId} navigationRevision={navigation?.revision} onOpenSettings={()=>setView('settings')}/>;
   }
   const Settings=({close}:{close:()=>void})=><ConnectedTeamSettings ctx={ctx} onClose={close}/>;
   ctx.effect(()=>ctx.slots.inject('sidebar.right.pane.tab',()=>ctx.slots.register({name:'sidebar.right.pane.tab',key:PACKAGE},Body)),'desktop-workflow: native team body');
   ctx.effect(()=>ctx.slots.inject('settings.section',()=>ctx.slots.register({name:'settings.section',id:PACKAGE,order:36,label:()=> '多模型团队'},Settings)),'desktop-workflow: native team settings');
   ctx.effect(()=>registerTeamCommandListener(ctx),'desktop-workflow: native team command acknowledgment');
+  // Optional child injection keeps older/non-chat surfaces usable. The official
+  // browser dependency manifest loads both services before these slots mount.
+  ctx.inject?.(['uiConversation'],child=>{child.effect(()=>registerTeamChatFeedback(child),'desktop-workflow: original-session team feedback');});
 }
 
 export {TeamView,TeamSettingsView} from './TeamView';

@@ -1,0 +1,13 @@
+{
+  "mode": "offline-config-check",
+  "networkRequests": 0,
+  "credentialsRead": false,
+  "configurationAccepted": false,
+  "liveReady": false,
+  "blocker": "preflight-contract-incomplete",
+  "requestHashes": {
+    "chat_completions": "70fb704019335d23d9d82c402e9dfc57a013084caaeacb3b39ba4284c9990aaa",
+    "responses": "e696378dd58bf3081f37324d7966cf8440fe31b0752b0dd8744be3f8a5a8ccc0"
+  },
+  "note": "Hashes bind an input-bound proof to the final public fixture. A hash or one successful response does not prove provider limits."
+}

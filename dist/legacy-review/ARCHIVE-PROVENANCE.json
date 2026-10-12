@@ -1,0 +1,14 @@
+{
+  "purpose": "Preserve both historical v0.5.1 archives during the review-to-main handoff merge. Candidate.3 source and package are unchanged.",
+  "retained_main_archive": {
+    "path": "dist/dsh-desktop-workflow-0.5.1.tgz",
+    "source_commit": "99bba9969aa2744cfed0dbb82624a2bc9d55791b",
+    "sha256": "1f983561e9f397ebf34eb1a1c1e12e40bb42062d3519f687c342989842e913ae"
+  },
+  "preserved_review_archive": {
+    "path": "dist/legacy-review/dsh-desktop-workflow-0.5.1-30bdd0fbc369.tgz",
+    "original_path": "dist/dsh-desktop-workflow-0.5.1.tgz",
+    "source_commit": "10c704c57e4527403a0ce7687287157c33c776a0",
+    "sha256": "30bdd0fbc369a63e5744155eccae1d212444109c643858ed0df52b4a7092050e"
+  }
+}

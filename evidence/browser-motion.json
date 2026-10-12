@@ -1,0 +1,42 @@
+{
+  "synthetic": true,
+  "browser": "cloud Chromium",
+  "url": "http://127.0.0.1:4263/",
+  "liveBefore": [
+    {
+      "animation": "tm-live-scan",
+      "duration": "1.8s",
+      "id": "research-fast"
+    },
+    {
+      "animation": "tm-live-scan",
+      "duration": "1.8s",
+      "id": "research-deep"
+    },
+    {
+      "animation": "tm-live-scan",
+      "duration": "1.8s",
+      "id": "explore"
+    }
+  ],
+  "transferEvidence": [
+    {
+      "animation": "tm-relation-pass",
+      "dashOffset": "0.536697px",
+      "duration": "0.8s",
+      "event": "playing-fixture-0:18"
+    },
+    {
+      "animation": "tm-relation-pass",
+      "dashOffset": "0.536697px",
+      "duration": "0.8s",
+      "event": "playing-fixture-0:19"
+    },
+    {
+      "animation": "tm-relation-pass",
+      "dashOffset": "0.536697px",
+      "duration": "0.8s",
+      "event": "playing-fixture-0:20"
+    }
+  ]
+}

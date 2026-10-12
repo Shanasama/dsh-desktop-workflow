@@ -3,15 +3,37 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 import {realpathSync,lstatSync,existsSync} from 'node:fs';
+import { ProductionBudget, ProductionBudgetError, nativeRequestBound, normalizeBudgetConfig, resolveNativeBudgetContract } from './production-budget.js';
+import { READ_TOOL_NAMES, roleToolNames, TEAM_TOOL_BOUNDARY_PROMPT, resolveOfficialTodoContract } from './tool-contract.js';
 
-const readTools = new Set(['read', 'read_image', 'glob', 'grep', 'structured_output']);
+// Exact retired/unconfirmed child identities survive plugin/runtime replacement. Keep
+// only ids, never agents, sessions, project paths, budgets, or active listeners.
+// This cannot enforce anything while no workflow adapter is mounted.
+const quarantineKey=Symbol.for('dsh-desktop-workflow:unconfirmed-model-children:v1');
+const unconfirmedModelChildren=globalThis[quarantineKey]??(globalThis[quarantineKey]=new Set());
+const retiredChildrenKey=Symbol.for('dsh-desktop-workflow:retired-model-children:v1');
+const retiredBudgetChildren=globalThis[retiredChildrenKey]??(globalThis[retiredChildrenKey]=new Set());
+/** Pure comparison helper; Windows paths use case-insensitive filesystem names. */
+export function isEvidencePath(relative,evidence,pattern='',platform=process.platform){
+ if(typeof evidence!=='string'||!/^\.dsh-team-evidence-[a-f0-9]{32}$/.test(evidence))return false;
+ const normalize=value=>platform==='win32'?String(value).toLowerCase():String(value);
+ const exact=normalize(evidence),target=normalize(relative).replaceAll('\\','/');
+ return target===exact||target.startsWith(exact+'/')||normalize(pattern).split(/[\\/]/).includes(exact);
+}
+function tombstoneChildren(tag){for(const agent of tag.created)unconfirmedModelChildren.add(agent.id);}
+
+const readTools = new Set(READ_TOOL_NAMES);
 const researchTools = new Set([...readTools, 'web_search', 'web_fetch']);
-const workerTools = new Set([...readTools, 'write', 'edit', 'bash', 'pwsh']);
 const clean = (value, length=500) => typeof value === 'string' ? value.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/g,'').slice(0,length) : '';
 export class TeamHostError extends Error { constructor(code,message){super(message);this.code=code;this.retryable=false;this.blocked=true;} }
 function need(condition,code,message){if(!condition)throw new TeamHostError(code,message);}
+// A safety/budget stop always takes precedence over a recoverable step limit.
+function stopChild(tag, code, message) {
+  if (!tag.failureCode || tag.failureCode === 'STEP_LIMIT') { tag.failureCode = code; tag.blockedReason = message; }
+  return message;
+}
 
-export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, onCleanupFailed = () => {} } = {}) {
+export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, onCleanupFailed = () => {}, guardProject = () => {}, onBudgetUpdate = () => {} } = {}) {
   const creation = new AsyncLocalStorage();
   const projectPolicies=new Map();
   const verifierCalls = new AsyncLocalStorage();
@@ -19,10 +41,34 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
   const activeParents = new Set();
   const activeFingerprints = new Map();
   const parentGuards=new Map();const quarantined=new Set();
-  let monitor;
+  let monitor,nativeBudgetContract,nativeTodoContract;
   const owned = new Map();
+  const budgets = new Map();
+  const retiredBudgetRuns = new Set();
+  // Keep child attribution until adapter disposal, including late auxiliary
+  // calls after child cleanup. Released ledgers veto late dispatches.
+  const budgetChildren = new Map();
+  function beginBudget(runId, config) {
+    need(typeof runId==='string'&&runId.length>0&&runId.length<=128,'INVALID_BUDGET','Token 预算运行标识无效。');
+    need(!budgets.has(runId)&&!retiredBudgetRuns.has(runId),'BUDGET_ALREADY_STARTED','此运行的 Token 预算已建立，不能重置。');
+    const budget=new ProductionBudget(config,snapshot=>{pruneBudgets();onBudgetUpdate(runId,snapshot);});
+    budgets.set(runId,budget);return budget.snapshot();
+  }
+  function budgetSnapshot(runId){return budgets.get(runId)?.snapshot();}
+  function pruneBudgets(){
+    const settled=[...budgets].filter(([,budget])=>budget.released&&!budget.activeCalls&&!budget.snapshot().reserved&&!budget.snapshot().unknownUsageCalls);
+    for(const [id]of settled.slice(0,-64))budgets.delete(id);
+  }
+  function releaseBudget(runId){
+    const budget=budgets.get(runId);if(!budget)return;
+    retiredBudgetRuns.add(runId);
+    for(const [id,entry]of budgetChildren)if(entry.tag.runId===runId){budgetChildren.delete(id);retiredBudgetChildren.add(id);}
+    const snapshot=budget.release();pruneBudgets();return snapshot;
+  }
   const disposers = [];
-  let closed=false;
+  let closed=false,disposal;
+  const globalTools=ctx.get?.('tools');
+  const projectGuardDisposer=typeof globalTools?.guard==='function'?globalTools.guard(exec=>!researchTools.has(exec.name)?guardProject(exec.agent,exec):undefined):undefined;
   function requireSpawn(){const provider=ctx.subagents.getProvider('spawn');need(provider?.capabilities?.agentOptions && provider.capabilities.outputSchema && provider.capabilities.persona && provider.capabilities.depthLimit,'UNSUPPORTED_HOST','当前宿主缺少支持独立模型和结构化输出的 spawn 子代理。');}
 
   function permissionState(parent){
@@ -43,20 +89,65 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
     const tag=creation.getStore();if(!tag)return;
     need(agent.session.header.parentSession===tag.parent.id && ctx.agents.isOwnedBy(agent.id,tag.parent),'CHILD_IDENTITY','子代理归属无法验证，已阻止执行。');
     const tools=agent.ctx.get('tools');
-    need(tools && typeof tools.guard==='function' && typeof tools.presentAs==='function','UNSAFE_TOOLS','无法安装子代理工具执行保护，已阻止执行。');
-    const allowed=tag.role==='worker'?workerTools:tag.role==='researcher'?researchTools:readTools;
-    const guard=tools.guard(exec=>{if(tag.project){const issue=projectGuard(tag,exec);if(issue){tag.blockedReason=issue;return issue;}}if(allowed.has(exec.name))return;tag.blockedReason='岗位尝试了不允许的工具，已阻止执行；不会扩大权限或递归派发。';return tag.blockedReason;});
-    agent.ctx.on('tools/pre-execute',async (_exec,next)=>{const decision=await next();if(decision.kind==='ask'||decision.kind==='deny')tag.blockedReason='宿主权限拒绝或要求额外批准。子代理不能代替用户批准，请在主会话处理。';return decision;});
+    need(tools && ['guard','presentAs','restrict','view','get'].every(name=>typeof tools[name]==='function'),'UNSAFE_TOOLS','无法安装子代理原生工具呈现与执行保护，已阻止执行。');
+    const todoContract=tools.get('todo_write',agent)?await(nativeTodoContract??=resolveOfficialTodoContract(ctx)):undefined;
+    // Official identity loading is asynchronous. Teardown/release during that
+    // await must roll back unpublished creation, never resume without the
+    // adapter's global budget and project guards.
+    need(!closed,'UNAVAILABLE','工作流服务已关闭，未发布子代理。');
+    need(!tag.signal.aborted,'CANCELLED','运行已取消，未发布子代理。');
+    need(!retiredBudgetRuns.has(tag.runId)&&budgets.has(tag.runId),'BUDGET_RELEASED','团队预算已结束，未发布子代理。');
+    budgets.get(tag.runId).check();
+    need(ctx.agents.get(tag.parent.id)===tag.parent&&activeFingerprints.get(tag.parent.id)===tag.fingerprint&&fingerprint(tag.parent)===tag.fingerprint,'CONTEXT_CHANGED','原会话或权限已变化，未发布子代理。');
+    const todo=todoContract?.identify(tools,agent),todoExecute=todo?.execute,childSession=agent.session;
+    const validTodo=()=>!!todo && tools.get('todo_write',agent)===todo && todo.execute===todoExecute && todoContract.identify(tools,agent)===todo;
+    const allowed=roleToolNames(tag.role,tag.project,!!todo);
     const presentation=tools.presentAs('native');
+    // DSH intersects this filter with inherited restrictions; child-owned
+    // structured_output remains available. Own-scope overrides still need guard.
+    const restriction=tools.restrict({allow:[...tools.view(agent).restrictableNames].filter(name=>allowed.has(name))});
+    const boundary='岗位尝试了不允许的工具，已阻止执行；不会扩大权限或递归派发。';
+    // The official API deliberately exempts own-scope registrations. If an
+    // extension adds a forbidden local tool, do not present a contradictory
+    // schema: stop this child before its first model request instead.
+    need(![...(tools.view(agent).visible?.keys()??[])].some(name=>!allowed.has(name)),'TOOL_BOUNDARY','子会话包含无法按岗位隐藏的本地工具，已在模型请求前停止。');
+    const guard=tools.guard(exec=>{
+      if(exec.name==='todo_write')return exec.agent===agent && exec.agent.session===childSession && validTodo()?undefined:stopChild(tag,'TOOL_BOUNDARY','无法核验当前子会话的官方 todo 工具身份，已阻止执行。');
+      if(tag.project){const issue=projectGuard(tag,exec);if(issue)return stopChild(tag,'TOOL_BOUNDARY',issue);}
+      if(allowed.has(exec.name))return;
+      return stopChild(tag,'TOOL_BOUNDARY',boundary);
+    });
+    // Filtered-away calls are rejected by the native registry before guards.
+    // Preserve the same non-retryable boundary classification for those calls.
+    agent.ctx.on('tools/result',(exec,result)=>{if(exec.agent===agent && result.isError && result.error?.info?.code==='UNKNOWN_TOOL')stopChild(tag,'TOOL_BOUNDARY',boundary);});
+    // Observe the final native decision outside existing short-circuit policy
+    // listeners. Observation does not change, approve or retry that decision.
+    agent.ctx.on('tools/pre-execute',async (_exec,next)=>{const decision=await next();if(decision.kind==='ask'||decision.kind==='deny')stopChild(tag,'PERMISSION_DENIED','宿主权限拒绝或要求额外批准。子代理不能代替用户批准，请在主会话处理。');return decision;},{prepend:true});
     let steps=0;
     const cap=agent.ctx.on('agent/pre-step', async (_payload,next)=>{
       if(tag.signal.aborted)return {kind:'reject'};
-      if(fingerprint(tag.parent)!==tag.fingerprint){tag.blockedReason='宿主权限已变化，已停止新的模型请求。';onParentUnavailable(tag.parent.id,tag.blockedReason);return {kind:'reject'};}
-      if(++steps>tag.limits.maxStepsPerAgent){tag.blockedReason='子代理达到模型请求步骤上限，已停止；不会继续重试。';return {kind:'reject'};}
+      if(todo && !validTodo()){stopChild(tag,'TOOL_BOUNDARY','官方 todo 工具已卸载或改变，已停止当前子代理。');return {kind:'reject'};}
+      if(fingerprint(tag.parent)!==tag.fingerprint){stopChild(tag,'PERMISSION_DENIED','宿主权限已变化，已停止新的模型请求。');onParentUnavailable(tag.parent.id,tag.blockedReason);return {kind:'reject'};}
+      if(tag.failureCode)return {kind:'reject'};
+      if(++steps>tag.limits.maxStepsPerAgent){stopChild(tag,'STEP_LIMIT','子代理达到模型请求步骤上限；当前任务未完成，仅可在剩余全局预算内进行一次有界恢复。');return {kind:'reject'};}
       return next();
     });
-    tag.created.add(agent);owned.set(agent.id,{agent,tag,guard,presentation,cap});
+    tag.created.add(agent);owned.set(agent.id,{agent,tag,guard,restriction,presentation,cap});budgetChildren.set(agent.id,{agent,tag});
   }));
+  // Global reception is required because the LLM service may live in a sibling
+  // Cordis scope. Only exact owned child ids / creation context are attributed.
+  disposers.push(ctx.on('llm/stream',(options,next)=>{
+    if(unconfirmedModelChildren.has(options.sessionId))throw new ProductionBudgetError('CLEANUP_UNCONFIRMED','此子代理的清理尚未确认，已阻止后续模型请求。');
+    if(retiredBudgetChildren.has(options.sessionId))throw new ProductionBudgetError('BUDGET_RELEASED','团队运行已结束，已阻止迟到的模型请求。');
+    const entry=options.sessionId!==undefined?budgetChildren.get(options.sessionId):undefined;
+    const tag=entry?.tag || (options.sessionId===undefined?creation.getStore():undefined);
+    if(!tag)return next();
+    const budget=budgets.get(tag.runId);
+    need(budget,'BUDGET_NOT_STARTED','运行的 Token 预算状态不可用，已阻止模型请求。');
+    let bound;
+    try{bound=nativeRequestBound(options,entry?.agent,tag.budgetContract);}catch{/* Unknown metadata fails closed only when enabled. */}
+    return budget.stream(options,next,{bound,signal:tag.signal,onBlocked:error=>{stopChild(tag,error.code,error.message);tag.budgetError=error;}});
+  },{global:true}));
   disposers.push(ctx.on('agent/disposed',({agent})=>{
     owned.delete(agent.id);
     if(activeParents.has(agent.id))onParentUnavailable(agent.id,'当前会话已关闭，团队运行已取消。');
@@ -80,7 +171,7 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
   }
   function verifyContext(sessionId,key){const parent=parentFor(sessionId,{idle:true});need(typeof key==='string' && contexts.get(parent)?.key===key && contexts.get(parent)?.fingerprint===fingerprint(parent),'STALE_SESSION','会话已变化，请刷新面板后重新确认运行。');return parent;}
   async function catalog(selected=[]){
-    need(Array.isArray(selected)&&selected.length<=7,'INVALID_INPUT','模型查询数量无效。');
+    need(Array.isArray(selected)&&selected.length<=18,'INVALID_INPUT','模型查询数量无效。');
     const providers=[];
     for(const provider of ctx.llm.listProviders().slice(0,20)){
       const id=provider.id;if(typeof id!=='string'||!id||id.length>120||clean(id,120)!==id)continue;
@@ -110,7 +201,15 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
     const parent=parentFor(spec.sessionId,{idle:true});
     need(!spec.signal.aborted,'CANCELLED','运行已取消。');
     const currentFingerprint=fingerprint(parent);need(activeFingerprints.get(parent.id)===currentFingerprint,'CONTEXT_CHANGED','执行上下文或权限已变化，请重新确认。');
-    const tag={parent,role:spec.role,project:projectPolicies.get(spec.runId),limits:spec.limits,signal:spec.signal,created:new Set(),fingerprint:currentFingerprint};
+    if(!budgets.has(spec.runId))beginBudget(spec.runId,spec.budget);
+    const budget=budgets.get(spec.runId);
+    if(spec.budget!==undefined){const config=normalizeBudgetConfig(spec.budget);need(config.enabled===budget.config.enabled&&config.tokenLimit===budget.config.tokenLimit,'BUDGET_CONFIG_CHANGED','同一次运行的 Token 预算不可在执行中变更。');}
+    budget.check();
+    // Await host-bound request branding before any child can be published.
+    const budgetContract=budget.config.enabled?await(nativeBudgetContract??=resolveNativeBudgetContract(ctx)):undefined;
+    need(!spec.signal.aborted,'CANCELLED','运行已取消。');
+    need(fingerprint(parent)===currentFingerprint,'CONTEXT_CHANGED','执行上下文或权限已变化，请重新确认。');
+    const tag={budgetContract,runId:spec.runId,parent,role:spec.role,project:projectPolicies.get(spec.runId),limits:spec.limits,signal:spec.signal,created:new Set(),fingerprint:currentFingerprint};
     const maxDepth=ctx.subagents.resolveMaxDepth();
     need(Number.isSafeInteger(maxDepth)&&maxDepth>=1,'DEPTH_UNAVAILABLE','宿主未允许当前会话派发子代理。');
     let run;
@@ -120,16 +219,22 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
         label:`工作流 ${spec.role} · ${clean(spec.nodeId,80)}`,
         parent,prompt:[{type:'text',text:spec.prompt}],signal:spec.signal,
         agentOptions:{...spec.model},outputSchema:spec.outputSchema,maxDepth,
-        persona:'你是软件开发团队中的受限岗位。只完成派发的任务，使用已提供的工具。不要修改安全设置、凭据或权限，不要创建其它代理。所有证据必须来自实际观察；遇到权限拒绝应报告受阻，不得绕过。',
+        persona:`你是软件开发团队中的受限岗位（${clean(spec.role,40)}）。只完成派发的任务，使用已提供的工具。所有证据必须来自实际观察；遇到权限拒绝应报告受阻，不得绕过。\n${TEAM_TOOL_BOUNDARY_PROMPT}`,
       }));
       need(run.localAgent && tag.created.has(run.localAgent),'GUARD_NOT_INSTALLED','子代理未通过执行保护验证，已取消。');
       spec.onChildStart?.(run.id);
       const result=await run.result;
-      return {stopReason:tag.blockedReason?'refusal':result.stopReason,structured:tag.blockedReason?undefined:result.structured,output:tag.blockedReason||(result.output||[]).filter(b=>b.type==='text').map(b=>clean(b.text,16000)).join('\n').slice(0,24000),childId:run.id};
+      const partial=(result.output||[]).filter(b=>b.type==='text').map(b=>clean(b.text,16000)).join('\n').slice(0,24000);
+      const failureCode=tag.failureCode||(result.stopReason==='refusal'?'EXECUTION_REFUSED':undefined);
+      const recoverable=failureCode==='STEP_LIMIT';
+      return {stopReason:tag.blockedReason?(recoverable?'error':'refusal'):result.stopReason,structured:tag.blockedReason?undefined:result.structured,output:tag.blockedReason?[tag.blockedReason,partial].filter(Boolean).join('\n').slice(0,24000):partial,childId:run.id,...(failureCode?{failureCode,error:tag.blockedReason||'执行被拒绝，具体原因未确认。',retryable:recoverable,blocked:!recoverable}:{})};
     }catch(error){
       if(error instanceof TeamHostError)throw error;
+      if(error instanceof ProductionBudgetError)throw new TeamHostError(error.code,error.message);
+      if(tag.budgetError)throw new TeamHostError(tag.budgetError.code,tag.budgetError.message);
+      if(tag.failureCode){const failure=new TeamHostError(tag.failureCode,tag.blockedReason);failure.retryable=tag.failureCode==='STEP_LIMIT';failure.blocked=!failure.retryable;throw failure;}
       throw new TeamHostError('CHILD_FAILED','子代理运行失败；请在宿主会话检查模型连接或权限。不会自动放宽权限。');
-    }finally{if(run){try{await run.dispose();}catch{quarantined.add(spec.sessionId);onCleanupFailed(spec.sessionId);throw new TeamHostError('CLEANUP_FAILED','子代理未能确认清理完成，已停止继续派发；请检查宿主会话。');}}}
+    }finally{if(run){try{await run.dispose();tag.cleanupConfirmed=true;}catch{tombstoneChildren(tag);quarantined.add(spec.sessionId);onCleanupFailed(spec.sessionId);throw new TeamHostError('CLEANUP_UNCONFIRMED','子代理未能确认清理完成，已停止继续派发；请检查宿主会话。');}}}
   }
   function projectGuard(tag,exec){
     const denied='自动团队仅能访问当前项目的安全文件；写入、凭据或验收边界已阻止此操作。';
@@ -143,6 +248,18 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
     try{
       const root=realpathSync(tag.project.root),candidate=path.resolve(root,raw);let relative=path.relative(root,candidate).replaceAll('\\','/');
       if(path.isAbsolute(relative)||relative==='..'||relative.startsWith('../'))return denied;
+      // The verifier owns this exact per-run workspace artifact. Normal globbing
+      // may list its filename, but no role can read/search/edit its contents.
+      const evidence=tag.project.evidenceDirectory;
+      if(typeof evidence==='string'&&/^\.dsh-team-evidence-[a-f0-9]{32}$/.test(evidence)){
+        if(isEvidencePath(relative,evidence,exec.name==='glob'?arg.pattern||'':''))return denied;
+        // An alternate hardlink name must not reveal the private manifest either.
+        const stateFile=path.join(root,evidence,'state.json');
+        if(existsSync(candidate)&&existsSync(stateFile)){
+          const target=lstatSync(candidate),state=lstatSync(stateFile);
+          if(target.isFile()&&state.isFile()&&target.dev===state.dev&&target.ino===state.ino)return denied;
+        }
+      }
       if(/(^|\/)(?:\.git|\.dsh|\.ssh|\.aws|node_modules|vendor|\.venv|venv|dist|build|coverage|\.cache|\.credentials(?:\.yaml)?|\.env(?:\..*)?|.*\.(?:pem|key)|id_rsa|credentials)(?:\/|$)/i.test(relative))return denied;
       let walk=root;for(const part of relative.split('/').filter(Boolean)){walk=path.join(walk,part);try{if(lstatSync(walk).isSymbolicLink())return denied;}catch(e){if(e.code!=='ENOENT')return denied;}}
       if(existsSync(candidate)){const stat=lstatSync(candidate);if(!['glob'].includes(exec.name)&&!stat.isFile())return denied;if(mutating&&stat.nlink>1)return denied;const actual=realpathSync(candidate),r=path.relative(root,actual);if(path.isAbsolute(r)||r==='..'||r.startsWith('..'+path.sep))return denied;}
@@ -152,23 +269,39 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
       if(exec.name==='write'&&existsSync(candidate))return '已有文件请使用精确 edit，保留用户原有改动。';
     }catch{return denied;}
   }
+  /**
+   * The shell tool this host actually mounts: POSIX deployments register `bash`,
+   * Windows deployments register `pwsh`. A tools service that cannot enumerate
+   * keeps the caller's name; a scope that restricts the tool away reads as
+   * absent, so a verifier call must never guess a platform.
+   */
+  function shellToolName(requested,parent){
+    const tools=parent.ctx.get('tools');
+    if(typeof tools?.get!=='function')return requested;
+    for(const candidate of [...new Set([requested,'bash','pwsh'])])if(tools.get(candidate,parent))return candidate;
+    return undefined;
+  }
+  /** The shell flavor a verifier command must target for this session, or undefined when none is mounted. */
+  function shellName(sessionId){const parent=parentFor(sessionId,{idle:true});return shellToolName('bash',parent);}
   async function executeTool(sessionId,spec,signal,{allowUserApproval=false}={}){
     const parent=parentFor(sessionId,{idle:true});
     need(!signal.aborted&&!quarantined.has(sessionId),'CANCELLED','运行已取消或隔离。');
     need(activeFingerprints.get(sessionId)===fingerprint(parent),'CONTEXT_CHANGED','验证上下文或权限已变化。');
     const policy=permissionState(parent);need(['workspace-write','read-only'].includes(policy.sandboxMode)&&policy.workspaceRoot===policy.cwd,'VERIFIER_SCOPE_UNSAFE','独立验证要求仓库根目录与宿主工作区边界一致，且不能使用完全访问模式。');
     const tools=parent.ctx.get('tools');need(typeof tools?.execute==='function','VERIFIER_UNAVAILABLE','宿主原生工具执行器不可用。');
+    const resolvedName=shellToolName(spec.name,parent);need(typeof resolvedName==='string'&&resolvedName.length>0,'VERIFIER_UNAVAILABLE','宿主未注册可用的 shell 工具（bash 或 pwsh），无法运行独立验证；未派发任何检查。');
+    const resolved=resolvedName===spec.name?spec:{...spec,name:resolvedName};
     const dispose=parent.ctx.on('tools/pre-execute',async(exec,next)=>{const decision=await next();if(verifierCalls.getStore()?.parent===parent&&(decision.kind==='ask'&&!allowUserApproval||decision.kind==='deny'))return {kind:'deny',reason:'验证需要额外权限；请由用户在主会话处理。'};return decision;});
     let dispatched=false;
-    const match=exec=>exec.agent===parent&&exec.name===spec.name&&JSON.stringify(exec.arguments)===JSON.stringify(spec.arguments);
+    const match=exec=>exec.agent===parent&&exec.name===resolved.name&&JSON.stringify(exec.arguments)===JSON.stringify(resolved.arguments);
     const offDispatch=parent.ctx.on('tools/execute',async(exec,next)=>{if(match(exec))dispatched=true;return next();});
-    try{const result=await verifierCalls.run({parent,name:spec.name,args:JSON.stringify(spec.arguments)},()=>tools.execute({callId:randomUUID(),...spec,agent:parent,signal}));return !dispatched&&result?.isError?{...result,verificationNotDispatched:true}:result;}finally{offDispatch();dispose();}
+    try{const result=await verifierCalls.run({parent,name:resolved.name,args:JSON.stringify(resolved.arguments)},()=>tools.execute({callId:randomUUID(),...resolved,agent:parent,signal}));return result?.isError?{...result,verificationNotDispatched:!dispatched,verificationDispatchObserved:dispatched}:result;}catch(error){if(dispatched)throw new TeamHostError('VERIFIER_DISPATCHED_FAILURE','检查工具派发后发生异常，执行与证据清理未确认。');throw error;}finally{offDispatch();dispose();}
 
   }
-  function poison(sessionId){quarantined.add(sessionId);onCleanupFailed(sessionId);}
-  return {context,verifyContext,catalog,validateModels,execute,executeTool,poison,setProjectPolicy:(runId,policy)=>policy?projectPolicies.set(runId,policy):projectPolicies.delete(runId),
+  function poison(sessionId,diagnostic){quarantined.add(sessionId);onCleanupFailed(sessionId,'verification',diagnostic);}
+  return {context,verifyContext,catalog,validateModels,execute,executeTool,shellName,poison,beginBudget,budgetSnapshot,releaseBudget,setProjectPolicy:(runId,policy)=>policy?projectPolicies.set(runId,policy):projectPolicies.delete(runId),
     beginSession(sessionId,key){need(!quarantined.has(sessionId),'CLEANUP_UNCONFIRMED','子代理清理未确认，禁止新运行。');const parent=verifyContext(sessionId,key);const tools=parent.ctx?.get('tools');need(tools&&typeof tools.guard==='function','PARENT_GUARD_UNAVAILABLE','无法保护主会话与子代理的并发写入，已阻止执行。');const cleanup=tools.guard(exec=>exec.agent===parent&&!researchTools.has(exec.name)&&!(verifierCalls.getStore()?.parent===parent&&verifierCalls.getStore()?.name===exec.name&&verifierCalls.getStore()?.args===JSON.stringify(exec.arguments))?'团队运行或清理期间，主会话的修改操作已暂停。请先取消团队并等待清理完成。':undefined);parentGuards.set(sessionId,cleanup);activeFingerprints.set(sessionId,fingerprint(parent));activeParents.add(sessionId);if(!monitor)monitor=setInterval(checkActive,500);},
     releaseSession(sessionId){if(quarantined.has(sessionId))return;parentGuards.get(sessionId)?.();parentGuards.delete(sessionId);activeParents.delete(sessionId);activeFingerprints.delete(sessionId);if(!activeParents.size){clearInterval(monitor);monitor=undefined;}},
-    async dispose(){closed=true;clearInterval(monitor);for(const dispose of disposers.reverse())await dispose();owned.clear();for(const[id,cleanup]of parentGuards)if(!quarantined.has(id))cleanup();activeParents.clear();},
+    dispose(){if(disposal)return disposal;closed=true;clearInterval(monitor);for(const id of budgetChildren.keys())retiredBudgetChildren.add(id);for(const {tag}of owned.values())if(!tag.cleanupConfirmed)tombstoneChildren(tag);disposal=Promise.resolve().then(async()=>{for(const dispose of [...disposers].reverse())await dispose();owned.clear();budgetChildren.clear();retiredBudgetRuns.clear();budgets.clear();if(!quarantined.size)projectGuardDisposer?.();for(const[id,cleanup]of parentGuards)if(!quarantined.has(id))cleanup();activeParents.clear();});return disposal;},
   };
 }

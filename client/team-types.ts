@@ -18,10 +18,23 @@ export interface TeamLimits {
   maxRounds: number;
   maxJevCalls: number;
 }
+export interface TeamBudgetSettings { enabled: boolean; tokenLimit: number }
+export interface TeamRoutingSettings {
+  enabled: boolean;
+  roles: Partial<Record<TeamRole, { weak?: TeamModelSelection; strong?: TeamModelSelection }>>;
+}
+export interface TeamJevSettings {
+  model: string;
+  trace: boolean;
+  shadow: { enabled: boolean; model: string; maxCalls: number };
+}
 export interface TeamSettings {
   roles: Record<TeamRole, TeamModelSelection>;
   limits: TeamLimits;
   reviewPlan: boolean;
+  budget?: TeamBudgetSettings;
+  routing?: TeamRoutingSettings;
+  jev?: TeamJevSettings;
 }
 export interface TeamVerificationProfile {
   id: string;
@@ -55,6 +68,7 @@ export interface TeamNode {
   childId?: string;
   output?: string;
   error?: string;
+  failureCode?: string;
   startedAt?: string;
   finishedAt?: string;
 }
@@ -70,15 +84,60 @@ export interface TeamEvent {
   type: string;
   nodeId?: string;
   message: string;
+  failureCode?: string;
+  edgeId?: string;
+  fromNodeId?: string;
+  toNodeId?: string;
+  kind?: TeamEdge['kind'];
 }
 export interface JevState {
   lane: JevLane;
   round: number;
-  decisions: { phase: string; action: string; lane: JevLane; confidence: number; reason: string; round: number }[];
+  decisions: { phase: string; action: string; lane: JevLane; confidence: number; reason: string; round: number; at?: string; nodeId?: string; decisionId?: string; eventSeq?: number }[];
   evidence?: { checksPassed: boolean; scopeOk: boolean; diffAvailable: boolean; verified: boolean; reason: string };
   mode: 'live' | 'fixture';
 }
+export interface TeamRoutingDecision {
+  at?: string;
+  decisionId?: string;
+  eventSeq?: number;
+  nodeId: string;
+  role: TeamRole;
+  lane: JevLane;
+  tier: 'base' | 'weak' | 'strong';
+  provider: string;
+  model: string;
+  reason: string;
+}
+export interface TeamProductionState {
+  budget: {
+    enabled: boolean;
+    limit: number;
+    spent: number;
+    reserved: number;
+    remaining: number | null;
+    halted: string | null;
+    accounting: string;
+    unknownUsageCalls: number;
+    physicalCalls: number;
+  };
+  routing: { enabled: boolean; decisions: TeamRoutingDecision[] };
+  jev?: {
+    primary: { requestedModel: string; responseModel?: string; status?: string; calls: number };
+    shadow: { enabled: boolean; requestedModel: string; calls: number; status?: string; lastDecision?: string | { action?: string; lane?: string; reason?: string } };
+  };
+  trace: { enabled: boolean; eventCount: number; truncated: boolean };
+}
 export interface TeamSnapshot {
+  chatFeedback?: { status: 'pending' | 'recorded' | 'durable' | 'failed' | 'unavailable'; code?: string; message?: string };
+  production?: TeamProductionState;
+  observedAt?: string;
+  currentTaskNodeIds?: string[];
+  eventsTruncated?: boolean;
+  oldestSeq?: number;
+  failureCode?: string;
+  diagnostic?:TeamDiagnostic;
+  lifecycle?:string;
   id: string;
   sessionId: string;
   goal: string;
@@ -94,7 +153,12 @@ export interface TeamSnapshot {
   demo?: boolean;
   jev?: JevState;
 }
+export interface TeamDiagnostic {phase:string;reason:string;code:string;kind:string;exitCode?:number;at:string}
+export type TeamHistory = Pick<TeamSnapshot,'id'|'sessionId'|'goal'|'status'|'startedAt'|'finishedAt'>;
 export interface TeamSessionContext {
+  sessionId?:string;
+  diagnostic?:TeamDiagnostic;
+  occupancy?:{sessionId:string;runId?:string;state:string;workspace?:string;legacy?:boolean;scopeKnown?:boolean;diagnostic?:TeamDiagnostic};
   contextKey?: string;
   workspace?: string;
   permissionNotice?: string;
@@ -121,12 +185,23 @@ export interface TeamSettingsViewProps {
   error?: string;
   notice?: string;
   onSave: (input: TeamSettingsInput) => Promise<void>;
-  onModelSelectionChange?: (roles: TeamSettings['roles']) => void;
+  onModelSelectionChange?: (roles: TeamSettings['roles'], routing?: TeamRoutingSettings) => void;
   onClose: () => void;
   onRefresh: () => void;
 }
+export interface TeamFreshness {
+  stale: boolean;
+  observedAt?: string;
+  reason?: string;
+  /** Changes on explicit refresh/navigation; ordinary polls keep the same revision. */
+  revision?: number;
+}
 export interface TeamViewProps {
+  freshness?: TeamFreshness;
   catalog: TeamCatalog;
+  history?:TeamHistory[];
+  selectedRunId?:string;
+  onSelectRun?:(runId:string|undefined)=>void;
   sessionId: string | undefined;
   sessionContext?: TeamSessionContext;
   snapshot: TeamSnapshot | null;
@@ -134,6 +209,7 @@ export interface TeamViewProps {
   error?: string;
   configured?: boolean;
   onOpenSettings: () => void;
+  onLoadTrace?: (runId: string, signal: AbortSignal) => Promise<unknown>;
   onCancel: () => void | Promise<void>;
   onRefresh: () => void | Promise<void>;
   onDemo: () => void;
@@ -148,5 +224,21 @@ export function createDefaultTeamSettings(): TeamSettings {
     },
     limits: { concurrency: 2, maxAgents: 12, maxTasks: 8, maxRetries: 1, maxDurationMs: 600000, maxStepsPerAgent: 8, maxRounds: 4, maxJevCalls: 10 },
     reviewPlan: true,
+    budget: { enabled: false, tokenLimit: 0 },
+    routing: { enabled: false, roles: {} },
+    jev: { model: 'jev-latest', trace: true, shadow: { enabled: false, model: '', maxCalls: 2 } },
   };
+}
+
+/** Preserve configured candidates in the native host catalog, even before routing is enabled. */
+export function selectedTeamModels(settings: Pick<TeamSettings, 'roles' | 'routing'>): { provider: string; model: string }[] {
+  const candidates = [...Object.values(settings.roles), ...Object.values(settings.routing?.roles || {}).flatMap(role => [role?.weak, role?.strong])];
+  const seen = new Set<string>();
+  return candidates.flatMap(selection => {
+    if (!selection?.provider || !selection.model) return [];
+    const key = JSON.stringify([selection.provider, selection.model]);
+    if (seen.has(key)) return [];
+    seen.add(key);
+    return [{ provider: selection.provider, model: selection.model }];
+  });
 }

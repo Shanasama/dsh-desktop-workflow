@@ -1,0 +1,108 @@
+{
+  "version": "0.6.1",
+  "status": "candidate; no paid-provider end-to-end claim",
+  "bundleSHA256": "fdbb46851fe29d7709f3af6549f06514c314b3fbccb45656dfd7d13dd7940969",
+  "sourceFiles": 150,
+  "packageFiles": 50,
+  "changedFrom060": [
+    "INSTALL-ME.md",
+    "README.md",
+    "SHA256SUMS",
+    "docs/ARCHITECTURE.md",
+    "docs/INSTALL.zh-CN.md",
+    "docs/SANDBOX-FIX-0.6.1.md",
+    "package-lock.json",
+    "package.json",
+    "scripts/README-default-sandbox.md",
+    "scripts/verify-default-sandbox.mjs",
+    "scripts/verify-production-host.mjs",
+    "scripts/verify-verifier-host.mjs",
+    "scripts/verify-verifier-pwsh.mjs",
+    "src/auto-verification.js",
+    "src/host-adapter.js",
+    "src/verification-project-runner.js",
+    "test/host-adapter.test.mjs",
+    "test/production-runtime.test.mjs",
+    "test/review-auto-safety.test.mjs",
+    "test/session-isolation.test.mjs",
+    "test/verifier-cleanup.test.mjs",
+    "test/verifier-quarantine.test.mjs",
+    "test/verifier-workspace-evidence.test.mjs"
+  ],
+  "build": {
+    "build": true,
+    "typecheck": true,
+    "repeatPackIdentical": true
+  },
+  "tests": {
+    "officialPlugin": {
+      "total": 306,
+      "pass": 305,
+      "fail": 0,
+      "skip": 1,
+      "skipReason": "non-repository fixture unavailable under enclosing Git root"
+    },
+    "evaluationOffline": {
+      "total": 123,
+      "pass": 123,
+      "fail": 0
+    },
+    "independentFocused": {
+      "total": 91,
+      "pass": 91,
+      "fail": 0,
+      "skip": 0
+    }
+  },
+  "installedNativeTeam": {
+    "sameBundle": true,
+    "duplicateOfficialLlmPeer": true,
+    "nativeChildren": 39,
+    "modelFixtureCalls": 52,
+    "jevFixtureCalls": 30,
+    "realVerifierProcesses": 30,
+    "externalRequests": 0,
+    "shellBackend": "fixed-command test backend; not the default sandbox",
+    "modelAndJev": "inert fixture transports"
+  },
+  "defaultSandboxVerifier": {
+    "officialVersion": "0.2.0-rc.2",
+    "runner": "bwrap",
+    "mode": "workspace-write",
+    "enforcement": "full",
+    "tempOverrides": false,
+    "exactBundlePassedExec": true,
+    "exactBundlePassedIndependent": true,
+    "exactBundlePassedParentDesktop": true,
+    "cases": [
+      "successful cycle and evidence removal",
+      "tamper refusal and restored-byte cleanup",
+      "lost-ack isolation without blind deletion",
+      "independent sequential context succeeds"
+    ],
+    "notCompleteTeam": true
+  },
+  "powershell": {
+    "version": "7.6.6",
+    "platform": "Linux x64",
+    "realProcesses": 33,
+    "passed": true,
+    "archiveSHA256": "ddbc4a2d113bbd46d283cfedcbcd117a70caefd7673f41f2b4e0000badf103bc",
+    "windowsNative": false
+  },
+  "live": {
+    "credentialsReadOrEntered": false,
+    "paidModelRequests": 0,
+    "jevLiveRequests": 0,
+    "blocked": "Cloud Chromium blocked the official localhost Web page; no security-policy workaround attempted",
+    "requestedModel": "gpt6-luna",
+    "modelAliasOrContractVerified": false
+  },
+  "limitations": [
+    "read-only workspace degrades to analysis-only if persistent evidence cannot be created",
+    "unacknowledged evidence cleanup quarantines only the owning project",
+    "workspace artifact names can be listed; contents are role-guarded and digest-anchored",
+    "Windows/Electron native acceptance and paid model/Jev remain unrun"
+  ],
+  "frozen060Untouched": true
+}
