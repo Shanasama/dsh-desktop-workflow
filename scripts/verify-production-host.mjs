@@ -87,6 +87,7 @@ if(process.env.DSH_PRODUCTION_BUNDLE){
  // Offline dependencies are exact approved official packages. The LLM peer
  // is intentionally a separate physical copy to exercise native marker identity.
  const hostLlm=join(modules,'@deepseek-ai/dsh-llm'),hostSchema=join(modules,'@deepseek-ai/schemastery');
+ const hostWin32=join(modules,'@deepseek-ai/dsh-win32-process');
  const isolatedLlm=join(temp,'separate-official-dsh-llm');
  await cp(hostLlm,isolatedLlm,{recursive:true,dereference:true,filter:source=>!source.includes('/node_modules/@deepseek-ai/dsh-llm/node_modules')});
  await symlink(modules,join(isolatedLlm,'node_modules'),'dir');
@@ -97,10 +98,14 @@ if(process.env.DSH_PRODUCTION_BUNDLE){
  duplicatePeer=true;
  assert.equal(JSON.parse(await readFile(join(hostLlm,'package.json'),'utf8')).version,'0.2.0-rc.2');
  assert.equal(JSON.parse(await readFile(join(hostSchema,'package.json'),'utf8')).version,'3.18.4');
+ assert.equal(JSON.parse(await readFile(join(hostWin32,'package.json'),'utf8')).version,'0.2.0-rc.2');
  const installManifest=JSON.parse(await readFile(join(installDir,'package.json'),'utf8'));
  installManifest.dependencies['@deepseek-ai/dsh-llm']='link:'+isolatedLlm;
  installManifest.dependencies['@deepseek-ai/schemastery']='link:'+hostSchema;
- installManifest.pnpm={overrides:{'@deepseek-ai/schemastery':'link:'+hostSchema}};
+ // This existing production dependency is also resolved from the approved
+ // official tree: an isolated empty cache must not require registry metadata.
+ installManifest.dependencies['@deepseek-ai/dsh-win32-process']='link:'+hostWin32;
+ installManifest.pnpm={overrides:{'@deepseek-ai/schemastery':'link:'+hostSchema,'@deepseek-ai/dsh-win32-process':'link:'+hostWin32}};
  await writeFile(join(installDir,'package.json'),JSON.stringify(installManifest));
  const installRoot=new Context(),installForks=[];
  const {PluginManager}=await official('dsh-plugin-manager');
@@ -116,18 +121,18 @@ if(process.env.DSH_PRODUCTION_BUNDLE){
   const manifest=JSON.parse(await readFile(join(installDir,'package.json'),'utf8'));
   assert.ok(manifest.dependencies['dsh-desktop-workflow'],'Exact bundle must be installed into the isolated profile');
   packageRoot=join(installDir,'node_modules','dsh-desktop-workflow');
-  const installedManifest=JSON.parse(await readFile(join(packageRoot,'package.json'),'utf8'));assert.equal(installedManifest.version,'0.6.3-candidate.1');
+  const installedManifest=JSON.parse(await readFile(join(packageRoot,'package.json'),'utf8'));assert.equal(installedManifest.version,'0.6.3-candidate.3');
   assert.equal(installedManifest.dsh.bundle.patch,'./cordis.patch.yml');
   trustedVerifierCommand=(await import(pathToFileURL(join(packageRoot,'src/verifier-command.js')))).verifierCommand;
   await import(pathToFileURL(join(packageRoot,'src/index.js')));
   assert.equal(createHash('sha256').update(await readFile(archive)).digest('hex'),archiveHash,'Archive must not change during installation');
   const archivedEntry=spawnSync('tar',['-xOf',archive,'package/src/index.js'],{encoding:'utf8',env:cleanEnv});assert.equal(archivedEntry.status,0);assert.equal(await readFile(join(packageRoot,'src/index.js'),'utf8'),archivedEntry.stdout,'Installed entry must match the exact archive');
   installedArchive={path:archive,sha256:archiveHash};
-  pass('official PluginManager installs the exact 0.6.3-candidate.1 tgz offline with an independent byte-identical official LLM peer and no build scripts');
+  pass('official PluginManager installs the exact 0.6.3-candidate.3 tgz offline with an independent byte-identical official LLM peer and no build scripts');
  }finally{for(const fork of installForks.reverse())await fork.dispose();}
 }
 packageInfo=JSON.parse(await readFile(join(packageRoot,'package.json'),'utf8'));
-assert.equal(packageInfo.version,'0.6.3-candidate.1');
+assert.equal(packageInfo.version,'0.6.3-candidate.3');
 }catch(error){globalThis.fetch=realFetch;await rm(temp,{recursive:true,force:true});throw error;}
 let root,base,cookie,pluginEntry;
 const forks=[],disposers=[],parents=[];

@@ -89,3 +89,94 @@
 .tm-root.tm-layout-workflow .tm-run-blocker{margin-top:8px;padding:9px 12px}
 @container team (max-width:899px){.tm-root .tm-inspector-wrap>.tm-workflow-signals{grid-template-columns:1fr 1fr}.tm-root .tm-inspector-wrap .tm-signal--connection{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between}.tm-root .tm-inspector-wrap .tm-signal--connection>strong{font-size:10px}}
 @container team (max-width:650px){.tm-root.tm-layout-workflow .tm-main{padding:9px 10px 7px}.tm-root.tm-layout-workflow .tm-header{padding:8px 10px}.tm-root.tm-layout-workflow .tm-overview{gap:6px;align-items:flex-start}.tm-root.tm-layout-workflow .tm-overview h2{font-size:15px}.tm-root.tm-layout-workflow .tm-summary-strip{margin:6px 0 10px;gap:8px}.tm-root.tm-layout-workflow .tm-demo-banner{padding:5px 10px}.tm-root.tm-layout-workflow .tm-demo-banner button{font-size:9px}.tm-root.tm-layout-workflow .tm-run-state{gap:6px}.tm-root.tm-layout-workflow .tm-run-state>span:last-child{font-size:9px}.tm-root .tm-inspector-wrap .tm-signal{padding:9px 11px}.tm-root .tm-inspector-wrap .tm-signal--connection{align-items:flex-start;flex-direction:column;gap:4px}}
+
+/* Team-first topology: measured cards, node-scoped work, and explicit event overlays. */
+.tm-root .tm-topology-map{grid-template-rows:repeat(3,minmax(136px,auto));gap:30px 30px;padding:22px;align-items:start;isolation:isolate}
+.tm-root .tm-topology-card{position:relative;min-width:0;min-height:136px;display:flex;flex-direction:column;border:1px solid var(--tm-line);border-radius:7px;background:var(--tm-raised);z-index:1;box-shadow:0 4px 16px #00000016;isolation:isolate}
+.tm-root .tm-topology-card--planner{grid-column:1;grid-row:1}
+.tm-root .tm-topology-card--jev{grid-column:2;grid-row:1}
+.tm-root .tm-topology-card--reviewer{grid-column:3;grid-row:1}
+.tm-root .tm-topology-card--coordinator{grid-column:2;grid-row:2}
+.tm-root .tm-topology-card--researcher{grid-column:1;grid-row:3}
+.tm-root .tm-topology-card--explorer{grid-column:2;grid-row:3}
+.tm-root .tm-topology-card--worker{grid-column:3;grid-row:3}
+.tm-root .tm-topology-card--verification{grid-column:3;grid-row:2;min-height:0;align-self:center;background:var(--tm-subtle);border-style:dashed}
+.tm-root .tm-topology-card.is-selected{border-color:var(--tm-accent);box-shadow:0 0 0 1px var(--tm-accent)}
+.tm-root .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node){display:block;position:relative;grid-column:auto;grid-row:auto;width:100%;min-height:0;height:auto;margin:0;padding:8px 9px 6px;background:transparent;border:0;border-radius:6px 6px 0 0;box-shadow:none;text-align:left;color:var(--tm-text);z-index:1}
+.tm-root .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node):hover{background:var(--tm-subtle)}
+.tm-root .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node)::before,.tm-root .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node)::after{display:none!important}
+.tm-root .tm-topology-card .tm-role-title{display:flex;align-items:center;gap:5px;min-width:0}
+.tm-root .tm-topology-card .tm-role-title>strong{font-size:12px;white-space:nowrap;font-weight:650}
+.tm-root .tm-topology-card .tm-role-title>span:last-of-type{font:8px var(--tm-mono);color:var(--tm-soft);overflow:hidden;text-overflow:ellipsis}
+.tm-root .tm-topology-card .tm-role-title>.tm-icon{margin-left:auto;width:11px;height:11px;color:var(--tm-soft)}
+.tm-root .tm-topology-card .tm-role-icon{width:21px;height:21px;flex:none;border-radius:4px}
+.tm-root .tm-topology-card .tm-role-icon>.tm-icon{width:13px;height:13px}
+.tm-root .tm-role-task{display:block;position:relative;min-width:0;width:100%;padding:5px 9px 6px;text-align:left;border:0;background:transparent;z-index:1}
+.tm-root button.tm-role-task:hover{background:var(--tm-subtle)}
+.tm-root .tm-role-task.is-selected{background:var(--tm-subtle);box-shadow:inset 2px 0 var(--tm-accent)}
+.tm-root .tm-role-task-heading{display:flex;align-items:baseline;gap:6px;margin-bottom:3px}
+.tm-root .tm-role-task-heading>strong{display:block;font-size:11px;line-height:1.5;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:550;flex:1}
+.tm-root .tm-role-task-heading>.tm-status{font-size:9px;gap:3px;flex:none}
+.tm-root .tm-role-task .tm-instance-model{font-size:10px;line-height:1.5}
+.tm-root .tm-role-task .tm-instance-source{font-size:9px;line-height:1.45;margin-top:2px}
+.tm-root .tm-node-route-reason{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--tm-muted);font-size:9px;line-height:1.5;margin-top:2px}
+.tm-root .tm-role-task-id{display:block;max-width:100%;font:8px/1.5 var(--tm-mono);color:var(--tm-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
+.tm-root .tm-topology-card .tm-role-idle{position:relative;padding:5px 9px 8px;z-index:1;flex:1}
+.tm-root .tm-topology-card .tm-role-model{font-size:10px;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tm-root .tm-topology-card .tm-base-label{font-size:9px;line-height:1.6}
+.tm-root .tm-role-count{position:relative;display:block;margin-top:auto;padding:5px 9px 6px;border-top:1px solid var(--tm-border);font:9px/1.4 var(--tm-mono);color:var(--tm-muted);z-index:1}
+.tm-root .tm-topology-card[data-live=true]>.tm-role-count{color:var(--tm-live)}
+.tm-root .tm-role-task-list{position:relative;border-top:1px solid var(--tm-border);z-index:1}
+.tm-root .tm-role-task-list>summary{display:flex;align-items:center;justify-content:space-between;gap:3px;font-size:9px;padding:5px 9px;color:var(--tm-accent)}
+.tm-root .tm-role-task-list>summary>.tm-icon{width:10px;height:10px}
+.tm-root .tm-role-task-list>div>.tm-role-task{border-top:1px solid var(--tm-border);padding-block:8px}
+.tm-root .tm-topology-card[data-live=true]{border-color:var(--tm-live);animation:tm-card-breathe 2.4s ease-in-out infinite}
+.tm-root .tm-topology-card[data-live=true]::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;background:linear-gradient(105deg,transparent 0%,transparent 32%,#72dfe929 49%,#72dfe908 56%,transparent 70%,transparent 100%);background-size:280% 100%;animation:tm-topology-scan 1.8s linear infinite}
+@keyframes tm-topology-scan{from{background-position:130% 0}to{background-position:-30% 0}}
+@keyframes tm-card-breathe{0%,100%{box-shadow:0 0 0 1px #72dfe916,0 0 8px #72dfe90d}50%{box-shadow:0 0 0 1px #72dfe963,0 0 15px #72dfe927}}
+.tm-root .tm-topology-org-relations{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.45}
+.tm-root .tm-topology-org-relations path{stroke-width:1;stroke-dasharray:3 5}
+.tm-root .tm-topology-live-relations{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:3}
+.tm-root .tm-relation-color--dispatch{color:#72dfe9;--tm-relation-dash:none}
+.tm-root .tm-relation-color--dependency{color:#b1b2ff;--tm-relation-dash:5 3}
+.tm-root .tm-relation-color--feedback{color:#f0bb78;--tm-relation-dash:2 4}
+.tm-root .tm-relation-color--retry{color:#f49eaa;--tm-relation-dash:7 3 2 3}
+.tm-root .tm-relation-color--join{color:#a0dbb8;--tm-relation-dash:9 3}
+.tm-root .tm-topology-relation-line{fill:none;stroke:currentColor;stroke-width:1.7;stroke-dasharray:var(--tm-relation-dash);vector-effect:non-scaling-stroke}
+.tm-root .tm-topology-relation .tm-edge-pulse{fill:none;stroke:currentColor;stroke-width:3.5;stroke-dasharray:.14 .86;stroke-dashoffset:1;stroke-linecap:round;filter:drop-shadow(0 0 4px currentColor);animation:tm-relation-pass .8s ease-out 1}
+.tm-root .tm-topology-relation-label rect{fill:var(--tm-subtle);stroke:currentColor;stroke-width:.75}
+.tm-root .tm-topology-relation-label text{fill:currentColor;font-size:10px;font-family:inherit}
+.tm-root .tm-topology-self-events{position:absolute;right:7px;top:-12px;z-index:5;display:flex;gap:3px;flex-wrap:wrap;max-width:calc(100% - 14px)}
+.tm-root .tm-topology-self-event{display:inline-flex;gap:4px;align-items:center;white-space:nowrap;font-size:9px;line-height:1.5;padding:2px 5px;border:1px solid currentColor;border-radius:3px;background:var(--tm-subtle);animation:tm-self-event .8s ease-out 1}
+.tm-root .tm-topology-self-event>.tm-icon{width:10px;height:10px}
+@keyframes tm-self-event{0%{opacity:.35;transform:translateY(3px)}25%,85%{opacity:1;transform:translateY(0)}100%{opacity:.6}}
+.tm-root .tm-topology-legend{flex-wrap:wrap;gap:7px 12px;padding:8px 12px;font-size:9px}
+.tm-root .tm-topology-legend .tm-live-dot{background:var(--tm-live)}
+.tm-root[data-live=false] .tm-topology-card{animation:none!important}
+.tm-root[data-live=false] .tm-topology-card::after{display:none!important}
+.tm-root[data-live=false] :is(.tm-topology-live-relations,.tm-topology-self-events){display:none}
+@container team (min-width:900px) and (max-width:1100px){.tm-root .tm-topology-map{gap:24px 22px;padding:16px}.tm-root .tm-topology-card .tm-role-title>span:last-of-type{display:none}}
+@container team (max-width:650px){
+  .tm-root .tm-topology-map{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:auto;gap:26px 20px;padding:17px 14px}
+  .tm-root .tm-topology-card{grid-column:auto;grid-row:auto;order:var(--tm-activity-order);min-height:126px;height:100%}
+  .tm-root .tm-topology-card--verification{min-height:0;height:auto}
+  .tm-root .tm-topology-card .tm-role-title>span:last-of-type{display:none}
+  .tm-root .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node){padding:7px 8px 5px;justify-self:stretch;align-self:stretch}
+  .tm-root .tm-role-task{padding:4px 8px 5px}
+  .tm-root .tm-role-task-heading{display:block}
+  .tm-root .tm-role-task-heading>.tm-status{font-size:8px}
+  .tm-root .tm-role-task .tm-instance-model{font-size:9px}
+  .tm-root .tm-role-task .tm-instance-source{font-size:8px}
+  .tm-root .tm-node-route-reason{font-size:8px}
+  .tm-root .tm-role-task-id{font-size:7px}
+  .tm-root .tm-role-count{padding:4px 8px;font-size:8px}
+  .tm-root .tm-role-task-list>summary{padding:4px 8px;font-size:8px}
+}
+@container team (max-width:360px){.tm-root .tm-topology-map{padding:14px 11px;gap:24px 18px}.tm-root .tm-topology-card .tm-role-title>strong{font-size:11px}.tm-root .tm-topology-card .tm-role-icon{width:18px;height:18px}.tm-root .tm-role-task-heading>strong{font-size:10px}.tm-root .tm-topology-self-event{font-size:8px;gap:2px}}
+@media(prefers-reduced-motion:reduce){.tm-root .tm-topology-card,.tm-root .tm-topology-self-event{animation:none!important}.tm-root .tm-topology-card::after,.tm-root .tm-topology-relation .tm-edge-pulse{animation:none!important;display:none!important}}
+
+/* Active work leads on every screen; static role relationships retain their own measured layer. */
+.tm-root .tm-topology-map{grid-template-rows:none;grid-auto-rows:minmax(136px,auto)}
+.tm-root .tm-topology-card{grid-column:auto;grid-row:auto;order:var(--tm-activity-order)}
+.tm-root .tm-topology-card--verification{align-self:start}
+@container team (max-width:650px){.tm-root .tm-topology-map{grid-auto-rows:auto}}

@@ -12,6 +12,7 @@ const require=createRequire(import.meta.url),dom=new JSDOM('<!doctype html><div 
 Object.assign(globalThis,{window:dom.window,document:dom.window.document,HTMLElement:dom.window.HTMLElement,IS_REACT_ACT_ENVIRONMENT:true});
 let client;window.__ModuleLoader__={load({factory}){client=factory(require);}};vm.runInThisContext(readFileSync(new URL('../lib/client.js',import.meta.url),'utf8'));
 const event=(runId='run-a',sessionId='session-a',seq=0)=>({type:'user/message',seq,time:123,surfaceOp:'append',data:{id:'notice-'+runId,role:'user',source:{kind:'dsh-desktop-workflow/team-feedback',form:'notice',phase:'terminal',runId,sessionId,status:'completed'},content:[{type:'text',text:'团队已完成。\n已完成：1 项。'}]}});
+const inboxEvent=(runId='run-a',sessionId='session-a',seq=0)=>({type:'agent/inbox/spliced',seq,time:123,data:{target:'next-step',start:0,inserted:[event(runId,sessionId,seq).data]}});
 test('feedback registration uses official conversation and keyed command/node slot contracts',async()=>{
  const definitions=[],slots=[];const dispose=client.registerTeamChatFeedback({uiConversation:{events:{register(def){definitions.push(def);return()=>definitions.pop();}}},slots:{inject:(_name,fn)=>fn(),register(def,C){const row={...def,C};slots.push(row);return()=>slots.splice(slots.indexOf(row),1);}}});
  assert.equal(definitions.length,1);assert.deepEqual(slots.map(slot=>[slot.name,slot.key]),[['conversation.chat.node','dsh-desktop-workflow-team-feedback'],['conversation.chat.commandview','team']]);
@@ -34,7 +35,7 @@ test('native team command renders startup and blocked messages without collapsin
 test('terminal definition deduplicates per run and cannot be folded into an unrelated main turn',()=>{
  const definition=client.teamFeedbackDefinition,match={event:event(),location:{kind:'turn',turn:{turn:3}}},state=definition.start({},match),context={key:'stable',id:'run-a',state,start:match,matches:[match]};
  assert.deepEqual(definition.match(event()),{id:'run-a',role:'start'});assert.equal(definition.match({...event(),surfaceOp:{op:'replace',startSeq:0,endSeq:0}}),null);
- const node=definition.buildViewNode(context);assert.deepEqual(node.location,{kind:'session'});assert.equal(node.visibility,'visible');assert.equal(definition.update(context,{event:event('run-a','session-a',4)}).seq,4);
+ const node=definition.buildViewNode(context);assert.deepEqual(node.location,{kind:'session'});assert.equal(node.visibility,'visible');assert.equal(definition.update(context,{event:event('run-a','session-a',4)}).seq,0);
  assert.equal(definition.match({...event(),data:{...event().data,source:{kind:'user'}}}),null);
 });
 test('official rc.2 Conversation assembler and Chat builder preserve one visible terminal row across replay',{skip:!process.env.DSH_NODE_MODULES},()=>{
@@ -58,12 +59,26 @@ test('official rc.2 Conversation assembler and Chat builder preserve one visible
  assert.throws(()=>chat.apply({effect:fn=>fn(),uiConversation:{events,views,groups:{register:definition=>groups.push(definition)}},uiSession:{provide(){throw stop;}}}),error=>error===stop);
  events.register(client.teamFeedbackDefinition);
  const create=()=>new assembly.ConversationNodeAssembler(events,views,{entries:()=>groups,forTarget:target=>groups.find(definition=>definition.target===target)});
- const assembler=create(),unrelated=create(),entries=[{type:'event',event:{type:'turn/start',seq:0,time:120,data:{turn:1}}},{type:'event',event:event('run-a','session-a',1)}];
+ const assembler=create(),unrelated=create(),entries=[{type:'event',event:inboxEvent('run-a','session-a',0)}];
  assembler.replaceWindow(entries,false);assembler.activateTarget('chat');assembler.flush();
  const rows=()=>assembler.snapshot('chat').nodes.values().filter(node=>node.kind==='dsh-desktop-workflow-team-feedback');
- assert.equal(rows().length,1);assert.equal(rows()[0].visibility,'visible');assert.deepEqual(rows()[0].location,{kind:'session'});
+ assert.equal(rows().length,1);assert.equal(rows()[0].data.admission,'recorded');assert.equal(rows()[0].visibility,'visible');assert.deepEqual(rows()[0].location,{kind:'session'});
  assert.equal(assembler.snapshot('chat').nodes.processSource(rows()[0].key).getSnapshot(),undefined,'Notice does not join unrelated turn-process folding');
- assembler.append({type:'event',event:event('run-a','session-a',2)});assembler.flush();assert.equal(rows().length,1,'Same run is deduplicated by native assembler');
+ assembler.append({type:'event',event:event('run-a','session-a',2)});assembler.flush();assert.equal(rows().length,1,'Inbox record and admitted message share one run row');assert.equal(rows()[0].data.admission,'admitted');assert.equal(rows()[0].anchorSeq,0,'Admission keeps the original archive position');
  assembler.replaceWindow([...entries,{type:'event',event:event('run-a','session-a',2)}],false);assembler.flush();assert.equal(rows().length,1,'Reconnect/replay does not duplicate the terminal');
  unrelated.replaceWindow([],false);unrelated.activateTarget('chat');unrelated.flush();assert.equal(unrelated.snapshot('chat').nodes.values().length,0);
+});
+
+test('native inbox immediately renders bounded history and admission updates never duplicate or downgrade it',()=>{
+ const definition=client.teamFeedbackDefinition,insert={event:inboxEvent(),location:{kind:'session'}},state=definition.start({},insert),context={key:'stable',id:'run-a',state,start:insert,matches:[insert]};
+ assert.deepEqual(definition.match(inboxEvent()),{id:'run-a',role:'start'});assert.equal(state.admission,'recorded');
+ const admitted=definition.update(context,{event:event('run-a','session-a',4)});assert.equal(admitted.admission,'admitted');assert.equal(admitted.seq,0);
+ assert.equal(definition.update({...context,state:admitted},insert).admission,'admitted');
+ const large=inboxEvent();large.data.inserted[0].content[0].text='x'.repeat(6000);assert.ok(definition.match(large));large.data.inserted[0].content[0].text+='x';assert.equal(definition.match(large),null);
+ const cancelled={type:'agent/inbox/spliced',seq:2,data:{target:'next-step',start:0,removedCount:1,inserted:[],outcome:'canceled'}};
+ assert.equal(definition.match(cancelled),null,'Cancellation does not fabricate a new team result or hide its historical record');
+});
+test('unadmitted UI history discloses that closing or removing pending input cancels model admission',async()=>{
+ const root=createRoot(document.getElementById('root')),state=client.teamFeedbackDefinition.start({}, {event:inboxEvent(),location:{kind:'session'}});
+ try{await act(async()=>root.render(React.createElement(client.TeamFeedbackMessage,{node:{data:state},sessionId:'session-a'})));assert.match(document.body.textContent,/首次主模型读取前关闭或移除/);assert.equal(document.querySelector('[data-team-context]').getAttribute('data-team-context'),'recorded');assert.ok(!document.body.textContent.includes('已接纳为模型上下文'));}finally{await act(async()=>root.unmount());}
 });

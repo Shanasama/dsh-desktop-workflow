@@ -166,7 +166,7 @@ hostTest('enabled native budget refuses retry of failed calls with even valid ze
 function remountFixture(){
  const listeners=new Map();let childId='budget-remount-unconfirmed-child',cleanupFails=true,dispatches=0;
  const on=(event,listener)=>{const list=listeners.get(event)||[];list.push(listener);listeners.set(event,list);return()=>{const index=list.indexOf(listener);if(index>=0)list.splice(index,1);};};
- const tools={guard:()=>()=>{},presentAs:()=>()=>{}};
+ const tools={guard:()=>()=>{},presentAs:()=>()=>{},restrict:()=>()=>{},view:()=>({restrictableNames:new Set()}),get:()=>undefined};
  const parent={id:'budget-remount-parent',status:'idle',session:{header:{cwd:'/inert-remount'}},ctx:{get:()=>tools}};
  const ctx={on,get:name=>name==='sandboxPolicy'?{resolve:()=>({mode:'workspace-write',workspaceRoot:'/inert-remount'})}:undefined,
   agents:{get:id=>id===parent.id?parent:undefined,isOwnedBy:(_id,candidate)=>candidate===parent},
@@ -229,7 +229,7 @@ hostTest('physical duplicate profile LLM peer still admits real host requests th
   await mkdir(join(plugin,'src'),{recursive:true});await mkdir(join(duplicate,'lib'),{recursive:true});
   await writeFile(join(plugin,'package.json'),JSON.stringify({name:'dsh-desktop-workflow',type:'module',peerDependencies:{'@deepseek-ai/dsh-llm':'0.2.0-rc.2'}}));
   await copyFile(hostLlm,join(duplicate,'lib','index.js'));await writeFile(join(duplicate,'package.json'),JSON.stringify(llmManifest));
-  for(const name of ['host-adapter.js','production-budget.js'])await copyFile(new URL('../src/'+name,import.meta.url),join(plugin,'src',name));
+  for(const name of ['host-adapter.js','production-budget.js','tool-contract.js'])await copyFile(new URL('../src/'+name,import.meta.url),join(plugin,'src',name));
   const duplicateBudget=await import(pathToFileURL(join(plugin,'src','production-budget.js')).href);
   const peer=await import(pathToFileURL(join(duplicate,'lib','index.js')).href),workflow=await import(pathToFileURL(join(plugin,'src','host-adapter.js')).href);
   const branded=markAgentLoopRequest(Object.freeze({}));assert.equal(peer.isAgentLoopRequest(branded),false,'physical duplicate must have a different marker WeakSet');

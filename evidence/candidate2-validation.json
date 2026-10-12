@@ -1,0 +1,60 @@
+{
+  "candidate": "0.6.3-candidate.2",
+  "date": "2026-10-11",
+  "baseCommit": "f9ed3214b285ad35c88e807a97f3f39a4767de8b",
+  "build": "passed",
+  "typecheck": "passed",
+  "fullRegression": {
+    "tests": 433,
+    "passed": 431,
+    "failed": 0,
+    "skipped": 2,
+    "skipReasons": [
+      "DSH_PWSH_PATH not configured; pwsh not found on PATH",
+      "Non-repository filesystem fixture is inside an enclosing Git marker"
+    ]
+  },
+  "evaluation": {
+    "tests": 123,
+    "passed": 123,
+    "failed": 0,
+    "skipped": 0,
+    "preflight": "passed",
+    "offlinePilot": "passed",
+    "integratedPilot": "passed",
+    "offlineTransport": "passed"
+  },
+  "officialToolContract": {
+    "passed": 43,
+    "failed": 0,
+    "fixtureModelCalls": 77,
+    "realReadSuccesses": 9,
+    "realGlobSuccesses": 9,
+    "networkAttempts": 0,
+    "paidApiCalls": 0,
+    "disposeDuringIdentityResolution": "zero dispatch; native startup rolled back"
+  },
+  "officialHostScripts": {
+    "team-host": "passed",
+    "tool-contract-host": "passed",
+    "feedback-host": "passed",
+    "client-host": "passed"
+  },
+  "chatContext": {
+    "noAutomaticParentWake": true,
+    "actualNextProviderMessagesVerified": true,
+    "admittedHistoryResumeAndColdReloadVerified": true,
+    "pendingCanceledOrRemovedContextNotResurrected": true,
+    "sameSessionOnly": true,
+    "summaryMaxCharacters": 6000
+  },
+  "limits": [
+    "No Windows/Electron live validation",
+    "No paid model or TypeSafe calls",
+    "No user-computer installation or external publication",
+    "Unadmitted summary is not reinserted after native cancellation; durable UI history remains",
+    "Compaction may summarize or trim admitted history",
+    "Custom approval services returning allowed-once can execute a requested tool despite the existing sticky PERMISSION_DENIED reporting rule"
+  ],
+  "verificationCommand": "DSH_NODE_MODULES=<official-rc2-node_modules> npm run check:integration"
+}

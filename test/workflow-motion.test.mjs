@@ -50,9 +50,9 @@ test('missing relation telemetry, truncated logs and reduced motion are explicit
  try { await view.render(); assert.match(document.querySelector('.tm-event-integrity').textContent, /未包含关系激活事件/); await view.render({ snapshot: { ...snap, events: [relation(100)], oldestSeq: 100, eventsTruncated: true } }); assert.match(document.querySelector('.tm-event-integrity').textContent, /截断|缺失/); assert.equal(pulses().length, 0); const css = await readFile(new URL('../client/team.css', import.meta.url), 'utf8'); assert.match(css, /tm-live-scan 1\.8s/); assert.match(css, /tm-relation-pass \.8s/); assert.match(css, /prefers-reduced-motion:reduce\)\{\.tm-root \[data-live=true\]::after\{animation:none!important;display:none!important/); } finally { await view.unmount(); }
 });
 
-test('active run starts on actual task relations; blockers expose failure code and reason above the graph', async () => {
+test('active run starts on team topology; task relations remain available and blockers expose failure details', async () => {
  const snap = snapshot(); const view = mount({ snapshot: snap });
- try { await view.render(); assert.equal(document.querySelectorAll('[role=tab]')[1].getAttribute('aria-selected'), 'true'); assert.equal(document.querySelectorAll('.tm-task-node').length, snap.nodes.length); await view.render({ snapshot: { ...snap, status: 'blocked', failureCode: 'STEP_LIMIT', message: 'Bounded recovery exhausted, inspect this failure.' } }); const blocker = document.querySelector('.tm-run-blocker'); assert.match(blocker.textContent, /STEP_LIMIT/); assert.match(blocker.textContent, /Bounded recovery exhausted/); assert.equal(blocker.closest('details'), null); } finally { await view.unmount(); }
+ try { await view.render(); assert.equal(document.querySelectorAll('[role=tab]')[0].getAttribute('aria-selected'), 'true'); assert.ok(document.querySelector('.tm-topology')); await click(document.querySelectorAll('[role=tab]')[1]); assert.equal(document.querySelectorAll('.tm-task-node').length, snap.nodes.length); await view.render({ snapshot: { ...snap, status: 'blocked', failureCode: 'STEP_LIMIT', message: 'Bounded recovery exhausted, inspect this failure.' } }); const blocker = document.querySelector('.tm-run-blocker'); assert.match(blocker.textContent, /STEP_LIMIT/); assert.match(blocker.textContent, /Bounded recovery exhausted/); assert.equal(blocker.closest('details'), null); } finally { await view.unmount(); }
 });
 
 test('narrow graph centers the first or selected card on resize and preserves manual pan during polls', async () => {
@@ -63,7 +63,7 @@ test('narrow graph centers the first or selected card on resize and preserves ma
  const graph = { ...snap, nodes, edges: nodes.slice(1).map(node => ({ id: `root-${node.id}`, from: 'root', to: node.id, kind: 'dispatch' })) };
  const view = mount({ snapshot: graph });
  try {
-  await view.render(); await act(async () => resize([{ contentRect: { width: 320 } }]));
+  await view.render(); await click(document.querySelectorAll('[role=tab]')[1]); await act(async () => resize([{ contentRect: { width: 320 } }]));
   const viewport = document.querySelector('.tm-graph-scroll'); const root = document.querySelector('.tm-task-node[data-node-id=root]');
   const left = () => Number.parseFloat(root.style.left) - viewport.scrollLeft;
   assert.ok(viewport.scrollLeft > 0, 'the wide branching canvas is centered initially');

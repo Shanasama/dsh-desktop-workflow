@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { TeamCatalog, TeamEdge, TeamEvent, TeamLimits, TeamModelSelection, TeamNode, TeamNodeStatus, TeamNodeRole, TeamRole, TeamSettings, TeamSnapshot, TeamSettingsViewProps, TeamViewProps } from './team-types';
 import teamCss from './team.css';
 import themeCss from './team-theme.css';
@@ -41,6 +41,7 @@ const ROLE: Record<TeamNodeRole, { name: string; subtitle: string; icon: IconNam
 const ROLES: TeamRole[] = ['planner', 'coordinator', 'researcher', 'explorer', 'worker', 'reviewer'];
 const STATUS: Record<string, string> = { pending: '待执行', running: '进行中', completed: '已完成', failed: '失败', blocked: '已阻塞', cancelled: '已取消', planning: '规划中', reviewing: '审查中', idle: '未派发', unverified: '待验证', completion_unverified: '完成条件未满足' };
 const EDGE: Record<TeamEdge['kind'], string> = { dispatch: '派发', dependency: '依赖', feedback: '反馈', retry: '重试', join: '汇总' };
+const RELATION_EVENT_LABEL: Record<TeamEdge['kind'], string> = { ...EDGE, dependency: '依赖满足' };
 const ACTIVE = new Set(['planning', 'running', 'reviewing']);
 function isFixture(snapshot?: TeamSnapshot | null) { return !!snapshot?.demo || snapshot?.jev?.mode === 'fixture'; }
 function Status({ status, count }: { status: string; count?: number }) {
@@ -105,10 +106,10 @@ function useLiveWorkflow(snapshot: TeamSnapshot | null, freshness?: TeamViewProp
   return { visible, stale, pulses, notice };
 }
 type LiveWorkflow = ReturnType<typeof useLiveWorkflow>;
-function NodeModel({ snapshot, node, catalog }: { snapshot: TeamSnapshot; node: TeamNode; catalog: TeamCatalog }) {
+function NodeModel({ snapshot, node, catalog, showReason = false }: { snapshot: TeamSnapshot; node: TeamNode; catalog: TeamCatalog; showReason?: boolean }) {
   const model = resolveNodeModel(snapshot, node);
-  if (!model) return <span className="tm-instance-model">{node.kind === 'verification' ? '宿主验证 · 非模型节点' : 'TypeSafe · 独立决策'}</span>;
-  return <><span className="tm-instance-model" title={`${providerName(model.selection, catalog)} / ${modelName(model.selection, catalog)}`}>{modelName(model.selection, catalog)}</span><span className="tm-instance-source">{model.source === 'routing' ? `本节点选定模型 · ${model.decision!.lane} / ${model.decision!.tier}` : '启动时基础配置，未报告本节点选择'}</span></>;
+  if (!model) return <span className="tm-instance-model">{node.kind === 'verification' ? '宿主验证 · 非模型节点' : node.role === 'jev' || node.kind === 'jev_classify' || node.kind === 'jev_step' ? 'TypeSafe · 独立决策' : '未报告模型选择'}</span>;
+  return <><span className="tm-instance-model" title={`${providerName(model.selection, catalog)} / ${modelName(model.selection, catalog)}`}>{modelName(model.selection, catalog)}</span><span className="tm-instance-source">{model.source === 'routing' ? `本节点选定模型 · ${model.decision!.lane} / ${model.decision!.tier}` : '启动时基础配置，未报告本节点选择'}</span>{showReason && model.decision && <span className="tm-node-route-reason" title={model.decision.reason}>{model.decision.reason}</span>}</>;
 }
 function InstanceCards({ snapshot, catalog, selected, onSelect, live }: { snapshot: TeamSnapshot | null; catalog: TeamCatalog; selected?: string; onSelect: (node: TeamNode) => void; live: LiveWorkflow }) {
   if (!snapshot?.nodes.length) return null;
@@ -161,26 +162,159 @@ function JevPanel({ catalog, snapshot, settings, onSelectNode }: { catalog: Team
   </section>;
 }
 
-function Topology({ snapshot, settings, catalog, selected, onSelect, live }: { snapshot: TeamSnapshot | null; settings: TeamSettings; catalog: TeamCatalog; selected?: TeamNodeRole; onSelect: (role: TeamNodeRole) => void; live: LiveWorkflow }) {
+export type TopologyCardId = TeamNodeRole | 'verification';
+
+/** Control-plane kinds take precedence over the historical role attached by the host. */
+export function topologyCardForNode(node: TeamNode): TopologyCardId {
+  if (node.kind === 'verification') return 'verification';
+  if (node.kind === 'jev_classify' || node.kind === 'jev_step') return 'jev';
+  return node.role;
+}
+
+/** Resolve real endpoints; a role relationship can never manufacture a transfer. */
+export function resolveTopologyRelation(snapshot: Pick<TeamSnapshot, 'id' | 'nodes' | 'edges'>, event: TeamEvent) {
+  if (event.type !== 'relation_activated' || !event.kind || !Object.hasOwn(EDGE, event.kind)) return undefined;
+  if ('runId' in event && event.runId !== undefined && event.runId !== snapshot.id) return undefined;
+  const edge = snapshot.edges.find(item => item.id === event.edgeId && item.from === event.fromNodeId && item.to === event.toNodeId && item.kind === event.kind);
+  if (!edge) return undefined;
+  const fromNode = snapshot.nodes.find(node => node.id === edge.from), toNode = snapshot.nodes.find(node => node.id === edge.to);
+  if (!fromNode || !toNode) return undefined;
+  const fromCard = topologyCardForNode(fromNode), toCard = topologyCardForNode(toNode);
+  return { fromCard, toCard, fromNode, toNode, kind: edge.kind, edgeId: edge.id, sameCard: fromCard === toCard };
+}
+
+type TopologyRect = { left: number; top: number; right: number; bottom: number };
+type TopologyPoint = { x: number; y: number };
+type TopologyGeometry = { width: number; height: number; cards: Partial<Record<TopologyCardId, TopologyRect>> };
+
+/** Shortest orthogonal route through measured gutters, never through another card. */
+export function routeTopologyPath(from: TopologyCardId, to: TopologyCardId, geometry: TopologyGeometry) {
+  const a = geometry.cards[from], b = geometry.cards[to];
+  if (!a || !b || from === to) return undefined;
+  const gap = 10;
+  const boxes = Object.values(geometry.cards) as TopologyRect[];
+  const ports = (rect: TopologyRect) => [
+    { x: (rect.left + rect.right) / 2, y: rect.top - gap, anchor: { x: (rect.left + rect.right) / 2, y: rect.top } },
+    { x: rect.right + gap, y: (rect.top + rect.bottom) / 2, anchor: { x: rect.right, y: (rect.top + rect.bottom) / 2 } },
+    { x: (rect.left + rect.right) / 2, y: rect.bottom + gap, anchor: { x: (rect.left + rect.right) / 2, y: rect.bottom } },
+    { x: rect.left - gap, y: (rect.top + rect.bottom) / 2, anchor: { x: rect.left, y: (rect.top + rect.bottom) / 2 } },
+  ];
+  const starts = ports(a), ends = ports(b);
+  const xs = [...new Set([4, geometry.width - 4, ...boxes.flatMap(rect => [rect.left - gap, rect.right + gap]), ...starts.map(p => p.x), ...ends.map(p => p.x)])].sort((x, y) => x - y);
+  const ys = [...new Set([4, geometry.height - 4, ...boxes.flatMap(rect => [rect.top - gap, rect.bottom + gap]), ...starts.map(p => p.y), ...ends.map(p => p.y)])].sort((x, y) => x - y);
+  const inside = (p: TopologyPoint) => p.x < 2 || p.y < 2 || p.x > geometry.width - 2 || p.y > geometry.height - 2 || boxes.some(rect => p.x > rect.left - 6 && p.x < rect.right + 6 && p.y > rect.top - 6 && p.y < rect.bottom + 6);
+  const blocked = (p: TopologyPoint, q: TopologyPoint) => boxes.some(rect => p.x === q.x
+    ? p.x > rect.left - 6 && p.x < rect.right + 6 && Math.max(p.y, q.y) > rect.top - 6 && Math.min(p.y, q.y) < rect.bottom + 6
+    : p.y > rect.top - 6 && p.y < rect.bottom + 6 && Math.max(p.x, q.x) > rect.left - 6 && Math.min(p.x, q.x) < rect.right + 6);
+  const points = ys.flatMap(y => xs.map(x => ({ x, y })));
+  const distances = points.map(() => Infinity), previous = points.map(() => -1), origin = points.map(() => -1);
+  const pending = new Set<number>();
+  const indexOf = (p: TopologyPoint) => ys.indexOf(p.y) * xs.length + xs.indexOf(p.x);
+  starts.forEach((p, index) => { if (!inside(p)) { const id = indexOf(p); distances[id] = gap; origin[id] = index; pending.add(id); } });
+  const targets = new Map(ends.filter(p => !inside(p)).map(p => [indexOf(p), p]));
+  let finish = -1;
+  while (pending.size) {
+    let current = -1;
+    for (const candidate of pending) if (current === -1 || distances[candidate] < distances[current]) current = candidate;
+    pending.delete(current);
+    if (targets.has(current)) { finish = current; break; }
+    const x = current % xs.length, y = Math.floor(current / xs.length);
+    const neighbors = [x > 0 ? current - 1 : -1, x < xs.length - 1 ? current + 1 : -1, y > 0 ? current - xs.length : -1, y < ys.length - 1 ? current + xs.length : -1];
+    for (const next of neighbors) {
+      if (next < 0 || inside(points[next]) || blocked(points[current], points[next])) continue;
+      const cost = distances[current] + Math.abs(points[current].x - points[next].x) + Math.abs(points[current].y - points[next].y);
+      if (cost < distances[next]) { distances[next] = cost; previous[next] = current; origin[next] = origin[current]; pending.add(next); }
+    }
+  }
+  if (finish < 0) return undefined;
+  const route: TopologyPoint[] = [targets.get(finish)!.anchor];
+  for (let current = finish; current !== -1; current = previous[current]) route.unshift(points[current]);
+  route.unshift(starts[origin[finish]].anchor);
+  const simplified = route.filter((p, index) => !index || index === route.length - 1 || !((route[index - 1].x === p.x && p.x === route[index + 1].x) || (route[index - 1].y === p.y && p.y === route[index + 1].y)));
+  let length = -1, label = simplified[0];
+  simplified.slice(1).forEach((p, index) => { const q = simplified[index], distance = Math.abs(p.x - q.x) + Math.abs(p.y - q.y); if (distance > length) { length = distance; label = { x: (p.x + q.x) / 2, y: (p.y + q.y) / 2 }; } });
+  return { d: simplified.map((p, index) => `${index ? 'L' : 'M'}${p.x} ${p.y}`).join(' '), label, points: simplified };
+}
+
+/** A retry replaces only its own task; different same-role tasks remain independent. */
+function currentTopologyNodes(nodes: TeamNode[]) {
+  const latest = new Map<string, TeamNode>();
+  nodes.forEach(node => { const key = node.taskId || node.id; if (!latest.has(key) || latest.get(key)!.attempt <= node.attempt) latest.set(key, node); });
+  const priority: Record<TeamNodeStatus, number> = { running: 0, pending: 1, blocked: 2, failed: 3, completed: 4, cancelled: 5 };
+  const position = new Map(nodes.map((node, index) => [node.id, index]));
+  return [...latest.values()].sort((a, b) => priority[a.status] - priority[b.status] || (a.status === 'running' ? 0 : position.get(b.id)! - position.get(a.id)!));
+}
+function TopologyTask({ snapshot, node, catalog }: { snapshot: TeamSnapshot; node: TeamNode; catalog: TeamCatalog }) {
+  const decision = snapshot.jev?.decisions.filter(item => item.nodeId === node.id).at(-1);
+  return <><span className="tm-role-task-heading"><strong title={node.title}>{node.title}</strong><Status status={node.status}/></span><NodeModel snapshot={snapshot} node={node} catalog={catalog} showReason/>{decision && topologyCardForNode(node) === 'jev' && <span className="tm-node-route-reason" title={decision.reason}>{decision.lane} · {decision.reason}</span>}<span className="tm-role-task-id" title={node.id}>{node.id} · 第 {node.attempt} 次</span></>;
+}
+const ORG_RELATIONS: [TopologyCardId, TopologyCardId][] = [['planner', 'coordinator'], ['jev', 'coordinator'], ['reviewer', 'coordinator'], ['coordinator', 'researcher'], ['coordinator', 'explorer'], ['coordinator', 'worker']];
+function Topology({ snapshot, settings, catalog, selected, selectedNodeId, onSelect, onSelectNode, live, layoutKey }: { snapshot: TeamSnapshot | null; settings: TeamSettings; catalog: TeamCatalog; selected?: TeamNodeRole; selectedNodeId?: string; onSelect: (role: TeamNodeRole) => void; onSelectNode: (node: TeamNode) => void; live: LiveWorkflow; layoutKey: string }) {
   const roles = snapshot?.roles || settings.roles;
-  const runningJev = snapshot?.nodes.find(node => (node.kind === 'jev_classify' || node.kind === 'jev_step') && node.status === 'running');
+  const map = useRef<HTMLDivElement>(null);
+  const [geometry, setGeometry] = useState<TopologyGeometry>({ width: 0, height: 0, cards: {} });
+  const marker = useId().replace(/:/g, '');
+  const hasVerification = !!snapshot?.nodes.some(node => node.kind === 'verification');
+  useLayoutEffect(() => {
+    const element = map.current;
+    if (!element) return;
+    const measure = () => {
+      const bounds = element.getBoundingClientRect();
+      const cards: TopologyGeometry['cards'] = {};
+      element.querySelectorAll<HTMLElement>('[data-topology-card]').forEach(card => {
+        const rect = card.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) cards[card.dataset.topologyCard as TopologyCardId] = { left: rect.left - bounds.left, top: rect.top - bounds.top, right: rect.right - bounds.left, bottom: rect.bottom - bounds.top };
+      });
+      const next = { width: bounds.width, height: bounds.height, cards };
+      setGeometry(current => JSON.stringify(current) === JSON.stringify(next) ? current : next);
+    };
+    measure();
+    const observer = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(measure);
+    observer?.observe(element);
+    element.querySelectorAll('[data-topology-card]').forEach(card => observer?.observe(card));
+    window.addEventListener('resize', measure);
+    element.addEventListener('toggle', measure, true);
+    return () => { observer?.disconnect(); window.removeEventListener('resize', measure); element.removeEventListener('toggle', measure, true); };
+  }, [snapshot, hasVerification, live.visible, live.stale, layoutKey]);
+  const pulses = useMemo(() => !snapshot || !ACTIVE.has(snapshot.status) || !live.visible || live.stale ? [] : live.pulses.flatMap(pulse => {
+    if (pulse.key !== `${snapshot.id}:${pulse.event.seq}`) return [];
+    const relation = resolveTopologyRelation(snapshot, pulse.event);
+    return relation ? [{ ...pulse, ...relation }] : [];
+  }), [snapshot, live.visible, live.stale, live.pulses]);
+  const background = useMemo(() => ORG_RELATIONS.map(([from, to]) => ({ from, to, path: routeTopologyPath(from, to, geometry) })), [geometry]);
+  const cardOrder: TopologyCardId[] = ['jev', 'planner', 'reviewer', 'coordinator', 'researcher', 'explorer', 'worker', ...(hasVerification ? ['verification' as const] : [])];
   return <div className="tm-topology">
-    <div className="tm-topology-map">
-      <svg className="tm-topology-wires tm-topology-wires--wide" viewBox="0 0 840 392" preserveAspectRatio="none" aria-hidden="true"><path d="M140 54H420M420 82V196M560 196H700V54M280 196H140V54M420 250V280H140V312M420 280V312M420 280H700V312"/><circle cx="420" cy="280" r="4"/></svg>
-      <svg className="tm-topology-wires tm-topology-wires--narrow" viewBox="0 0 400 430" preserveAspectRatio="none" aria-hidden="true"><path d="M200 60V78H94V92M200 78H306V92M94 186V200H306V186M94 200V214M306 200V214M94 308V322H306V308M94 322V336M306 322V336"/><circle cx="200" cy="78" r="3"/></svg>
-      <button type="button" data-live={!!runningJev && !!snapshot && shouldAnimateNode(runningJev, snapshot.status, live)} className={`tm-controller-node ${selected === 'jev' ? 'is-selected' : ''}`} onClick={() => onSelect('jev')} aria-pressed={selected === 'jev'} aria-label="查看 Jev 核心调度详情"><span className="tm-controller-symbol"><Icon name="route"/></span><div><strong>Jev</strong><span>独立调度控制面</span></div><Icon name="chevron"/></button>
-      {(['planner', 'reviewer', 'coordinator', 'researcher', 'explorer', 'worker'] as TeamRole[]).map(role => {
-        const nodes = snapshot?.nodes.filter(node => node.role === role) || [];
-        const status = roleStatus(nodes);
-        return <button type="button" key={role} className={`tm-role-card tm-role-card--${role} ${selected === role ? 'is-selected' : ''} `} onClick={() => onSelect(role)} aria-pressed={selected === role}>
-          <div className="tm-role-top"><span className={`tm-role-icon tm-role-icon--${role}`}><Icon name={ROLE[role].icon}/></span><span className="tm-role-mode">{role === 'coordinator' ? '团队中枢' : role === 'worker' ? '串行编辑' : role === 'researcher' || role === 'explorer' ? '并行只读' : '按需参与'}</span></div>
-          <div className="tm-role-title"><strong>{ROLE[role].name}</strong><span>{role.toUpperCase()}</span></div>
-          <span className="tm-role-model" title={`启动基础配置 · ${modelName(roles[role], catalog, isFixture(snapshot))}`}>{modelName(roles[role], catalog, isFixture(snapshot))}</span><span className="tm-base-label">{snapshot ? '启动基础配置' : '岗位基础配置'}</span>
-          <div className="tm-role-bottom"><Status status={status} count={nodes.filter(node => node.status === 'running').length}/><span>{nodes.length ? `${nodes.length} 个节点` : '岗位配置'}<Icon name="chevron"/></span></div>
-        </button>;
+    <div className="tm-topology-map" ref={map}>
+      <svg className="tm-topology-wires tm-topology-org-relations" width={geometry.width} height={geometry.height} aria-hidden="true">{background.map(({ from, to, path }) => path && <path key={`${from}-${to}`} d={path.d}/>)}</svg>
+      {cardOrder.map(card => {
+        const allNodes = snapshot?.nodes.filter(node => topologyCardForNode(node) === card) || [];
+        const nodes = currentTopologyNodes(allNodes), primary = nodes[0], running = nodes.filter(node => node.status === 'running').length;
+        const animate = !!snapshot && nodes.some(node => shouldAnimateNode(node, snapshot.status, live));
+        const isSelected = selectedNodeId ? allNodes.some(node => node.id === selectedNodeId) : selected === card;
+        const selfEvents = pulses.filter(pulse => pulse.sameCard && pulse.fromCard === card);
+        const name = card === 'verification' ? '宿主验证' : ROLE[card].name;
+        const className = card === 'jev' ? 'tm-controller-node' : card === 'verification' ? 'tm-verification-node' : `tm-role-card tm-role-card--${card}`;
+        const modelCount = snapshot ? new Set(nodes.filter(node => node.status === 'running').flatMap(node => { const model = resolveNodeModel(snapshot, node); return model ? [`${model.selection.provider}/${model.selection.model}`] : []; })).size : 0;
+        const activityOrder = running ? card === 'jev' ? 1 : 0 : primary?.status === 'pending' ? 2 : 3;
+        return <article key={card} className={`tm-topology-card tm-topology-card--${card} ${isSelected ? 'is-selected' : ''}`} data-topology-card={card} data-live={animate} data-running-count={running} style={{ '--tm-activity-order': activityOrder } as React.CSSProperties}>
+          <button type="button" className={`${className} ${isSelected ? 'is-selected' : ''}`} data-live={animate} aria-pressed={isSelected} aria-label={`查看 ${name}详情`} onClick={() => card === 'verification' ? primary && onSelectNode(primary) : onSelect(card)}>
+            <span className="tm-role-title"><span className={`tm-role-icon tm-role-icon--${card}`}><Icon name={card === 'verification' ? 'review' : ROLE[card].icon}/></span><strong>{card === 'jev' ? 'Jev' : name}</strong><span>{card === 'verification' ? 'HOST' : card.toUpperCase()}</span><Icon name="chevron"/></span>
+          </button>
+          {primary && snapshot ? <button type="button" className={`tm-role-task ${selectedNodeId === primary.id ? 'is-selected' : ''}`} data-node-id={primary.id} onClick={() => onSelectNode(primary)}><TopologyTask snapshot={snapshot} node={primary} catalog={catalog}/></button> : <span className="tm-role-idle">{card === 'jev' ? <><span className="tm-role-model">TypeSafe · 独立调度</span><span className="tm-base-label">尚未派发决策节点</span></> : card !== 'verification' && <><span className="tm-role-model" title={modelName(roles[card], catalog, isFixture(snapshot))}>{modelName(roles[card], catalog, isFixture(snapshot))}</span><span className="tm-base-label">{snapshot ? '启动基础配置 · 尚无任务' : '岗位基础配置 · 尚无任务'}</span></>}</span>}
+          <span className="tm-role-count" title={`${allNodes.length} 次派发，重试按任务保留最新实例`}>{running > 1 ? `${running} 个并发${modelCount ? ` / ${modelCount} 种模型` : ''}` : running ? '1 个运行中' : nodes.length ? `${nodes.length} 个当前任务` : '等待派发'}</span>
+          {nodes.length > 1 && snapshot && <details className="tm-role-task-list"><summary>展开其余 {nodes.length - 1} 个任务<Icon name="chevron"/></summary><div>{nodes.slice(1).map(node => <button key={node.id} type="button" className={`tm-role-task ${selectedNodeId === node.id ? 'is-selected' : ''}`} data-node-id={node.id} onClick={() => onSelectNode(node)}><TopologyTask snapshot={snapshot} node={node} catalog={catalog}/></button>)}</div></details>}
+          {selfEvents.length > 0 && <div className="tm-topology-self-events">{selfEvents.map(pulse => <span key={pulse.key} className={`tm-topology-self-event tm-relation-color--${pulse.kind}`} data-event-key={pulse.key} data-kind={pulse.kind} data-from-card={pulse.fromCard} data-to-card={pulse.toCard} data-from-node-id={pulse.fromNode.id} data-to-node-id={pulse.toNode.id} title={`${RELATION_EVENT_LABEL[pulse.kind]}：${pulse.fromNode.id} → ${pulse.toNode.id}`}><Icon name="refresh"/>同岗 · {RELATION_EVENT_LABEL[pulse.kind]}</span>)}</div>}
+        </article>;
       })}
+      <svg className="tm-topology-live-relations" width={geometry.width} height={geometry.height} aria-label="新发生的真实节点关系">{pulses.filter(pulse => !pulse.sameCard).map(pulse => {
+        const path = routeTopologyPath(pulse.fromCard, pulse.toCard, geometry);
+        if (!path) return null;
+        const arrowId = `${marker}-${pulse.kind}-${pulse.event.seq}`;
+        const label = RELATION_EVENT_LABEL[pulse.kind], width = label.length * 11 + 16;
+        return <g key={pulse.key} className={`tm-topology-relation tm-relation-color--${pulse.kind}`} data-event-key={pulse.key} data-kind={pulse.kind} data-from-card={pulse.fromCard} data-to-card={pulse.toCard} data-from-node-id={pulse.fromNode.id} data-to-node-id={pulse.toNode.id}><title>{`${label}：${pulse.fromNode.id} → ${pulse.toNode.id}`}</title><defs><marker id={arrowId} markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 6 3 0 6Z" fill="currentColor"/></marker></defs><path className="tm-topology-relation-line" d={path.d} markerEnd={`url(#${arrowId})`}/><path className="tm-edge-pulse" data-event-key={pulse.key} d={path.d} pathLength="1"/><g className="tm-topology-relation-label" transform={`translate(${path.label.x},${path.label.y})`}><rect x={-width / 2} y="-9" width={width} height="18" rx="3"/><text textAnchor="middle" dominantBaseline="central">{label}</text></g></g>;
+      })}</svg>
     </div>
-    <div className="tm-map-footer"><span><i className="tm-dashed-line"/>岗位关系示意，连线不代表已调用</span><span><i className="tm-live-dot"/>状态来自{isFixture(snapshot) ? '合成示例' : '实际节点'}</span></div>
+    <div className="tm-map-footer tm-topology-legend"><span><i className="tm-dashed-line"/>岗位关系示意</span><span><i className="tm-live-dot"/>扫描 = 新鲜运行状态</span><span>彩色路径 = 新关系事件{isFixture(snapshot) ? '（合成演示）' : ''}</span></div>
   </div>;
 }
 
@@ -261,7 +395,7 @@ function Inspector({ role, node, snapshot, settings, catalog, onSelectNode, onCo
   const definition = verificationNode ? { name: '宿主验证', subtitle: '独立完成检查', icon: 'review' as IconName, description: '由宿主运行服务端允许的验证配置，并检查修改范围与差异证据。此节点不是模型自报成功。', access: '固定服务端验证配置' } : ROLE[role] || ROLE.worker;
   const route = node && snapshot?.production?.routing.decisions.filter(decision => decision.nodeId === node.id).at(-1);
   const selection: TeamModelSelection | undefined = role === 'jev' || verificationNode ? undefined : route || (snapshot?.roles || settings.roles)[role];
-  const nodes = snapshot?.nodes.filter(item => item.role === role) || [];
+  const nodes = snapshot?.nodes.filter(item => topologyCardForNode(item) === (verificationNode ? 'verification' : role)) || [];
   const relations = node ? snapshot?.edges.filter(edge => edge.from === node.id || edge.to === node.id) || [] : [];
   return <aside className="tm-inspector" aria-label={node ? '节点详情' : '岗位详情'}>
     <button type="button" className="tm-inspector-back" onClick={onBack}><Icon name="arrow"/>返回图谱</button>
@@ -353,7 +487,7 @@ export function TeamSettingsView({ setup, catalog, credential, loading = false, 
 export function TeamView({ catalog, history = [], selectedRunId, onSelectRun, sessionId, sessionContext, snapshot, loading = false, error, onCancel, onRefresh, onDemo, settings, configured = false, onOpenSettings, onLoadTrace, freshness }: TeamViewProps) {
   const diagnostic=snapshot?.diagnostic||(!selectedRunId?sessionContext?.diagnostic:undefined);
   const theme = useTeamTheme();
-  const [graph, setGraph] = useState<'team' | 'tasks'>(() => snapshot && ACTIVE.has(snapshot.status) ? 'tasks' : 'team');
+  const [graph, setGraph] = useState<'team' | 'tasks'>('team');
   const [selectedRole, setSelectedRole] = useState<TeamNodeRole>('coordinator');
   const [selectedNodeId, setSelectedNodeId] = useState<string>();
   const [activityOpen, setActivityOpen] = useState(true);
@@ -369,17 +503,18 @@ export function TeamView({ catalog, history = [], selectedRunId, onSelectRun, se
   const demo = isFixture(snapshot);
   const active = !!snapshot && !demo && ACTIVE.has(snapshot.status);
   const selectedNode = snapshot?.nodes.find(node => node.id === selectedNodeId);
-  const role = selectedNode?.role || selectedRole;
+  const role = selectedNode && topologyCardForNode(selectedNode) === 'jev' ? 'jev' : selectedNode?.role || selectedRole;
   const nodes = snapshot?.nodes || [];
   const completed = nodes.filter(node => node.status === 'completed').length;
   const running = nodes.filter(node => node.status === 'running').length;
-  const events = [...snapshot?.events || []].slice(-30).reverse();
+  const uniqueEvents = [...new Map([...(snapshot?.events || [])].reverse().map(event => [event.seq, event])).values()].sort((a, b) => a.seq - b.seq);
+  const events = uniqueEvents.slice(-30).reverse();
   const runEvidence = snapshot?.jev?.evidence;
   const completionVerified = !!runEvidence && runEvidence.checksPassed && runEvidence.scopeOk && runEvidence.diffAvailable && runEvidence.verified;
-  useEffect(() => { cancelGeneration.current++; cancelLock.current = false; setSelectedNodeId(undefined); setLocalError(undefined); setCancelling(false); setGraph(snapshot && ACTIVE.has(snapshot.status) ? 'tasks' : 'team'); }, [snapshot?.id, sessionId]);
+  useEffect(() => { cancelGeneration.current++; cancelLock.current = false; setSelectedNodeId(undefined); setLocalError(undefined); setCancelling(false); setGraph('team'); }, [snapshot?.id, sessionId]);
   useEffect(() => () => { cancelGeneration.current++; }, []);
   const openSettings = onOpenSettings;
-  function selectNode(node: TeamNode) { setSelectedNodeId(node.id); setSelectedRole(node.role); }
+  function selectNode(node: TeamNode) { setSelectedNodeId(node.id); setSelectedRole(topologyCardForNode(node) === 'jev' ? 'jev' : node.role); }
   function selectRole(next: TeamNodeRole) { setSelectedRole(next); setSelectedNodeId(undefined); }
   async function cancel() {
     if (!active || cancelling || cancelLock.current) return;
@@ -399,8 +534,8 @@ export function TeamView({ catalog, history = [], selectedRunId, onSelectRun, se
       {history.length>1&&<label className="tm-notice">本会话运行 <select aria-label="本会话运行历史" value={selectedRunId||''} onChange={event=>onSelectRun?.(event.target.value||undefined)}><option value="">最新运行</option>{history.filter(row=>row.sessionId===sessionId).map(row=><option key={row.id} value={row.id}>{row.id} · {row.finishedAt?'历史':'进行中'} · {row.goal.slice(0,60)}</option>)}</select></label>}
       {diagnostic&&<p className="tm-notice" role="status">检查阶段：{diagnostic.phase}；原因：{diagnostic.reason}；宿主分类：{diagnostic.code} / {diagnostic.kind}{diagnostic.exitCode===undefined?'':' / exit '+diagnostic.exitCode}</p>}
       {sessionContext?.occupancy&&<p className="tm-notice" role="status">项目占用：会话 {sessionContext.occupancy.sessionId} · {sessionContext.occupancy.state}{sessionContext.occupancy.runId?' · '+sessionContext.occupancy.runId:''}</p>}
-      <div className="tm-workspace"><section className="tm-graph-panel" ref={canvasRef} aria-label="团队与任务可视化"><div className="tm-panel-header"><div className="tm-tabs" role="tablist" aria-label="图表视图"><button type="button" role="tab" id={`${prefix}-team-tab`} aria-controls={`${prefix}-graph`} aria-selected={graph === 'team'} tabIndex={graph === 'team' ? 0 : -1} onClick={() => setGraph('team')} onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setGraph('tasks'); (e.currentTarget.nextElementSibling as HTMLElement)?.focus(); } }}><Icon name="team"/>团队拓扑</button><button type="button" role="tab" id={`${prefix}-tasks-tab`} aria-controls={`${prefix}-graph`} aria-selected={graph === 'tasks'} tabIndex={graph === 'tasks' ? 0 : -1} onClick={() => setGraph('tasks')} onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setGraph('team'); (e.currentTarget.previousElementSibling as HTMLElement)?.focus(); } }}><Icon name="branch"/>任务关系{nodes.length > 0 && <span>{nodes.length}</span>}</button></div><button type="button" className="tm-button tm-button--quiet tm-config-trigger" aria-label="团队设置" onClick={openSettings}><Icon name="settings"/><span>团队设置</span></button></div><div className="tm-graph-caption"><span>{graph === 'team' ? '岗位配置' : '动态任务图'}</span><span className="tm-graph-context">{selectedNode ? selectedNode.title : ROLE[role].name}</span><button type="button" className="tm-inspect-jump" onClick={() => inspectorRef.current?.scrollIntoView({ block: 'start', behavior: 'auto' })}>查看详情<Icon name="arrow"/></button></div><div role="tabpanel" id={`${prefix}-graph`} aria-labelledby={`${prefix}-${graph}-tab`}>{graph === 'team' ? <><Topology snapshot={snapshot} settings={settings} catalog={catalog} selected={!selectedNodeId ? role : undefined} onSelect={selectRole} live={live}/><InstanceCards snapshot={snapshot} catalog={catalog} selected={selectedNodeId} onSelect={selectNode} live={live}/></> : <TaskGraph snapshot={snapshot} selected={selectedNodeId} onSelect={selectNode} catalog={catalog} live={live}/>}</div></section><div className="tm-inspector-wrap" ref={inspectorRef}><WorkflowSignals snapshot={snapshot} live={live} freshness={freshness}/><Inspector role={role} node={selectedNode} snapshot={snapshot} settings={settings} catalog={catalog} onSelectNode={selectNode} onConfigure={openSettings} onBack={() => canvasRef.current?.scrollIntoView({ block: 'start', behavior: 'auto' })}/><JevPanel catalog={catalog} snapshot={snapshot} settings={settings} onSelectNode={node => { setGraph('tasks'); selectNode(node); }}/></div></div>
-      {snapshot && <section className="tm-activity"><button type="button" className="tm-activity-toggle" onClick={() => setActivityOpen(!activityOpen)} aria-expanded={activityOpen} aria-controls={`${prefix}-events`}><Icon name="activity"/><strong>事件时间线</strong><span>{demo ? '合成事件' : '最近事件'} · {Math.min(snapshot.events.length, 30)} 条</span><Icon name="chevron"/></button>{(live.notice || (snapshot.events.length > 0 && !snapshot.events.some(event => event.type === 'relation_activated'))) && <p className="tm-event-bound tm-event-integrity" role="status">{live.notice || '当前记录未包含关系激活事件；仅展示静态关系，不推测历史传递。'}</p>}{activityOpen && <div id={`${prefix}-events`} className="tm-event-list" aria-label="最近团队事件">{events.length ? events.map(event => { const eventNode = nodes.find(node => node.id === (event.nodeId || event.toNodeId)); return <button type="button" key={event.seq} className={`tm-event ${/retry|feedback/.test(event.type) ? 'tm-event--feedback' : ''}`} disabled={!eventNode} onClick={() => eventNode && selectNode(eventNode)}><span className="tm-event-icon"><Icon name={/retry|feedback/.test(event.type) ? 'refresh' : eventNode ? eventNode.kind === 'verification' ? 'review' : ROLE[eventNode.role]?.icon || 'activity' : 'activity'}/></span><strong>{eventNode ? eventNode.kind === 'verification' ? '宿主验证' : ROLE[eventNode.role]?.name || eventNode.role : '团队'}</strong><span>{event.message}{event.type === 'relation_activated' && <small className="tm-event-route">{EDGE[event.kind!] || event.kind} · {event.fromNodeId} → {event.toNodeId}</small>}{event.failureCode && <small className="tm-event-route">{event.failureCode}</small>}</span><time dateTime={event.at}>{time(event.at)}</time></button>; }) : <p className="tm-inline-empty">尚无事件记录</p>}{snapshot.events.length > 30 && <p className="tm-event-bound">显示最近 30 条事件，节点详情保留独立产出。</p>}</div>}</section>}
+      <div className="tm-workspace"><section className="tm-graph-panel" ref={canvasRef} aria-label="团队与任务可视化"><div className="tm-panel-header"><div className="tm-tabs" role="tablist" aria-label="图表视图"><button type="button" role="tab" id={`${prefix}-team-tab`} aria-controls={`${prefix}-graph`} aria-selected={graph === 'team'} tabIndex={graph === 'team' ? 0 : -1} onClick={() => setGraph('team')} onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setGraph('tasks'); (e.currentTarget.nextElementSibling as HTMLElement)?.focus(); } }}><Icon name="team"/>团队拓扑</button><button type="button" role="tab" id={`${prefix}-tasks-tab`} aria-controls={`${prefix}-graph`} aria-selected={graph === 'tasks'} tabIndex={graph === 'tasks' ? 0 : -1} onClick={() => setGraph('tasks')} onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setGraph('team'); (e.currentTarget.previousElementSibling as HTMLElement)?.focus(); } }}><Icon name="branch"/>任务关系{nodes.length > 0 && <span>{nodes.length}</span>}</button></div><button type="button" className="tm-button tm-button--quiet tm-config-trigger" aria-label="团队设置" onClick={openSettings}><Icon name="settings"/><span>团队设置</span></button></div><div className="tm-graph-caption"><span>{graph === 'team' ? '团队实时拓扑' : '动态任务图'}</span><span className="tm-graph-context">{selectedNode ? selectedNode.title : ROLE[role].name}</span><button type="button" className="tm-inspect-jump" onClick={() => inspectorRef.current?.scrollIntoView({ block: 'start', behavior: 'auto' })}>查看详情<Icon name="arrow"/></button></div><div role="tabpanel" id={`${prefix}-graph`} aria-labelledby={`${prefix}-${graph}-tab`}>{graph === 'team' ? <><Topology snapshot={snapshot} settings={settings} catalog={catalog} selected={!selectedNodeId ? role : undefined} selectedNodeId={selectedNodeId} onSelect={selectRole} onSelectNode={selectNode} live={live} layoutKey={`${theme}:${layout}`}/><InstanceCards snapshot={snapshot} catalog={catalog} selected={selectedNodeId} onSelect={selectNode} live={live}/></> : <TaskGraph snapshot={snapshot} selected={selectedNodeId} onSelect={selectNode} catalog={catalog} live={live}/>}</div></section><div className="tm-inspector-wrap" ref={inspectorRef}><WorkflowSignals snapshot={snapshot} live={live} freshness={freshness}/><Inspector role={role} node={selectedNode} snapshot={snapshot} settings={settings} catalog={catalog} onSelectNode={selectNode} onConfigure={openSettings} onBack={() => canvasRef.current?.scrollIntoView({ block: 'start', behavior: 'auto' })}/><JevPanel catalog={catalog} snapshot={snapshot} settings={settings} onSelectNode={node => { setGraph('tasks'); selectNode(node); }}/></div></div>
+      {snapshot && <section className="tm-activity"><button type="button" className="tm-activity-toggle" onClick={() => setActivityOpen(!activityOpen)} aria-expanded={activityOpen} aria-controls={`${prefix}-events`}><Icon name="activity"/><strong>事件时间线</strong><span>{demo ? '合成事件' : '最近事件'} · {Math.min(uniqueEvents.length, 30)} 条</span><Icon name="chevron"/></button>{(live.notice || (snapshot.events.length > 0 && !snapshot.events.some(event => event.type === 'relation_activated'))) && <p className="tm-event-bound tm-event-integrity" role="status">{live.notice || '当前记录未包含关系激活事件；仅展示静态关系，不推测历史传递。'}</p>}{activityOpen && <div id={`${prefix}-events`} className="tm-event-list" aria-label="最近团队事件">{events.length ? events.map(event => { const eventNode = nodes.find(node => node.id === (event.nodeId || event.toNodeId)); return <button type="button" key={event.seq} className={`tm-event ${/retry|feedback/.test(event.type) ? 'tm-event--feedback' : ''}`} disabled={!eventNode} onClick={() => eventNode && selectNode(eventNode)}><span className="tm-event-icon"><Icon name={/retry|feedback/.test(event.type) ? 'refresh' : eventNode ? eventNode.kind === 'verification' ? 'review' : ROLE[eventNode.role]?.icon || 'activity' : 'activity'}/></span><strong>{eventNode ? eventNode.kind === 'verification' ? '宿主验证' : ROLE[eventNode.role]?.name || eventNode.role : '团队'}</strong><span>{event.message}{event.type === 'relation_activated' && <small className="tm-event-route">{RELATION_EVENT_LABEL[event.kind!] || event.kind} · {event.fromNodeId} → {event.toNodeId}</small>}{event.failureCode && <small className="tm-event-route">{event.failureCode}</small>}</span><time dateTime={event.at}>{time(event.at)}</time></button>; }) : <p className="tm-inline-empty">尚无事件记录</p>}{uniqueEvents.length > 30 && <p className="tm-event-bound">显示最近 30 条事件，节点详情保留独立产出。</p>}</div>}</section>}
       <details className="tm-runtime-details"><summary>运行控制与生产记录<Icon name="chevron"/></summary><ProductionStatus key={`${sessionId || "none"}:${snapshot?.id || "idle"}`} snapshot={snapshot} settings={settings} onLoadTrace={onLoadTrace}/></details>
       {active ? <section className="tm-running-bar"><span className="tm-running-indicator"/><div><strong>团队正在处理当前任务</strong><p>停止只影响本次运行；不会回滚已经产生的文件修改。</p></div><button type="button" className="tm-button tm-button--danger" onClick={() => void cancel()} disabled={cancelling}><Icon name="stop"/>{cancelling ? '正在停止…' : '停止本次运行'}</button></section> : <section className="tm-command-guide" aria-label="使用 team 命令"><span className="tm-command-icon"><Icon name="team"/></span><div><h3>{configured ? '在聊天中给团队一个目标' : '先完成一次团队设置'}</h3><p>{configured ? '输入 /team 和任务目标，团队会自动开始，进展显示在这里。' : '选择六个岗位模型、保存 Jev 密钥后，以后直接在聊天中使用 /team。'}</p><code>/team 检查购物车数量更新问题，修复实现并验证</code>{sessionContext?.reason && <p className="tm-start-hint">{sessionContext.reason}</p>}{!sessionId && <p className="tm-start-hint">请先在 Desktop 打开一个项目会话。</p>}</div><button type="button" className="tm-button" onClick={openSettings}><Icon name="settings"/>{configured ? '团队设置' : '完成设置'}<Icon name="arrow"/></button></section>}
       <footer className="tm-footer"><span><Icon name="lock"/>{demo ? '全部为合成示例 · 未派发智能体' : '六岗位独立选型 · Jev 核心调度 · 硬性完成验证'}</span><span>DSH <i/> TEAM WORKFLOW</span></footer>

@@ -222,3 +222,18 @@
 .tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip strong{font-size:14px}
 .tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip small{font-size:9px}
 @container team (max-width:650px){.tm-root[data-theme=arknights].tm-layout-workflow .tm-header{padding:8px 10px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-overview{padding:9px 10px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-overview h2{font-size:15px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip{margin-bottom:10px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip>div{padding:6px 7px;gap:4px}.tm-root[data-theme=arknights].tm-layout-workflow .tm-summary-strip strong{font-size:12px}}
+
+/* Live role cards retain Terra's hard edges; event colors are independent of selection. */
+.tm-root[data-theme=arknights] .tm-topology-card{border-radius:0;background:#292d32;border-color:#687379;box-shadow:inset 2px 0 #687379}
+.tm-root[data-theme=arknights] .tm-topology-card.is-selected{border-color:var(--tm-accent);box-shadow:inset 3px 0 var(--tm-accent),0 0 0 1px var(--tm-accent)}
+.tm-root[data-theme=arknights] .tm-topology-card[data-live=true]{border-color:var(--tm-live)}
+.tm-root[data-theme=arknights] .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node){min-height:0;height:auto;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--tm-text)}
+.tm-root[data-theme=arknights] .tm-topology-card :is(.tm-role-card,.tm-controller-node,.tm-verification-node):hover{background:#353b40}
+.tm-root[data-theme=arknights] .tm-topology-card .tm-role-icon{border-radius:0;background:var(--tm-paper);color:var(--tm-ink)}
+.tm-root[data-theme=arknights] .tm-topology-card--jev{border-top:3px solid var(--tm-paper);background:#222b30}
+.tm-root[data-theme=arknights] .tm-topology-card--jev .tm-controller-node strong{font-size:15px;font-family:var(--tm-mono)}
+.tm-root[data-theme=arknights] .tm-topology-card--verification{border-style:dashed;background:#252924}
+.tm-root[data-theme=arknights] .tm-topology-card .tm-role-count{background:#1a20244d}
+.tm-root[data-theme=arknights] .tm-topology-self-event{border-radius:0}
+.tm-root[data-theme=arknights] .tm-topology-org-relations{opacity:.35}
+@container team (max-width:650px){.tm-root[data-theme=arknights] .tm-topology-map{grid-template-rows:none}.tm-root[data-theme=arknights] .tm-topology-card .tm-role-card{min-height:0}}

@@ -80,7 +80,7 @@ try{
  assert.equal(calls[0].request.agentOptions.reasoningEffort,'fixture-effort');
  console.log('PASS actual adapter ALS isolates concurrent roles; native readonly guard denies write, worker permits one write');
  assert.equal(root.agents.list().length,1);
- mode='steps';const limited=await adapter.execute(spec('reviewer'));assert.equal(limited.stopReason,'refusal');assert.deepEqual(stepDecisions.map(x=>x.kind),['enter','enter','reject']);
+ mode='steps';const limited=await adapter.execute(spec('reviewer'));assert.equal(limited.stopReason,'error');assert.equal(limited.failureCode,'STEP_LIMIT');assert.equal(limited.retryable,true);assert.deepEqual(stepDecisions.map(x=>x.kind),['enter','enter','reject']);
  console.log('PASS actual scoped pre-step waterfall enforces adapter request cap');
  mode='unsafe';await assert.rejects(adapter.execute(spec('explorer')),error=>error.code==='UNSAFE_TOOLS');assert.equal(root.agents.list().length,1);
  console.log('PASS real serial announce propagates unsafe-scope rejection before transport result');

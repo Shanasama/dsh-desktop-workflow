@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 import {realpathSync,lstatSync,existsSync} from 'node:fs';
 import { ProductionBudget, ProductionBudgetError, nativeRequestBound, normalizeBudgetConfig, resolveNativeBudgetContract } from './production-budget.js';
+import { READ_TOOL_NAMES, roleToolNames, TEAM_TOOL_BOUNDARY_PROMPT, resolveOfficialTodoContract } from './tool-contract.js';
 
 // Exact retired/unconfirmed child identities survive plugin/runtime replacement. Keep
 // only ids, never agents, sessions, project paths, budgets, or active listeners.
@@ -21,9 +22,8 @@ export function isEvidencePath(relative,evidence,pattern='',platform=process.pla
 }
 function tombstoneChildren(tag){for(const agent of tag.created)unconfirmedModelChildren.add(agent.id);}
 
-const readTools = new Set(['read', 'read_image', 'glob', 'grep', 'structured_output']);
+const readTools = new Set(READ_TOOL_NAMES);
 const researchTools = new Set([...readTools, 'web_search', 'web_fetch']);
-const workerTools = new Set([...readTools, 'write', 'edit', 'bash', 'pwsh']);
 const clean = (value, length=500) => typeof value === 'string' ? value.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/g,'').slice(0,length) : '';
 export class TeamHostError extends Error { constructor(code,message){super(message);this.code=code;this.retryable=false;this.blocked=true;} }
 function need(condition,code,message){if(!condition)throw new TeamHostError(code,message);}
@@ -41,7 +41,7 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
   const activeParents = new Set();
   const activeFingerprints = new Map();
   const parentGuards=new Map();const quarantined=new Set();
-  let monitor,nativeBudgetContract;
+  let monitor,nativeBudgetContract,nativeTodoContract;
   const owned = new Map();
   const budgets = new Map();
   const retiredBudgetRuns = new Set();
@@ -89,20 +89,50 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
     const tag=creation.getStore();if(!tag)return;
     need(agent.session.header.parentSession===tag.parent.id && ctx.agents.isOwnedBy(agent.id,tag.parent),'CHILD_IDENTITY','子代理归属无法验证，已阻止执行。');
     const tools=agent.ctx.get('tools');
-    need(tools && typeof tools.guard==='function' && typeof tools.presentAs==='function','UNSAFE_TOOLS','无法安装子代理工具执行保护，已阻止执行。');
-    const allowed=tag.role==='worker'?workerTools:tag.role==='researcher'?researchTools:readTools;
-    const guard=tools.guard(exec=>{if(tag.project){const issue=projectGuard(tag,exec);if(issue)return stopChild(tag,'TOOL_BOUNDARY',issue);}if(allowed.has(exec.name))return;return stopChild(tag,'TOOL_BOUNDARY','岗位尝试了不允许的工具，已阻止执行；不会扩大权限或递归派发。');});
-    agent.ctx.on('tools/pre-execute',async (_exec,next)=>{const decision=await next();if(decision.kind==='ask'||decision.kind==='deny')stopChild(tag,'PERMISSION_DENIED','宿主权限拒绝或要求额外批准。子代理不能代替用户批准，请在主会话处理。');return decision;});
+    need(tools && ['guard','presentAs','restrict','view','get'].every(name=>typeof tools[name]==='function'),'UNSAFE_TOOLS','无法安装子代理原生工具呈现与执行保护，已阻止执行。');
+    const todoContract=tools.get('todo_write',agent)?await(nativeTodoContract??=resolveOfficialTodoContract(ctx)):undefined;
+    // Official identity loading is asynchronous. Teardown/release during that
+    // await must roll back unpublished creation, never resume without the
+    // adapter's global budget and project guards.
+    need(!closed,'UNAVAILABLE','工作流服务已关闭，未发布子代理。');
+    need(!tag.signal.aborted,'CANCELLED','运行已取消，未发布子代理。');
+    need(!retiredBudgetRuns.has(tag.runId)&&budgets.has(tag.runId),'BUDGET_RELEASED','团队预算已结束，未发布子代理。');
+    budgets.get(tag.runId).check();
+    need(ctx.agents.get(tag.parent.id)===tag.parent&&activeFingerprints.get(tag.parent.id)===tag.fingerprint&&fingerprint(tag.parent)===tag.fingerprint,'CONTEXT_CHANGED','原会话或权限已变化，未发布子代理。');
+    const todo=todoContract?.identify(tools,agent),todoExecute=todo?.execute,childSession=agent.session;
+    const validTodo=()=>!!todo && tools.get('todo_write',agent)===todo && todo.execute===todoExecute && todoContract.identify(tools,agent)===todo;
+    const allowed=roleToolNames(tag.role,tag.project,!!todo);
     const presentation=tools.presentAs('native');
+    // DSH intersects this filter with inherited restrictions; child-owned
+    // structured_output remains available. Own-scope overrides still need guard.
+    const restriction=tools.restrict({allow:[...tools.view(agent).restrictableNames].filter(name=>allowed.has(name))});
+    const boundary='岗位尝试了不允许的工具，已阻止执行；不会扩大权限或递归派发。';
+    // The official API deliberately exempts own-scope registrations. If an
+    // extension adds a forbidden local tool, do not present a contradictory
+    // schema: stop this child before its first model request instead.
+    need(![...(tools.view(agent).visible?.keys()??[])].some(name=>!allowed.has(name)),'TOOL_BOUNDARY','子会话包含无法按岗位隐藏的本地工具，已在模型请求前停止。');
+    const guard=tools.guard(exec=>{
+      if(exec.name==='todo_write')return exec.agent===agent && exec.agent.session===childSession && validTodo()?undefined:stopChild(tag,'TOOL_BOUNDARY','无法核验当前子会话的官方 todo 工具身份，已阻止执行。');
+      if(tag.project){const issue=projectGuard(tag,exec);if(issue)return stopChild(tag,'TOOL_BOUNDARY',issue);}
+      if(allowed.has(exec.name))return;
+      return stopChild(tag,'TOOL_BOUNDARY',boundary);
+    });
+    // Filtered-away calls are rejected by the native registry before guards.
+    // Preserve the same non-retryable boundary classification for those calls.
+    agent.ctx.on('tools/result',(exec,result)=>{if(exec.agent===agent && result.isError && result.error?.info?.code==='UNKNOWN_TOOL')stopChild(tag,'TOOL_BOUNDARY',boundary);});
+    // Observe the final native decision outside existing short-circuit policy
+    // listeners. Observation does not change, approve or retry that decision.
+    agent.ctx.on('tools/pre-execute',async (_exec,next)=>{const decision=await next();if(decision.kind==='ask'||decision.kind==='deny')stopChild(tag,'PERMISSION_DENIED','宿主权限拒绝或要求额外批准。子代理不能代替用户批准，请在主会话处理。');return decision;},{prepend:true});
     let steps=0;
     const cap=agent.ctx.on('agent/pre-step', async (_payload,next)=>{
       if(tag.signal.aborted)return {kind:'reject'};
+      if(todo && !validTodo()){stopChild(tag,'TOOL_BOUNDARY','官方 todo 工具已卸载或改变，已停止当前子代理。');return {kind:'reject'};}
       if(fingerprint(tag.parent)!==tag.fingerprint){stopChild(tag,'PERMISSION_DENIED','宿主权限已变化，已停止新的模型请求。');onParentUnavailable(tag.parent.id,tag.blockedReason);return {kind:'reject'};}
       if(tag.failureCode)return {kind:'reject'};
       if(++steps>tag.limits.maxStepsPerAgent){stopChild(tag,'STEP_LIMIT','子代理达到模型请求步骤上限；当前任务未完成，仅可在剩余全局预算内进行一次有界恢复。');return {kind:'reject'};}
       return next();
     });
-    tag.created.add(agent);owned.set(agent.id,{agent,tag,guard,presentation,cap});budgetChildren.set(agent.id,{agent,tag});
+    tag.created.add(agent);owned.set(agent.id,{agent,tag,guard,restriction,presentation,cap});budgetChildren.set(agent.id,{agent,tag});
   }));
   // Global reception is required because the LLM service may live in a sibling
   // Cordis scope. Only exact owned child ids / creation context are attributed.
@@ -189,7 +219,7 @@ export function createExecutionAdapter(ctx, { onParentUnavailable = () => {}, on
         label:`工作流 ${spec.role} · ${clean(spec.nodeId,80)}`,
         parent,prompt:[{type:'text',text:spec.prompt}],signal:spec.signal,
         agentOptions:{...spec.model},outputSchema:spec.outputSchema,maxDepth,
-        persona:'你是软件开发团队中的受限岗位。只完成派发的任务，使用已提供的工具。不要修改安全设置、凭据或权限，不要创建其它代理。所有证据必须来自实际观察；遇到权限拒绝应报告受阻，不得绕过。',
+        persona:`你是软件开发团队中的受限岗位（${clean(spec.role,40)}）。只完成派发的任务，使用已提供的工具。所有证据必须来自实际观察；遇到权限拒绝应报告受阻，不得绕过。\n${TEAM_TOOL_BOUNDARY_PROMPT}`,
       }));
       need(run.localAgent && tag.created.has(run.localAgent),'GUARD_NOT_INSTALLED','子代理未通过执行保护验证，已取消。');
       spec.onChildStart?.(run.id);

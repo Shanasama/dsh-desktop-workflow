@@ -1,6 +1,6 @@
 {
   "name": "dsh-desktop-workflow",
-  "version": "0.6.3-candidate.1",
+  "version": "0.6.3-candidate.3",
   "private": true,
   "description": "Native DSH /team workflow with configurable token guard, explicit lane model routing, Jev versions and isolated shadow observation",
   "type": "module",
@@ -41,6 +41,7 @@
     "check:evaluation": "npm --prefix evaluation run check",
     "check:integration": "npm run check && npm run check:evaluation",
     "test:production-host": "node --expose-internals scripts/verify-production-host.mjs",
+    "test:tool-contract-host": "node --expose-internals scripts/verify-tool-contract-host.mjs",
     "test:feedback-host": "node --expose-internals scripts/verify-team-feedback-host.mjs",
     "preview:html": "node scripts/build-preview-html.mjs"
   },

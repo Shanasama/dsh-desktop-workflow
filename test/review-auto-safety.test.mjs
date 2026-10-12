@@ -14,7 +14,7 @@ async function guardedProject(mode='verified',options={}){
  const listeners=new Map();let guard;
  const parent={id:'audit-parent',status:'idle',session:{header:{cwd:root}},ctx:{get:()=>({guard:()=>()=>{}})}};
  const ctx={on(name,fn){const list=listeners.get(name)||[];list.push(fn);listeners.set(name,list);return()=>{};},get:name=>name==='sandboxPolicy'?{resolve:()=>({mode:'workspace-write',workspaceRoot:root})}:undefined,agents:{get:()=>parent,isOwnedBy:()=>true},subagents:{getProvider:()=>({capabilities:{agentOptions:true,outputSchema:true,persona:true,depthLimit:true}}),resolveMaxDepth:()=>1,async start(){
-  const agent={id:'audit-child',session:{header:{parentSession:parent.id}},ctx:{get:()=>({guard(fn){guard=fn;return()=>{};},presentAs:()=>()=>{}}),on:()=>()=>{}}};
+  const agent={id:'audit-child',session:{header:{parentSession:parent.id}},ctx:{get:()=>({guard(fn){guard=fn;return()=>{};},presentAs:()=>()=>{},restrict:()=>()=>{},view:()=>({restrictableNames:new Set()}),get:()=>undefined}),on:()=>()=>{}}};
   for(const fn of listeners.get('agent/created')||[])await fn({agent});
   return {id:agent.id,localAgent:agent,result:Promise.resolve({stopReason:'completed',output:[]}),dispose:async()=>{}};
  }}};

@@ -217,7 +217,7 @@ test('cancellation aborts every active child, prevents retries, and waits for ac
   const fake = adapter([task('a', 'researcher'), task('b', 'explorer'), task('c')], request => {
     const hold = deferred(); pending.push(hold); request.signal.addEventListener('abort', () => aborted.push(request.nodeId), {once: true}); return hold.promise;
   });
-  const controller = new TeamController({execute: fake.execute}); const initial = controller.start(config());
+  const controller = new TeamController({execute: fake.execute, now: () => 100000}); const initial = controller.start(config());
   await until(() => pending.length === 3);
   assert.equal(controller.cancel('other-session', initial.id), null);
   controller.cancel('session-1', initial.id);
@@ -265,7 +265,7 @@ test('sessions are isolated, duplicate starts are rejected, and disposal drains 
 });
 
 test('cancellation before runner starts never calls execute', async () => {
-  const fake = adapter(); const controller = new TeamController({execute: fake.execute}); const initial = controller.start(config());
+  const fake = adapter(); const controller = new TeamController({execute: fake.execute, now: () => 100000}); const initial = controller.start(config());
   controller.cancel('session-1', initial.id);
   assert.equal((await controller.wait(initial.id)).status, 'cancelled'); assert.equal(fake.calls.length, 0);
 });
@@ -351,7 +351,7 @@ test('non-Error adapter throws are handled without orphaning a run', async () =>
 test('host child binding is visible during execution and late callbacks cannot mutate terminal snapshots', async () => {
   const hold = deferred(); let liveRequest;
   const fake = adapter([task('a')], request => { liveRequest = request; request.onChildStart('verified-host-child'); return hold.promise; });
-  const controller = new TeamController({execute: fake.execute}); const initial = controller.start(config());
+  const controller = new TeamController({execute: fake.execute, now: () => 100000}); const initial = controller.start(config());
   await until(() => !!liveRequest);
   const live = controller.snapshot('session-1'); const work = live.nodes.find(node => node.kind === 'task');
   assert.equal(work.status, 'running'); assert.equal(work.childId, 'verified-host-child');
@@ -405,12 +405,13 @@ test('planning and task prompts state the enforced tool boundary so no task wait
   const result = await controller.wait(controller.start(config()).id);
   assert.equal(result.status, 'completed');
   const planner = fake.calls.find(call => call.role === 'planner');
-  assert.match(planner.prompt, /Enforced tool boundary/);
-  assert.match(planner.prompt, /no general shell and no network/);
-  assert.match(planner.prompt, /never make a task depend on a command result/);
   const taskCall = fake.calls.find(call => call.role === 'explorer');
-  assert.match(taskCall.prompt, /there is no shell and no network, so never run commands/);
   const reviewCall = fake.calls.find(call => call.role === 'reviewer');
-  assert.match(reviewCall.prompt, /Enforce the host tool boundary while reviewing a plan/);
-  assert.match(reviewCall.prompt, /a task that needs one is blocked/);
+  for (const call of [planner, taskCall, reviewCall]) {
+    assert.match(call.prompt, /Automatic project teams have no general shell/);
+    assert.match(call.prompt, /Researcher may also use web_search, web_fetch/);
+    assert.match(call.prompt, /official todo_write.*calling child's session task list/);
+    assert.match(call.prompt, /permitted for planning and read-only work/);
+    assert.doesNotMatch(call.prompt, /no general shell and no network|there is no shell and no network/);
+  }
 });
