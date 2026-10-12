@@ -1,10 +1,4 @@
-当前 0.6.0 原生接线验收见 [PRODUCTION-ACCEPTANCE.md](PRODUCTION-ACCEPTANCE.md)；以下为历史基线。
-
-当前 v0.5.4 验收与发布一致性见 [PWSH-RELEASE-054.md](PWSH-RELEASE-054.md)。下文为历史记录，不能视为当前版本或 Windows 原生验收结论。
-
-最新会话隔离回归见 [SESSION-ISOLATION-053.md](SESSION-ISOLATION-053.md)。
-
-> v0.5.2 Windows verifier patch: see [current results and limitations](WINDOWS-VERIFIER-052.md). The aggregate counts below describe the historical cloud v0.5.0 run.
+> v0.5.1 Windows patch: see [current results and limitations](WINDOWS-CLIENT-051.md). The aggregate counts below are the historical cloud v0.5.0 run.
 
 # v0.5 verification record
 
@@ -18,7 +12,7 @@ DSH_NODE_MODULES=/absolute/official/node_modules npm run test:host
 DSH_NODE_MODULES=/absolute/official/node_modules npm run test:team-host
 ```
 
-Historical v0.5.0 aggregate: build + typecheck + **151/151 tests, zero skips**. Without
+Latest aggregate: build + typecheck + **151/151 tests, zero skips**. Without
 DSH_NODE_MODULES the dedicated official-host test explicitly skips; it must not
 be described as a host pass.
 
