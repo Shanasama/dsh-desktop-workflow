@@ -1,8 +1,8 @@
 {
   "name": "dsh-desktop-workflow",
-  "version": "0.5.1",
+  "version": "0.6.3-candidate.3",
   "private": true,
-  "description": "Native /team command, one-time role and Jev settings, and bounded multi-agent workflow for DSH 0.2.0-rc.2",
+  "description": "Native DSH /team workflow with configurable token guard, explicit lane model routing, Jev versions and isolated shadow observation",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
@@ -34,7 +34,16 @@
     "test:host": "node --expose-internals scripts/verify-host.mjs",
     "test:team-host": "node --expose-internals scripts/verify-team-host.mjs",
     "test:v04-host": "node --test test/v04-host-acceptance.test.mjs",
-    "test:client-host": "node --expose-internals scripts/verify-client-host.mjs"
+    "test:client-host": "node --expose-internals scripts/verify-client-host.mjs",
+    "test:verifier-host": "node --expose-internals scripts/verify-verifier-host.mjs",
+    "test:verifier-windows": "node --expose-internals scripts/verify-verifier-windows.mjs",
+    "test:verifier-pwsh": "node --expose-internals scripts/verify-verifier-pwsh.mjs",
+    "check:evaluation": "npm --prefix evaluation run check",
+    "check:integration": "npm run check && npm run check:evaluation",
+    "test:production-host": "node --expose-internals scripts/verify-production-host.mjs",
+    "test:tool-contract-host": "node --expose-internals scripts/verify-tool-contract-host.mjs",
+    "test:feedback-host": "node --expose-internals scripts/verify-team-feedback-host.mjs",
+    "preview:html": "node scripts/build-preview-html.mjs"
   },
   "dsh": {
     "bundle": {
@@ -48,7 +57,9 @@
         "@deepseek-ai/dsh-client-ui-session",
         "@deepseek-ai/dsh-api-remotes",
         "@deepseek-ai/dsh-client-ui-commands",
-        "@deepseek-ai/dsh-client-ui-settings-general"
+        "@deepseek-ai/dsh-client-ui-settings-general",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-chat"
       ]
     }
   },
@@ -62,6 +73,10 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
+    "@deepseek-ai/dsh-win32-process": "0.2.0-rc.2",
     "@deepseek-ai/schemastery": "3.18.4"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-llm": "0.2.0-rc.2"
   }
 }
