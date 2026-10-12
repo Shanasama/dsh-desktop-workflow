@@ -1,0 +1,309 @@
+DSH 多模型团队插件项目交接
+2026 年 10 月 12 日  接手开发与验收用
+
+这份文档把产品目标、当前代码、安装包、已知故障、验收边界和下一步顺序交给后续 agent。当前最重要的未解问题是用户真实运行出现 TOOL_BOUNDARY 且任务摘要为 0/0；原因尚未定位。先收集该运行的最小证据、核对实际加载版本，再复现和修改。
+
+本轮用户要求整理交接并处理 review 分支合入 main，不继续开发产品。用户请求合入 main 不等于生产验收通过，也不授权恢复 Windows 本机操作、安装插件、重启 DSH 或调用付费模型。本文件是技术背景，不代替接手时用户的最新指令。
+
+阅读顺序：先读第 1 节版本与状态、第 8 节当前故障、第 10 节接手顺序；排查时按第 3 至 6 节定位实现，执行测试前读第 7 与 9 节。第 12 节提供可直接复制给下一位 agent 的起始提示。
+
+1 版本锚点与交付状态
+
+仓库：https://github.com/Shanasama/dsh-desktop-workflow
+
+2026-10-12 已通过 GitHub PR 2 合入 main。最终 main commit 为 d6be240d224ae541bcf465b9fe0c212507617340。
+PR：https://github.com/Shanasama/dsh-desktop-workflow/pull/2
+最终源码：https://github.com/Shanasama/dsh-desktop-workflow/tree/d6be240d224ae541bcf465b9fe0c212507617340
+
+合并保留原 main 99bba9969aa2744cfed0dbb82624a2bc9d55791b 与原 review 10c704c57e4527403a0ce7687287157c33c776a0 为祖先。通过临时整合分支和正常 GitHub 合并处理冲突，没有 force-push；原 review 分支未改。
+
+最终树的 src、client、lib、package.json、package-lock.json、scripts、test 与 review 逐字节一致；tsconfig.json、cordis.patch.yml 也一致。原 main 的原生 Remote 修复仍保留：remote 与 remote.credentials 注入、目录和凭据状态重置、目录失败退出加载及刷新，以及相应回归脚本。本轮没有新增产品代码，没有重打 candidate.3 包，也没有重跑构建、测试或 Windows 验收。
+
+相对 review 的整棵树仅 3 项历史归档差异：原 main 的 dist/dsh-desktop-workflow-0.5.1.tgz 保留原路径；review 中同名不同 blob 的旧包另存 dist/legacy-review/dsh-desktop-workflow-0.5.1-30bdd0fbc369.tgz，并新增 dist/legacy-review/ARCHIVE-PROVENANCE.json 记录来源。candidate.3 精确包 hash 未变。main 合并完成只说明版本整合完成，下述未解故障和验收缺口仍然存在。
+
+已知 review 分支：review/jev-evaluation-stage1。
+合并前 review HEAD：10c704c57e4527403a0ce7687287157c33c776a0。
+candidate.3 源码与构建产物同步 commit：1acab4eb67e07746b4aef8f08a132c4e1d85ed47。
+冻结云源码本地 commit：b1805ea037936fe8a8c45f763b9a47fba01ac5e8。
+
+这些 SHA 的含义不同。b1805ea 属于冻结云副本的独立本地历史，不是 GitHub review 分支 commit。GitHub 源码、合并结果和冻结包各自需要自己的证据；不要把一个 hash 当成另一个，更不要把旧包验收直接套到后来合并的源码。
+
+当前冻结安装候选：0.6.3-candidate.3。
+仓库相对路径：dist/v0.6.3-candidate.3/dsh-desktop-workflow-0.6.3-candidate.3.tgz
+SHA-256：a21902128289cabfd499ba95134ddd3cdbcdfa44d974f3c7d1968e14f2f46f41
+包大小：1,293,602 字节；65 个包文件已与冻结工作树核对。
+
+同目录还包含 README.zh-CN.md、SHA256SUMS、delivery-manifest.json、REVIEW-SUMMARY.zh-CN.txt、冻结源码 ZIP 和离线预览 HTML。以该目录的发布说明理解冻结资料：包内文档与清单中的 published:false、未发布 GitHub 等文字是冻结时状态，不是当前远端状态。清单也列出未随 GitHub 此目录发布的 patch 与 QA 截图，不能把清单误当成远端目录完整文件列表。
+
+校验清单有一处既有问题：dist/v0.6.3-candidate.3/SHA256SUMS 的 6 项已核通过；仓库根目录旧 SHA256SUMS 有 33 项与当前 tree 不匹配，属于 review 原有旧清单，并非本轮合并引入。本次不修改该清单。核验当前候选优先使用 candidate.3 子目录清单和上述精确包 hash，不把根旧清单作为当前验收。
+
+固定 review 快照入口：
+https://github.com/Shanasama/dsh-desktop-workflow/tree/10c704c57e4527403a0ce7687287157c33c776a0
+
+固定候选交付目录：
+https://github.com/Shanasama/dsh-desktop-workflow/tree/10c704c57e4527403a0ce7687287157c33c776a0/dist/v0.6.3-candidate.3
+
+工程临时目录仅供当前环境续接，不能依赖它们长期存在。需要重新创建环境时，以 GitHub 路径、commit 和包校验值重建：
+- 冻结源码：/workspace/scratch/d2a8bd896b86/dsh-jev-production-v063-candidate3
+- 冻结交付：/workspace/scratch/d2a8bd896b86/dsh-v063-candidate3-delivery
+- 本交接文件：/workspace/scratch/d2a8bd896b86/dsh-handoff-20261012
+
+2 产品目标和需要保留的行为
+
+目标是在官方 DSH Desktop 0.2.0-rc.2 中安装一个原生插件。用户从仓库取得安装包，在设置里选择每个岗位的模型并配置 Jev，然后在原项目聊天中输入 /team 任务正文；同一聊天右侧显示团队进度、实际节点、模型与关系图。正常使用不应要求用户每轮重复填写 key、手工维护路径范围或复杂验证 profile。
+
+六个岗位固定为 planner 规划、coordinator 协调、researcher 研究、explorer 探索、worker 执行、reviewer 审查。用户希望规划能力强、主力执行可靠，各岗位真实分工，Jev 真实参与判断、反馈、验证与升级；界面动效必须对应实际事件，不能用演示图代替运行能力。
+
+Jev 使用 TypeSafe 的 https://api.typesafe.ai/v1/systemone 接口和上游 lane/loop-step 策略资料。插件内的 DSH adapter、JavaScript 控制逻辑和安全约束是项目自写适配，不能称为全部直接使用原作者实现，也不能称为 TypeSafe 官方 SDK。NOTICE 保留 hermes-jev-skills commit b22a21f365720cb7cf06f9b229c095176b39cdb9 的 MIT 归属；上游安装器曾检查但没有运行。
+
+两种模型模式都要保留：
+- 基础模式：六岗位使用各自已选基础模型。
+- 动态路由：每岗位可另选 weak 与 strong；small lane 选该岗位 weak，medium 选基础，high/escalate 选 strong；缺候选时回退该岗位基础模型。只能使用宿主目录中实际已配置的选择。
+
+Jev lane 属于整个运行当前所处的评估级别，不是每个 task node 各自再次分类。节点可以因为派发时间、岗位和当时 lane 不同而选择不同模型；UI 必须按 nodeId 展示实际 routing decision，不能把全局最新选择覆盖所有节点。用户只讨论过未来可能统一路由，未授权删除基础模式。
+
+泰拉风格和原版 UI 均保留；泰拉是旧明日方舟风格的后续命名。它使用原创 CSS/SVG 的战术终端视觉，不附带游戏角色、Logo 或第三方海报。切主题不重启任务、不清空未保存设置或图谱选择。团队拓扑、任务关系图、工作流与紧凑布局继续保留。
+
+3 架构地图和源码定位
+
+以下路径均相对仓库根目录。优先阅读当前 commit 的实际实现；仓库部分总览文档仍保留旧版本标题。
+
+src/index.js：插件装配入口。src/team-setup.js：原生设置、模型目录、revision 冲突检查、Jev 凭据与 TypeSafe 数据许可。配置在运行开始时冻结；撤销许可仍会阻止后续请求并取消相关在途运行。
+
+src/team-runtime.js：/team 命令、会话绑定、运行 API、重复请求保护、取消、状态与终态反馈。teamTerminalFeedback 决定用户看到的已完成和未完成数量。src/project-leases.js：项目占用与清理隔离；清理未确认不能直接允许叠加写入。
+
+src/orchestrator.js：有界任务 DAG、planner/coordinator/reviewer 控制节点、依赖派发、重试、关系事件、实际模型路由记录。src/team-contracts.js：岗位、计划、结果 schema、默认限制、配置与路由候选校验。
+
+src/host-adapter.js：DSH 原生 spawn、准确子代理与 session 归属、模型绑定、工具过滤、项目路径 guard、原生审批观察、预算接缝与子代理清理。排查 TOOL_BOUNDARY 时须区分创建前可见工具检查、执行前 guard、工具运行结果和生命周期变化。
+
+src/tool-contract.js：统一岗位能力声明，以及官方 todo_write 注册来源和 execute 身份核验。声明同时用于岗位提示、工具 schema 的 restrict 和执行 guard，避免模型看得到却一调用就被无解释拒绝。
+
+src/jev-client.js：TypeSafe transport、限长脱敏数据、版本选择、上游策略解释。src/jev-controller.js：baseline、classify、执行轮次、独立检查、step 决策、完成硬门禁与 seal；主 Jev 和 shadow 的职责分离。
+
+src/auto-verification.js：自动项目探测和验证编排。src/verification-project-runner.js、src/verification-host-runner.js：项目与宿主检查。src/verification-process.js、src/verification-windows-job.js、src/verifier-command.js：子进程、Windows FD capture/当前 token Job、命令封装。src/verification-diagnostics.js：诊断；src/verification.js 保留历史显式 verifier 合约。
+
+src/production-budget.js：每次运行可选 Token 预算、完整上下文上界预留与宿主 usage 结算。src/execution-trace.js：有界脱敏元数据轨迹，不能当完整原始工具日志。
+
+client/ConnectedTeam.tsx：真实 Remote 接线、设置与会话轮询。client/TeamView.tsx：团队拓扑、任务实例、图布局、检查器、主题入口；拓扑 helper 包括 topologyCardForNode、resolveTopologyRelation、routeTopologyPath。client/TeamProduction.tsx：运行控制、候选模型选择、预算/版本/trace 展示。
+
+client/team-types.ts：前端类型与默认设置。client/team-live.ts：resolveNodeModel、shouldAnimateNode、advanceRelationCursor；负责逐节点实际模型和事件游标。client/team-chat-feedback.tsx：原会话反馈展示。client/team-theme.tsx、team-theme.css、team.css：外观与布局。preview/standalone.html 是离线合成预览，不能当真实运行。
+
+lib/client.js 是构建产物。修改前端后必须执行 build，并验证打入 tgz 的实际产物；不能只测源码而交付旧 bundle。evaluation/ 是独立历史离线评估工具，生产预算入口已经在 src/，不要用评估 ledger 替换生产实现。
+
+4 运行机制与默认预算
+
+正常流程先取得项目 baseline，再由 Jev classify 决定当前 lane。执行轮中依次规划、协调及已启用的计划审查，然后创建 kind=task 的实际任务节点，按依赖和并发限制派发。随后运行独立宿主检查，Jev step 给出 continue、retry、verify、escalate 或 complete 等决策。
+
+continue 和 retry 常会进入新的完整规划执行轮，再次调用 planner/coordinator/计划 reviewer；不是只接着上一条工具调用执行。verify 则只再做验证，不跑新的规划执行轮。升级 lane 不重置全局时限、总派发次数、轮数或 Token 账本。不能用重建 run 来偷偷刷新预算。
+
+完成须同时满足实际任务完成、可信独立检查通过、差异与范围可核验、保护边界通过，且最终 seal 仍有效。Jev 说 complete 只是候选决定，不能覆盖宿主硬门禁。模型自述、没有测试、全部 skip 或修改了验收基础后的新测试，都不能单独证明完成。
+
+默认限制来自 src/team-contracts.js：
+- concurrency = 2：同时运行的岗位派发上限。
+- maxAgents = 12：一次运行总岗位派发预算，包含控制岗位调用，不能理解为可完成 12 个独立 task。
+- maxTasks = 8：一份可执行任务计划的任务数上限。
+- maxStepsPerAgent = 8：每个子代理模型请求步骤上限。
+- maxDurationMs = 600000：10 分钟。
+- maxRounds = 4；maxJevCalls = 10；maxRetries = 1。
+
+STEP_LIMIT 仅允许单任务一次有界缩范围恢复，仍受原步骤、时限和全局预算约束。恢复前要检查已有部分工作，不能盲目重做。TOOL_BOUNDARY 与 PERMISSION_DENIED 不可自动重试或绕过；取消不会回滚已经写入的修改。
+
+Token 预算默认关闭，tokenLimit = 0；启用时要求明确正整数。每次原生请求前按准确所选模型声明的完整 combined context window 预留，不用提示词粗估代替。并发请求各自需要预留；小额度可能第一步就不足。
+
+结算依据为宿主原生 inputTokens、cacheReadTokens、cacheWriteTokens、outputTokens，reasoning 已含在 output 中。未知、残缺、中断或无法确认清理的 usage 不静默退款；开启预算时停止后续准入。physicalCalls 是准入的宿主请求尝试数，不是精确 HTTP 次数或账单数。预算不是金额保证、跨运行项目总账或跨重启持久总账。Jev 单独计次，不混入岗位 Token 额度。
+
+Shadow Jev 只观察，独立限制超时、次数和并发，不能改变主运行决策、模型选择、权限或完成门禁。主版本别名的实际解析版本以响应为准；没有报告就显示未知。
+
+5 工具契约与权限边界
+
+插件业务 guard 与 DSH 原生 sandbox、审批、预设 scope 叠加。官方标准子代理继承 approval=never 和当前 sandbox；插件不自动批准、不切 full-access、不把模型选择升级解释为权限升级。
+
+自动项目团队的常规工具能力：
+- 全岗位基础读取：read、read_image、glob、grep，以及子代理回应所需的 structured_output。
+- researcher 可再使用宿主实际提供的 web_search、web_fetch，仍受原生服务与权限约束。
+- worker 仅在项目处于 verified 或 unverified-editable 等可编辑条件时使用 write、edit；已有文件修改应走 edit，不能 write 覆盖。
+- 经过官方来源核验且当前可见的 todo_write 可用于子会话计划；不因此获得项目文件写权限。
+
+自动项目模式不开放通用 bash/pwsh、任意代码执行、递归委派或凭据/权限修改。独立检查由受控宿主 verifier 执行。源码保留旧式无 project 的 worker 分支，不能据此声称普通 /team 自动项目模式支持任意 shell。
+
+项目 guard 继续约束工作区外路径、符号链接、敏感凭据路径、依赖/构建目录和私有验证证据；grep 要求具体普通文件。自动识别 Node test、已安装 Jest/Vitest、TypeScript noEmit、既有 Python/Go/Rust runner 时按受控模式执行，不自动下载依赖。没有可靠项目基线时只读分析或明确受阻；缺 runner/依赖时可能保留产出但标为待验证。
+
+candidate.2 通过官方 tools.restrict 同时缩小模型可见 schema 和原生工具查找。父级已隐藏的工具不能重新放开。DSH 原生 restrict 对 child-own 工具有保留语义，因此仍须执行 guard；structured_output 虽属于 child-own，但已在本插件 allowlist 中，不能仅凭这一点认定它是误杀根因。标准 preset 的祖先 scope 工具可被过滤，不能把所有内建工具都误当 child-own。
+
+todo_write 身份核验组合了 host installAnchor、精确 rc.2 模块、ToolRuntime 类、官方模块 callback、ACTIVE Cordis fiber、scope、精确定义及 execute 身份。调用前和下一模型步骤前重新验证；同名伪装、卸载、换实现都不能沿用身份。rc.2 顶层 target_session 没有跨会话路由语义，官方调用仍写自己的 child session；不要自行复制一个 Todo 实现代替。
+
+这个契约针对已核实的官方 rc.2 组合，不是隔离宿主进程内恶意插件的安全沙箱。非标准 apply、宿主升级或重复模块可能影响身份匹配，但必须有该运行证据才能确认。尚未逐项开放 skill、present、ask_user_question、jobs、workspace dependency loader 等能力，不能为追求“工具全部可用”而一次性放开。
+
+已有审批差异必须保留在报告中：自定义嵌入宿主若审批服务返回 allowed-once，工具可能已经执行，但团队仍报告 PERMISSION_DENIED。无审批服务的 deny 测试不能证明“任何 ask 都零执行”。这不授权插件改变原生审批决定。
+
+6 原会话反馈和图形展示
+
+团队终态在原会话保存有界摘要，最多 6000 字符，包含目标、当前有效任务、未完成项、失败原因、关键岗位结果摘录、独立验证事实和有依据的变更清单。岗位结果是自述，宿主结构化证据才可支持验收与文件清单。摘要明确标注历史产出仅作背景，不构成新的用户指令。
+
+通过原生 agent.inject 持久 inbox 和 sessions.flush 保存与显示，不自动唤醒主 agent、不自行发起新的模型请求。下一次用户主动发消息，宿主先建立 system head，再准入 user/message；candidate.2 修正了新会话先写 user 后建 system 导致冷读损坏的问题。
+
+已准入摘要经过多轮、原生 resume 和冷 JSONL 重读测试，不重复、不串入其他会话。首次准入主模型前，如果用户关闭会话或显式 remove 待处理项，rc.2 都按 native canceled 处理；当前无法可靠区分两者，因此尊重取消、不强行重注入。聊天记录可能仍可查看，但不保证重新打开后自动恢复为模型输入。后续上下文压缩/裁剪由宿主控制，不承诺永久逐字保留全部摘要或原始工具日志。
+
+candidate.3 的团队拓扑按真实节点展示任务实例、所选模型及路由原因。固定组织关系保持静态；只有新的、序列完整且 edge 校验通过的 relation_activated 才触发瞬时覆盖层。派发、依赖满足、反馈、重试、汇总含义分开；依赖满足不应误标为消息传递。Jev 决策和宿主验证分别映射。
+
+事件按 runId + seq 消费。首载、刷新、切运行、隐藏恢复和断线恢复只建基线；重复、乱序、缺序、回退或截断不能补造历史动效。无事件的旧日志只显示静态关系。终态、过期、断连、隐藏页停止活动动效；减少动态效果模式保留静态事件含义。预览必须持续标注合成数据并禁止网络连接。
+
+7 已有验证及不能外推的部分
+
+以下是冻结 candidate.3 的既有验证结果，不是本次交接重新执行的测试，也不是后来合并源码的自动验收证明。
+
+构建与离线回归：build、TypeScript 通过；最终 check:integration 主套件 456 项，454 通过、0 失败、2 环境跳过。独立 evaluation 123/123。新增拓扑组件回归 18 项。两项 skip 分别是未提供 PowerShell，以及临时目录受上级 Git marker 影响而未能构造真实非仓库场景。
+
+官方工具契约：43/43；使用 77 次确定性模型 fixture 调用，真实 read 和 glob 各 9 次，网络尝试与付费调用为 0。feedback-host、team-host、client-host 既有回归通过。client-host 包含真实 rc.2 接线与 JSDOM，不是 Windows Electron 真机 UI。
+
+精确 tgz 的官方云宿主离线安装：DSH 0.2.0-rc.2；39 个 native child、52 次模型 fixture 请求、30 次 Jev fixture 请求、30 个真实验证子进程、0 外部请求。此验证还覆盖安装后重复官方 LLM peer 的身份问题。原生子代理与文件/验证动作是真的，模型/Jev transport 是离线替身；不能写成真实付费模型或 TypeSafe 已通过。
+
+云 Chromium 界面：泰拉/原版 UI，全宽、420px、320px，同岗并发与不同实际模型，五类关系，独立验证映射，重排/缩放后连线端点，重复/乱序/回退/切运行，断连恢复和终态已检查。浏览器后台/最小化仍报告 visibilityState=visible，真实隐藏事件没有算通过；对应停止/恢复/不补播由组件测试覆盖。系统级 reduced-motion 未实际切换；浏览器验证使用等价预览开关，并检查了媒体 CSS。
+
+冻结 candidate.3 与 candidate.2 的 61 个受保护文件逐字节相同，其中包含全部 24 个后端 src 文件和 37 个运行、评估及客户端辅助文件。这一事实证明当次 UI 候选没有顺带改这些文件，不代表其后 main 合并仍保持相同。
+
+尚未完成：Windows/Electron 完整实机 E2E、真实模型提供方能力与费用验证、真实 TypeSafe/Jev 付费端到端验收。仓库没有可据此声称通过的 GitHub workflows；本地/云执行日志不能改称“GitHub CI 通过”。
+
+接手验收记录表
+
+验收层级|冻结候选结论|下一次验收要求
+构建和离线回归|主套件 454 通过 2 skip；evaluation 123 通过|变更后重跑并列明环境 skip
+官方工具契约|43 项通过，模型为 fixture|覆盖本次拒绝点与加载身份
+精确安装包|65 文件已核；官方离线安装通过|新包须重新安装及校验 hash
+会话上下文|官方 feedback 回归通过|真实 Desktop 新会话和重开
+UI 动效|云两主题三尺寸已测|补真隐藏事件和系统 reduced-motion
+Windows 验证|局部 stdout 探针通过|补 Job 孙进程与完整检查闭环
+真实供应商与 Jev|未运行付费端到端|新授权后执行并记录实际费用边界
+用户 0/0 故障|已报告 TOOL_BOUNDARY，根因未知|同 run 最小证据与可重复复现
+
+历史里程碑：
+- 0.6.1 修复 Linux 默认 bwrap 沙箱跨调用 /tmp 证据丢失。旧 cleanup exit 3 根因未完全确认，保留局部项目隔离，不能宣称所有清理故障已根治。
+- 0.6.2 针对 Windows Electron pwsh 等待与原生 pipes EPERM，改用 FD capture 和当前 token 的 child Job。真机探针已确认 exit 7 与 stdout 语义；孙进程用例仍为 PROBE_DESCENDANT_NOT_OBSERVED，未完成 Windows 验证闭环。
+- 0.6.3-candidate.1 增加工作流动效、真实关系事件、一次有界 STEP_LIMIT 恢复及终态回写。
+- candidate.2 修正官方 tools.restrict、Todo 注册身份、原会话 inject/flush 和 system head 顺序。
+- candidate.3 聚焦团队拓扑真实任务、逐节点模型、事件覆盖层与布局，保留 candidate.2 后端。
+
+证据阅读注意：冻结交付目录 qa/check-integration-final.log 是一次历史失败日志，不能因文件名含 final 就当最终成功；后续成功证据是 qa/check-integration-release.log 和 qa/check-integration-exact-bundle.log，后者核得 456/454/0/2 与 evaluation 123/123。对外以冻结 delivery-manifest.json、REVIEW-SUMMARY 和精确包校验值建立证据链，不复制可能含私密内容的原始用户日志。
+
+8 当前首要故障的事实与假设
+
+用户于 2026-10-12 给出的运行：232c53ec-8602-4eb4-b81f-afbd0268e699。
+原目标：查看任务。
+结果：blocked，TOOL_BOUNDARY；摘要显示已完成 0、未完成 0；没有可确认的结果、验证记录或变更路径列表。该 run 的实际拒绝工具名、路径、首个失败节点以及实际加载插件 SHA 尚未取得。
+
+可以从源码确定：teamTerminalFeedback 只统计当前 currentTaskNodeIds 中 kind=task 的节点，不计 planner、coordinator 和计划 reviewer。orchestrator 在规划、协调及已启用的计划审查通过后才创建实际 task；每一轮规划开始又会将 currentTaskNodeIds 重置为空。因此 0/0 优先提示排查前置规划阶段，或某个新轮尚未创建 task 的时点；它不证明完全没有调用过 agent，也不证明此前没有任何工作。
+
+另一个重要区别：jev-controller 先执行 baseline，之后执行阶段检查时才写入 snapshot.jev.evidence。摘要没有验证记录不能直接推出 baseline 从未运行。需要查看该 run 的阶段事件，而不是从摘要缺失反推所有早期动作。
+
+第三方分析曾引用“5 个 task”并推测 shell 冲突。那段分析与本次 0/0 摘要不一致，任务数来源未核实，不能当成本 run 的事实。普通自动项目团队本就不开放通用 shell；当前还不能确认这一次究竟是模型请求了禁用工具、own-scope 工具未能隐藏、Todo 身份变化、项目路径 guard，还是其他工具生命周期问题。
+
+structured_output 已在 allowlist，不能笼统说它被误杀。Todo 核验对安装 anchor、精确版本和模块身份的要求较严格；安装差异或重复模块导致不匹配只能列为待验证假设。需要先拿到首个拒绝点再决定修复方向。
+
+向用户索取的最小证据：
+- 此 run 右侧第一个 blocked/failed 节点的 role、nodeId、标题、阶段与完整错误 code/message。
+- 若存在，提供安全工具名 toolNameSafe；只要工具名称，不要密钥、请求头、完整工具参数或用户文件内容。
+- 该运行的必要节点/事件序列，以及 runId、轮次、seq；日志太长时只取首个拒绝点前后相关事件。
+- 实际加载的插件版本、构建 SHA 或包 SHA-256、官方 DSH 版本、相关 preset、sandbox、approval 和项目模式。
+
+首请求前工具可见性检查也能产生 TOOL_BOUNDARY，此时该子代理还没有模型工具调用，现有错误未必显示工具名。先看首个 blocked 节点与完整错误；只有实际落在这一分支，才进一步收集脱敏的未获准可见工具名称及其作用域，不要求不存在的调用日志。
+
+若需新增诊断，先提出最小范围方案：reasonCode、phase、nodeId、role、toolNameSafe、loadedVersion；对路径仅在必要且安全时提供受控的项目相对信息。不要导出全量私有日志，不要索取 key。诊断建议不是已存在字段的承诺，也不是当前授权继续开发。
+
+正确修复目标是让受支持岗位看到的 schema、提示与实际 guard 一致，并给不支持能力准确解释。不要让用户靠改写正常需求绕过错误，不要为了让案例通过而盲删 guard、无限重试或加大预算。
+
+9 环境重建和测试入口
+
+接手先使用第 1 节的 GitHub 固定 commit 和 SHA 重建。安装包应取 .tgz，源码 ZIP 仅用于阅读/开发。Node 要求来自 package.json：^22.19 或 >=24。原生宿主测试依赖官方 0.2.0-rc.2 模块；DSH_NODE_MODULES 必须指向该环境真实的官方 node_modules，不能照抄不存在的临时路径。
+
+在新的空目录克隆并核验示例；不要在用户已有工作树照抄切换命令：
+git clone https://github.com/Shanasama/dsh-desktop-workflow.git
+cd dsh-desktop-workflow
+git fetch origin main review/jev-evaluation-stage1
+git rev-parse origin/main
+git show --stat d6be240d224ae541bcf465b9fe0c212507617340
+git switch --detach d6be240d224ae541bcf465b9fe0c212507617340
+git status --short
+
+如果要复现合并前的冻结 review 源码，另建工作副本并固定到 10c704c57e4527403a0ce7687287157c33c776a0。准备修改时再从核对过的基线创建新工作分支，保留原历史；不要在 detached HEAD 中产生无法追踪的交付。
+
+核对 frozen tgz：在 Linux/macOS 用 sha256sum 或 shasum -a 256；Windows 用 Get-FileHash -Algorithm SHA256。计算结果须等于第 1 节完整值。新的源码构建不能冒用旧包 hash；若内容变化，生成新版本、清单和证据，并保留历史 dist。
+
+开发依赖安装与基础检查入口：
+npm ci --ignore-scripts
+npm run build
+npm run typecheck
+npm test
+npm run check:integration
+
+需要官方宿主依赖的入口，示例占位路径须替换：
+DSH_NODE_MODULES=/absolute/official/node_modules npm run test:tool-contract-host
+DSH_NODE_MODULES=/absolute/official/node_modules npm run test:team-host
+DSH_NODE_MODULES=/absolute/official/node_modules npm run test:feedback-host
+DSH_NODE_MODULES=/absolute/official/node_modules npm run test:client-host
+DSH_NODE_MODULES=/absolute/official/node_modules npm run test:production-host
+
+其他已存在脚本：test:profile、test:host、test:v04-host、test:verifier-host、test:verifier-windows、test:verifier-pwsh、check:evaluation、preview、preview:html。scripts/verify-default-sandbox.mjs 与 scripts/verify-pwsh-output.mjs 也可按各自说明调用。具体参数以脚本源码为准；脚本名字带 windows 并不自动代表已经在 Windows 真机运行。
+
+运行顺序建议：先依赖与类型/单元，再工具契约、team/feedback/client，再精确 tgz 的官方隔离 profile 安装与生产闭环，最后在得到新的明确安排后做 Windows Desktop 和 live API。缺少官方模块或 PowerShell 时，应报告跳过/阻塞原因，不能将 skip 算通过。
+
+官方安装路径：用户明确决定安装后，把候选 .tgz 拖入 DSH 聊天，请其使用官方 plugin_manager，action=install_bundle，target 取附件真实绝对路径。保留原生安装确认，不改模型提供方、凭据、安全设置或全局 profile。安装后核对实际加载版本，再按宿主提示重载。这个流程是 DSH 通用附件加官方管理器，不是插件自带“拖入即安装”功能。
+
+Jev Key 由用户本人在专用密钥表单输入，使用原生 write-only 凭据接口；不可写入仓库、文档、普通配置或聊天。rc.2 默认本机凭据文件有用户权限保护，但不是加密保险库。TypeSafe 数据许可涵盖限长脱敏任务、差异统计、检查尾部摘要与审查摘要，由用户阅读后选择启用；不要替其扩大披露范围。
+
+Windows 用户电脑上曾有 dsh-ui 工作区，但旧本机验收已取消，当前任务授权只在云端。不要默认恢复连接、进入该工作区、安装、重启或改配置。用户自行下载与验收；目前实际装了哪一版没有最新实证，不能写死。过去提过的 1000 万 tokens 是历史测试上限，不是当前随时可花费许可；默认 offline，真实付费测试须重新取得明确安排。
+
+10 后续接手顺序与验收清单
+
+第一步 核实代码与包。读取 main 实际 HEAD、合并父提交、candidate.3 文件与 SHA；确认主线独有修复没有丢失，review 历史和旧 dist 都保留。区分源代码合并后状态与旧 tgz 的冻结验收。遇到差异先说明，不 force-push，不覆盖用户改动。
+
+第二步 定位 0/0 TOOL_BOUNDARY。只取第 8 节最小证据；确定失败 phase 和首节点，核实际加载版本。在可控离线环境复现相同可见工具/预设/项目模式，分别测试创建前拒绝、执行时拒绝、Todo 身份失效和项目边界。不能用另一个 run 或第三方推测代替复现。
+
+第三步 经用户授权后做最小修复。审六岗位提示、schema、tools.restrict、官方 Todo 与执行 guard 的一致性；保留原生权限。为明确根因新增回归，包括正确支持工具可用、被禁工具零越界、错误原因可定位及不存在无界重试。
+
+第四步 跑分层回归与精确包。构建和类型检查、离线单元/评估、官方 host 契约、安装后的实际 tgz、真实验证子进程分别留证据。记录通过、失败、跳过和未运行，不只给一个总“成功”。产物重建后再次核版本与包文件，不能只验证开发目录。
+
+第五步 在得到本机与费用新授权后验证真实 Desktop。至少覆盖：
+- 新会话 /team 启动与自动打开右侧；已保存配置使用正确，实际所选六岗位模型正确。
+- 同一会话结束摘要、下一次用户发言准入、已准入后多轮与重开；首次准入前关闭/remove 不复活。
+- 不同会话状态、摘要、工具和项目占用隔离；重复命令不重复派发。
+- 取消、超时、清理、重载、未确认清理隔离，已有改动不被宣称自动回滚。
+- 全局派发/步骤/时限/Jev/Token 预算在 retry、continue、escalate 中不重置。
+- Windows baseline/check/seal/cleanup 全链与 Job 孙进程观察，而不只是 stdout 小探针。
+- 两主题、多尺寸、并发实例、实际模型、关系端点、终态/断连/隐藏/reduced-motion；动效只由真实事件驱动。
+- 真实供应商和 Jev 输入披露、实际版本、usage 与账单边界；测试范围和花费均在批准内。
+
+第六步 根据真实结果发新候选。若仍受阻，保留结果与准确诊断；有产出无可信检查时标待验证；完整门禁通过才标完成。不要因为 UI 可看、单元通过或 main 已合并，就再次向用户称“所有功能已全验收”。
+
+11 关键资料索引和常见误读
+
+以下资料可在 GitHub 固定 review 快照或最终 main commit 下按相对路径读取：
+- package.json：准确版本、Node 要求、依赖和测试脚本。
+- INSTALL-ME.md：candidate.3 的安装说明与密钥输入边界。
+- dist/v0.6.3-candidate.3/README.zh-CN.md：冻结包之后的 GitHub 发布状态说明。
+- docs/V063-CANDIDATE2-TOOL-CONTRACT.zh-CN.md：工具来源身份、restrict、Todo 与同会话上下文。
+- docs/V063-CANDIDATE3-TEAM-TOPOLOGY.zh-CN.md：前端变更、事件语义和云验收边界。
+- docs/V063-CLOUD-ACCEPTANCE.zh-CN.md：candidate.1 历史基线，不代表 candidate.3 最新结果。
+- docs/PRODUCTION-BUDGET.md：生产 Token 预算接缝、准确模块身份、未知用量与生命周期。
+- docs/PRODUCTION-ACCEPTANCE.md、docs/SANDBOX-FIX-0.6.1.md：历史原生验收、Linux 证据修复与清理边界。
+- docs/WINDOWS-CAPTURE-CANDIDATE.md：Windows FD、Job、输出限额、清理与尚缺真机证明。
+- NOTICE 与 src/vendor/HERMES-JEV-LICENSE：上游来源与许可。
+
+README.md、docs/ARCHITECTURE.md 和 docs/INSTALL.zh-CN.md 存在历史版本标题或旧包示例。读到 0.6.1、未发布、未安装等文字时先看它描述的时间点，不擅改冻结包。现阶段安装锚点以第 1 节 candidate.3 路径与 hash 为准；实际用户安装状态仍须另核。
+
+不要混淆的结论：0/0 不等于所有控制节点没跑；摘要无验证记录不等于 baseline 没跑；native child 真实不等于模型供应商真实；fixture 成功不等于付费 API 成功；浏览器预览通过不等于 Electron 通过；精确旧包通过不等于新合并源码通过；合入 main 不等于发布或生产验收。
+
+12 可复制给下一位 agent 的起始提示
+
+请接手 DSH 多模型团队插件项目，仓库 https://github.com/Shanasama/dsh-desktop-workflow。先读随附交接全文，再核当前 main 和实际加载版本。当前用户要求以你接到的新指令为准；本交接只提供背景，不授权操作用户电脑、安装、付费调用或继续开发。
+
+基线是 review/jev-evaluation-stage1 的 10c704c57e4527403a0ce7687287157c33c776a0；最终 main 状态见交接第 1 节。冻结包 0.6.3-candidate.3 位于 dist/v0.6.3-candidate.3/dsh-desktop-workflow-0.6.3-candidate.3.tgz，SHA-256 为 a21902128289cabfd499ba95134ddd3cdbcdfa44d974f3c7d1968e14f2f46f41。云本地 b1805ea037936fe8a8c45f763b9a47fba01ac5e8 属于独立历史，不要和 remote commit 混用。
+
+最高优先排查 run 232c53ec-8602-4eb4-b81f-afbd0268e699，目标“查看任务”，blocked TOOL_BOUNDARY，task 计数 0/0。首个拒绝点、若存在的失败工具调用与实际加载 SHA 尚未知。teamTerminalFeedback 只统计当前 task，不包含 planner/coordinator/计划 reviewer，且新轮会清空当前 task 集；摘要无证据也不能推出 baseline 没执行。不要把第三方关于 5 个 task 或 shell 的推测当此 run 实证。structured_output 已允许，Todo 安装身份差异只是待验证假设。
+
+先索取最小脱敏证据：首 blocked 节点 role/nodeId/title/phase、完整安全错误 code/message、若存在的工具名 toolNameSafe、相关事件 seq、实际插件版本/包 SHA 和官方宿主/preset/sandbox。首请求前也可能被阻断，不要求不存在的工具调用日志。不要索要全量密钥日志。先复现、给出根因与最小修复方案；只有新用户指令授权后再修改。
+
+保留六岗位、基础/动态两模式、泰拉/原版 UI、Jev 真实控制与硬完成门禁。Jev lane 是运行级别，small/medium/high/escalate 分别映射每岗位 weak/base/strong/strong，缺候选回退基础。retry/continue 常重跑规划，verify 仅检查，全局预算不重置。不要盲删 guard、放开所有工具、增加默认预算或用假动效掩盖未执行。
+
+按权限与源码证据做事：保留 DSH native spawn、approval 和 sandbox，统一角色 schema/restrict/执行 guard。保护用户未提交文件、备份和全部历史 dist，不 force-push，不把 API Key 写进 repo 或文档。默认使用 offline fixture；Windows 本机验收此前已取消，真实 Desktop 与付费 Jev/模型需新的明确安排，旧 1000 万 tokens 不是当前授权。
+
+最终报告分开写通过、失败、skip、未运行，给准确 commit、包 hash 和可重现测试入口。已有 candidate.3 云回归主套件 454 通过、0 失败、2 skip，evaluation 123、工具契约 43；官方精确包使用真实 native child/验证进程但离线模型与 Jev。Windows/Electron 全链、真实供应商和 TypeSafe 尚未验收。用户要求合 main，不等于生产验收通过。
